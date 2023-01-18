@@ -1,0 +1,411 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:fresh2_arrive/repositories/update_profile_repository.dart';
+import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/resources/app_theme.dart';
+import 'package:fresh2_arrive/widgets/dimensions.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../controller/profile_controller.dart';
+import '../widgets/add_text.dart';
+import '../widgets/editprofile_textfield.dart';
+
+class MyProfileScreen extends StatefulWidget {
+  const MyProfileScreen({Key? key}) : super(key: key);
+
+  @override
+  State<MyProfileScreen> createState() => _MyProfileScreenState();
+}
+
+class _MyProfileScreenState extends State<MyProfileScreen> {
+  final controller = Get.put(ProfileController());
+  final _formKey = GlobalKey<FormState>();
+
+  showUploadWindow() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AddSize.padding16,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AddSize.size10),
+                    Text("Choose From Which",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: AddSize.font16)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        TextButton(
+                          child: Text("Gallery",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor,
+                                  fontSize: AddSize.font14)),
+                          onPressed: () {
+                            pickImage();
+                            Get.back();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("Camara",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor,
+                                  fontSize: AddSize.font14)),
+                          onPressed: () {
+                            pickImage1();
+                            Get.back();
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: AddSize.size20,
+                    ),
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.getData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Obx(() {
+        if (controller.isDataLoading.value &&
+            controller.model.value.data != null) {
+          controller.nameController.text =
+              controller.model.value.data!.name.toString();
+          controller.emailController.text =
+              controller.model.value.data!.email.toString();
+          controller.mobileController.text =
+              controller.model.value.data!.phone.toString();
+        }
+        return controller.isDataLoading.value &&
+                controller.model.value.data != null
+            ? SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Stack(
+                          children: [
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              elevation: 0,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: const BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20),
+                                            topRight: Radius.circular(20)),
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                AppAssets.profileImage),
+                                            fit: BoxFit.cover)),
+                                    height: 112,
+                                  ),
+                                  const SizedBox(
+                                    height: 50,
+                                  ),
+                                  Text(
+                                    controller.model.value.data!.name == null
+                                        ? "Test Customer"
+                                        : "${controller.model.value.data!.name}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: AddSize.font16),
+                                  ),
+                                  Text(
+                                    controller.model.value.data!.email == null
+                                        ? "abc@gmail.com"
+                                        : "${controller.model.value.data!.email}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: AddSize.font14),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                                top: 50,
+                                bottom: 85,
+                                left: 0,
+                                right: 0,
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.white,
+                                    radius: 20,
+                                    child: Container(
+                                      // margin: const EdgeInsets.only(bottom: 32),
+                                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                                      decoration: const ShapeDecoration(
+                                        shape: CircleBorder(),
+                                        // color: Colors.white,
+                                      ),
+                                      child: controller.image == null
+                                          ? controller.model.value.data!
+                                                  .profileImage!.isEmpty
+                                              ? const SizedBox()
+                                              : Image.network(
+                                                  controller.model.value.data!
+                                                      .profileImage
+                                                      .toString(),
+                                                  fit: BoxFit.cover,
+                                                )
+                                          : Image.file(
+                                              controller.image!,
+                                              fit: BoxFit.cover,
+                                              height: 100,
+                                              width: 100,
+                                            ),
+                                    ))),
+                            Positioned(
+                                right: 125,
+                                top: 90,
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2,
+                                          color: AppTheme.backgroundcolor),
+                                      color: AppTheme.primaryColor,
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showUploadWindow();
+                                      },
+                                      child: const Image(
+                                          height: 10,
+                                          width: 15,
+                                          image: AssetImage(
+                                              AppAssets.camaraImage)),
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.backgroundcolor,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Edit Your Details",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: AddSize.font16),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "Name",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: AddSize.font14),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                EditProfileTextFieldWidget(
+                                  hint: "Williams Jones",
+                                  controller: controller.nameController,
+                                  validator: validateName,
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "E-mail",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: AddSize.font14),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                EditProfileTextFieldWidget(
+                                  hint: "williamsjones@gmail.com",
+                                  controller: controller.emailController,
+                                  validator: MultiValidator([
+                                    RequiredValidator(
+                                        errorText: 'Please Enter Email'),
+                                    EmailValidator(
+                                        errorText:
+                                            'Enter a valid email address')
+                                  ]),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  "Mobile Number",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: AddSize.font14),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                EditProfileTextFieldWidget(
+                                  hint: "+91-9251272491",
+                                  controller: controller.mobileController,
+                                  validator: validateMobile,
+                                  keyboardType: TextInputType.number,
+                                  length: 10,
+                                ),
+                                const SizedBox(
+                                  height: 40,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      if (!_formKey.currentState!.validate()) {
+                                      } else {
+                                        var imageData = "";
+                                        if (controller.image != null) {
+                                          List<int> imageBytes = controller
+                                              .image!
+                                              .readAsBytesSync();
+                                          String base64Image =
+                                              base64Encode(imageBytes);
+                                          imageData = base64Image;
+                                        }
+                                        updateProfile(
+                                                controller.emailController.text,
+                                                controller.nameController.text,
+                                                imageData,
+                                                context)
+                                            .then((value) {
+                                          showToast(value.message);
+                                          if (value.status == true) {
+                                            controller.getData();
+                                          }
+                                          return null;
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.all(10),
+                                        backgroundColor: AppTheme.primaryColor,
+                                        minimumSize:
+                                            const Size(double.maxFinite, 50),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        textStyle: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600)),
+                                    child: Text(
+                                      "UPDATE",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              color: AppTheme.backgroundcolor,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: AddSize.font16),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            : const Center(
+                child: CircularProgressIndicator(
+                color: AppTheme.primaryColor,
+              ));
+      }),
+    );
+  }
+
+  pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      final bytes = File(image.path).readAsBytesSync();
+      setState(() => controller.image = imageTemporary);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pic image: $e');
+    }
+  }
+
+  pickImage1() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      final bytes = File(image.path).readAsBytesSync();
+      setState(() => controller.image = imageTemporary);
+    } on PlatformException catch (e) {
+      debugPrint('Failed to pic image: $e');
+    }
+  }
+}
