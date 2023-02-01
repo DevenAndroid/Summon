@@ -9,4 +9,5 @@ class ApiUrl {
   static const couponsUrl = "${baseUrl}coupons";
   static const userProfileUrl = "${baseUrl}user-profile";
   static const updateProfileUrl = "${baseUrl}update-profile";
+  static const storeUrl = "${baseUrl}store";
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "642791608128",
+    "project_id": "fresh2arrive-a7448",
+    "storage_bucket": "fresh2arrive-a7448.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642791608128:android:25313a977c62ae26f434a5",
+        "android_client_info": {
+          "package_name": "com.example.fresh2_arrive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "642791608128-ep9ggkbos5e23n5bqsboub1vtjilvfh9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBG3J6eNihnut_bVmYG-NgRVtR2oLvYQ7A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "642791608128-ep9ggkbos5e23n5bqsboub1vtjilvfh9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
