@@ -12,7 +12,7 @@ Future<ModelLogIn> createLogin(
     String userPoneNo, String referalCode, BuildContext context) async {
   var map = <String, dynamic>{};
 
-  map['phonee'] = userPoneNo;
+  map['phone'] = userPoneNo;
 
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context).insert(loader);
