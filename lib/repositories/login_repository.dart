@@ -21,7 +21,7 @@ Future<ModelLogIn> createLogin(
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
   };
-  print('REQUEST PARAM ::${jsonEncode(map)}');
+  print('REQUEST PARAMmmmm ::${jsonEncode(map)}');
   http.Response response = await http.post(Uri.parse(ApiUrl.loginApi),
       body: jsonEncode(map), headers: headers);
   print(response.body);
