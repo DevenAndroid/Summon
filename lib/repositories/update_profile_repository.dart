@@ -53,10 +53,10 @@ Future<UpdateProfileModel> editUserProfileRepo({
 }) async {
   try {
     var request =
-    http.MultipartRequest('POST', Uri.parse(ApiUrl.updateProfileUrl));
+        http.MultipartRequest('POST', Uri.parse(ApiUrl.updateProfileUrl));
     SharedPreferences pref = await SharedPreferences.getInstance();
     ModelVerifyOtp? user =
-    ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+        ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptHeader: 'application/json',
@@ -66,8 +66,9 @@ Future<UpdateProfileModel> editUserProfileRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "")
+    if (file1.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
+    }
 
     log(request.fields.toString());
     log(request.files.map((e) => e.filename).toList().toString());
@@ -80,13 +81,11 @@ Future<UpdateProfileModel> editUserProfileRepo({
           jsonDecode(await response.stream.bytesToString()));
     }
   } on SocketException {
-
     return UpdateProfileModel(message: "No Internet Access", status: false);
   } catch (e) {
     return UpdateProfileModel(message: e.toString(), status: false);
   }
 }
-
 
 Future<http.MultipartFile> multipartFile(String? fieldName, File file1) async {
   return http.MultipartFile(
