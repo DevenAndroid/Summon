@@ -8,7 +8,7 @@ import '../repositories/user_profile_repository.dart';
 class ProfileController extends GetxController {
   RxBool isDataLoading = false.obs;
   Rx<ProfileModel> model = ProfileModel().obs;
-  File? image;
+  Rx<File> image = File("").obs;
   final ImagePicker picker = ImagePicker();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -20,7 +20,6 @@ class ProfileController extends GetxController {
   }
 
   getData() async {
-    isDataLoading.value = false;
     userProfileData().then((value) {
       isDataLoading.value = true;
       model.value = value;

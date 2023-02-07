@@ -12,7 +12,7 @@ import '../widgets/dimensions.dart';
 
 AppBar buildAppBar(
   isProfilePage,
-  int value,
+  int value, String profile,
 ) {
   final List<String> title = [
     "Search by category",
@@ -90,7 +90,7 @@ AppBar buildAppBar(
                 ),
                 child: CachedNetworkImage(
                   fit: BoxFit.cover,
-                  imageUrl:
+                  imageUrl:profile != "" ? profile :
                       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
                   height: 20,
                   width: 30,

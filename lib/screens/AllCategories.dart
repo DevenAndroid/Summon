@@ -39,9 +39,11 @@ class _AllCategoriesState extends State<AllCategories> {
                   child: GridView.builder(
                       shrinkWrap: true,
                       itemCount: categoryController.model.value.data!.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 10.0,
+                              mainAxisExtent: 150,
                               mainAxisSpacing: 10.0),
                       itemBuilder: (context, index) {
                         var itemdata =
@@ -67,12 +69,16 @@ class _AllCategoriesState extends State<AllCategories> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   SizedBox(
-                                    height: AddSize.size50,
-                                    child: CachedNetworkImage(
-                                      imageUrl: itemdata.image.toString(),
-                                      errorWidget: (_, __, ___) => SizedBox(),
-                                      placeholder: (_, __) => SizedBox(),
-                                      fit: BoxFit.cover,
+                                    height: AddSize.size50 * 1.5,
+                                    width: AddSize.size45 * 2,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: itemdata.image.toString(),
+                                        errorWidget: (_, __, ___) => SizedBox(),
+                                        placeholder: (_, __) => SizedBox(),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   // Image(

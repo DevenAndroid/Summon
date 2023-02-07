@@ -10,6 +10,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../controller/profile_controller.dart';
+import '../resources/new_helper.dart';
 import '../widgets/add_text.dart';
 import '../widgets/editprofile_textfield.dart';
 
@@ -53,18 +54,26 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            pickImage();
+                            NewHelper().addFilePicker().then((value) {
+                              controller.image.value = value!;
+                              print(controller.image.value.path);
+                            });
                             Get.back();
                           },
                         ),
                         TextButton(
-                          child: Text("Camara",
+                          child: Text("Camera",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   color: AppTheme.primaryColor,
                                   fontSize: AddSize.font14)),
                           onPressed: () {
-                            pickImage1();
+                            NewHelper()
+                                .addImagePicker(imageSource: ImageSource.camera)
+                                .then((value) {
+                              controller.image.value = value!;
+                              print(controller.image.value.path);
+                            });
                             Get.back();
                           },
                         ),
@@ -180,10 +189,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                         shape: CircleBorder(),
                                         // color: Colors.white,
                                       ),
-                                      child: controller.image == null
+                                      child: controller.image.value.path == ""
                                           ? controller.model.value.data!
                                                   .profileImage!.isEmpty
-                                              ? const SizedBox()
+                                              ? SizedBox()
                                               : Image.network(
                                                   controller.model.value.data!
                                                       .profileImage
@@ -191,7 +200,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   fit: BoxFit.cover,
                                                 )
                                           : Image.file(
-                                              controller.image!,
+                                              controller.image.value,
                                               fit: BoxFit.cover,
                                               height: 100,
                                               width: 100,
@@ -321,30 +330,31 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
-                                      if (!_formKey.currentState!.validate()) {
-                                      } else {
-                                        var imageData = "";
-                                        if (controller.image != null) {
-                                          List<int> imageBytes = controller
-                                              .image!
-                                              .readAsBytesSync();
-                                          String base64Image =
-                                              base64Encode(imageBytes);
-                                          imageData = base64Image;
-                                        }
-                                        updateProfile(
-                                                controller.emailController.text,
-                                                controller.nameController.text,
-                                                imageData,
-                                                context)
+                                      FocusManager.instance.primaryFocus!
+                                          .unfocus();
+                                      if (_formKey.currentState!.validate()) {
+                                        Map<String, String> mapData = {
+                                          'name':
+                                              controller.nameController.text,
+                                          'phone':
+                                              controller.mobileController.text,
+                                          'email':
+                                              controller.emailController.text,
+                                        };
+                                        editUserProfileRepo(
+                                                context: context,
+                                                mapData: mapData,
+                                                fieldName1: "profile_image",
+                                                file1: controller.image.value)
                                             .then((value) {
                                           showToast(value.message);
                                           if (value.status == true) {
                                             controller.getData();
+                                          } else {
+                                            showToast(value.message);
                                           }
-                                          return null;
                                         });
-                                      }
+                                      } else {}
                                     },
                                     style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.all(10),
@@ -368,6 +378,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               fontWeight: FontWeight.w500,
                                               fontSize: AddSize.font16),
                                     )),
+                                SizedBox(height: AddSize.size20,)
                               ],
                             ),
                           ),
@@ -383,29 +394,5 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ));
       }),
     );
-  }
-
-  pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      final bytes = File(image.path).readAsBytesSync();
-      setState(() => controller.image = imageTemporary);
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pic image: $e');
-    }
-  }
-
-  pickImage1() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      final bytes = File(image.path).readAsBytesSync();
-      setState(() => controller.image = imageTemporary);
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pic image: $e');
-    }
   }
 }
