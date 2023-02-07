@@ -10,4 +10,6 @@ class ApiUrl {
   static const userProfileUrl = "${baseUrl}user-profile";
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const storeUrl = "${baseUrl}store";
+  static const homeUrl = "${baseUrl}home";
+  static const nearStores = "${baseUrl}near-stores";
 }

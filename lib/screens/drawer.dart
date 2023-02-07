@@ -26,6 +26,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
 import 'driver_screen/withdraw_moeny.dart';
 
@@ -42,6 +43,7 @@ class CustomDrawer extends StatefulWidget {
 
 class _CustomDrawerState extends State<CustomDrawer> {
   final controller = Get.put(MainHomeController());
+  final profileController = Get.put(ProfileController());
   final RxBool _isValue = false.obs;
   final RxBool _isValue1 = false.obs;
   var vendor = [
@@ -98,7 +100,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               children: <Widget>[
                 Container(
                   height: screenSize.height * 0.30,
-                  width: screenSize.width * 0.8,
+                  width: screenSize.width,
                   color: AppTheme.primaryColor,
                   child: Column(
                     children: [
@@ -122,8 +124,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   color: Colors.white,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl:
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
+                                  imageUrl: profileController.model.value.data!.profileImage.toString(),
                                   height: screenSize.height * 0.12,
                                   width: screenSize.height * 0.12,
                                   errorWidget: (_, __, ___) => const SizedBox(),
@@ -139,15 +140,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       SizedBox(
                         height: screenSize.height * 0.02,
                       ),
-                      const Text('Williams Jones',
+                       Text(profileController.model.value.data!.name == null ?'Williams Jones':profileController.model.value.data!.name.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               color: Colors.white,
                               fontWeight: FontWeight.w500)),
-                      const Text('williamsjones@gmail.com',
+                       Text(profileController.model.value.data!.name == null ?'williamsjones@gmail.com':profileController.model.value.data!.name.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 15,
                               color: Colors.white,
                               fontWeight: FontWeight.w400)),

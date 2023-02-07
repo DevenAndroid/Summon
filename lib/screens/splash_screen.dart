@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/onboardingScreen.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../resources/app_assets.dart';
 import '../routers/my_router.dart';
+import 'custum_bottom_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -19,7 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () async {
-      Get.offAllNamed(OnBoardingScreen.onBoardingScreen);
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      if(pref.getString('user_info') != null){
+        Get.offAllNamed(CustomNavigationBar.customNavigationBar);
+      }
+      else{
+        Get.offAllNamed(OnBoardingScreen.onBoardingScreen);
+      }
     });
   }
 

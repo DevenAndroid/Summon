@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/screens/homepage.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_assets.dart';
@@ -30,7 +31,14 @@ class CustomNavigationBar extends StatefulWidget {
 class CustomNavigationBarState extends State<CustomNavigationBar> {
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
+  final locationController = Get.put(LocationController());
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    locationController.checkGps(context);
+  }
   @override
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -46,12 +54,13 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
           ),
         ),
         child: Obx(() {
-          return Scaffold(
+          return profileController.isDataLoading.value ? Scaffold(
               backgroundColor: Colors.transparent,
               key: controller.scaffoldKey,
               drawer: const CustomDrawer(),
               appBar: controller.currentIndex.value != 2
-                  ? buildAppBar(false, controller.currentIndex.value)
+                  ? buildAppBar(false, controller.currentIndex.value,profileController
+                  .model.value.data!.profileImage.toString())
                   : AppBar(
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -69,6 +78,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                         ),
                       ),
                       title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
@@ -102,8 +112,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                               )
                             ],
                           ),
-                          const Text(
-                            "184 Main Collins Street Victoria 8007",
+                           Text(
+                            locationController.locality.value.toString(),
                             style: TextStyle(
                                 fontSize: 14,
                                 color: AppTheme.backgroundcolor,
@@ -154,12 +164,15 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   ),
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
-                                    height: 20,
-                                    width: 30,
+                                    imageUrl: profileController
+                                        .isDataLoading.value
+                                        ? profileController
+                                        .model.value.data!.profileImage!
+                                        : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F418834834091928933%2F&psig=AOvVaw3ufn75id_AkS2IAovSrNbB&ust=1675229948083000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCKjR44CM8fwCFQAAAAAdAAAAABAE',
+                                    height: AddSize.size30,
+                                    width: AddSize.size30,
                                     errorWidget: (_, __, ___) =>
-                                        const SizedBox(),
+                                    const SizedBox(),
                                     placeholder: (_, __) => const SizedBox(),
                                   )),
                             ),
@@ -295,7 +308,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     ],
                   );
                 }),
-              ));
+              )):Center(child: CircularProgressIndicator(),);
         }));
   }
 }
