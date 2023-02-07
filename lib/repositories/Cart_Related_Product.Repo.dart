@@ -7,11 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 import '../model/Add_To_Cart_Model.dart';
+import '../model/Cart_Related_product_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<AddToCartData> addToCartRepo(context) async {
+Future<CartRelatedProductModel> addToCartRelatedRepo(context) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -24,12 +25,12 @@ Future<AddToCartData> addToCartRepo(context) async {
   Overlay.of(context).insert(loader);
   try {
     final response =
-        await http.get(Uri.parse(ApiUrl.addCartUrl), headers: headers);
+        await http.get(Uri.parse(ApiUrl.addToCartRelatedUrl), headers: headers);
 
     if (response.statusCode == 200) {
       Helpers.hideShimmer(loader);
       print("Cart Related Product Repo...${response.body}");
-      return AddToCartData.fromJson(jsonDecode(response.body));
+      return CartRelatedProductModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }
