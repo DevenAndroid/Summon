@@ -198,10 +198,6 @@ class HomePageState extends State<HomePage> {
                     onSubmitted: (value) => {},
                     decoration: InputDecoration(
                         filled: true,
-                        // prefixIcon: Icon(
-                        //   Icons.search_rounded,
-                        //   color: Theme.of(context).iconTheme.color,
-                        // ),
                         suffixIcon: IconButton(
                           onPressed: () {},
                           icon: const Icon(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/AllCategories.dart';
 import 'package:fresh2_arrive/screens/app_bar.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
-import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/main_home_controller.dart';
@@ -185,8 +184,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: AppTheme.primaryColor),
-                            items: const [
-                              BottomNavigationBarItem(
+                            items: [
+                              const BottomNavigationBarItem(
                                 icon: Padding(
                                   padding: EdgeInsets.symmetric(
                                     vertical: 08,
@@ -198,7 +197,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                              BottomNavigationBarItem(
+                              const BottomNavigationBarItem(
                                   icon: Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: ImageIcon(
@@ -207,7 +206,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     ),
                                   ),
                                   label: 'Cart'),
-                              BottomNavigationBarItem(
+                              const BottomNavigationBarItem(
                                   icon: Padding(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 08,
@@ -221,16 +220,19 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   label: ''),
                               BottomNavigationBarItem(
                                   icon: Padding(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                       vertical: 08,
                                     ),
-                                    child: ImageIcon(
-                                      AssetImage(AppAssets.store),
-                                      size: 20,
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: ImageIcon(
+                                        AssetImage(AppAssets.store),
+                                        size: 20,
+                                      ),
                                     ),
                                   ),
                                   label: 'Stores'),
-                              BottomNavigationBarItem(
+                              const BottomNavigationBarItem(
                                   icon: Padding(
                                     padding: EdgeInsets.symmetric(vertical: 08),
                                     child: ImageIcon(
