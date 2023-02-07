@@ -168,7 +168,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             resendOtp(phoneNumber, context).then((value) async {
                               if (value.status == true) {
                                 otp = value.data.toString();
-                                showToast(value.message);
+                                showToast("${value.message} $otp");
                               } else {
                                 showToast(value.message);
                               }

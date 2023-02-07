@@ -22,7 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  final scrollController = ScrollController();
   final controller = Get.put(MainHomeController());
   final searchController = TextEditingController();
   final homeController = Get.put(HomePageController());
@@ -33,26 +32,12 @@ class HomePageState extends State<HomePage> {
   final List<String> categoryData = ["Fruits", "Vegie", "Dairy", "Juice"];
   final List<String> distanceData = ["Fruits", "Vegie", "Dairy", "Juice"];
   final List<String> dropDownList = ["500g", "1Kg"];
-  void _scrollListener() {
-    nearStoreController.isDataLoading.value = true;
-    if (nearStoreController.loadMore.value) {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        nearStoreController.page.value = nearStoreController.page.value + 1;
-        nearStoreController.getData();
-        print(nearStoreController.page.value);
-      } else {
-        print("Dont call");
-      }
-    }
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     homeController.getData();
-    scrollController.addListener(_scrollListener);
     nearStoreController.getData();
   }
 
@@ -799,7 +784,7 @@ class HomePageState extends State<HomePage> {
                       ),
                       ListView.builder(
                         shrinkWrap: true,
-                        controller: scrollController,
+                        // controller: scrollController,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: nearStoreController.model.value.data!.length,
                         scrollDirection: Axis.vertical,

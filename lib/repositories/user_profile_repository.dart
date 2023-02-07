@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:fresh2_arrive/model/category_model.dart';
 import 'package:fresh2_arrive/model/verify_otp_model.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
 import 'package:http/http.dart' as http;
