@@ -28,18 +28,18 @@ class CouponModel {
 }
 
 class Data {
-  int? id;
-  int? vendorId;
-  String? couponCode;
-  String? couponDetails;
-  String? validFrom;
-  String? validTo;
-  String? discountType;
-  String? maxReedem;
-  String? maxUser;
-  String? maxDiscount;
-  String? minOrderValue;
-  String? amount;
+  dynamic id;
+  dynamic vendorId;
+  dynamic couponCode;
+  dynamic couponDetails;
+  dynamic validFrom;
+  dynamic validTo;
+  dynamic discountType;
+  dynamic maxReedem;
+  dynamic maxUser;
+  dynamic maxDiscount;
+  dynamic minOrderValue;
+  dynamic amount;
 
   Data(
       {this.id,

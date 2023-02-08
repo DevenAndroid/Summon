@@ -4,6 +4,8 @@ import '../repositories/My_Cart_Repo.dart';
 
 class MyCartDataListController extends GetxController {
   Rx<MyCartData> model = MyCartData().obs;
+  // Rx<CartRelatedProductModel> relatedProductModel =
+  //     CartRelatedProductModel().obs;
   RxBool isDataLoaded = false.obs;
 
   getAddToCartList() {
@@ -12,6 +14,13 @@ class MyCartDataListController extends GetxController {
       model.value = value;
     });
   }
+
+  // getAddToCartRelatedList() {
+  //    addToCartRelatedRepo().then((value) {
+  //     isDataLoaded.value = true;
+  //     relatedProductModel.value = value;
+  //   });
+  // }
 
   @override
   void onInit() {

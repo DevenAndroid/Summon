@@ -9,6 +9,7 @@ import 'package:fresh2_arrive/resources/helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 Future<NearStoreModel> loadWithPagination({
    page,
   pagination,
@@ -16,6 +17,7 @@ Future<NearStoreModel> loadWithPagination({
 }) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if(context != null){
+
     Overlay.of(context)!.insert(loader);
   }
   try {
@@ -51,4 +53,3 @@ Future<NearStoreModel> loadWithPagination({
     throw Exception(e);
   }
 }
-

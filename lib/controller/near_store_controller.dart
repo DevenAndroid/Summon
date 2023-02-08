@@ -14,6 +14,7 @@ class NearStoreController extends GetxController {
 
   // final scrollController = ScrollController();
 
+
  Future<dynamic> getData({isFirstTime = false,context})async {
     if (isPaginationLoading.value && loadMore.value) {
       isPaginationLoading.value = false;
@@ -22,6 +23,7 @@ class NearStoreController extends GetxController {
             if(isFirstTime){
               model.value = value;
             }
+
         isPaginationLoading.value = true;
         if (value.status!) {
           isDataLoading.value = true;
