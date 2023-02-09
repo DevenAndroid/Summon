@@ -3,12 +3,13 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/home_page_controller.dart';
 import 'package:fresh2_arrive/controller/near_store_controller.dart';
+import 'package:fresh2_arrive/repositories/Add_To_Cart_Repo.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../repositories/Homepage_search_Repo.dart';
-import '../repositories/near_store_repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -23,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final homeSearchController = Get.put(HomePageController());
+  final myCartController = Get.put(MyCartDataListController());
+
   final controller = Get.put(MainHomeController());
   final searchController = TextEditingController();
   final homeController = Get.put(HomePageController());
@@ -400,8 +403,24 @@ class HomePageState extends State<HomePage> {
                                                                       AppTheme
                                                                           .addColor,
                                                                 ),
-                                                                onPressed:
-                                                                    () {},
+                                                                onPressed: () {
+                                                                  addToCartRepo(
+                                                                          '10',
+                                                                          '1',
+                                                                          context)
+                                                                      .then(
+                                                                          (value) {
+                                                                    if (value
+                                                                            .status ==
+                                                                        true) {
+                                                                      showToast(
+                                                                          value
+                                                                              .message);
+                                                                      myCartController
+                                                                          .getAddToCartList();
+                                                                    }
+                                                                  });
+                                                                },
                                                                 child: Text(
                                                                     'ADD',
                                                                     style: TextStyle(
@@ -779,14 +798,14 @@ class HomePageState extends State<HomePage> {
                                 ? const Text(
                                     'Stores Near You',
                                     style: TextStyle(
-                                        color: AppTheme.backgroundcolor,
+                                        color: AppTheme.blackcolor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   )
                                 : Text(
                                     '(${nearStoreController.model.value.data!.length}) Stores Near You',
                                     style: const TextStyle(
-                                        color: AppTheme.backgroundcolor,
+                                        color: AppTheme.blackcolor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   ),

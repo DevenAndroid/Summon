@@ -102,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           decoration: InputDecoration(
+                              counterText: "",
                               contentPadding:
                                   EdgeInsets.symmetric(vertical: 18.0),
                               border: UnderlineInputBorder(

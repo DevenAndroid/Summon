@@ -133,16 +133,16 @@ class _OtpScreenState extends State<OtpScreen> {
                                 otp == otpController.text) {
                               verifyOtp(phoneNumber, context, otp)
                                   .then((value) async {
-                                //showToast(value.message);
-                                Get.snackbar(
-                                  '',
-                                  "User login Succesfull",
-                                  backgroundColor: Colors.green,
-                                  colorText: Colors.white,
-                                  //margin: EdgeInsets.only(bottom: 100.0),
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  borderRadius: 20,
-                                );
+                                showToast(value.message);
+                                // Get.snackbar(
+                                //   '',
+                                //   "User login Succesfull",
+                                //   backgroundColor: Colors.green,
+                                //   colorText: Colors.white,
+                                //   //margin: EdgeInsets.only(bottom: 100.0),
+                                //   snackPosition: SnackPosition.BOTTOM,
+                                //   borderRadius: 20,
+                                // );
                                 if (value.status == true) {
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();

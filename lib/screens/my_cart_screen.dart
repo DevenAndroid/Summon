@@ -87,7 +87,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                       const SizedBox(),
                                                   placeholder: (_, __) =>
                                                       const SizedBox(),
-                                                  fit: BoxFit.cover,
+                                                  fit: BoxFit.contain,
                                                 ),
                                               ),
                                               SizedBox(
@@ -211,7 +211,26 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                               .w500),
                                                                 ),
                                                                 InkWell(
-                                                                  onTap: () {},
+                                                                  onTap: () {
+                                                                    addToCartRepo(
+                                                                            "10",
+                                                                            "1",
+                                                                            context)
+                                                                        .then(
+                                                                            (value) {
+                                                                      if (value
+                                                                              .status ==
+                                                                          true) {
+                                                                        showToast(
+                                                                            value.message);
+                                                                        controller
+                                                                            .getAddToCartList();
+                                                                      } else {
+                                                                        showToast(
+                                                                            value.message);
+                                                                      }
+                                                                    });
+                                                                  },
                                                                   child:
                                                                       const Icon(
                                                                     Icons.add,
@@ -295,209 +314,233 @@ class _MyCartScreenState extends State<MyCartScreen> {
                               fontWeight: FontWeight.w600)),
                       SizedBox(
                         height: height * .35,
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 3,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.only(top: height * .02),
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width: width * .5,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10)),
-                                // height: height * .23,
-                                child: Card(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Stack(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: width * .03,
-                                          ),
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  height: height * .12,
-                                                  width: width * .25,
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        "https://media.istockphoto.com/id/673162168/photo/green-cabbage-isolated-on-white.jpg?s=612x612&w=0&k=20&c=mCc4mXATvCcfp2E9taRJBp-QPYQ_LCj6nE1D7geaqVk=",
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
-                                                Column(
+                        child: Obx(() {
+                          return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller
+                                  .relatedProductModel.value.data!.length,
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(top: height * .02),
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  width: width * .5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  // height: height * .23,
+                                  child: Card(
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Stack(
+                                        children: [
+                                          Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: width * .03,
+                                              ),
+                                              child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    Text(
-                                                        "Coriander Leaves And Greens",
-                                                        style: TextStyle(
-                                                            color: AppTheme
-                                                                .blackcolor,
-                                                            fontSize:
-                                                                AddSize.font14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500)),
-                                                    DropdownButtonFormField(
-                                                      decoration:
-                                                          InputDecoration(
-                                                        fillColor:
-                                                            Colors.grey.shade50,
-                                                        border:
-                                                            InputBorder.none,
-                                                        enabled: true,
-                                                      ),
-                                                      hint: Text(
-                                                        'Select qty',
-                                                        style: TextStyle(
-                                                            color: AppTheme
-                                                                .userText,
-                                                            fontSize:
-                                                                AddSize.font14),
-                                                      ),
-                                                      // value: selectedCAt.value == ""
-                                                      //     ? null
-                                                      //     : selectedCAt.value,
-                                                      items: List.generate(
-                                                          index + 2,
-                                                          (index1) =>
-                                                              DropdownMenuItem(
-                                                                value: index1
-                                                                    .toString(),
-                                                                child: Text(
-                                                                  "${index1}Kg",
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          16),
-                                                                ),
-                                                              )),
-                                                      // items: dropDownList.map((value) {
-                                                      //   return DropdownMenuItem(
-                                                      //     value: value,
-                                                      //     child: Text(
-                                                      //       value,
-                                                      //       style: const TextStyle(
-                                                      //           fontSize: 16),
-                                                      //     ),
-                                                      //   );
-                                                      // }).toList(),
-                                                      onChanged: (newValue) {
-                                                        selectedCAt.value =
-                                                            newValue.toString();
-                                                      },
-                                                      // validator: (String? value) {
-                                                      //   if (value?.isEmpty ?? true) {
-                                                      //     return 'Please select bank';
-                                                      //   }
-                                                      //   return null;
-                                                      // },
-                                                    ),
                                                     SizedBox(
-                                                      height: height * .01,
+                                                      height: height * .12,
+                                                      width: width * .25,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: controller
+                                                            .relatedProductModel
+                                                            .value
+                                                            .data![index]
+                                                            .image
+                                                            .toString(),
+                                                        errorWidget: (_, __,
+                                                                ___) =>
+                                                            const SizedBox(),
+                                                        placeholder: (_, __) =>
+                                                            const SizedBox(),
+                                                      ),
                                                     ),
-                                                    Row(
+                                                    Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceBetween,
+                                                              .center,
                                                       children: [
                                                         Text(
-                                                          "₹15.0",
-                                                          style: TextStyle(
-                                                              fontSize: AddSize
-                                                                  .font14,
-                                                              color: AppTheme
-                                                                  .primaryColor,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        OutlinedButton(
-                                                          style: OutlinedButton
-                                                              .styleFrom(
-                                                            shape: const RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            6))),
-                                                            minimumSize: Size(
-                                                                AddSize.size50,
-                                                                AddSize.size30),
-                                                            side: const BorderSide(
+                                                            controller
+                                                                .relatedProductModel
+                                                                .value
+                                                                .data![index]
+                                                                .name
+                                                                .toString(),
+                                                            style: TextStyle(
                                                                 color: AppTheme
-                                                                    .primaryColor,
-                                                                width: 1),
-                                                            backgroundColor:
-                                                                AppTheme
-                                                                    .addColor,
+                                                                    .blackcolor,
+                                                                fontSize:
+                                                                    AddSize
+                                                                        .font14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500)),
+                                                        DropdownButtonFormField(
+                                                          decoration:
+                                                              InputDecoration(
+                                                            fillColor: Colors
+                                                                .grey.shade50,
+                                                            border: InputBorder
+                                                                .none,
+                                                            enabled: true,
                                                           ),
-                                                          onPressed: () {
-                                                            addToCartRepo(
-                                                                    "10",
-                                                                    "1",
-                                                                    context)
-                                                                .then((value) {
-                                                              if (value
-                                                                      .status ==
-                                                                  true) {
-                                                                showToast(value
-                                                                    .message);
-                                                                controller
-                                                                    .getAddToCartList();
-                                                              } else {
-                                                                showToast(value
-                                                                    .message);
-                                                              }
-                                                            });
+                                                          hint: Text(
+                                                            'Select qty',
+                                                            style: TextStyle(
+                                                                color: AppTheme
+                                                                    .userText,
+                                                                fontSize: AddSize
+                                                                    .font14),
+                                                          ),
+                                                          // value: selectedCAt.value == ""
+                                                          //     ? null
+                                                          //     : selectedCAt.value,
+                                                          items: List.generate(
+                                                              index + 2,
+                                                              (index1) =>
+                                                                  DropdownMenuItem(
+                                                                    value: index1
+                                                                        .toString(),
+                                                                    child: Text(
+                                                                      "${index1}Kg",
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              16),
+                                                                    ),
+                                                                  )),
+                                                          // items: dropDownList.map((value) {
+                                                          //   return DropdownMenuItem(
+                                                          //     value: value,
+                                                          //     child: Text(
+                                                          //       value,
+                                                          //       style: const TextStyle(
+                                                          //           fontSize: 16),
+                                                          //     ),
+                                                          //   );
+                                                          // }).toList(),
+                                                          onChanged:
+                                                              (newValue) {
+                                                            selectedCAt.value =
+                                                                newValue
+                                                                    .toString();
                                                           },
-                                                          child: Text('ADD',
+                                                          // validator: (String? value) {
+                                                          //   if (value?.isEmpty ?? true) {
+                                                          //     return 'Please select bank';
+                                                          //   }
+                                                          //   return null;
+                                                          // },
+                                                        ),
+                                                        SizedBox(
+                                                          height: height * .01,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              "₹15.0",
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       AddSize
-                                                                          .font12,
+                                                                          .font14,
                                                                   color: AppTheme
                                                                       .primaryColor,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w600)),
-                                                        )
+                                                                          .w500),
+                                                            ),
+                                                            OutlinedButton(
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                shape: const RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(6))),
+                                                                minimumSize: Size(
+                                                                    AddSize
+                                                                        .size50,
+                                                                    AddSize
+                                                                        .size30),
+                                                                side: const BorderSide(
+                                                                    color: AppTheme
+                                                                        .primaryColor,
+                                                                    width: 1),
+                                                                backgroundColor:
+                                                                    AppTheme
+                                                                        .addColor,
+                                                              ),
+                                                              onPressed: () {
+                                                                addToCartRepo(
+                                                                        "10",
+                                                                        "1",
+                                                                        context)
+                                                                    .then(
+                                                                        (value) {
+                                                                  if (value
+                                                                          .status ==
+                                                                      true) {
+                                                                    showToast(value
+                                                                        .message);
+                                                                    controller
+                                                                        .getAddToCartList();
+                                                                  } else {
+                                                                    showToast(value
+                                                                        .message);
+                                                                  }
+                                                                });
+                                                              },
+                                                              child: Text('ADD',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          AddSize
+                                                                              .font12,
+                                                                      color: AppTheme
+                                                                          .primaryColor,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600)),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        // OutlinedButton(
+                                                        //   style: OutlinedButton.styleFrom(
+                                                        //     shape: const RoundedRectangleBorder(
+                                                        //         borderRadius: BorderRadius.all(
+                                                        //             Radius.circular(10))),
+                                                        //     side: const BorderSide(
+                                                        //         color: AppTheme.primaryColor,
+                                                        //         width: 1),
+                                                        //     backgroundColor: AppTheme.addColor,
+                                                        //   ),
+                                                        //   onPressed: () {},
+                                                        //   child: const Text('ADD',
+                                                        //       style: TextStyle(
+                                                        //           color: AppTheme.primaryColor,
+                                                        //           fontWeight: FontWeight.w600)),
+                                                        // ),
                                                       ],
-                                                    ),
-                                                    // OutlinedButton(
-                                                    //   style: OutlinedButton.styleFrom(
-                                                    //     shape: const RoundedRectangleBorder(
-                                                    //         borderRadius: BorderRadius.all(
-                                                    //             Radius.circular(10))),
-                                                    //     side: const BorderSide(
-                                                    //         color: AppTheme.primaryColor,
-                                                    //         width: 1),
-                                                    //     backgroundColor: AppTheme.addColor,
-                                                    //   ),
-                                                    //   onPressed: () {},
-                                                    //   child: const Text('ADD',
-                                                    //       style: TextStyle(
-                                                    //           color: AppTheme.primaryColor,
-                                                    //           fontWeight: FontWeight.w600)),
-                                                    // ),
-                                                  ],
-                                                )
-                                              ]),
-                                        ),
-                                      ],
-                                    )),
-                              );
-                            }),
+                                                    )
+                                                  ])
+                                              // : const Center(
+                                              //     child:
+                                              //         CircularProgressIndicator()),
+                                              ),
+                                        ],
+                                      )),
+                                );
+                              });
+                        }),
                       ),
                       SizedBox(
                         height: height * .01,
