@@ -4,6 +4,7 @@ import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import '../controller/profile_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../routers/my_router.dart';
@@ -12,7 +13,8 @@ import '../widgets/dimensions.dart';
 
 AppBar buildAppBar(
   isProfilePage,
-  int value, String profile,
+  int value,
+  String profile,
 ) {
   final List<String> title = [
     "Search by category",
@@ -22,6 +24,7 @@ AppBar buildAppBar(
     "My Profile"
   ];
   final controller = Get.put(MainHomeController());
+  final profileController = Get.put(ProfileController());
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
@@ -58,48 +61,52 @@ AppBar buildAppBar(
         },
       ),
       addWidth(10),
-      Padding(
-        padding: const EdgeInsets.only(right: 16.0),
-        child: GestureDetector(
-          onTap: () async {
-            Get.back();
-            controller.onItemTap(4);
-            // SharedPreferences pref =
-            // await SharedPreferences.getInstance();
-            // if (pref.getString('user') != null) {
-            //   // ModelLogInData? user = ModelLogInData.fromJson(jsonDecode(pref.getString('user')!));
-            //
-            //   Get.off(CustomNavigationBar(
-            //     index: 4,
-            //   ));
-            // } else {
-            //   Get.toNamed(MyRouter.logInScreen);
-            // }
-          },
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 20,
-            child: Container(
-                height: 38,
-                width: 38,
-                clipBehavior: Clip.antiAlias,
-                // margin: EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  // color: Colors.brown
-                ),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl:profile != "" ? profile :
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
-                  height: 20,
-                  width: 30,
-                  errorWidget: (_, __, ___) => const SizedBox(),
-                  placeholder: (_, __) => const SizedBox(),
-                )),
+      Obx(() {
+        return Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: GestureDetector(
+            onTap: () async {
+              Get.back();
+              controller.onItemTap(4);
+              // SharedPreferences pref =
+              // await SharedPreferences.getInstance();
+              // if (pref.getString('user') != null) {
+              //   // ModelLogInData? user = ModelLogInData.fromJson(jsonDecode(pref.getString('user')!));
+              //
+              //   Get.off(CustomNavigationBar(
+              //     index: 4,
+              //   ));
+              // } else {
+              //   Get.toNamed(MyRouter.logInScreen);
+              // }
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              radius: 20,
+              child: Container(
+                  height: 38,
+                  width: 38,
+                  clipBehavior: Clip.antiAlias,
+                  // margin: EdgeInsets.all(1),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    // color: Colors.brown
+                  ),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: profileController.isDataLoading.value
+                        ? profileController.model.value.data!.profileImage
+                            .toString()
+                        : "",
+                    height: 20,
+                    width: 30,
+                    errorWidget: (_, __, ___) => const SizedBox(),
+                    placeholder: (_, __) => const SizedBox(),
+                  )),
+            ),
           ),
-        ),
-      )
+        );
+      })
     ],
   );
 }

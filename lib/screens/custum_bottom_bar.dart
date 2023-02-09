@@ -39,6 +39,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     super.initState();
     locationController.checkGps(context);
   }
+
   @override
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -58,127 +59,117 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
             key: controller.scaffoldKey,
             drawer: const CustomDrawer(),
             appBar: controller.currentIndex.value != 2
-                ? buildAppBar(false, controller.currentIndex.value,profileController
-                .model.value.data!.profileImage.toString())
+                ? buildAppBar(false, controller.currentIndex.value,
+                    profileController.model.value.data!.profileImage.toString())
                 : AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leadingWidth: AddSize.size40,
-              leading: Padding(
-                padding: EdgeInsets.only(left: AddSize.padding10),
-                child: GestureDetector(
-                  child: Image.asset(
-                    AppAssets.drawerImage,
-                    height: AddSize.size20,
-                  ),
-                  onTap: () {
-                    controller.scaffoldKey.currentState!.openDrawer();
-                  },
-                ),
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(
-                              ChooseAddress.chooseAddressScreen);
-                        },
-                        child: const Icon(
-                          Icons.location_on,
-                          color: AppTheme.backgroundcolor,
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    leadingWidth: AddSize.size40,
+                    leading: Padding(
+                      padding: EdgeInsets.only(left: AddSize.padding10),
+                      child: GestureDetector(
+                        child: Image.asset(
+                          AppAssets.drawerImage,
+                          height: AddSize.size20,
                         ),
+                        onTap: () {
+                          controller.scaffoldKey.currentState!.openDrawer();
+                        },
                       ),
-                      const SizedBox(
-                        width: 10,
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(ChooseAddress.chooseAddressScreen);
+                              },
+                              child: const Icon(
+                                Icons.location_on,
+                                color: AppTheme.backgroundcolor,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Home",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppTheme.backgroundcolor,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: AppTheme.backgroundcolor,
+                              size: 30,
+                            )
+                          ],
+                        ),
+                        Text(
+                          locationController.locality.value.toString(),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppTheme.backgroundcolor,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Image.asset(
+                          AppAssets.notification,
+                          height: 22,
+                        ),
+                        onPressed: () {
+                          Get.toNamed(NotificationScreen.notificationScreen);
+                        },
                       ),
-                      const Text(
-                        "Home",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: AppTheme.backgroundcolor,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: AppTheme.backgroundcolor,
-                        size: 30,
+                      addWidth(10),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: GestureDetector(
+                          onTap: () async {
+                            Get.back();
+                            controller.onItemTap(4);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20,
+                            child: Container(
+                                height: 38,
+                                width: 38,
+                                clipBehavior: Clip.antiAlias,
+                                // margin: EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  // color: Colors.brown
+                                ),
+                                child: Obx(() {
+                                  return CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl:
+                                        profileController.isDataLoading.value
+                                            ? profileController
+                                                .model.value.data!.profileImage!
+                                            : '',
+                                    height: AddSize.size30,
+                                    width: AddSize.size30,
+                                    errorWidget: (_, __, ___) =>
+                                        const SizedBox(),
+                                    placeholder: (_, __) => const SizedBox(),
+                                  );
+                                })),
+                          ),
+                        ),
                       )
                     ],
                   ),
-                  Text(
-                    locationController.locality.value.toString(),
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: AppTheme.backgroundcolor,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-              actions: [
-                IconButton(
-                  icon: Image.asset(
-                    AppAssets.notification,
-                    height: 22,
-                  ),
-                  onPressed: () {
-                    Get.toNamed(NotificationScreen.notificationScreen);
-                  },
-                ),
-                addWidth(10),
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: GestureDetector(
-                    onTap: () async {
-                      Get.back();
-                      controller.onItemTap(4);
-                      // SharedPreferences pref =
-                      // await SharedPreferences.getInstance();
-                      // if (pref.getString('user') != null) {
-                      //   // ModelLogInData? user = ModelLogInData.fromJson(jsonDecode(pref.getString('user')!));
-                      //
-                      //   Get.off(CustomNavigationBar(
-                      //     index: 4,
-                      //   ));
-                      // } else {
-                      //   Get.toNamed(MyRouter.logInScreen);
-                      // }
-                    },
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 20,
-                      child: Container(
-                          height: 38,
-                          width: 38,
-                          clipBehavior: Clip.antiAlias,
-                          // margin: EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            // color: Colors.brown
-                          ),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: profileController
-                                .isDataLoading.value
-                                ? profileController
-                                .model.value.data!.profileImage!
-                                : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pinterest.com%2Fpin%2F418834834091928933%2F&psig=AOvVaw3ufn75id_AkS2IAovSrNbB&ust=1675229948083000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCKjR44CM8fwCFQAAAAAdAAAAABAE',
-                            height: AddSize.size30,
-                            width: AddSize.size30,
-                            errorWidget: (_, __, ___) =>
-                            const SizedBox(),
-                            placeholder: (_, __) => const SizedBox(),
-                          )),
-                    ),
-                  ),
-                )
-              ],
-            ),
             bottomNavigationBar: Obx(() {
               return BottomAppBar(
                   color: Colors.transparent,
@@ -188,8 +179,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       data: ThemeData(
                           splashColor: Colors.transparent,
                           bottomNavigationBarTheme:
-                          const BottomNavigationBarThemeData(
-                              elevation: 0)),
+                              const BottomNavigationBarThemeData(elevation: 0)),
                       child: BottomNavigationBar(
                           unselectedLabelStyle: const TextStyle(
                               fontSize: 12, fontWeight: FontWeight.w400),
@@ -263,7 +253,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           elevation: 5)));
             }),
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerDocked,
+                FloatingActionButtonLocation.centerDocked,
             floatingActionButton: Visibility(
               visible: !keyboardIsOpened,
               child: Container(
@@ -272,8 +262,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                 decoration: BoxDecoration(
                     color: AppTheme.primaryColor,
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                        color: AppTheme.backgroundcolor, width: 2)),
+                    border:
+                        Border.all(color: AppTheme.backgroundcolor, width: 2)),
                 child: GestureDetector(
                   child: const Center(
                     child: Icon(

@@ -443,7 +443,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                     .addColor,
                                                           ),
                                                           onPressed: () {
-                                                            addToCartRepo("4",
+                                                            addToCartRepo(
+                                                                    "10",
+                                                                    "1",
                                                                     context)
                                                                 .then((value) {
                                                               if (value

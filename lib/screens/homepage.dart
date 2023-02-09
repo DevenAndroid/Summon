@@ -7,6 +7,7 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/main_home_controller.dart';
+import '../repositories/Homepage_search_Repo.dart';
 import '../repositories/near_store_repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -21,6 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  final homeSearchController = Get.put(HomePageController());
   final controller = Get.put(MainHomeController());
   final searchController = TextEditingController();
   final homeController = Get.put(HomePageController());
@@ -84,7 +86,9 @@ class HomePageState extends State<HomePage> {
                                     //   color: Theme.of(context).iconTheme.color,
                                     // ),
                                     suffixIcon: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        homeSearchRepo("New Vendor", context);
+                                      },
                                       icon: const Icon(
                                         Icons.search_rounded,
                                         color: AppTheme.primaryColor,

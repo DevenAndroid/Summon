@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
 import '../widgets/editprofile_textfield.dart';
@@ -69,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       fontSize: AddSize.font16),
                             ),
                             Text(
-                              "williamsjones@gmail.com",
+                              '',
                               style: Theme.of(context)
                                   .textTheme
                                   .headline5!
@@ -190,12 +192,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           EditProfileTextFieldWidget(
                             hint: "williamsjones@gmail.com",
                             controller: emailController,
-                            validator: MultiValidator([
-                              RequiredValidator(
-                                  errorText: 'Please Enter Email'),
-                              EmailValidator(
-                                  errorText: 'Enter a valid email address')
-                            ]),
+                            // validator: MultiValidator([
+                            //   RequiredValidator(
+                            //       errorText: 'Please Enter Email'),
+                            //   EmailValidator(
+                            //       errorText: 'Enter a valid email address')
+                            // ]),
                           ),
                           const SizedBox(
                             height: 15,

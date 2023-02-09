@@ -295,13 +295,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 EditProfileTextFieldWidget(
                                   hint: "williamsjones@gmail.com",
                                   controller: controller.emailController,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: 'Please Enter Email'),
-                                    EmailValidator(
-                                        errorText:
-                                            'Enter a valid email address')
-                                  ]),
+                                  // validator: MultiValidator([
+                                  //   RequiredValidator(
+                                  //       errorText: 'Please Enter Email'),
+                                  //   EmailValidator(
+                                  //       errorText:
+                                  //           'Enter a valid email address')
+                                  // ]),
                                 ),
                                 const SizedBox(
                                   height: 15,
@@ -330,6 +330,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                                 ElevatedButton(
                                     onPressed: () {
+                                      controller.mobileController.text;
                                       FocusManager.instance.primaryFocus!
                                           .unfocus();
                                       if (_formKey.currentState!.validate()) {
@@ -378,7 +379,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               fontWeight: FontWeight.w500,
                                               fontSize: AddSize.font16),
                                     )),
-                                SizedBox(height: AddSize.size20,)
+                                SizedBox(
+                                  height: AddSize.size20,
+                                )
                               ],
                             ),
                           ),
