@@ -80,40 +80,43 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(ChooseAddress.chooseAddressScreen);
-                              },
-                              child: const Icon(
-                                Icons.location_on,
-                                color: AppTheme.backgroundcolor,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "Home",
-                              style: TextStyle(
-                                  fontSize: 16,
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(ChooseAddress.chooseAddressScreen);
+                          },
+                          child: Row(
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: const Icon(
+                                  Icons.location_on,
                                   color: AppTheme.backgroundcolor,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Icon(
-                              Icons.keyboard_arrow_down,
-                              color: AppTheme.backgroundcolor,
-                              size: 30,
-                            )
-                          ],
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                "Home",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppTheme.backgroundcolor,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Icon(
+                                Icons.keyboard_arrow_down,
+                                color: AppTheme.backgroundcolor,
+                                size: 30,
+                              )
+                            ],
+                          ),
                         ),
                         Text(
                           locationController.locality.value.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               color: AppTheme.backgroundcolor,
                               fontWeight: FontWeight.w400),

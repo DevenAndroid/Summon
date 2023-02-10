@@ -241,17 +241,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
               }),
           body: Stack(
             children: [
-              // GoogleMap(
-              //   mapType: MapType.normal,
-              //   initialCameraPosition: CameraPosition(
-              //     target: LatLng(0, 0),
-              //     zoom: 14,
-              //   ),
-              //   onMapCreated: (GoogleMapController controller) {
-              //     mapController = controller;
-              //     googleMapController.complete(controller);
-              //   },
-              // ),
               GoogleMap(
                 zoomGesturesEnabled: true, //enable Zoom in, out on map
                 initialCameraPosition: const CameraPosition(
@@ -338,56 +327,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                   )),
                             ),
                           ))),
-              // Positioned(
-              //   top: 10,
-              //   left: 15,
-              //   right: 15,
-              //   child: TextField(
-              //     controller: searchController,
-              //     style: TextStyle(fontSize: AddSize.font14),
-              //     textAlignVertical: TextAlignVertical.center,
-              //     textInputAction: TextInputAction.search,
-              //     onSubmitted: (value) => {},
-              //     decoration: InputDecoration(
-              //         filled: true,
-              //         suffixIcon: Row(
-              //           mainAxisAlignment: MainAxisAlignment.end,
-              //           mainAxisSize: MainAxisSize.min,
-              //           children: [
-              //             IconButton(
-              //               onPressed: () {},
-              //               icon: Icon(
-              //                 Icons.search,
-              //                 color: AppTheme.primaryColor,
-              //                 size: AddSize.size25,
-              //               ),
-              //             ),
-              //             IconButton(
-              //               onPressed: () {
-              //                 _getCurrentPosition();
-              //               },
-              //               icon: Icon(
-              //                 Icons.gps_fixed,
-              //                 color: AppTheme.primaryColor,
-              //                 size: AddSize.size20,
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //         border: const OutlineInputBorder(
-              //             borderSide: BorderSide.none,
-              //             borderRadius: BorderRadius.all(Radius.circular(10))),
-              //         fillColor: Colors.white,
-              //         contentPadding: EdgeInsets.symmetric(
-              //             horizontal: AddSize.padding20,
-              //             vertical: AddSize.padding10),
-              //         hintText: 'Search',
-              //         hintStyle: TextStyle(
-              //             fontSize: AddSize.font14,
-              //             color: AppTheme.blackcolor,
-              //             fontWeight: FontWeight.w400)),
-              //   ),
-              // ),
               Positioned(
                   bottom: 0,
                   child: Container(
@@ -409,26 +348,30 @@ class _ChooseAddressState extends State<ChooseAddress> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: AppTheme.primaryColor,
-                                    size: AddSize.size25,
-                                  ),
-                                  SizedBox(
-                                    width: AddSize.size12,
-                                  ),
-                                  Text(
-                                    "B Block Vaishali Nagar Jaipur",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: AddSize.font16),
-                                  )
-                                ],
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: AppTheme.primaryColor,
+                                      size: AddSize.size25,
+                                    ),
+                                    SizedBox(
+                                      width: AddSize.size12,
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "B Block Vaishali Nagar Jaipur",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: AddSize.font16),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                               TextButton(
                                   onPressed: () {

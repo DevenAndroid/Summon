@@ -89,7 +89,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                   .storeDetails!
                                                   .storeName
                                                   .toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w500),

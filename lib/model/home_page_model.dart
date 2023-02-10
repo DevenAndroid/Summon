@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class HomePageModel {
   bool? status;
   String? message;
@@ -30,9 +32,9 @@ class Data {
 
   Data(
       {this.sliderData,
-        this.bestFreshProduct,
-        this.latestCategory,
-        this.featuredStores});
+      this.bestFreshProduct,
+      this.latestCategory,
+      this.featuredStores});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['sliderData'] != null) {
@@ -112,6 +114,7 @@ class BestFreshProduct {
   String? name;
   String? image;
   List<Varints>? varints;
+  RxInt varientIndex = (-1).obs;
 
   BestFreshProduct({this.id, this.name, this.image, this.varints});
 
@@ -150,12 +153,12 @@ class Varints {
 
   Varints(
       {this.id,
-        this.vendorProductId,
-        this.marketPrice,
-        this.price,
-        this.variantQty,
-        this.variantQtyType,
-        this.discountOff});
+      this.vendorProductId,
+      this.marketPrice,
+      this.price,
+      this.variantQty,
+      this.variantQtyType,
+      this.discountOff});
 
   Varints.fromJson(Map<String, dynamic> json) {
     id = json['id'];

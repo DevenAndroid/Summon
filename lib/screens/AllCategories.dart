@@ -81,13 +81,6 @@ class _AllCategoriesState extends State<AllCategories> {
                                       ),
                                     ),
                                   ),
-                                  // Image(
-                                  //   image:
-                                  //       AssetImage(AppAssets.category_image),
-                                  //   height: AddSize.size50,
-                                  //   width: AddSize.size30 * 2,
-                                  //   fit: BoxFit.cover,
-                                  // ),
                                   Text(
                                     itemdata.name.toString(),
                                     style: TextStyle(

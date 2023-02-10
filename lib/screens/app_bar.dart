@@ -68,17 +68,6 @@ AppBar buildAppBar(
             onTap: () async {
               Get.back();
               controller.onItemTap(4);
-              // SharedPreferences pref =
-              // await SharedPreferences.getInstance();
-              // if (pref.getString('user') != null) {
-              //   // ModelLogInData? user = ModelLogInData.fromJson(jsonDecode(pref.getString('user')!));
-              //
-              //   Get.off(CustomNavigationBar(
-              //     index: 4,
-              //   ));
-              // } else {
-              //   Get.toNamed(MyRouter.logInScreen);
-              // }
             },
             child: CircleAvatar(
               backgroundColor: Colors.white,
