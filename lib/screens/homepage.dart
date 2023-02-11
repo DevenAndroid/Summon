@@ -222,8 +222,8 @@ class HomePageState extends State<HomePage> {
                               child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: homeController.model.value.data!
-                                      .bestFreshProduct!.length,
+                                  itemCount: homeController
+                                      .model.value.data!.latestCategory!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 4,
@@ -266,7 +266,7 @@ class HomePageState extends State<HomePage> {
                                                         .model
                                                         .value
                                                         .data!
-                                                        .sliderData![index]
+                                                        .latestCategory![index]
                                                         .image
                                                         .toString(),
                                                     errorWidget: (_, __, ___) =>
@@ -276,13 +276,21 @@ class HomePageState extends State<HomePage> {
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                const Text(
-                                                  "Fruits",
-                                                  style: TextStyle(
-                                                      color: AppTheme.subText,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                Expanded(
+                                                  child: Text(
+                                                    homeController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .latestCategory![index]
+                                                        .slug
+                                                        .toString(),
+                                                    style: const TextStyle(
+                                                        color: AppTheme.subText,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -667,7 +675,7 @@ class HomePageState extends State<HomePage> {
                             ),
                             onPressed: () {
                               int vIndex = homeController.model.value.data!
-                                  .bestFreshProduct![index].varientIndex.value;
+                                  .bestFreshProduct![index].varientIndex!.value;
                               if (vIndex != (-1)) {
                                 addToCartRepo(
                                         homeController
@@ -692,7 +700,24 @@ class HomePageState extends State<HomePage> {
                                 showToast("Select the Quantity");
                               }
                             },
-                            child: Text('ADD',
+                            child: Text(
+                                // myCartController.model.value.data!
+                                //         .map((e) => e.id.toString())
+                                //         .toList()
+                                //         .contains(homeController.model.value
+                                //             .data!.bestFreshProduct![index].id
+                                //             .toString())
+                                //     ? "Product in card"
+                                //     : "ADD",
+                                // myCartController.model.value.data!
+                                //         .map((e) => e)
+                                //         .toList()
+                                //         .toString() +
+                                //     "==" +
+                                //     homeController.model.value.data!
+                                //         .bestFreshProduct![index].id
+                                //         .toString(),
+                                'ADD',
                                 style: TextStyle(
                                     fontSize: AddSize.font12,
                                     color: AppTheme.primaryColor,
@@ -718,11 +743,11 @@ class HomePageState extends State<HomePage> {
             enabled: true,
           ),
           value: homeController.model.value.data!.bestFreshProduct![index]
-                      .varientIndex.value ==
+                      .varientIndex!.value ==
                   (-1)
               ? null
               : homeController.model.value.data!.bestFreshProduct![index]
-                  .varientIndex.value,
+                  .varientIndex!.value,
           hint: Text(
             'Select qty',
             style:
@@ -740,7 +765,7 @@ class HomePageState extends State<HomePage> {
                   )),
           onChanged: (newValue) {
             homeController.model.value.data!.bestFreshProduct![index]
-                .varientIndex.value = newValue!;
+                .varientIndex!.value = newValue!;
           });
     });
   }

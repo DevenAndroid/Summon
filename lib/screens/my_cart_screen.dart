@@ -44,7 +44,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ListView.builder(
-                          itemCount: controller.model.value.data!.length,
+                          itemCount:
+                              controller.model.value.data!.cartItems!.length,
                           shrinkWrap: true,
                           padding: EdgeInsets.only(top: height * .015),
                           physics: const NeverScrollableScrollPhysics(),
@@ -73,15 +74,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                               SizedBox(
                                                 height: height * .12,
                                                 width: width * .20,
-                                                // child: Image.network(controller
-                                                //     .model
-                                                //     .value
-                                                //     .data![index]
-                                                //     .image
-                                                //     .toString()),
                                                 child: CachedNetworkImage(
-                                                  imageUrl: controller.model
-                                                      .value.data![index].image
+                                                  imageUrl: controller
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .cartItems![index]
+                                                      .image
                                                       .toString(),
                                                   errorWidget: (_, __, ___) =>
                                                       const SizedBox(),
@@ -99,8 +98,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     Text(
-                                                        controller.model.value
-                                                            .data![index].name
+                                                        controller
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .cartItems![index]
+                                                            .name
                                                             .toString(),
                                                         style: TextStyle(
                                                             color: AppTheme
@@ -127,7 +130,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                               controller
                                                                   .model
                                                                   .value
-                                                                  .data![index]
+                                                                  .data!
+                                                                  .cartItems![
+                                                                      index]
                                                                   .variantQty
                                                                   .toString(),
                                                               style: TextStyle(
@@ -144,7 +149,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                               controller
                                                                   .model
                                                                   .value
-                                                                  .data![index]
+                                                                  .data!
+                                                                  .cartItems![
+                                                                      index]
                                                                   .variantQtyType
                                                                   .toString(),
                                                               style: TextStyle(
@@ -196,7 +203,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                   controller
                                                                       .model
                                                                       .value
-                                                                      .data![
+                                                                      .data!
+                                                                      .cartItems![
                                                                           index]
                                                                       .cartItemQty
                                                                       .toString(),
@@ -254,7 +262,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                             controller
                                                                 .model
                                                                 .value
-                                                                .data![index]
+                                                                .data!
+                                                                .cartItems![
+                                                                    index]
                                                                 .variantPrice
                                                                 .toString(),
                                                             style: TextStyle(
@@ -272,7 +282,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           controller
                                                               .model
                                                               .value
-                                                              .data![index]
+                                                              .data!
+                                                              .cartItems![index]
                                                               .totalPrice
                                                               .toString(),
                                                           style: TextStyle(

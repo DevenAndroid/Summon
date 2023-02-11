@@ -114,9 +114,10 @@ class BestFreshProduct {
   String? name;
   String? image;
   List<Varints>? varints;
-  RxInt varientIndex = (-1).obs;
+  RxInt? varientIndex = (-1).obs;
 
-  BestFreshProduct({this.id, this.name, this.image, this.varints});
+  BestFreshProduct(
+      {this.id, this.name, this.image, this.varints, this.varientIndex});
 
   BestFreshProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -149,6 +150,8 @@ class Varints {
   int? price;
   String? variantQty;
   String? variantQtyType;
+  int? minQty;
+  int? maxQty;
   String? discountOff;
 
   Varints(
@@ -158,6 +161,8 @@ class Varints {
       this.price,
       this.variantQty,
       this.variantQtyType,
+      this.minQty,
+      this.maxQty,
       this.discountOff});
 
   Varints.fromJson(Map<String, dynamic> json) {
@@ -167,6 +172,8 @@ class Varints {
     price = json['price'];
     variantQty = json['variant_qty'];
     variantQtyType = json['variant_qty_type'];
+    minQty = json['min_qty'];
+    maxQty = json['max_qty'];
     discountOff = json['discount_off'];
   }
 
@@ -178,6 +185,8 @@ class Varints {
     data['price'] = this.price;
     data['variant_qty'] = this.variantQty;
     data['variant_qty_type'] = this.variantQtyType;
+    data['min_qty'] = this.minQty;
+    data['max_qty'] = this.maxQty;
     data['discount_off'] = this.discountOff;
     return data;
   }
