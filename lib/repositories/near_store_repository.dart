@@ -9,16 +9,11 @@ import 'package:fresh2_arrive/resources/helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-Future<NearStoreModel> loadWithPagination({
-   page,
-  pagination,
-  BuildContext? context
-}) async {
+Future<NearStoreModel> loadWithPagination(
+    {page, pagination, BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
-  if(context != null){
-
-    Overlay.of(context)!.insert(loader);
+  if (context != null) {
+    Overlay.of(context).insert(loader);
   }
   try {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -44,7 +39,6 @@ Future<NearStoreModel> loadWithPagination({
       throw Exception(response.body);
     }
   } on SocketException {
-
     Helpers.hideLoader(loader);
     return NearStoreModel(
         status: false, message: "No Internet Access", data: null);

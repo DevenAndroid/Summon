@@ -4,15 +4,15 @@ import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import '../controller/profile_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
-import '../routers/my_router.dart';
-import '../screens/custum_bottom_bar.dart';
 import '../widgets/dimensions.dart';
 
 AppBar buildAppBar(
   isProfilePage,
-  int value, String profile,
+  int value,
+  String profile,
 ) {
   final List<String> title = [
     "Search by category",
@@ -22,31 +22,51 @@ AppBar buildAppBar(
     "My Profile"
   ];
   final controller = Get.put(MainHomeController());
+  final profileController = Get.put(ProfileController());
   return AppBar(
-    backgroundColor: Colors.transparent,
+    // toolbarHeight: 80,
+    backgroundColor:
+        controller.currentIndex.value != 0 ? Colors.transparent : Colors.white,
     elevation: 0,
     title: Obx(() {
-      return Text(
-        title[controller.currentIndex.value],
-        style: const TextStyle(
-            color: AppTheme.backgroundcolor,
-            fontWeight: FontWeight.w500,
-            fontSize: 20),
-      );
+      return controller.currentIndex.value == 0
+          ? const Text(
+              "Search by category",
+              style: TextStyle(
+                  color: Color(0xff423E5E),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20),
+            )
+          : Text(
+              title[controller.currentIndex.value],
+              style: const TextStyle(
+                  color: AppTheme.backgroundcolor,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20),
+            );
     }),
-    leadingWidth: AddSize.size40,
-    leading: Padding(
-      padding: EdgeInsets.only(left: AddSize.padding10),
-      child: GestureDetector(
-        child: Image.asset(
-          AppAssets.drawerImage,
-          height: AddSize.size20,
-        ),
-        onTap: () {
-          controller.scaffoldKey.currentState!.openDrawer();
-        },
-      ),
-    ),
+    // leadingWidth: controller.currentIndex.value != 0 ? AddSize.size40 : 100,
+    // leading: controller.currentIndex.value == 0
+    //     ? Container(
+    //         width: 24,
+    //         height: 24,
+    //         decoration: BoxDecoration(
+    //           borderRadius: BorderRadius.circular(20),
+    //           color: Color(0xff4169E2),
+    //         ),
+    //         child: const Icon(Icons.arrow_back_ios_new))
+    //     : Padding(
+    //         padding: EdgeInsets.only(left: AddSize.padding10),
+    //         child: GestureDetector(
+    //           child: Image.asset(
+    //             AppAssets.drawerImage,
+    //             height: AddSize.size20,
+    //           ),
+    //           onTap: () {
+    //             controller.scaffoldKey.currentState!.openDrawer();
+    //           },
+    //         ),
+    //       ),
     actions: [
       IconButton(
         icon: Image.asset(
@@ -58,48 +78,42 @@ AppBar buildAppBar(
         },
       ),
       addWidth(10),
-      Padding(
-        padding: const EdgeInsets.only(right: 16.0),
-        child: GestureDetector(
-          onTap: () async {
-            Get.back();
-            controller.onItemTap(4);
-            // SharedPreferences pref =
-            // await SharedPreferences.getInstance();
-            // if (pref.getString('user') != null) {
-            //   // ModelLogInData? user = ModelLogInData.fromJson(jsonDecode(pref.getString('user')!));
-            //
-            //   Get.off(CustomNavigationBar(
-            //     index: 4,
-            //   ));
-            // } else {
-            //   Get.toNamed(MyRouter.logInScreen);
-            // }
-          },
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            radius: 20,
-            child: Container(
-                height: 38,
-                width: 38,
-                clipBehavior: Clip.antiAlias,
-                // margin: EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  // color: Colors.brown
-                ),
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl:profile != "" ? profile :
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
-                  height: 20,
-                  width: 30,
-                  errorWidget: (_, __, ___) => const SizedBox(),
-                  placeholder: (_, __) => const SizedBox(),
-                )),
-          ),
-        ),
-      )
+      if (controller.currentIndex.value != 0)
+        Obx(() {
+          return Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: GestureDetector(
+              onTap: () async {
+                Get.back();
+                controller.onItemTap(4);
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                radius: 20,
+                child: Container(
+                    height: 38,
+                    width: 38,
+                    clipBehavior: Clip.antiAlias,
+                    // margin: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      // color: Colors.brown
+                    ),
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: profileController.isDataLoading.value
+                          ? profileController.model.value.data!.profileImage
+                              .toString()
+                          : "",
+                      height: 20,
+                      width: 30,
+                      errorWidget: (_, __, ___) => const SizedBox(),
+                      placeholder: (_, __) => const SizedBox(),
+                    )),
+              ),
+            ),
+          );
+        })
     ],
   );
 }

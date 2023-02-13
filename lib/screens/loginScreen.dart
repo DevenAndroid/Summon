@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/otpscreen.dart';
@@ -64,34 +65,82 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: height * .02,
                         ),
-                        CommonTextFieldWidget(
-                            controller: phoneNumberController,
-                            hint: "Mobile Number",
-                            keyboardType: TextInputType.number,
-                            validator: validateMobile,
-                            length: 10,
-                            prefix: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: width * .02,
-                                ),
-                                Text(
-                                  "+91",
-                                  style: TextStyle(
-                                      color: AppTheme.userText,
-                                      fontSize: AddSize.font14),
-                                ),
-                                SizedBox(
-                                  width: width * .02,
-                                ),
-                                Container(
-                                  height: height * .03,
-                                  width: width * .003,
-                                  color: AppTheme.greycolor,
-                                )
-                              ],
-                            )),
+                        // CommonTextFieldWidget(
+                        //     controller: phoneNumberController,
+                        //     hint: "Mobile Number",
+                        //     keyboardType: TextInputType.number,
+                        //     validator: validateMobile,
+                        //     length: 10,
+                        //     prefix: Row(
+                        //       mainAxisSize: MainAxisSize.min,
+                        //       children: [
+                        //         SizedBox(
+                        //           width: width * .02,
+                        //         ),
+                        //         Text(
+                        //           "+91",
+                        //           style: TextStyle(
+                        //               color: AppTheme.userText,
+                        //               fontSize: AddSize.font14),
+                        //         ),
+                        //         SizedBox(
+                        //           width: width * .02,
+                        //         ),
+                        //         Container(
+                        //           height: height * .03,
+                        //           width: width * .003,
+                        //           color: AppTheme.greycolor,
+                        //         ),
+                        //       ],
+                        //     )),
+                        TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          maxLength: 10,
+                          controller: phoneNumberController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: InputDecoration(
+                              counterText: "",
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 18.0),
+                              border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none),
+                              hintText: "Mobile Number",
+                              fillColor: Colors.white,
+                              filled: true,
+                              prefixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    width: width * .02,
+                                  ),
+                                  Text(
+                                    "+91",
+                                    style: TextStyle(
+                                        color: AppTheme.userText,
+                                        fontSize: AddSize.font14),
+                                  ),
+                                  SizedBox(
+                                    width: width * .02,
+                                  ),
+                                  Container(
+                                    height: height * .03,
+                                    width: width * .003,
+                                    color: AppTheme.greycolor,
+                                  ),
+                                ],
+                              )),
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 10) {
+                              return 'Please enter the valid number';
+                            }
+                            return null;
+                          },
+                        ),
+
                         SizedBox(
                           height: height * .02,
                         ),

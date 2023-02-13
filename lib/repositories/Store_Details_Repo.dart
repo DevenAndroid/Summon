@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/Cart_Related_product_Model.dart';
+import '../model/Store_Details_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<CartRelatedProductModel> addToCartRelatedRepo() async {
+Future<StoreDetailsModel> storeDetailsRepo() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -16,15 +16,15 @@ Future<CartRelatedProductModel> addToCartRelatedRepo() async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   // OverlayEntry loader = Helpers.overlayLoader(context);
-  // Overlay.of(context)!.insert(loader);
+  // Overlay.of(context).insert(loader);
   try {
     final response =
-        await http.get(Uri.parse(ApiUrl.addToCartRelatedUrl), headers: headers);
+        await http.get(Uri.parse(ApiUrl.storeDetailsUrl), headers: headers);
 
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
-      print("Cart Related Product Repo...${response.body}");
-      return CartRelatedProductModel.fromJson(jsonDecode(response.body));
+      print("Store details Data...${response.body}");
+      return StoreDetailsModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

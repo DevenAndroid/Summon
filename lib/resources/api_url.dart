@@ -11,8 +11,11 @@ class ApiUrl {
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const storeUrl = "${baseUrl}store";
   static const homeUrl = "${baseUrl}home";
-  static const nearStores = "${baseUrl}near-stores";
+  static const nearStores = "${baseUrl}stores";
   static const myCartUrl = "${baseUrl}my-cart";
   static const addCartUrl = "${baseUrl}add-cart";
+  static const removeCartItemUrl = "${baseUrl}remove-cart-item";
   static const addToCartRelatedUrl = "${baseUrl}cart-related-product";
+  static const homeSearchUrl = "${baseUrl}search";
+  static const storeDetailsUrl = "${baseUrl}store-details/4";
 }

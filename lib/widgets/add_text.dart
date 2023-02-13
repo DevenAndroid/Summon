@@ -49,12 +49,13 @@ String? validateMoney(String? money) {
 }
 
 showToast(message) {
+  Fluttertoast.cancel();
   Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: AppTheme.blackcolor,
+      backgroundColor: Colors.blue,
       textColor: Colors.white,
       fontSize: 16.0);
 }

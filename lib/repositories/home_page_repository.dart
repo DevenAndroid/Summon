@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:fresh2_arrive/model/category_model.dart';
 import 'package:fresh2_arrive/model/home_page_model.dart';
 import 'package:fresh2_arrive/model/verify_otp_model.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
@@ -15,7 +13,7 @@ Future<HomePageModel> homeData() async {
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
-     HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };

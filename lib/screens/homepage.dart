@@ -3,11 +3,15 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/home_page_controller.dart';
 import 'package:fresh2_arrive/controller/near_store_controller.dart';
+import 'package:fresh2_arrive/repositories/Add_To_Cart_Repo.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/My_cart_controller.dart';
+import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
-import '../repositories/near_store_repository.dart';
+import '../repositories/Homepage_search_Repo.dart';
+import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -21,10 +25,15 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  final homeSearchController = Get.put(HomePageController());
+  final myCartController = Get.put(MyCartDataListController());
+  final viewAllController = Get.put(CategoryController());
+
   final controller = Get.put(MainHomeController());
   final searchController = TextEditingController();
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
+  final addToCartQtyController = TextEditingController();
   RxString selectedCAt = "".obs;
   RxString price = "".obs;
   RxDouble sliderIndex = (0.0).obs;
@@ -79,12 +88,10 @@ class HomePageState extends State<HomePage> {
                                 onSubmitted: (value) => {},
                                 decoration: InputDecoration(
                                     filled: true,
-                                    // prefixIcon: Icon(
-                                    //   Icons.search_rounded,
-                                    //   color: Theme.of(context).iconTheme.color,
-                                    // ),
                                     suffixIcon: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        homeSearchRepo("New Vendor", context);
+                                      },
                                       icon: const Icon(
                                         Icons.search_rounded,
                                         color: AppTheme.primaryColor,
@@ -138,7 +145,7 @@ class HomePageState extends State<HomePage> {
                                               const SizedBox(),
                                           placeholder: (_, __) =>
                                               const SizedBox(),
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.contain,
                                         ),
                                       ))),
                             ),
@@ -178,264 +185,8 @@ class HomePageState extends State<HomePage> {
                                   padding: EdgeInsets.only(top: height * .02),
                                   physics: const BouncingScrollPhysics(),
                                   itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding:
-                                          EdgeInsets.only(right: width * .03),
-                                      child: Material(
-                                        color: AppTheme.backgroundcolor,
-                                        borderRadius: BorderRadius.circular(15),
-                                        elevation: 0,
-                                        child: Container(
-                                          width: width * .45,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.backgroundcolor,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            // boxShadow: [
-                                            //   BoxShadow(
-                                            //     color: Colors.grey.shade100,
-                                            //     offset: const Offset(
-                                            //       5.0,
-                                            //       5.0,
-                                            //     ),
-                                            //     blurRadius: 20.0,
-                                            //     spreadRadius: 2.0,
-                                            //   ),
-                                            // ]
-                                          ),
-                                          // height: height * .23,
-                                          child: Stack(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: width * .03,
-                                                ),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: height * .12,
-                                                        width: width * .25,
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          imageUrl: homeController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .bestFreshProduct![
-                                                                  index]
-                                                              .image
-                                                              .toString(),
-                                                          errorWidget: (_, __,
-                                                                  ___) =>
-                                                              const SizedBox(),
-                                                          placeholder: (_,
-                                                                  __) =>
-                                                              const SizedBox(),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: height * .01,
-                                                      ),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                              homeController
-                                                                  .model
-                                                                  .value
-                                                                  .data!
-                                                                  .bestFreshProduct![
-                                                                      index]
-                                                                  .name
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .blackcolor,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500)),
-                                                          DropdownButtonFormField(
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                fillColor: Colors
-                                                                    .grey
-                                                                    .shade50,
-                                                                border:
-                                                                    InputBorder
-                                                                        .none,
-                                                                enabled: true,
-                                                              ),
-                                                              hint: Text(
-                                                                'Select qty',
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .userText,
-                                                                    fontSize:
-                                                                        AddSize
-                                                                            .font14),
-                                                              ),
-                                                              // value: selectedCAt
-                                                              //             .value ==
-                                                              //         ""
-                                                              //     ? null
-                                                              //     : selectedCAt
-                                                              //         .value,
-                                                              items:
-                                                                  List.generate(
-                                                                      homeController
-                                                                          .model
-                                                                          .value
-                                                                          .data!
-                                                                          .bestFreshProduct![
-                                                                              index]
-                                                                          .varints!
-                                                                          .length,
-                                                                      (index1) =>
-                                                                          DropdownMenuItem(
-                                                                            value:
-                                                                                index1.toString(),
-                                                                            child:
-                                                                                Text(
-                                                                              "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty}${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
-                                                                              style: const TextStyle(fontSize: 16),
-                                                                            ),
-                                                                          )),
-                                                              // items: dropDownList.map((value) {
-                                                              //   return DropdownMenuItem(
-                                                              //     value: value,
-                                                              //     child: Text(
-                                                              //       value,
-                                                              //       style: const TextStyle(
-                                                              //           fontSize: 16),
-                                                              //     ),
-                                                              //   );
-                                                              // }).toList(),
-                                                              onChanged:
-                                                                  (newValue) {
-                                                                selectedCAt
-                                                                        .value =
-                                                                    newValue
-                                                                        .toString();
-                                                                for (int i = 0;
-                                                                    i <
-                                                                        homeController
-                                                                            .model
-                                                                            .value
-                                                                            .data!
-                                                                            .bestFreshProduct![index]
-                                                                            .varints!
-                                                                            .length;
-                                                                    i++) {
-                                                                  price.value = homeController
-                                                                      .model
-                                                                      .value
-                                                                      .data!
-                                                                      .bestFreshProduct![
-                                                                          index]
-                                                                      .varints![
-                                                                          i]
-                                                                      .price
-                                                                      .toString();
-                                                                }
-                                                              }
-                                                              // validator: (String? value) {
-                                                              //   if (value?.isEmpty ?? true) {
-                                                              //     return 'Please select bank';
-                                                              //   }
-                                                              //   return null;
-                                                              // },
-                                                              ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(
-                                                                "₹${price.value.toString() == "" ? homeController.model.value.data!.bestFreshProduct![index].varints![0].price.toString() : price.value.toString()}",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        AddSize
-                                                                            .font14,
-                                                                    color: AppTheme
-                                                                        .primaryColor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                              OutlinedButton(
-                                                                style: OutlinedButton
-                                                                    .styleFrom(
-                                                                  shape: const RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(6))),
-                                                                  minimumSize: Size(
-                                                                      AddSize
-                                                                          .size50,
-                                                                      AddSize
-                                                                          .size30),
-                                                                  side: const BorderSide(
-                                                                      color: AppTheme
-                                                                          .primaryColor,
-                                                                      width: 1),
-                                                                  backgroundColor:
-                                                                      AppTheme
-                                                                          .addColor,
-                                                                ),
-                                                                onPressed:
-                                                                    () {},
-                                                                child: Text(
-                                                                    'ADD',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AddSize
-                                                                                .font12,
-                                                                        color: AppTheme
-                                                                            .primaryColor,
-                                                                        fontWeight:
-                                                                            FontWeight.w600)),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          // OutlinedButton(
-                                                          //   style: OutlinedButton.styleFrom(
-                                                          //     shape: const RoundedRectangleBorder(
-                                                          //         borderRadius: BorderRadius.all(
-                                                          //             Radius.circular(10))),
-                                                          //     side: const BorderSide(
-                                                          //         color: AppTheme.primaryColor,
-                                                          //         width: 1),
-                                                          //     backgroundColor: AppTheme.addColor,
-                                                          //   ),
-                                                          //   onPressed: () {},
-                                                          //   child: const Text('ADD',
-                                                          //       style: TextStyle(
-                                                          //           color: AppTheme.primaryColor,
-                                                          //           fontWeight: FontWeight.w600)),
-                                                          // ),
-                                                        ],
-                                                      )
-                                                    ]),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
+                                    return buildProduct(
+                                        width, height, index, context);
                                   }),
                             ),
                             SizedBox(
@@ -452,7 +203,9 @@ class HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w600),
                                 ),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    controller.currentIndex.value = 0;
+                                  },
                                   child: const Text(
                                     'View All',
                                     style: TextStyle(
@@ -470,8 +223,8 @@ class HomePageState extends State<HomePage> {
                               child: GridView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
-                                  itemCount: homeController.model.value.data!
-                                      .bestFreshProduct!.length,
+                                  itemCount: homeController
+                                      .model.value.data!.latestCategory!.length,
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 4,
@@ -514,7 +267,7 @@ class HomePageState extends State<HomePage> {
                                                         .model
                                                         .value
                                                         .data!
-                                                        .sliderData![index]
+                                                        .latestCategory![index]
                                                         .image
                                                         .toString(),
                                                     errorWidget: (_, __, ___) =>
@@ -524,20 +277,22 @@ class HomePageState extends State<HomePage> {
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
-                                                // Image(
-                                                //   image: const AssetImage(
-                                                //       AppAssets.category_image),
-                                                //   height: AddSize.size50,
-                                                //   width: AddSize.size80,
-                                                //   fit: BoxFit.cover,
-                                                // ),
-                                                const Text(
-                                                  "Fruits",
-                                                  style: TextStyle(
-                                                      color: AppTheme.subText,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
+                                                Expanded(
+                                                  child: Text(
+                                                    homeController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .latestCategory![index]
+                                                        .slug
+                                                        .toString(),
+                                                    maxLines: 1,
+                                                    style: const TextStyle(
+                                                        color: AppTheme.subText,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -555,209 +310,150 @@ class HomePageState extends State<HomePage> {
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600),
                             ),
-                            SizedBox(
-                              height: height * .33,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: homeController
-                                      .model.value.data!.featuredStores!.length,
-                                  shrinkWrap: true,
-                                  padding: EdgeInsets.only(top: height * .02),
-                                  physics: const BouncingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding:
-                                          EdgeInsets.only(right: width * .03),
-                                      child: Material(
-                                        color: AppTheme.backgroundcolor,
-                                        borderRadius: BorderRadius.circular(16),
-                                        elevation: 0,
-                                        child: Container(
-                                          width: width * .5,
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.backgroundcolor,
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            // boxShadow: [
-                                            //   BoxShadow(
-                                            //     color: Colors.grey.shade100,
-                                            //     offset: const Offset(
-                                            //       5.0,
-                                            //       5.0,
-                                            //     ),
-                                            //     blurRadius: 20.0,
-                                            //     spreadRadius: 2.0,
-                                            //   ),
-                                            // ]
-                                          ),
-                                          // height: height * .23,
-                                          child: Stack(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: width * .03,
-                                                ),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: height * .19,
-                                                        width: width * .44,
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          child:
-                                                              CachedNetworkImage(
-                                                            imageUrl: homeController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .featuredStores![
-                                                                    index]
-                                                                .image
-                                                                .toString(),
-                                                            errorWidget: (_, __,
-                                                                    ___) =>
-                                                                const SizedBox(),
-                                                            placeholder: (_,
-                                                                    __) =>
-                                                                const SizedBox(),
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: height * .01,
-                                                      ),
-                                                      Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                              homeController
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(StoreScreen.singleStoreScreen);
+                              },
+                              child: SizedBox(
+                                height: height * .33,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: homeController.model.value.data!
+                                        .featuredStores!.length,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(top: height * .02),
+                                    physics: const BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.only(right: width * .03),
+                                        child: Material(
+                                          color: AppTheme.backgroundcolor,
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          elevation: 0,
+                                          child: Container(
+                                            width: width * .5,
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.backgroundcolor,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            ),
+                                            // height: height * .23,
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal: width * .03,
+                                                  ),
+                                                  child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: height * .19,
+                                                          width: width * .44,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl: homeController
                                                                   .model
                                                                   .value
                                                                   .data!
                                                                   .featuredStores![
                                                                       index]
-                                                                  .name
+                                                                  .image
                                                                   .toString(),
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .blackcolor,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500)),
-                                                          // Container(
-                                                          //   width: width * .20,
-                                                          //   padding:
-                                                          //       const EdgeInsets.symmetric(
-                                                          //           horizontal: 20.0),
-                                                          //   decoration: BoxDecoration(
-                                                          //       borderRadius:
-                                                          //           BorderRadius.circular(
-                                                          //               8.0),
-                                                          //       color: Colors.grey.shade200),
-                                                          //   child:
-                                                          //       DropdownButtonHideUnderline(
-                                                          //     child: DropdownButton(
-                                                          //       isExpanded: false,
-                                                          //       value: selectedCAt == ""
-                                                          //           ? null
-                                                          //           : selectedCAt,
-                                                          //       items:
-                                                          //           DropDownList.map((value) {
-                                                          //         return DropdownMenuItem(
-                                                          //           value: value.toString(),
-                                                          //           child: Text(
-                                                          //             value,
-                                                          //             style: TextStyle(
-                                                          //                 fontSize: 14),
-                                                          //           ),
-                                                          //         );
-                                                          //       }).toList(),
-                                                          //       onChanged: (newValue) {
-                                                          //         setState(() {
-                                                          //           selectedCAt =
-                                                          //               newValue as String?;
-                                                          //           print("object000" +
-                                                          //               selectedCAt
-                                                          //                   .toString());
-                                                          //         });
-                                                          //       },
-                                                          //     ),
-                                                          //   ),
-                                                          // ),
-                                                          SizedBox(
-                                                            height:
-                                                                height * .01,
+                                                              errorWidget: (_,
+                                                                      __,
+                                                                      ___) =>
+                                                                  const SizedBox(),
+                                                              placeholder: (_,
+                                                                      __) =>
+                                                                  const SizedBox(),
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                           ),
-                                                          Row(
-                                                            children: [
-                                                              const Icon(
-                                                                Icons
-                                                                    .location_on,
-                                                                color: AppTheme
-                                                                    .primaryColor,
-                                                                size: 20,
-                                                              ),
-                                                              SizedBox(
-                                                                width:
-                                                                    width * .02,
-                                                              ),
-                                                              Text(
-                                                                "${homeController.model.value.data!.featuredStores![index].distance.toString()}KM",
+                                                        ),
+                                                        SizedBox(
+                                                          height: height * .01,
+                                                        ),
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                                homeController
+                                                                    .model
+                                                                    .value
+                                                                    .data!
+                                                                    .featuredStores![
+                                                                        index]
+                                                                    .name
+                                                                    .toString(),
                                                                 style: TextStyle(
                                                                     color: AppTheme
                                                                         .blackcolor,
                                                                     fontSize:
                                                                         AddSize
-                                                                            .font12,
+                                                                            .font14,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          // OutlinedButton(
-                                                          //   style: OutlinedButton.styleFrom(
-                                                          //     shape: const RoundedRectangleBorder(
-                                                          //         borderRadius: BorderRadius.all(
-                                                          //             Radius.circular(10))),
-                                                          //     side: const BorderSide(
-                                                          //         color: AppTheme.primaryColor,
-                                                          //         width: 1),
-                                                          //     backgroundColor: AppTheme.addColor,
-                                                          //   ),
-                                                          //   onPressed: () {},
-                                                          //   child: const Text('ADD',
-                                                          //       style: TextStyle(
-                                                          //           color: AppTheme.primaryColor,
-                                                          //           fontWeight: FontWeight.w600)),
-                                                          // ),
-                                                        ],
-                                                      )
-                                                    ]),
-                                              ),
-                                            ],
+                                                                            .w500)),
+                                                            SizedBox(
+                                                              height:
+                                                                  height * .01,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons
+                                                                      .location_on,
+                                                                  color: AppTheme
+                                                                      .primaryColor,
+                                                                  size: 20,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: width *
+                                                                      .02,
+                                                                ),
+                                                                Text(
+                                                                  "${homeController.model.value.data!.featuredStores![index].distance.toString()}KM",
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .blackcolor,
+                                                                      fontSize:
+                                                                          AddSize
+                                                                              .font12,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ]),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }),
+                                      );
+                                    }),
+                              ),
                             ),
                           ],
                         )
@@ -775,14 +471,14 @@ class HomePageState extends State<HomePage> {
                                 ? const Text(
                                     'Stores Near You',
                                     style: TextStyle(
-                                        color: AppTheme.backgroundcolor,
+                                        color: AppTheme.blackcolor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   )
                                 : Text(
                                     '(${nearStoreController.model.value.data!.length}) Stores Near You',
                                     style: const TextStyle(
-                                        color: AppTheme.backgroundcolor,
+                                        color: AppTheme.blackcolor,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   ),
@@ -907,6 +603,266 @@ class HomePageState extends State<HomePage> {
             )),
       ),
     );
+  }
+
+  Padding buildProduct(
+      double width, double height, int index, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(right: width * .03),
+      child: Material(
+        color: AppTheme.backgroundcolor,
+        borderRadius: BorderRadius.circular(15),
+        elevation: 0,
+        child: Container(
+          width: width * .45,
+          decoration: BoxDecoration(
+            color: AppTheme.backgroundcolor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          // height: height * .23,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: width * .03,
+            ),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: height * .12,
+                    width: width * .25,
+                    child: CachedNetworkImage(
+                      imageUrl: homeController
+                          .model.value.data!.bestFreshProduct![index].image
+                          .toString(),
+                      errorWidget: (_, __, ___) => const SizedBox(),
+                      placeholder: (_, __) => const SizedBox(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * .01,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          homeController
+                              .model.value.data!.bestFreshProduct![index].name
+                              .toString(),
+                          style: TextStyle(
+                              color: AppTheme.blackcolor,
+                              fontSize: AddSize.font14,
+                              fontWeight: FontWeight.w500)),
+                      buildDropdownButtonFormField(index),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "₹${price.value.toString() == "" ? homeController.model.value.data!.bestFreshProduct![index].varints![0].price.toString() : price.value.toString()}",
+                            style: TextStyle(
+                                fontSize: AddSize.font14,
+                                color: AppTheme.primaryColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          myCartController.isDataLoaded.value
+                              ? myCartController.model.value.data!.cartItems!
+                                      .map((e) => e.productId.toString())
+                                      .toList()
+                                      .contains(homeController.model.value.data!
+                                          .bestFreshProduct![index].id
+                                          .toString())
+                                  ? Obx(() {
+                                      return Container(
+                                        width: width * .20,
+                                        decoration: BoxDecoration(
+                                            color: AppTheme.primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: width * .02,
+                                            vertical: height * .005,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  removeCartItemRepo(
+                                                      "9", context);
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                  size: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                myCartController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .cartItems![0]
+                                                    .cartItemQty
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: AddSize.font14,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  addToCartRepo(
+                                                          "10", "1", context)
+                                                      .then((value) {
+                                                    if (value.status == true) {
+                                                      showToast(value.message);
+
+                                                      myCartController
+                                                          .getAddToCartList();
+                                                    } else {
+                                                      showToast(value.message);
+                                                    }
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                  size: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  : OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6))),
+                                        minimumSize: Size(
+                                            AddSize.size50, AddSize.size30),
+                                        side: const BorderSide(
+                                            color: AppTheme.primaryColor,
+                                            width: 1),
+                                        backgroundColor: AppTheme.addColor,
+                                      ),
+                                      onPressed: () {
+                                        int vIndex = homeController
+                                            .model
+                                            .value
+                                            .data!
+                                            .bestFreshProduct![index]
+                                            .varientIndex!
+                                            .value;
+                                        if (vIndex != (-1)) {
+                                          addToCartRepo(
+                                                  homeController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .bestFreshProduct![index]
+                                                      .varints![vIndex]
+                                                      .id
+                                                      .toString(),
+                                                  '1',
+                                                  context)
+                                              .then((value) {
+                                            if (value.status == true) {
+                                              showToast(value.message);
+                                              myCartController
+                                                  .getAddToCartList();
+                                            } else {
+                                              showToast(value.message);
+                                            }
+                                          });
+                                        } else {
+                                          showToast("Select the Quantity");
+                                        }
+                                      },
+                                      child: Text(
+                                          // myCartController.isDataLoaded.value
+                                          //     ? myCartController
+                                          //             .model.value.data!.cartItems!
+                                          //             .map((e) => e.productId.toString())
+                                          //             .toList()
+                                          //             .contains(homeController
+                                          //                 .model
+                                          //                 .value
+                                          //                 .data!
+                                          //                 .bestFreshProduct![index]
+                                          //                 .id
+                                          //                 .toString())
+                                          //         ? "Increase"
+                                          //         : "ADD"
+                                          "ADD",
+                                          // myCartController.model.value.data!.cartItems!
+                                          //         .map((e) => e)
+                                          //         .toList()
+                                          //         .toString() +
+                                          //     "==" +
+                                          //     homeController.model.value.data!
+                                          //         .bestFreshProduct![index].id
+                                          //         .toString(),
+                                          //  'ADD',
+                                          style: TextStyle(
+                                              fontSize: AddSize.font12,
+                                              color: AppTheme.primaryColor,
+                                              fontWeight: FontWeight.w600)),
+                                    )
+                              : const SizedBox()
+                        ],
+                      ),
+                    ],
+                  )
+                ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  buildDropdownButtonFormField(int index) {
+    return Obx(() {
+      return DropdownButtonFormField<int>(
+          decoration: InputDecoration(
+            fillColor: Colors.grey.shade50,
+            border: InputBorder.none,
+            enabled: true,
+          ),
+          value: homeController.model.value.data!.bestFreshProduct![index]
+                      .varientIndex!.value ==
+                  (-1)
+              ? null
+              : homeController.model.value.data!.bestFreshProduct![index]
+                  .varientIndex!.value,
+          hint: Text(
+            'Select qty',
+            style:
+                TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          ),
+          items: List.generate(
+              homeController
+                  .model.value.data!.bestFreshProduct![index].varints!.length,
+              (index1) => DropdownMenuItem(
+                    value: index1,
+                    child: Text(
+                      "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty}${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  )),
+          onChanged: (newValue) {
+            homeController.model.value.data!.bestFreshProduct![index]
+                .varientIndex!.value = newValue!;
+          });
+    });
   }
 
   void applySearch(BuildContext context) {

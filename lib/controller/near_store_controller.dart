@@ -14,21 +14,24 @@ class NearStoreController extends GetxController {
 
   // final scrollController = ScrollController();
 
-
- Future<dynamic> getData({isFirstTime = false,context})async {
+  Future<dynamic> getData({isFirstTime = false, context}) async {
     if (isPaginationLoading.value && loadMore.value) {
       isPaginationLoading.value = false;
-     await loadWithPagination(page: page.value, pagination: pagination.value,context: context)
+      await loadWithPagination(
+              page: page.value, pagination: pagination.value, context: context)
           .then((value) {
-            if(isFirstTime){
-              model.value = value;
-            }
+        if (isFirstTime) {
+          model.value = value;
+        }
 
         isPaginationLoading.value = true;
         if (value.status!) {
           isDataLoading.value = true;
           page.value++;
-          model.value.data!.addAll(value.data!);
+          if (!isFirstTime) {
+            model.value.data!.addAll(value.data!);
+          }
+
           loadMore.value = value.link!.next ?? false;
         }
       });

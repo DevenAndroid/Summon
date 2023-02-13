@@ -10,9 +10,10 @@ import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<AddToCartData> addToCartRepo(variant_id, context) async {
+Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
   var map = <String, dynamic>{};
   map['variant_id'] = variant_id;
+  map['qty'] = qty;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,7 +27,7 @@ Future<AddToCartData> addToCartRepo(variant_id, context) async {
   try {
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
         body: jsonEncode(map), headers: headers);
-
+    print("Add To Cart Data...${response.body}");
     if (response.statusCode == 200) {
       Helpers.hideShimmer(loader);
       print("Add To Cart Data...${response.body}");
