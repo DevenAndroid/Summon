@@ -689,10 +689,7 @@ class HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               InkWell(
-                                                onTap: () {
-                                                  removeCartItemRepo(
-                                                      "9", context);
-                                                },
+                                                onTap: () {},
                                                 child: const Icon(
                                                   Icons.remove,
                                                   color:
@@ -705,7 +702,7 @@ class HomePageState extends State<HomePage> {
                                                     .model
                                                     .value
                                                     .data!
-                                                    .cartItems![0]
+                                                    .cartItems![index]
                                                     .cartItemQty
                                                     .toString(),
                                                 style: TextStyle(
