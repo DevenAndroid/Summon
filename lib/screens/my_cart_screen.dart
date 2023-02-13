@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/repositories/Remove_CartItem_Repo.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/screens/coupons_screen.dart';
 import 'package:fresh2_arrive/screens/payment_method.dart';
@@ -189,7 +190,16 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                       .spaceBetween,
                                                               children: [
                                                                 InkWell(
-                                                                  onTap: () {},
+                                                                  onTap: () {
+                                                                    removeCartItemRepo(
+                                                                        controller
+                                                                            .model
+                                                                            .value
+                                                                            .data!
+                                                                            .cartItems![index]
+                                                                            .id,
+                                                                        context);
+                                                                  },
                                                                   child:
                                                                       const Icon(
                                                                     Icons

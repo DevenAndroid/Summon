@@ -3,17 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-
-import '../model/Add_To_Cart_Model.dart';
-import '../model/My_Cart_Model.dart';
+import '../model/Remove_CartItem_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
+Future<RemoveCartItemModel> removeCartItemRepo(
+    String cart_item_id, context) async {
   var map = <String, dynamic>{};
-  map['variant_id'] = variant_id;
-  map['qty'] = qty;
+  map['cart_item_id'] = cart_item_id;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,12 +24,12 @@ Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
   Overlay.of(context).insert(loader);
   try {
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
-        body: jsonEncode(map), headers: headers);
-    print("Add To Cart Data...${response.body}");
+        body: (map), headers: headers);
+    print("Remove Cart Data...${response.body}");
     if (response.statusCode == 200) {
       Helpers.hideShimmer(loader);
-      print("Add To Cart Data...${response.body}");
-      return AddToCartData.fromJson(jsonDecode(response.body));
+      print("Remove Cart Data...${response.body}");
+      return RemoveCartItemModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

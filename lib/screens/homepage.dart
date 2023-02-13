@@ -11,6 +11,7 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../repositories/Homepage_search_Repo.dart';
+import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -285,6 +286,7 @@ class HomePageState extends State<HomePage> {
                                                         .latestCategory![index]
                                                         .slug
                                                         .toString(),
+                                                    maxLines: 1,
                                                     style: const TextStyle(
                                                         color: AppTheme.subText,
                                                         fontSize: 12,
@@ -663,66 +665,159 @@ class HomePageState extends State<HomePage> {
                                 color: AppTheme.primaryColor,
                                 fontWeight: FontWeight.w600),
                           ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6))),
-                              minimumSize: Size(AddSize.size50, AddSize.size30),
-                              side: const BorderSide(
-                                  color: AppTheme.primaryColor, width: 1),
-                              backgroundColor: AppTheme.addColor,
-                            ),
-                            onPressed: () {
-                              int vIndex = homeController.model.value.data!
-                                  .bestFreshProduct![index].varientIndex!.value;
-                              if (vIndex != (-1)) {
-                                addToCartRepo(
-                                        homeController
+                          myCartController.isDataLoaded.value
+                              ? myCartController.model.value.data!.cartItems!
+                                      .map((e) => e.productId.toString())
+                                      .toList()
+                                      .contains(homeController.model.value.data!
+                                          .bestFreshProduct![index].id
+                                          .toString())
+                                  ? Obx(() {
+                                      return Container(
+                                        width: width * .20,
+                                        decoration: BoxDecoration(
+                                            color: AppTheme.primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: width * .02,
+                                            vertical: height * .005,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  removeCartItemRepo(
+                                                      "9", context);
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                  size: 15,
+                                                ),
+                                              ),
+                                              Text(
+                                                myCartController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .cartItems![0]
+                                                    .cartItemQty
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: AddSize.font14,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  addToCartRepo(
+                                                          "10", "1", context)
+                                                      .then((value) {
+                                                    if (value.status == true) {
+                                                      showToast(value.message);
+
+                                                      myCartController
+                                                          .getAddToCartList();
+                                                    } else {
+                                                      showToast(value.message);
+                                                    }
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                  size: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  : OutlinedButton(
+                                      style: OutlinedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6))),
+                                        minimumSize: Size(
+                                            AddSize.size50, AddSize.size30),
+                                        side: const BorderSide(
+                                            color: AppTheme.primaryColor,
+                                            width: 1),
+                                        backgroundColor: AppTheme.addColor,
+                                      ),
+                                      onPressed: () {
+                                        int vIndex = homeController
                                             .model
                                             .value
                                             .data!
                                             .bestFreshProduct![index]
-                                            .varints![vIndex]
-                                            .id
-                                            .toString(),
-                                        '1',
-                                        context)
-                                    .then((value) {
-                                  if (value.status == true) {
-                                    showToast(value.message);
-                                    myCartController.getAddToCartList();
-                                  } else {
-                                    showToast(value.message);
-                                  }
-                                });
-                              } else {
-                                showToast("Select the Quantity");
-                              }
-                            },
-                            child: Text(
-                                // myCartController.model.value.data!
-                                //         .map((e) => e.id.toString())
-                                //         .toList()
-                                //         .contains(homeController.model.value
-                                //             .data!.bestFreshProduct![index].id
-                                //             .toString())
-                                //     ? "Product in card"
-                                //     : "ADD",
-                                // myCartController.model.value.data!
-                                //         .map((e) => e)
-                                //         .toList()
-                                //         .toString() +
-                                //     "==" +
-                                //     homeController.model.value.data!
-                                //         .bestFreshProduct![index].id
-                                //         .toString(),
-                                'ADD',
-                                style: TextStyle(
-                                    fontSize: AddSize.font12,
-                                    color: AppTheme.primaryColor,
-                                    fontWeight: FontWeight.w600)),
-                          )
+                                            .varientIndex!
+                                            .value;
+                                        if (vIndex != (-1)) {
+                                          addToCartRepo(
+                                                  homeController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .bestFreshProduct![index]
+                                                      .varints![vIndex]
+                                                      .id
+                                                      .toString(),
+                                                  '1',
+                                                  context)
+                                              .then((value) {
+                                            if (value.status == true) {
+                                              showToast(value.message);
+                                              myCartController
+                                                  .getAddToCartList();
+                                            } else {
+                                              showToast(value.message);
+                                            }
+                                          });
+                                        } else {
+                                          showToast("Select the Quantity");
+                                        }
+                                      },
+                                      child: Text(
+                                          // myCartController.isDataLoaded.value
+                                          //     ? myCartController
+                                          //             .model.value.data!.cartItems!
+                                          //             .map((e) => e.productId.toString())
+                                          //             .toList()
+                                          //             .contains(homeController
+                                          //                 .model
+                                          //                 .value
+                                          //                 .data!
+                                          //                 .bestFreshProduct![index]
+                                          //                 .id
+                                          //                 .toString())
+                                          //         ? "Increase"
+                                          //         : "ADD"
+                                          "ADD",
+                                          // myCartController.model.value.data!.cartItems!
+                                          //         .map((e) => e)
+                                          //         .toList()
+                                          //         .toString() +
+                                          //     "==" +
+                                          //     homeController.model.value.data!
+                                          //         .bestFreshProduct![index].id
+                                          //         .toString(),
+                                          //  'ADD',
+                                          style: TextStyle(
+                                              fontSize: AddSize.font12,
+                                              color: AppTheme.primaryColor,
+                                              fontWeight: FontWeight.w600)),
+                                    )
+                              : const SizedBox()
                         ],
                       ),
                     ],
