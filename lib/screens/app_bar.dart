@@ -102,9 +102,7 @@ AppBar buildAppBar(
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: profileController.isDataLoading.value
-                          ? profileController.model.value.data!.profileImage
-                              .toString()
-                          : "",
+                          ? (profileController.model.value.data!.profileImage??"").toString() : "",
                       height: 20,
                       width: 30,
                       errorWidget: (_, __, ___) => const SizedBox(),

@@ -72,7 +72,7 @@ class _AllCategoriesState extends State<AllCategories> {
                                     imageUrl: itemdata.image.toString(),
                                     errorWidget: (_, __, ___) => SizedBox(),
                                     placeholder: (_, __) => SizedBox(),
-                                    fit: BoxFit.contain,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),

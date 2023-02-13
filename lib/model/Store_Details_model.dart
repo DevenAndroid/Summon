@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class StoreDetailsModel {
   bool? status;
   String? message;
@@ -80,8 +82,8 @@ class LatestProducts {
   String? name;
   String? image;
   List<Varints>? varints;
-
-  LatestProducts({this.id, this.name, this.image, this.varints});
+  RxInt? varientIndex = (0).obs;
+  LatestProducts({this.id, this.name, this.image, this.varints,this.varientIndex});
 
   LatestProducts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
