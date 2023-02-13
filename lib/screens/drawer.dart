@@ -124,29 +124,39 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   color: Colors.white,
                                 ),
                                 child: CachedNetworkImage(
-                                  imageUrl: profileController.model.value.data!.profileImage.toString(),
+                                  imageUrl:
+                                      profileController.isDataLoading.value
+                                          ? (profileController.model.value.data!
+                                                      .profileImage ??
+                                                  "")
+                                              .toString()
+                                          : "",
                                   height: screenSize.height * 0.12,
                                   width: screenSize.height * 0.12,
                                   errorWidget: (_, __, ___) => const SizedBox(),
                                   placeholder: (_, __) => const SizedBox(),
-                                ))
-                            // Image.network(
-                            //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU",
-                            //   height: screenSize.height * 0.12,
-                            //   width: screenSize.height * 0.12,
-                            // )),
-                            ),
+                                  fit: BoxFit.cover,
+                                ))),
                       ),
                       SizedBox(
                         height: screenSize.height * 0.02,
                       ),
-                       Text(profileController.model.value.data!.name == null ?'Williams Jones':profileController.model.value.data!.name.toString(),
+                      Text(
+                          profileController.isDataLoading.value
+                              ? (profileController.model.value.data!.name ?? "")
+                                  .toString()
+                              : "",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 18,
                               color: Colors.white,
                               fontWeight: FontWeight.w500)),
-                       Text(profileController.model.value.data!.name == null ?'williamsjones@gmail.com':profileController.model.value.data!.name.toString(),
+                      Text(
+                          profileController.isDataLoading.value
+                              ? (profileController.model.value.data!.email ??
+                                      "")
+                                  .toString()
+                              : "",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 15,

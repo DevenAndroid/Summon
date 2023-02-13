@@ -68,8 +68,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       : buildAppBar(
                           false,
                           controller.currentIndex.value,
-                          profileController.model.value.data!.profileImage
-                              .toString())
+                          profileController.isDataLoading.value ?
+                          (profileController.model.value.data!.profileImage??"").toString():"")
                   : AppBar(
                       backgroundColor: Colors.transparent,
                       elevation: 0,

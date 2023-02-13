@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/store_controller.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
+import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -21,8 +25,8 @@ class StoreScreen extends StatefulWidget {
 class _StoreScreenState extends State<StoreScreen> {
   final singleStoreController = Get.put(StoreController());
   final myCartController = Get.put(MyCartDataListController());
-  final productRelatedController = Get.put(MyCartDataListController());
   final controller = Get.put(MainHomeController());
+  final categoryController = Get.put(CategoryController());
   final List<String> categoryData = ["Fruits", "Veggie", "Dairy", "Juice"];
   final List<String> dropDownList = ["1 pc", "2 pc", "3 pc"];
   String? selectedCAt;
@@ -40,7 +44,9 @@ class _StoreScreenState extends State<StoreScreen> {
     return Obx(() {
       return Scaffold(
         appBar: backAppBar(title: "Store", context: context),
-        body: singleStoreController.storeDetailsModel.value.data != null
+        body: singleStoreController.isDataLoading.value &&
+                categoryController.isDataLoading.value &&
+                singleStoreController.storeDetailsModel.value.data != null
             ? CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: <Widget>[
@@ -123,12 +129,20 @@ class _StoreScreenState extends State<StoreScreen> {
                     flexibleSpace: FlexibleSpaceBar(
                       background: Padding(
                         padding: EdgeInsets.only(bottom: AddSize.size45),
-                        child: Image.network(
-                          singleStoreController.storeDetailsModel.value.data!
-                              .storeDetails!.storeImage
+                        child: CachedNetworkImage(
+                          imageUrl: singleStoreController.storeDetailsModel
+                              .value.data!.storeDetails!.storeImage
                               .toString(),
+                          errorWidget: (_, __, ___) => const SizedBox(),
+                          placeholder: (_, __) => const SizedBox(),
                           fit: BoxFit.cover,
                         ),
+                        // Image.network(
+                        //   singleStoreController.storeDetailsModel.value.data!
+                        //       .storeDetails!.storeImage
+                        //       .toString(),
+                        //   fit: BoxFit.cover,
+                        // ),
                       ),
                     ),
                   ),
@@ -153,7 +167,80 @@ class _StoreScreenState extends State<StoreScreen> {
                               height: height * .01,
                             ),
                             SizedBox(
-                                height: height * 0.13, child: categoryList()),
+                                height: height * 0.13,
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemCount: min(
+                                    4,
+                                    categoryController.model.value.data!.length,
+                                  ),
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                        margin: EdgeInsets.only(
+                                          right: height * .01,
+                                        ),
+                                        decoration: BoxDecoration(
+                                            color: index % 3 == 0
+                                                ? AppTheme.appPrimaryPinkColor
+                                                : index % 3 == 2
+                                                    ? AppTheme
+                                                        .appPrimaryGreenColor
+                                                    : AppTheme
+                                                        .appPrimaryYellowColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: width * .03,
+                                            vertical: height * .005,
+                                          ),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: height * .01,
+                                              ),
+                                              SizedBox(
+                                                height: AddSize.size50 * 1.2,
+                                                width: AddSize.size50 * 1.3,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: categoryController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .image
+                                                        .toString(),
+                                                    errorWidget: (_, __, ___) =>
+                                                        const SizedBox(),
+                                                    placeholder: (_, __) =>
+                                                        const SizedBox(),
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: height * .01,
+                                              ),
+                                              Text(
+                                                categoryController.model.value
+                                                    .data![index].name
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.grey.shade600,
+                                                    fontSize: AddSize.font12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              )
+                                            ],
+                                          ),
+                                        ));
+                                  },
+                                )),
                             SizedBox(height: height * .015),
                             const Text(
                               "Latest Product",
@@ -199,25 +286,54 @@ class _StoreScreenState extends State<StoreScreen> {
                                                       CrossAxisAlignment.center,
                                                   children: [
                                                     SizedBox(
-                                                      height: height * .12,
-                                                      width: width * .25,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl:
-                                                            singleStoreController
-                                                                .storeDetailsModel
-                                                                .value
-                                                                .data!
-                                                                .latestProducts![
-                                                                    index]
-                                                                .image
-                                                                .toString(),
-                                                        errorWidget: (_, __,
-                                                                ___) =>
-                                                            const SizedBox(),
-                                                        placeholder: (_, __) =>
-                                                            const SizedBox(),
+                                                      height:
+                                                          AddSize.size50 * 1.2,
+                                                      width:
+                                                          AddSize.size50 * 1.6,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: singleStoreController
+                                                              .storeDetailsModel
+                                                              .value
+                                                              .data!
+                                                              .latestProducts![
+                                                                  index]
+                                                              .image
+                                                              .toString(),
+                                                          errorWidget: (_, __,
+                                                                  ___) =>
+                                                              const SizedBox(),
+                                                          placeholder: (_,
+                                                                  __) =>
+                                                              const SizedBox(),
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
+                                                    // SizedBox(
+                                                    //   height: height * .12,
+                                                    //   width: width * .25,
+                                                    //   child: CachedNetworkImage(
+                                                    //     imageUrl: singleStoreController
+                                                    //             .storeDetailsModel
+                                                    //             .value
+                                                    //             .data!
+                                                    //             .latestProducts![
+                                                    //                 index]
+                                                    //             .image
+                                                    //             .toString(),
+                                                    //     errorWidget: (_, __,
+                                                    //             ___) =>
+                                                    //         const SizedBox(),
+                                                    //     placeholder: (_, __) =>
+                                                    //         const SizedBox(),
+                                                    //     fit: BoxFit.contain,
+                                                    //   ),
+                                                    // ),
                                                     SizedBox(
                                                       width: width * .01,
                                                     ),
@@ -263,46 +379,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                     .grey
                                                                     .shade100),
                                                             child:
-                                                                DropdownButtonHideUnderline(
-                                                              child:
-                                                                  DropdownButton(
-                                                                isExpanded:
-                                                                    false,
-                                                                hint:
-                                                                    const Text(
-                                                                  'Select Category',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14),
-                                                                ),
-                                                                value: selectedCAt ==
-                                                                        ""
-                                                                    ? null
-                                                                    : selectedCAt,
-                                                                items: dropDownList
-                                                                    .map(
-                                                                        (value) {
-                                                                  return DropdownMenuItem(
-                                                                    value: value
-                                                                        .toString(),
-                                                                    child: Text(
-                                                                      value,
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              14),
-                                                                    ),
-                                                                  );
-                                                                }).toList(),
-                                                                onChanged:
-                                                                    (newValue) {
-                                                                  setState(() {
-                                                                    selectedCAt =
-                                                                        newValue
-                                                                            as String?;
-                                                                  });
-                                                                },
-                                                              ),
-                                                            ),
+                                                                buildDropdownButtonFormField(
+                                                                    index),
                                                           ),
                                                           SizedBox(
                                                             height:
@@ -323,9 +401,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                         width *
                                                                             .02,
                                                                   ),
-                                                                  const Text(
-                                                                    "₹12.0",
-                                                                    style: TextStyle(
+                                                                  Text(
+                                                                    "₹${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString()}",
+                                                                    style: const TextStyle(
                                                                         fontSize:
                                                                             15,
                                                                         color: AppTheme
@@ -338,9 +416,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                         width *
                                                                             .02,
                                                                   ),
-                                                                  const Text(
-                                                                    "₹12.0",
-                                                                    style: TextStyle(
+                                                                  Text(
+                                                                    "₹${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString()}",
+                                                                    style: const TextStyle(
                                                                         decoration:
                                                                             TextDecoration
                                                                                 .lineThrough,
@@ -353,68 +431,128 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              OutlinedButton(
-                                                                style: OutlinedButton
-                                                                    .styleFrom(
-                                                                  shape: const RoundedRectangleBorder(
+                                                              myCartController.isDataLoaded.value
+                                                                  ? myCartController.model.value.data!.cartItems!
+                                                                  .map((e) => e.productId.toString())
+                                                                  .toList()
+                                                                  .contains(singleStoreController.storeDetailsModel.value.data!
+                                                                  .latestProducts![index].id
+                                                                  .toString())
+                                                                  ? Obx(() {
+                                                                return Container(
+                                                                  width: width * .20,
+                                                                  decoration: BoxDecoration(
+                                                                      color: AppTheme.primaryColor,
                                                                       borderRadius:
-                                                                          BorderRadius.all(
-                                                                              Radius.circular(10))),
+                                                                      BorderRadius.circular(6)),
+                                                                  child: Padding(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                      vertical: height * .005,
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        InkWell(
+                                                                          onTap: () {
+                                                                            removeCartItemRepo(
+                                                                                singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
+                                                                          },
+                                                                          child: const Icon(
+                                                                            Icons.remove,
+                                                                            color:
+                                                                            AppTheme.backgroundcolor,
+                                                                            size: 15,
+                                                                          ),
+                                                                        ),
+                                                                        Text(
+                                                                          myCartController
+                                                                              .model
+                                                                              .value
+                                                                              .data!
+                                                                              .cartItems![0]
+                                                                              .cartItemQty
+                                                                              .toString(),
+                                                                          style: TextStyle(
+                                                                              fontSize: AddSize.font14,
+                                                                              color: AppTheme
+                                                                                  .backgroundcolor,
+                                                                              fontWeight:
+                                                                              FontWeight.w500),
+                                                                        ),
+                                                                        InkWell(
+                                                                          onTap: () {
+                                                                            addToCartRepo(
+                                                                                singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), "1", context)
+                                                                                .then((value) {
+                                                                              if (value.status == true) {
+                                                                                showToast(value.message);
+                                                                                myCartController
+                                                                                    .getAddToCartList();
+                                                                              } else {
+                                                                                showToast(value.message);
+                                                                              }
+                                                                            });
+                                                                          },
+                                                                          child: const Icon(
+                                                                            Icons.add,
+                                                                            color:
+                                                                            AppTheme.backgroundcolor,
+                                                                            size: 15,
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              })
+                                                                  : OutlinedButton(
+                                                                style: OutlinedButton.styleFrom(
+                                                                  shape: const RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.all(
+                                                                          Radius.circular(6))),
+                                                                  minimumSize: Size(
+                                                                      AddSize.size50, AddSize.size30),
                                                                   side: const BorderSide(
-                                                                      color: AppTheme
-                                                                          .primaryColor,
+                                                                      color: AppTheme.primaryColor,
                                                                       width: 1),
-                                                                  backgroundColor:
-                                                                      AppTheme
-                                                                          .addColor,
+                                                                  backgroundColor: AppTheme.addColor,
                                                                 ),
                                                                 onPressed: () {
-                                                                  addToCartRepo(
-                                                                          "10",
-                                                                          "1",
-                                                                          context)
-                                                                      .then(
-                                                                          (value) {
-                                                                    if (value
-                                                                            .status ==
-                                                                        true) {
-                                                                      showToast(
-                                                                          value
-                                                                              .message);
-                                                                      myCartController
-                                                                          .getAddToCartList();
-                                                                    } else {
-                                                                      showToast(
-                                                                          value
-                                                                              .message);
-                                                                    }
-                                                                  });
+                                                                  int vIndex = singleStoreController.storeDetailsModel.value.data!
+                                                                      .latestProducts![index]
+                                                                      .varientIndex!
+                                                                      .value;
+                                                                  if (vIndex != (-1)) {
+                                                                    addToCartRepo(
+                                                                        singleStoreController.storeDetailsModel.value.data!
+                                                                            .latestProducts![index]
+                                                                            .varints![vIndex]
+                                                                            .id
+                                                                            .toString(),
+                                                                        '1',
+                                                                        context)
+                                                                        .then((value) {
+                                                                      if (value.status == true) {
+                                                                        showToast(value.message);
+                                                                        myCartController
+                                                                            .getAddToCartList();
+                                                                      } else {
+                                                                        showToast(value.message);
+                                                                      }
+                                                                    });
+                                                                  } else {
+                                                                    showToast("Select the Quantity");
+                                                                  }
                                                                 },
-                                                                child: const Text(
-                                                                    'ADD',
+                                                                child: Text(
+                                                                    "ADD",
                                                                     style: TextStyle(
-                                                                        fontSize:
-                                                                            12,
-                                                                        color: AppTheme
-                                                                            .primaryColor,
-                                                                        fontWeight:
-                                                                            FontWeight.w600)),
+                                                                        fontSize: AddSize.font12,
+                                                                        color: AppTheme.primaryColor,
+                                                                        fontWeight: FontWeight.w600)),
                                                               )
-                                                              // ElevatedButton(
-                                                              //     onPressed: () {
-                                                              //       // Get.toNamed(MyRouter.summaryScreen);
-                                                              //     },
-                                                              //     style: ElevatedButton.styleFrom(
-                                                              //         // backgroundColor: Colors.black
-                                                              //         ),
-                                                              //     child: const Text(
-                                                              //       "Add",
-                                                              //       style: TextStyle(
-                                                              //           color: Colors.white,
-                                                              //           fontWeight:
-                                                              //               FontWeight.w500,
-                                                              //           fontSize: 18),
-                                                              //     )),
+                                                                  : const SizedBox()
                                                             ],
                                                           ),
                                                         ],
@@ -439,9 +577,24 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                 bottomRight: Radius
                                                                     .circular(
                                                                         10))),
-                                                    child: const Center(
+                                                    child: Center(
                                                         child: Text(
-                                                      "20% OFF",
+                                                      singleStoreController
+                                                          .storeDetailsModel
+                                                          .value
+                                                          .data!
+                                                          .latestProducts![
+                                                              index]
+                                                          .varints![singleStoreController
+                                                              .storeDetailsModel
+                                                              .value
+                                                              .data!
+                                                              .latestProducts![
+                                                                  index]
+                                                              .varientIndex!
+                                                              .value]
+                                                          .discountOff
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontSize: 14,
                                                           color: AppTheme
@@ -528,58 +681,36 @@ class _StoreScreenState extends State<StoreScreen> {
     });
   }
 
-  categoryList() {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const BouncingScrollPhysics(),
-      itemCount: categoryData.length,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-            margin: EdgeInsets.only(
-              right: height * .01,
-            ),
-            decoration: BoxDecoration(
-                color: index % 3 == 0
-                    ? AppTheme.appPrimaryPinkColor
-                    : index % 3 == 2
-                        ? AppTheme.appPrimaryGreenColor
-                        : AppTheme.appPrimaryYellowColor,
-                borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: width * .03,
-                vertical: height * .005,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: height * .01,
-                  ),
-                  Image(
-                    image: const AssetImage(
-                      AppAssets.category_image,
+  buildDropdownButtonFormField(int index) {
+    return Obx(() {
+      return DropdownButtonFormField<int>(
+          decoration: InputDecoration(
+            fillColor: Colors.grey.shade50,
+            border: InputBorder.none,
+            enabled: true,
+          ),
+          value: singleStoreController.storeDetailsModel.value.data!
+              .latestProducts![index].varientIndex!.value,
+          hint: Text(
+            'Select qty',
+            style:
+                TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          ),
+          items: List.generate(
+              singleStoreController.storeDetailsModel.value.data!
+                  .latestProducts![index].varints!.length,
+              (index1) => DropdownMenuItem(
+                    value: index1,
+                    child: Text(
+                      "${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![index1].variantQty}${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![index1].variantQtyType}",
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    height: AddSize.size50,
-                    width: AddSize.size80,
-                    fit: BoxFit.contain,
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Text(
-                    categoryData[index],
-                    style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: AddSize.font12,
-                        fontWeight: FontWeight.w500),
-                  )
-                ],
-              ),
-            ));
-      },
-    );
+                  )),
+          onChanged: (newValue) {
+            singleStoreController.storeDetailsModel.value.data!
+                .latestProducts![index].varientIndex!.value = newValue!;
+            setState(() {});
+          });
+    });
   }
 }

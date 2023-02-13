@@ -23,7 +23,7 @@ Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
   try {
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
         body: jsonEncode(map), headers: headers);
