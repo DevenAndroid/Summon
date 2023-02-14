@@ -6,7 +6,6 @@ import 'package:fresh2_arrive/model/verify_otp_model.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/user_profile_model.dart';
 
 Future<HomePageModel> homeData() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
