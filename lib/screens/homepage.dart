@@ -633,8 +633,7 @@ class HomePageState extends State<HomePage> {
                     width: width * .25,
                     child: CachedNetworkImage(
                       imageUrl: homeController
-                          .model.value.data!.bestFreshProduct![index].image
-                          .toString(),
+                          .model.value.data!.bestFreshProduct![index].image.toString(),
                       errorWidget: (_, __, ___) => const SizedBox(),
                       placeholder: (_, __) => const SizedBox(),
                     ),

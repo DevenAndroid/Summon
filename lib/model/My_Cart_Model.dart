@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class MyCartData {
   bool? status;
   String? message;
@@ -65,6 +67,7 @@ class CartItems {
   dynamic cartItemQty;
   dynamic totalPrice;
   dynamic image;
+  RxInt qty = 1.obs;
 
   CartItems(
       {this.id,
@@ -75,7 +78,9 @@ class CartItems {
       this.variantPrice,
       this.cartItemQty,
       this.totalPrice,
-      this.image});
+      this.image,
+        required this.qty,
+      });
 
   CartItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
