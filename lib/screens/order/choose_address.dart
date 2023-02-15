@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import '../../repositories/myAddress_repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
@@ -456,13 +457,13 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.maxFinite, 60),
-                                primary: AppTheme.primaryColor,
+                                primary: Colors.green,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                               ),
                               child: Text(
-                                "SAVE ADDRESS",
+                                "Enter complete address",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5!

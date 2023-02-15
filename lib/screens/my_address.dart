@@ -3,6 +3,7 @@ import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../../resources/app_theme.dart';
+import '../controller/MyAddress_controller.dart';
 
 class MyAddress extends StatefulWidget {
   const MyAddress({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class MyAddress extends StatefulWidget {
 }
 
 class _MyAddressState extends State<MyAddress> {
+  final addressController = Get.put(MyAddressController());
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -51,84 +53,133 @@ class _MyAddressState extends State<MyAddress> {
                       ],
                     ),
                   ),
-                  ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(top: height * .01),
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10)),
-                          // height: height * .23,
-                          child: InkWell(
-                            onTap: () {
-                              // Get.toNamed(OrderDetails.orderDetailsScreen);
-                            },
-                            child: Card(
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: width * .03,
-                                      vertical: height * .01),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Home Address",
-                                        style: TextStyle(
-                                            color: AppTheme.blackcolor,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      const Text(
-                                        "Sector 44, Gurgaon, Haryana",
-                                        style: TextStyle(
-                                            color: AppTheme.lightblack,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      SizedBox(height: height * .01),
-                                      Row(
+                  addressController.isAddressLoad.value
+                      ? ListView.builder(
+                          itemCount: addressController
+                              .myAddressModel.value.data!.length,
+                          shrinkWrap: true,
+                          padding: EdgeInsets.only(top: height * .01),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10)),
+                              // height: height * .23,
+                              child: InkWell(
+                                onTap: () {
+                                  // Get.toNamed(OrderDetails.orderDetailsScreen);
+                                },
+                                child: Card(
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: width * .03,
+                                          vertical: height * .01),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          TextButton(
-                                            onPressed: () {},
-                                            child: const Text(
-                                              "Remove",
-                                              style: TextStyle(
-                                                  color: AppTheme.primaryColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                                          Text(
+                                            addressController.myAddressModel
+                                                .value.data![index].addressType
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: AppTheme.blackcolor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
                                           ),
-                                          SizedBox(width: width * .02),
-                                          Container(
-                                            color: AppTheme.primaryColor,
-                                            height: height * .012,
-                                            width: width * .003,
+                                          Row(
+                                            children: [
+                                              Text(
+                                                addressController.myAddressModel
+                                                    .value.data![index].street
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    color: AppTheme.lightblack,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              const SizedBox(
+                                                width: 6,
+                                              ),
+                                              Text(
+                                                'Flat no ${addressController.myAddressModel.value.data![index].flatNo.toString()}',
+                                                style: const TextStyle(
+                                                    color: AppTheme.lightblack,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                              const SizedBox(
+                                                width: 6,
+                                              ),
+                                              Text(
+                                                'Landmark ${addressController.myAddressModel.value.data![index].landmark.toString()}',
+                                                style: const TextStyle(
+                                                    color: AppTheme.lightblack,
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
                                           ),
-                                          TextButton(
-                                            onPressed: () {},
-                                            child: const Text(
-                                              "Edit",
-                                              style: TextStyle(
-                                                  color: AppTheme.primaryColor,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
+                                          Text(
+                                            addressController.myAddressModel
+                                                .value.data![index].location
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: AppTheme.blackcolor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
                                           ),
+                                          SizedBox(height: height * .01),
+                                          Row(
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {},
+                                                child: const Text(
+                                                  "Remove",
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppTheme.primaryColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                              SizedBox(width: width * .02),
+                                              Container(
+                                                color: AppTheme.primaryColor,
+                                                height: height * .012,
+                                                width: width * .003,
+                                              ),
+                                              TextButton(
+                                                onPressed: () {},
+                                                child: const Text(
+                                                  "Edit",
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppTheme.primaryColor,
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                            ],
+                                          )
                                         ],
-                                      )
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        );
-                      }),
+                                      ),
+                                    )),
+                              ),
+                            );
+                          })
+                      : Container(),
                   SizedBox(
                     height: height * .05,
                   ),
