@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/controller/store_controller.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
@@ -20,6 +21,7 @@ class StoreListScreen extends StatefulWidget {
 class _StoreListScreenState extends State<StoreListScreen> {
   final scrollController = ScrollController();
   final nearStoreController = Get.put(NearStoreController());
+  final storeController = Get.put(StoreController());
 
   void _scrollListener() {
     if (scrollController.position.pixels ==
@@ -67,126 +69,159 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   )
-                                : Text(
-                                    '(${nearStoreController.model.value.data!.length}) Stores Near You',
-                                    style: const TextStyle(
-                                        color: AppTheme.backgroundcolor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '(${nearStoreController.model.value.data!.length}) Stores Near You',
+                                        style: const TextStyle(
+                                            color: AppTheme.backgroundcolor,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(
+                                        height: height * .01,
+                                      ),
+                                      Obx(() {
+                                        return ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemCount: nearStoreController
+                                              .model.value.data!.length,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return InkWell(
+                                                onTap: () {
+                                                  Get.toNamed(StoreScreen
+                                                      .singleStoreScreen);
+                                                  storeController
+                                                          .storeId.value =
+                                                      nearStoreController.model
+                                                          .value.data![index].id
+                                                          .toString();
+                                                },
+                                                child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    decoration: BoxDecoration(
+                                                        color: AppTheme
+                                                            .backgroundcolor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16)),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: AddSize
+                                                                  .padding10,
+                                                              vertical: AddSize
+                                                                  .padding10),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height:
+                                                                height * .19,
+                                                            width: width,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl: nearStoreController
+                                                                    .model
+                                                                    .value
+                                                                    .data![
+                                                                        index]
+                                                                    .image
+                                                                    .toString(),
+                                                                errorWidget: (_,
+                                                                        __,
+                                                                        ___) =>
+                                                                    const SizedBox(),
+                                                                placeholder: (_,
+                                                                        __) =>
+                                                                    const SizedBox(),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          addHeight(10),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                nearStoreController
+                                                                    .model
+                                                                    .value
+                                                                    .data![
+                                                                        index]
+                                                                    .name
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .blackcolor,
+                                                                    fontSize:
+                                                                        AddSize
+                                                                            .font14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                              Row(
+                                                                children: [
+                                                                  const Icon(
+                                                                    Icons
+                                                                        .location_on,
+                                                                    color: AppTheme
+                                                                        .primaryColor,
+                                                                    size: 20,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width:
+                                                                        width *
+                                                                            .02,
+                                                                  ),
+                                                                  Text(
+                                                                    "${nearStoreController.model.value.data![index].distance.toString()} KM",
+                                                                    style: TextStyle(
+                                                                        color: AppTheme
+                                                                            .blackcolor,
+                                                                        fontSize:
+                                                                            AddSize
+                                                                                .font12,
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )));
+                                          },
+                                        );
+                                      }),
+                                      SizedBox(
+                                        height: height * .04,
+                                      )
+                                    ],
                                   ),
-                            SizedBox(
-                              height: height * .01,
-                            ),
-                            Obx(() {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: nearStoreController
-                                    .model.value.data!.length,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                      onTap: () {
-                                        Get.toNamed(
-                                            StoreScreen.singleStoreScreen);
-                                      },
-                                      child: Container(
-                                          margin:
-                                              const EdgeInsets.only(top: 10),
-                                          decoration: BoxDecoration(
-                                              color: AppTheme.backgroundcolor,
-                                              borderRadius:
-                                                  BorderRadius.circular(16)),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: AddSize.padding10,
-                                                vertical: AddSize.padding10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(
-                                                  height: height * .19,
-                                                  width: width,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          nearStoreController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .image
-                                                              .toString(),
-                                                      errorWidget:
-                                                          (_, __, ___) =>
-                                                              const SizedBox(),
-                                                      placeholder: (_, __) =>
-                                                          const SizedBox(),
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                                addHeight(10),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      nearStoreController
-                                                          .model
-                                                          .value
-                                                          .data![index]
-                                                          .name
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: AppTheme
-                                                              .blackcolor,
-                                                          fontSize:
-                                                              AddSize.font14,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.location_on,
-                                                          color: AppTheme
-                                                              .primaryColor,
-                                                          size: 20,
-                                                        ),
-                                                        SizedBox(
-                                                          width: width * .02,
-                                                        ),
-                                                        Text(
-                                                          "${nearStoreController.model.value.data![index].distance.toString()} KM",
-                                                          style: TextStyle(
-                                                              color: AppTheme
-                                                                  .blackcolor,
-                                                              fontSize: AddSize
-                                                                  .font12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          )));
-                                },
-                              );
-                            }),
-                            SizedBox(
-                              height: height * .04,
-                            )
                           ],
                         )
                       : SizedBox();

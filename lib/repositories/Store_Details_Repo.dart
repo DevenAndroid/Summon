@@ -6,7 +6,7 @@ import '../model/Store_Details_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<StoreDetailsModel> storeDetailsRepo() async {
+Future<StoreDetailsModel> storeDetailsRepo(id) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -17,12 +17,14 @@ Future<StoreDetailsModel> storeDetailsRepo() async {
   };
   // OverlayEntry loader = Helpers.overlayLoader(context);
   // Overlay.of(context).insert(loader);
+  print("${ApiUrl.storeDetailsUrl}/$id");
   try {
     final response =
-        await http.get(Uri.parse(ApiUrl.storeDetailsUrl), headers: headers);
+        await http.get(Uri.parse("${ApiUrl.storeDetailsUrl}/$id"), headers: headers);
 
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
+      print("${ApiUrl.storeDetailsUrl}/$id");
       print("Store details Data...${response.body}");
       return StoreDetailsModel.fromJson(jsonDecode(response.body));
     } else {

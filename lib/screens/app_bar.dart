@@ -45,28 +45,31 @@ AppBar buildAppBar(
                   fontSize: 20),
             );
     }),
-    // leadingWidth: controller.currentIndex.value != 0 ? AddSize.size40 : 100,
-    // leading: controller.currentIndex.value == 0
-    //     ? Container(
-    //         width: 24,
-    //         height: 24,
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(20),
-    //           color: Color(0xff4169E2),
-    //         ),
-    //         child: const Icon(Icons.arrow_back_ios_new))
-    //     : Padding(
-    //         padding: EdgeInsets.only(left: AddSize.padding10),
-    //         child: GestureDetector(
-    //           child: Image.asset(
-    //             AppAssets.drawerImage,
-    //             height: AddSize.size20,
-    //           ),
-    //           onTap: () {
-    //             controller.scaffoldKey.currentState!.openDrawer();
-    //           },
-    //         ),
-    //       ),
+    leadingWidth: controller.currentIndex.value != 0 ? AddSize.size40 : AddSize.size20 * 1.6,
+    leading: controller.currentIndex.value == 0
+        ? Padding(
+      padding: EdgeInsets.only(left: AddSize.padding10),
+      child: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Image.asset(
+                AppAssets.back,
+                height: AddSize.size20,
+              )),
+    )
+        : Padding(
+            padding: EdgeInsets.only(left: AddSize.padding10),
+            child: GestureDetector(
+              child: Image.asset(
+                AppAssets.drawerImage,
+                height: AddSize.size20,
+              ),
+              onTap: () {
+                controller.scaffoldKey.currentState!.openDrawer();
+              },
+            ),
+          ),
     actions: [
       IconButton(
         icon: Image.asset(
@@ -102,7 +105,10 @@ AppBar buildAppBar(
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: profileController.isDataLoading.value
-                          ? (profileController.model.value.data!.profileImage??"").toString() : "",
+                          ? (profileController.model.value.data!.profileImage ??
+                                  "")
+                              .toString()
+                          : "",
                       height: 20,
                       width: 30,
                       errorWidget: (_, __, ___) => const SizedBox(),

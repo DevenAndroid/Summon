@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/model_common_ressponse.dart';
@@ -24,7 +25,7 @@ Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
   };
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
-  print(map);
+  log(map.toString());
   try {
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
         body: jsonEncode(map), headers: headers);
