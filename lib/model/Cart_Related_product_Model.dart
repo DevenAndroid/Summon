@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class CartRelatedProductModel {
   bool? status;
   String? message;
@@ -43,8 +45,9 @@ class Data {
   String? name;
   String? image;
   List<Varints>? varints;
+  RxInt? varientIndex = (0).obs;
 
-  Data({this.id, this.name, this.image, this.varints});
+  Data({this.id, this.name, this.image, this.varints,this.varientIndex});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

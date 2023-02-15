@@ -40,7 +40,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: height * .016),
-            child: controller.isDataLoaded.value == true
+            child: controller.isDataLoaded.value
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -100,6 +100,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                           controller
@@ -194,8 +197,28 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         .spaceBetween,
                                                                 children: [
                                                                   InkWell(
-                                                                    onTap:
-                                                                        () {},
+                                                                    onTap: () {
+                                                                      updateCartRepo(
+                                                                              controller.model.value.data!.cartItems![index].id.toString(),
+                                                                              int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) - 1,
+                                                                              context)
+                                                                          .then((value) {
+                                                                        showToast(
+                                                                            value.message);
+                                                                        if (value.status ==
+                                                                            true) {
+                                                                          controller
+                                                                              .model
+                                                                              .value
+                                                                              .data!
+                                                                              .cartItems![index]
+                                                                              .cartItemQty = int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) - 1;
+                                                                        }
+                                                                        setState(() {
+
+                                                                        });
+                                                                      });
+                                                                    },
                                                                     child:
                                                                         const Icon(
                                                                       Icons
@@ -205,42 +228,41 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                       size: 15,
                                                                     ),
                                                                   ),
-                                                                  Text(
-                                                                    controller
-                                                                        .model
-                                                                        .value
-                                                                        .data!
-                                                                        .cartItems![
-                                                                            index]
-                                                                        .cartItemQty
-                                                                        .toString(),
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            AddSize
-                                                                                .font14,
-                                                                        color: AppTheme
-                                                                            .backgroundcolor,
-                                                                        fontWeight:
-                                                                            FontWeight.w500),
-                                                                  ),
+                                                                  Obx(() {
+                                                                    return Text(
+                                                                      (controller.model.value.data!.cartItems![index].cartItemQty ??
+                                                                              "")
+                                                                          .toString(),
+                                                                      style: TextStyle(
+                                                                          fontSize: AddSize
+                                                                              .font14,
+                                                                          color: AppTheme
+                                                                              .backgroundcolor,
+                                                                          fontWeight:
+                                                                              FontWeight.w500),
+                                                                    );
+                                                                  }),
                                                                   InkWell(
                                                                     onTap: () {
-                                                                      addToCartRepo(
-                                                                              "10",
-                                                                              "1",
+                                                                      updateCartRepo(
+                                                                              controller.model.value.data!.cartItems![index].id.toString(),
+                                                                              int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1,
                                                                               context)
-                                                                          .then(
-                                                                              (value) {
+                                                                          .then((value) {
+                                                                        showToast(
+                                                                            value.message);
                                                                         if (value.status ==
                                                                             true) {
-                                                                          showToast(
-                                                                              value.message);
                                                                           controller
-                                                                              .getAddToCartList();
-                                                                        } else {
-                                                                          showToast(
-                                                                              value.message);
+                                                                              .model
+                                                                              .value
+                                                                              .data!
+                                                                              .cartItems![index]
+                                                                              .cartItemQty = int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1;
                                                                         }
+                                                                        setState(() {
+
+                                                                        });
                                                                       });
                                                                     },
                                                                     child:
@@ -326,8 +348,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           .toString(),
                                                       context)
                                                   .then((value) {
-                                                showToast(value.message);
-                                                controller.getAddToCartList();
+                                                if (value.status == true) {
+                                                  showToast(value.message);
+                                                  controller.getAddToCartList();
+                                                } else {
+                                                  showToast(value.message);
+                                                }
                                               });
                                             },
                                             child: const Icon(
@@ -359,213 +385,177 @@ class _MyCartScreenState extends State<MyCartScreen> {
                               padding: EdgeInsets.only(top: height * .02),
                               physics: const BouncingScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return Container(
-                                  width: width * .5,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  // height: height * .23,
-                                  child: Card(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Stack(
-                                        children: [
-                                          Padding(
-                                              padding: EdgeInsets.symmetric(
-                                                horizontal: width * .03,
-                                              ),
-                                              child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: height * .12,
-                                                      width: width * .25,
-                                                      child: CachedNetworkImage(
-                                                        imageUrl: controller
-                                                            .relatedProductModel
-                                                            .value
-                                                            .data![index]
-                                                            .image
-                                                            .toString(),
-                                                        errorWidget: (_, __,
-                                                                ___) =>
-                                                            const SizedBox(),
-                                                        placeholder: (_, __) =>
-                                                            const SizedBox(),
+                                return Obx(() {
+                                  return Container(
+                                    width: width * .5,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    // height: height * .23,
+                                    child: Card(
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Stack(
+                                          children: [
+                                            Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: width * .03,
+                                                ),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: height * .12,
+                                                        width: width * .35,
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          imageUrl: controller
+                                                              .relatedProductModel
+                                                              .value
+                                                              .data![index]
+                                                              .image
+                                                              .toString(),
+                                                          errorWidget: (_, __,
+                                                                  ___) =>
+                                                              const SizedBox(),
+                                                          placeholder: (_,
+                                                                  __) =>
+                                                              const SizedBox(),
+                                                          fit: BoxFit.contain,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                            controller
-                                                                .relatedProductModel
-                                                                .value
-                                                                .data![index]
-                                                                .name
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: AppTheme
-                                                                    .blackcolor,
-                                                                fontSize:
-                                                                    AddSize
-                                                                        .font14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500)),
-                                                        DropdownButtonFormField(
-                                                          decoration:
-                                                              InputDecoration(
-                                                            fillColor: Colors
-                                                                .grey.shade50,
-                                                            border: InputBorder
-                                                                .none,
-                                                            enabled: true,
-                                                          ),
-                                                          hint: Text(
-                                                            'Select qty',
-                                                            style: TextStyle(
-                                                                color: AppTheme
-                                                                    .userText,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                          ),
-                                                          // value: selectedCAt.value == ""
-                                                          //     ? null
-                                                          //     : selectedCAt.value,
-                                                          items: List.generate(
-                                                              index + 2,
-                                                              (index1) =>
-                                                                  DropdownMenuItem(
-                                                                    value: index1
-                                                                        .toString(),
-                                                                    child: Text(
-                                                                      "${index1}Kg",
-                                                                      style: const TextStyle(
-                                                                          fontSize:
-                                                                              16),
-                                                                    ),
-                                                                  )),
-                                                          // items: dropDownList.map((value) {
-                                                          //   return DropdownMenuItem(
-                                                          //     value: value,
-                                                          //     child: Text(
-                                                          //       value,
-                                                          //       style: const TextStyle(
-                                                          //           fontSize: 16),
-                                                          //     ),
-                                                          //   );
-                                                          // }).toList(),
-                                                          onChanged:
-                                                              (newValue) {
-                                                            selectedCAt.value =
-                                                                newValue
-                                                                    .toString();
-                                                          },
-                                                          // validator: (String? value) {
-                                                          //   if (value?.isEmpty ?? true) {
-                                                          //     return 'Please select bank';
-                                                          //   }
-                                                          //   return null;
-                                                          // },
-                                                        ),
-                                                        SizedBox(
-                                                          height: height * .01,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              "₹15.0",
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                              controller
+                                                                  .relatedProductModel
+                                                                  .value
+                                                                  .data![index]
+                                                                  .name
+                                                                  .toString(),
                                                               style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .blackcolor,
                                                                   fontSize:
                                                                       AddSize
                                                                           .font14,
-                                                                  color: AppTheme
-                                                                      .primaryColor,
                                                                   fontWeight:
                                                                       FontWeight
-                                                                          .w500),
-                                                            ),
-                                                            OutlinedButton(
-                                                              style:
-                                                                  OutlinedButton
-                                                                      .styleFrom(
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(6))),
-                                                                minimumSize: Size(
-                                                                    AddSize
-                                                                        .size50,
-                                                                    AddSize
-                                                                        .size30),
-                                                                side: const BorderSide(
+                                                                          .w500)),
+                                                          buildDropdownButtonFormField(
+                                                              index),
+                                                          SizedBox(
+                                                            height:
+                                                                height * .01,
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                "₹${controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].price.toString()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        AddSize
+                                                                            .font14,
                                                                     color: AppTheme
                                                                         .primaryColor,
-                                                                    width: 1),
-                                                                backgroundColor:
-                                                                    AppTheme
-                                                                        .addColor,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
                                                               ),
-                                                              onPressed: () {
-                                                                addToCartRepo(
-                                                                        "10",
-                                                                        "1",
-                                                                        context)
-                                                                    .then(
-                                                                        (value) {
-                                                                  controller
-                                                                      .getAddToCartList();
-                                                                });
-                                                              },
-                                                              child: Text('ADD',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          AddSize
-                                                                              .font12,
+                                                              OutlinedButton(
+                                                                style: OutlinedButton
+                                                                    .styleFrom(
+                                                                  shape: const RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.all(
+                                                                              Radius.circular(6))),
+                                                                  minimumSize: Size(
+                                                                      AddSize
+                                                                          .size50,
+                                                                      AddSize
+                                                                          .size30),
+                                                                  side: const BorderSide(
                                                                       color: AppTheme
                                                                           .primaryColor,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600)),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        // OutlinedButton(
-                                                        //   style: OutlinedButton.styleFrom(
-                                                        //     shape: const RoundedRectangleBorder(
-                                                        //         borderRadius: BorderRadius.all(
-                                                        //             Radius.circular(10))),
-                                                        //     side: const BorderSide(
-                                                        //         color: AppTheme.primaryColor,
-                                                        //         width: 1),
-                                                        //     backgroundColor: AppTheme.addColor,
-                                                        //   ),
-                                                        //   onPressed: () {},
-                                                        //   child: const Text('ADD',
-                                                        //       style: TextStyle(
-                                                        //           color: AppTheme.primaryColor,
-                                                        //           fontWeight: FontWeight.w600)),
-                                                        // ),
-                                                      ],
-                                                    )
-                                                  ])
-                                              // : const Center(
-                                              //     child:
-                                              //         CircularProgressIndicator()),
-                                              ),
-                                        ],
-                                      )),
-                                );
+                                                                      width: 1),
+                                                                  backgroundColor:
+                                                                      AppTheme
+                                                                          .addColor,
+                                                                ),
+                                                                onPressed: () {
+                                                                  addToCartRepo(
+                                                                          controller
+                                                                              .relatedProductModel
+                                                                              .value
+                                                                              .data![index]
+                                                                              .varints![controller.relatedProductModel.value.data![index].varientIndex!.value]
+                                                                              .id
+                                                                              .toString(),
+                                                                          "1",
+                                                                          context)
+                                                                      .then((value) {
+                                                                    showToast(value
+                                                                        .message);
+                                                                    controller
+                                                                        .getAddToCartList();
+                                                                  });
+                                                                },
+                                                                child: Text(
+                                                                    'ADD',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            AddSize
+                                                                                .font12,
+                                                                        color: AppTheme
+                                                                            .primaryColor,
+                                                                        fontWeight:
+                                                                            FontWeight.w600)),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          // OutlinedButton(
+                                                          //   style: OutlinedButton.styleFrom(
+                                                          //     shape: const RoundedRectangleBorder(
+                                                          //         borderRadius: BorderRadius.all(
+                                                          //             Radius.circular(10))),
+                                                          //     side: const BorderSide(
+                                                          //         color: AppTheme.primaryColor,
+                                                          //         width: 1),
+                                                          //     backgroundColor: AppTheme.addColor,
+                                                          //   ),
+                                                          //   onPressed: () {},
+                                                          //   child: const Text('ADD',
+                                                          //       style: TextStyle(
+                                                          //           color: AppTheme.primaryColor,
+                                                          //           fontWeight: FontWeight.w600)),
+                                                          // ),
+                                                        ],
+                                                      )
+                                                    ])
+                                                // : const Center(
+                                                //     child:
+                                                //         CircularProgressIndicator()),
+                                                ),
+                                          ],
+                                        )),
+                                  );
+                                });
                               });
                         }),
                       ),
@@ -743,23 +733,43 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  details("Subtotal:", "₹30.30"),
+                                  details(
+                                      "Subtotal:",
+                                      controller.model.value.data!
+                                          .cartPaymentSummary!.subTotal
+                                          .toString()),
                                   SizedBox(
                                     height: height * .01,
                                   ),
-                                  details("Surcharge:", "₹5.00"),
+                                  details(
+                                      "Surcharge:",
+                                      controller.model.value.data!
+                                          .cartPaymentSummary!.surCharge
+                                          .toString()),
                                   SizedBox(
                                     height: height * .01,
                                   ),
-                                  details("Tax & fee:", "₹5.00"),
+                                  details(
+                                      "Tax & fee:",
+                                      controller.model.value.data!
+                                          .cartPaymentSummary!.taxAndFee
+                                          .toString()),
                                   SizedBox(
                                     height: height * .01,
                                   ),
-                                  details("Delivery:", "Free"),
+                                  details(
+                                      "Delivery:",
+                                      controller.model.value.data!
+                                          .cartPaymentSummary!.deliveryCharge
+                                          .toString()),
                                   SizedBox(
                                     height: height * .01,
                                   ),
-                                  details("Packing fee:", "Free"),
+                                  details(
+                                      "Packing fee:",
+                                      controller.model.value.data!
+                                          .cartPaymentSummary!.packingFee
+                                          .toString()),
                                   SizedBox(
                                     height: height * .02,
                                   ),
@@ -772,7 +782,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                               color: AppTheme.primaryColor,
                                               fontSize: AddSize.font16,
                                               fontWeight: FontWeight.w500)),
-                                      Text("₹40.00",
+                                      Text(
+                                          "₹${controller.model.value.data!.cartPaymentSummary!.total.toString()}",
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontSize: AddSize.font14,
@@ -904,6 +915,38 @@ class _MyCartScreenState extends State<MyCartScreen> {
           setState(() {});
         },
       );
+    });
+  }
+
+  buildDropdownButtonFormField(int index) {
+    return Obx(() {
+      return DropdownButtonFormField<int>(
+          decoration: InputDecoration(
+            fillColor: Colors.grey.shade50,
+            border: InputBorder.none,
+            enabled: true,
+          ),
+          value: controller
+              .relatedProductModel.value.data![index].varientIndex!.value,
+          hint: Text(
+            'Select qty',
+            style:
+                TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          ),
+          items: List.generate(
+              controller.relatedProductModel.value.data![index].varints!.length,
+              (index1) => DropdownMenuItem(
+                    value: index1,
+                    child: Text(
+                      "${controller.relatedProductModel.value.data![index].varints![index1].variantQty}${controller.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  )),
+          onChanged: (newValue) {
+            controller.relatedProductModel.value.data![index].varientIndex!
+                .value = newValue!;
+            setState(() {});
+          });
     });
   }
 }
