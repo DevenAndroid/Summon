@@ -10,11 +10,11 @@ import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
-import '../repositories/Homepage_search_Repo.dart';
-import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import 'SearchScreenData..dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,7 +30,6 @@ class HomePageState extends State<HomePage> {
   final viewAllController = Get.put(CategoryController());
 
   final controller = Get.put(MainHomeController());
-  final searchController = TextEditingController();
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
   final addToCartQtyController = TextEditingController();
@@ -81,7 +80,8 @@ class HomePageState extends State<HomePage> {
                               height: height * .07,
                               child: TextField(
                                 maxLines: 1,
-                                controller: searchController,
+                                controller:
+                                    homeSearchController.searchController,
                                 style: const TextStyle(fontSize: 17),
                                 textAlignVertical: TextAlignVertical.center,
                                 textInputAction: TextInputAction.search,
@@ -90,7 +90,12 @@ class HomePageState extends State<HomePage> {
                                     filled: true,
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        homeSearchRepo("New Vendor", context);
+                                        // Get.to(const SearchScreenData());
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SearchScreenData()));
                                       },
                                       icon: const Icon(
                                         Icons.search_rounded,
@@ -702,7 +707,7 @@ class HomePageState extends State<HomePage> {
                                                     .model
                                                     .value
                                                     .data!
-                                                    .cartItems![index]
+                                                    .cartItems![0]
                                                     .cartItemQty
                                                     .toString(),
                                                 style: TextStyle(
@@ -862,18 +867,32 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  void applySearch(BuildContext context) {
-    // final controller = Get.put(SearchController());
-    // controller.context = context;
-    // if (searchController.text.isEmpty) {
-    //   showToast('Please enter something to search');
-    // } else {
-    //   Get.toNamed(MyRouter.searchProductScreen,
-    //       arguments: [searchController.text]);
-    //   searchController.clear();
-    //   FocusManager.instance.primaryFocus?.unfocus();
-    // }
-  }
+  // void applySearch(BuildContext context) {
+  //   if (searchController.text.isNotEmpty) {
+  //     ListView.builder(
+  //         itemCount: viewAllController.model.value.data!.length,
+  //         itemBuilder: (context, intex) {
+  //           return ListTile(
+  //             leading: Image.network(
+  //                 viewAllController.model.value.data![intex].image.toString()),
+  //             title: Text(
+  //                 viewAllController.model.value.data![intex].name.toString()),
+  //           );
+  //         });
+  //   }
+  //   // final categoryController=Get.put(CategoryController());
+  //   //
+  //   // final controller = Get.put(SearchController());
+  //   // controller.context = context;
+  //   // if (searchController.text.isEmpty) {
+  //   //   showToast('Please enter something to search');
+  //   // } else {
+  //   //   Get.toNamed(MyRouter.searchProductScreen,
+  //   //       arguments: [searchController.text]);
+  //   //   searchController.clear();
+  //   //   FocusManager.instance.primaryFocus?.unfocus();
+  //   // }
+  // }
 
 // Widget categoryList(List<Categories> categories, int index) {
 //   return InkWell(
