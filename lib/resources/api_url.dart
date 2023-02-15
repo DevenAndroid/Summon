@@ -19,4 +19,5 @@ class ApiUrl {
   static const addToCartRelatedUrl = "${baseUrl}cart-related-product";
   static const homeSearchUrl = "${baseUrl}search";
   static const storeDetailsUrl = "${baseUrl}store-details/4";
+  static const myAddressUrl = "${baseUrl}my-address";
 }
