@@ -10,11 +10,9 @@ class StoreController extends GetxController {
   RxBool isDataLoading = false.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
-  RxInt pagination = 2.obs;
+  RxInt pagination = 10.obs;
+  RxString storeId = "".obs;
   Rx<NearStoreModel> model = NearStoreModel().obs;
-  // RxList<NearStoreData> nearStoreData = <NearStoreData>[].obs;
-
-  // final scrollController = ScrollController();
   Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
 
   Future<dynamic> getData({isFirstTime = false, context}) async {
@@ -41,7 +39,7 @@ class StoreController extends GetxController {
 
   getStoreDetails() {
     isDataLoading.value = true;
-    storeDetailsRepo().then((value) {
+    storeDetailsRepo(storeId.value).then((value) {
       storeDetailsModel.value = value;
     });
   }

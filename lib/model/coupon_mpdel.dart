@@ -28,32 +28,32 @@ class CouponModel {
 }
 
 class Data {
-  dynamic id;
-  dynamic vendorId;
-  dynamic couponCode;
-  dynamic couponDetails;
-  dynamic validFrom;
-  dynamic validTo;
-  dynamic discountType;
-  dynamic maxReedem;
-  dynamic maxUser;
-  dynamic maxDiscount;
-  dynamic minOrderValue;
-  dynamic amount;
+  int? id;
+  String? vendorId;
+  String? couponCode;
+  String? couponDetails;
+  String? validFrom;
+  String? validTo;
+  String? discountType;
+  String? maxReedem;
+  String? maxUser;
+  String? maxDiscount;
+  String? minOrderValue;
+  String? amount;
 
   Data(
       {this.id,
-      this.vendorId,
-      this.couponCode,
-      this.couponDetails,
-      this.validFrom,
-      this.validTo,
-      this.discountType,
-      this.maxReedem,
-      this.maxUser,
-      this.maxDiscount,
-      this.minOrderValue,
-      this.amount});
+        this.vendorId,
+        this.couponCode,
+        this.couponDetails,
+        this.validFrom,
+        this.validTo,
+        this.discountType,
+        this.maxReedem,
+        this.maxUser,
+        this.maxDiscount,
+        this.minOrderValue,
+        this.amount});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];

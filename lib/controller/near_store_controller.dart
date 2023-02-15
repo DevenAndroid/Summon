@@ -8,7 +8,7 @@ class NearStoreController extends GetxController {
   RxBool isDataLoading = false.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
-  RxInt pagination = 2.obs;
+  RxInt pagination = 10.obs;
   Rx<NearStoreModel> model = NearStoreModel().obs;
   // RxList<NearStoreData> nearStoreData = <NearStoreData>[].obs;
 

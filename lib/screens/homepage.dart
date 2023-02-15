@@ -150,7 +150,7 @@ class HomePageState extends State<HomePage> {
                                               const SizedBox(),
                                           placeholder: (_, __) =>
                                               const SizedBox(),
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                         ),
                                       ))),
                             ),
@@ -279,7 +279,7 @@ class HomePageState extends State<HomePage> {
                                                         const SizedBox(),
                                                     placeholder: (_, __) =>
                                                         const SizedBox(),
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.contain,
                                                   ),
                                                 ),
                                                 Expanded(
@@ -638,7 +638,8 @@ class HomePageState extends State<HomePage> {
                     width: width * .25,
                     child: CachedNetworkImage(
                       imageUrl: homeController
-                          .model.value.data!.bestFreshProduct![index].image.toString(),
+                          .model.value.data!.bestFreshProduct![index].image
+                          .toString(),
                       errorWidget: (_, __, ___) => const SizedBox(),
                       placeholder: (_, __) => const SizedBox(),
                     ),
@@ -663,18 +664,30 @@ class HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "₹${price.value.toString() == "" ? homeController.model.value.data!.bestFreshProduct![index].varints![0].price.toString() : price.value.toString()}",
+                            "₹${homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].price.toString()}",
                             style: TextStyle(
                                 fontSize: AddSize.font14,
                                 color: AppTheme.primaryColor,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           ),
                           myCartController.isDataLoaded.value
                               ? myCartController.model.value.data!.cartItems!
-                                      .map((e) => e.productId.toString())
+                                      .map((e) => e.id.toString())
                                       .toList()
-                                      .contains(homeController.model.value.data!
-                                          .bestFreshProduct![index].id
+                                      .contains(homeController
+                                          .model
+                                          .value
+                                          .data!
+                                          .bestFreshProduct![index]
+                                          .varints![homeController
+                                              .model
+                                              .value
+                                              .data!
+                                              .bestFreshProduct![index]
+                                              .varientIndex!
+                                              .value]
+                                          .id
+                                          .toString()
                                           .toString())
                                   ? Obx(() {
                                       return Container(
@@ -719,7 +732,24 @@ class HomePageState extends State<HomePage> {
                                               InkWell(
                                                 onTap: () {
                                                   addToCartRepo(
-                                                          "10", "1", context)
+                                                          homeController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .bestFreshProduct![
+                                                                  index]
+                                                              .varints![homeController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .bestFreshProduct![
+                                                                      index]
+                                                                  .varientIndex!
+                                                                  .value]
+                                                              .id
+                                                              .toString(),
+                                                          "1",
+                                                          context)
                                                       .then((value) {
                                                     if (value.status == true) {
                                                       showToast(value.message);
@@ -763,56 +793,27 @@ class HomePageState extends State<HomePage> {
                                             .bestFreshProduct![index]
                                             .varientIndex!
                                             .value;
-                                        if (vIndex != (-1)) {
-                                          addToCartRepo(
-                                                  homeController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .bestFreshProduct![index]
-                                                      .varints![vIndex]
-                                                      .id
-                                                      .toString(),
-                                                  '1',
-                                                  context)
-                                              .then((value) {
-                                            if (value.status == true) {
-                                              showToast(value.message);
-                                              myCartController
-                                                  .getAddToCartList();
-                                            } else {
-                                              showToast(value.message);
-                                            }
-                                          });
-                                        } else {
-                                          showToast("Select the Quantity");
-                                        }
+                                        addToCartRepo(
+                                                homeController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .bestFreshProduct![index]
+                                                    .varints![vIndex]
+                                                    .id
+                                                    .toString(),
+                                                '1',
+                                                context)
+                                            .then((value) {
+                                          if (value.status == true) {
+                                            showToast(value.message);
+                                            myCartController.getAddToCartList();
+                                          } else {
+                                            showToast(value.message);
+                                          }
+                                        });
                                       },
-                                      child: Text(
-                                          // myCartController.isDataLoaded.value
-                                          //     ? myCartController
-                                          //             .model.value.data!.cartItems!
-                                          //             .map((e) => e.productId.toString())
-                                          //             .toList()
-                                          //             .contains(homeController
-                                          //                 .model
-                                          //                 .value
-                                          //                 .data!
-                                          //                 .bestFreshProduct![index]
-                                          //                 .id
-                                          //                 .toString())
-                                          //         ? "Increase"
-                                          //         : "ADD"
-                                          "ADD",
-                                          // myCartController.model.value.data!.cartItems!
-                                          //         .map((e) => e)
-                                          //         .toList()
-                                          //         .toString() +
-                                          //     "==" +
-                                          //     homeController.model.value.data!
-                                          //         .bestFreshProduct![index].id
-                                          //         .toString(),
-                                          //  'ADD',
+                                      child: Text("ADD",
                                           style: TextStyle(
                                               fontSize: AddSize.font12,
                                               color: AppTheme.primaryColor,
@@ -838,12 +839,8 @@ class HomePageState extends State<HomePage> {
             border: InputBorder.none,
             enabled: true,
           ),
-          value: homeController.model.value.data!.bestFreshProduct![index]
-                      .varientIndex!.value ==
-                  (-1)
-              ? null
-              : homeController.model.value.data!.bestFreshProduct![index]
-                  .varientIndex!.value,
+          value: homeController
+              .model.value.data!.bestFreshProduct![index].varientIndex!.value,
           hint: Text(
             'Select qty',
             style:
@@ -862,107 +859,8 @@ class HomePageState extends State<HomePage> {
           onChanged: (newValue) {
             homeController.model.value.data!.bestFreshProduct![index]
                 .varientIndex!.value = newValue!;
+            setState(() {});
           });
     });
   }
-
-  // void applySearch(BuildContext context) {
-  //   if (searchController.text.isNotEmpty) {
-  //     ListView.builder(
-  //         itemCount: viewAllController.model.value.data!.length,
-  //         itemBuilder: (context, intex) {
-  //           return ListTile(
-  //             leading: Image.network(
-  //                 viewAllController.model.value.data![intex].image.toString()),
-  //             title: Text(
-  //                 viewAllController.model.value.data![intex].name.toString()),
-  //           );
-  //         });
-  //   }
-  //   // final categoryController=Get.put(CategoryController());
-  //   //
-  //   // final controller = Get.put(SearchController());
-  //   // controller.context = context;
-  //   // if (searchController.text.isEmpty) {
-  //   //   showToast('Please enter something to search');
-  //   // } else {
-  //   //   Get.toNamed(MyRouter.searchProductScreen,
-  //   //       arguments: [searchController.text]);
-  //   //   searchController.clear();
-  //   //   FocusManager.instance.primaryFocus?.unfocus();
-  //   // }
-  // }
-
-// Widget categoryList(List<Categories> categories, int index) {
-//   return InkWell(
-//     onTap: () {
-//       Get.toNamed(MyRouter.categoryScreen, arguments: [
-//         categories,
-//         categories[index].termId,
-//       ]);
-//     },
-//     child: Container(
-//         margin: const EdgeInsets.only(right: 10),
-//         padding: const EdgeInsets.symmetric(horizontal: 8),
-//         decoration: BoxDecoration(boxShadow: const [
-//           BoxShadow(
-//             color: Colors.grey,
-//             blurRadius: 1.0,
-//           ),
-//         ], color: Colors.white, borderRadius: BorderRadius.circular(6)),
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 8.0),
-//           child: Row(
-//             children: [
-//               // CAtegory Image commented
-//
-//               // Material(
-//               //   borderRadius: BorderRadius.circular(50),
-//               //   elevation: 3,
-//               //   child: SizedBox(
-//               //     height: 30,
-//               //     width: 30,
-//               //     child: ClipRRect(
-//               //       borderRadius:
-//               //           const BorderRadius.all(Radius.circular(100)),
-//               //       child: Image.network(
-//               //         categories[index].imageUrl.toString(),
-//               //         fit: BoxFit.cover,
-//               //         loadingBuilder: (BuildContext context, Widget child,
-//               //             ImageChunkEvent? loadingProgress) {
-//               //           if (loadingProgress == null) {
-//               //             return child;
-//               //           }
-//               //           return Center(
-//               //             child: Padding(
-//               //               padding: const EdgeInsets.only(
-//               //                   top: 10.0, bottom: 10.0),
-//               //               child: CircularProgressIndicator(
-//               //                 color: AppTheme.primaryColor,
-//               //                 value: loadingProgress.expectedTotalBytes !=
-//               //                         null
-//               //                     ? loadingProgress.cumulativeBytesLoaded /
-//               //                         loadingProgress.expectedTotalBytes!
-//               //                     : null,
-//               //               ),
-//               //             ),
-//               //           );
-//               //         },
-//               //       ),
-//               //     ),
-//               //   ),
-//               // ),
-//               // addWidth(8),
-//               Text(
-//                 categories[index].name.toString(),
-//                 style: const TextStyle(
-//                     color: AppTheme.textColorDarkBLue,
-//                     fontSize: 16,
-//                     fontWeight: FontWeight.w500),
-//               )
-//             ],
-//           ),
-//         )),
-//   );
-// }
 }

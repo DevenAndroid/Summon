@@ -6,14 +6,18 @@ import '../repositories/My_Cart_Repo.dart';
 
 class MyCartDataListController extends GetxController {
   Rx<MyCartData> model = MyCartData().obs;
-  Rx<CartRelatedProductModel> relatedProductModel =
-      CartRelatedProductModel().obs;
+  Rx<CartRelatedProductModel> relatedProductModel = CartRelatedProductModel().obs;
   RxBool isDataLoaded = false.obs;
-
+  RxInt sum = 0.obs;
   getAddToCartList() {
     myCartRepo().then((value) {
       isDataLoaded.value = true;
       model.value = value;
+      sum.value = 0;
+      for(int i = 0; i<value.data!.cartItems!.length;i++){
+        sum.value = sum.value + int.parse(value.data!.cartItems![i].cartItemQty.toString());
+        print("AAAAAAAAA-------${sum.value}");
+      }
     });
   }
 

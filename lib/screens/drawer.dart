@@ -126,9 +126,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       profileController.isDataLoading.value
-                                          ? (profileController.model.value.data!
-                                                      .profileImage ??
-                                                  "")
+                                          ? (profileController.model.value.data!.profileImage ?? "")
                                               .toString()
                                           : "",
                                   height: screenSize.height * 0.12,

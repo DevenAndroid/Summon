@@ -114,7 +114,7 @@ class BestFreshProduct {
   String? name;
   String? image;
   List<Varints>? varints;
-  RxInt? varientIndex = (-1).obs;
+  RxInt? varientIndex = (0).obs;
 
   BestFreshProduct(
       {this.id, this.name, this.image, this.varints, this.varientIndex});

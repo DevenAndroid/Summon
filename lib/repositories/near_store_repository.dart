@@ -28,7 +28,7 @@ Future<NearStoreModel> loadWithPagination(
         Uri.parse("${ApiUrl.nearStores}?page=$page&pagination=$pagination"),
         headers: headers);
     Helpers.hideLoader(loader);
-    log("${ApiUrl.nearStores}?page=$page&pagination=2");
+    log("${ApiUrl.nearStores}?page=$page&pagination=$pagination");
     log("NearStore List APi......    ${ApiUrl.nearStores}");
     log("NearStore List APi......Response......    ${response.body}");
     if (response.statusCode == 200) {
