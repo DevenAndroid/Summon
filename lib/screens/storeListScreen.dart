@@ -5,7 +5,6 @@ import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
-
 import '../controller/near_store_controller.dart';
 import '../repositories/near_store_repository.dart';
 import '../resources/app_theme.dart';
@@ -62,13 +61,15 @@ class _StoreListScreenState extends State<StoreListScreen> {
                               height: height * .02,
                             ),
                             nearStoreController.model.value.data!.isEmpty
-                                ? const Text(
-                                    'Stores Near You',
-                                    style: TextStyle(
-                                        color: AppTheme.backgroundcolor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
-                                  )
+                                ? Center(
+                                  child: const Text(
+                                      'Store Not Available',
+                                      style: TextStyle(
+                                          color: AppTheme.backgroundcolor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                )
                                 : Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

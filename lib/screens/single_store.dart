@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/store_controller.dart';
+import '../model/My_Cart_Model.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
 import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_assets.dart';
@@ -159,12 +161,31 @@ class _StoreScreenState extends State<StoreScreen> {
                                 SizedBox(
                                   height: height * .012,
                                 ),
-                                const Text(
-                                  'Categories',
-                                  style: TextStyle(
-                                      color: AppTheme.blackcolor,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Categories',
+                                      style: TextStyle(
+                                          color: AppTheme.blackcolor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                        controller.currentIndex.value = 0;
+                                      },
+                                      child: const Text(
+                                        'View All',
+                                        style: TextStyle(
+                                            color: AppTheme.primaryColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: height * .01,
@@ -244,31 +265,12 @@ class _StoreScreenState extends State<StoreScreen> {
                                       },
                                     )),
                                 SizedBox(height: height * .015),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "Latest Product",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                        controller.currentIndex.value = 0;
-                                      },
-                                      child: const Text(
-                                        'View All',
-                                        style: TextStyle(
-                                            color: AppTheme.primaryColor,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    )
-                                  ],
+                                const Text(
+                                  "Latest Product",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black),
                                 ),
                                 ListView.builder(
                                     itemCount: singleStoreController
@@ -444,37 +446,25 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               .value
                                                                               .data!
                                                                               .cartItems!
-                                                                              .map((e) => e.productId.toString())
+                                                                              .map((e) => e.variantId.toString())
                                                                               .toList()
-                                                                              .contains(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString())
-                                                                          ? Obx(() {
-                                                                              return Container(
-                                                                                width: width * .20,
-                                                                                decoration: BoxDecoration(color: AppTheme.primaryColor, borderRadius: BorderRadius.circular(6)),
-                                                                                child: Padding(
-                                                                                  padding: EdgeInsets.symmetric(
-                                                                                    vertical: height * .005,
-                                                                                  ),
-                                                                                  child: Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                    children: [
-                                                                                      InkWell(
-                                                                                        onTap: () {
-                                                                                          removeCartItemRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
-                                                                                        },
-                                                                                        child: const Icon(
-                                                                                          Icons.remove,
-                                                                                          color: AppTheme.backgroundcolor,
-                                                                                          size: 15,
-                                                                                        ),
-                                                                                      ),
-                                                                                      Text(
-                                                                                        myCartController.model.value.data!.cartItems![0].cartItemQty.toString(),
-                                                                                        style: TextStyle(fontSize: AddSize.font14, color: AppTheme.backgroundcolor, fontWeight: FontWeight.w500),
-                                                                                      ),
-                                                                                      InkWell(
-                                                                                        onTap: () {
-                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), "1", context).then((value) {
+                                                                              .contains(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString())
+                                                                          ? Container(
+                                                                              width: width * .20,
+                                                                              decoration: BoxDecoration(color: AppTheme.primaryColor, borderRadius: BorderRadius.circular(6)),
+                                                                              child: Padding(
+                                                                                padding: EdgeInsets.symmetric(
+                                                                                  vertical: height * .005,
+                                                                                  horizontal: width * .02,
+                                                                                ),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    InkWell(
+                                                                                      onTap: () {
+                                                                                        // removeCartItemRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
+                                                                                        if (myCartController.model.value.data!.cartItems![index].cartItemQty == 1) {
+                                                                                          removeCartItemRepo(myCartController.model.value.data!.cartItems![index].id.toString(), context).then((value) {
                                                                                             if (value.status == true) {
                                                                                               showToast(value.message);
                                                                                               myCartController.getAddToCartList();
@@ -482,18 +472,49 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                               showToast(value.message);
                                                                                             }
                                                                                           });
-                                                                                        },
-                                                                                        child: const Icon(
-                                                                                          Icons.add,
-                                                                                          color: AppTheme.backgroundcolor,
-                                                                                          size: 15,
-                                                                                        ),
+                                                                                        } else {
+                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) - 1, context).then((value) {
+                                                                                            showToast(value.message);
+                                                                                            if (value.status == true) {
+                                                                                              myCartController.getAddToCartList();
+                                                                                            }
+                                                                                            setState(() {});
+                                                                                          });
+                                                                                        }
+                                                                                      },
+                                                                                      child: const Icon(
+                                                                                        Icons.remove,
+                                                                                        color: AppTheme.backgroundcolor,
+                                                                                        size: 15,
                                                                                       ),
-                                                                                    ],
-                                                                                  ),
+                                                                                    ),
+                                                                                    Obx(() {
+                                                                                      return Text(
+                                                                                        (myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "").toString(),
+                                                                                        style: TextStyle(fontSize: AddSize.font14, color: AppTheme.backgroundcolor, fontWeight: FontWeight.w500),
+                                                                                      );
+                                                                                    }),
+                                                                                    InkWell(
+                                                                                      onTap: () {
+                                                                                        addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
+                                                                                          showToast(value.message);
+                                                                                          if (value.status == true) {
+                                                                                            myCartController.getAddToCartList();
+                                                                                          } else {
+                                                                                            showToast(value.message);
+                                                                                          }
+                                                                                        });
+                                                                                      },
+                                                                                      child: const Icon(
+                                                                                        Icons.add,
+                                                                                        color: AppTheme.backgroundcolor,
+                                                                                        size: 15,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
                                                                                 ),
-                                                                              );
-                                                                            })
+                                                                              ),
+                                                                            )
                                                                           : OutlinedButton(
                                                                               style: OutlinedButton.styleFrom(
                                                                                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6))),
@@ -579,77 +600,81 @@ class _StoreScreenState extends State<StoreScreen> {
                     ],
                   )
                 : const Center(child: CircularProgressIndicator()),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    controller.onItemTap(1);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.maxFinite, AddSize.size30 * 2),
-                      primary: AppTheme.primaryColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      textStyle: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${(myCartController.sum.value ?? "").toString()} Items",
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  color: AppTheme.backgroundcolor,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                            Text(
-                              "₹${(myCartController.model.value.data!.cartPaymentSummary!.subTotal ?? "").toString()}",
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  color: AppTheme.backgroundcolor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ],
+        bottomNavigationBar: myCartController
+                .model.value.data!.cartItems!.isNotEmpty
+            ? BottomAppBar(
+                color: Colors.transparent,
+                elevation: 0,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          controller.onItemTap(1);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize:
+                                Size(double.maxFinite, AddSize.size30 * 2),
+                            primary: AppTheme.primaryColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            textStyle: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w600)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${(myCartController.sum.value ?? "").toString()} Items",
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        color: AppTheme.backgroundcolor,
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    "₹${(myCartController.model.value.data!.cartPaymentSummary!.subTotal ?? "").toString()}",
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        color: AppTheme.backgroundcolor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: const [
+                                  Text(
+                                    "View Cart",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppTheme.backgroundcolor,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_right,
+                                    size: 30,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                        Row(
-                          children: const [
-                            Text(
-                              "View Cart",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: AppTheme.backgroundcolor,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            Icon(
-                              Icons.arrow_right,
-                              size: 30,
-                            )
-                          ],
-                        )
-                      ],
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      height: AddSize.size20,
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(
-                height: AddSize.size20,
-              ),
-            ],
-          ),
-        ),
+              )
+            : null,
       );
     });
   }

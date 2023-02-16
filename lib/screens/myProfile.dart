@@ -324,6 +324,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   validator: validateMobile,
                                   keyboardType: TextInputType.number,
                                   length: 10,
+                                  readOnly: true,
+                                  enable: false,
                                 ),
                                 const SizedBox(
                                   height: 40,

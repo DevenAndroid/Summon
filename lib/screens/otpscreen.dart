@@ -154,7 +154,11 @@ class _OtpScreenState extends State<OtpScreen> {
                               });
                             } else {
                               hasError1.value = true;
-                              showToast("Wrong OTP");
+                              if (otpController.text.isEmpty) {
+                                showToast("Enter OTP");
+                              } else if (otpController.text.length < 4) {
+                                showToast("Enter Valid OTP");
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

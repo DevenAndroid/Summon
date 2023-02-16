@@ -20,6 +20,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final bool? obscureText;
+  final bool? enable;
   final VoidCallback? onTap;
   final length;
 
@@ -39,6 +40,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.obscureText = false,
+    this.enable,
     this.readOnly = false,
     this.onTap,
     this.length,
@@ -57,6 +59,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
       textInputAction: textInputAction,
       minLines: minLines,
       maxLines: maxLines,
+      enabled: enable,
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],

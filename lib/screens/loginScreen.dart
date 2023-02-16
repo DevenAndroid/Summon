@@ -135,12 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               )),
                           validator: (value) {
                             if (value!.isEmpty || value.length < 10) {
-                              return 'Please enter the valid number';
+                              return 'Please enter ten digit number';
                             }
                             return null;
                           },
                         ),
-
                         SizedBox(
                           height: height * .02,
                         ),
