@@ -24,5 +24,8 @@ class ApiUrl {
   static const homeSearchUrl = "${baseUrl}search";
   static const storeDetailsUrl = "${baseUrl}store-details";
   static const addAddressUrl = "${baseUrl}add-address";
+  static const updateLocationUrl = "${baseUrl}update-location";
   static const myAddressUrl = "${baseUrl}my-address";
+  static const editAddressUrl = "${baseUrl}edit-address";
+  static const removeAddressUrl = "${baseUrl}remove-address";
 }

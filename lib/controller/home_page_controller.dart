@@ -17,15 +17,15 @@ class HomePageController extends GetxController {
     getData();
   }
 
-  getData() async {
+  Future getData() async {
     isDataLoading.value = false;
-    homeData().then((value) {
+    await homeData().then((value) {
       isDataLoading.value = true;
       model.value = value;
     });
   }
 
-  getSearchData() async {
+   getSearchData() async {
     homeSearchRepo(searchController.text.trim()).then((value) {
       searchDataModel.value = value;
     });

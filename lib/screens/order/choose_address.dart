@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import '../../controller/MyAddress_controller.dart';
+import '../../model/MyAddressModel.dart';
 import '../../repositories/myAddress_repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
@@ -24,10 +26,8 @@ class ChooseAddress extends StatefulWidget {
 }
 
 class _ChooseAddressState extends State<ChooseAddress> {
-  final TextEditingController flatNoController = TextEditingController();
-  final TextEditingController streetController = TextEditingController();
-  final TextEditingController recipientController = TextEditingController();
-  final TextEditingController otherController = TextEditingController();
+  final addressController = Get.put(MyAddressController());
+  Rx<AddressData> addressModel = AddressData().obs;
   final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
   final RxBool _isValue = false.obs;
   RxBool customTip = false.obs;
@@ -104,166 +104,181 @@ class _ChooseAddressState extends State<ChooseAddress> {
       debugPrint(e);
     });
   }
-
-  showChangeAddressSheet() {
+  final TextEditingController otherController = TextEditingController();
+  showChangeAddressSheet(AddressData addressModel) {
+    final TextEditingController flatNoController = TextEditingController(text: addressModel.flatNo ?? "");
+    final TextEditingController streetController = TextEditingController(text: addressModel.street ?? "");
+    final TextEditingController recipientController = TextEditingController(text: addressModel.flatNo ?? "");
+    otherController.text = addressModel.addressType ?? "";
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         enableDrag: false,
+        isDismissible: false,
         backgroundColor: Colors.transparent,
         elevation: 0,
         builder: (context) {
-          return Obx(() {
-            return Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isValue.value = !_isValue.value;
-                        });
-                        Get.back();
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: const ShapeDecoration(
-                            color: AppTheme.blackcolor, shape: CircleBorder()),
-                        child: Center(
-                            child: Icon(
-                              Icons.clear,
-                              color: AppTheme.backgroundcolor,
-                              size: AddSize.size30,
-                            )),
-                      ),
-                    ),
-                    SizedBox(
-                      height: AddSize.size20,
-                    ),
-                    Container(
-                      width: double.maxFinite,
-                      decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20))),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AddSize.padding16,
-                            vertical: AddSize.padding16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Enter complete address",
-                              style: Theme
-                                  .of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(
-                                  color: AppTheme.blackcolor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: AddSize.font16),
-                            ),
-                            SizedBox(
-                              height: AddSize.size12,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: List.generate(
-                                choiceAddress.length,
-                                    (index) => chipList(choiceAddress[index]),
-                              ),
-                            ),
-                            SizedBox(
-                              height: AddSize.size20,
-                            ),
-                            if (customTip.value)
-                              EditProfileTextFieldWidget(
-                                hint: "Other",
-                                controller: otherController,
-                              ),
-                            SizedBox(
-                              height: AddSize.size20,
-                            ),
-                            EditProfileTextFieldWidget(
-                              controller: flatNoController,
-                              hint: "Flat, House no, Floor, Tower",
-                            ),
-                            SizedBox(
-                              height: AddSize.size20,
-                            ),
-                            EditProfileTextFieldWidget(
-                              controller: streetController,
-                              hint: "Street, Society, Landmark",
-                            ),
-                            SizedBox(
-                              height: AddSize.size20,
-                            ),
-                            EditProfileTextFieldWidget(
-                              controller: recipientController,
-                              hint: "Recipient’s name",
-                            ),
-                            SizedBox(
-                              height: AddSize.size20,
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  addAddress(
-                                      location: _address,
-                                      flat_no: flatNoController.text,
-                                      street: streetController.text,
-                                      landmark: streetController.text,
-                                      address_type: otherController.text,
-                                      context: context)
-                                      .then((value) {
-                                    showToast(value.message);
-                                    if (value.status == true) {
-                                      Get.back();
-                                      flatNoController.clear();
-                                      streetController.clear();
-                                      otherController.clear();
-                                      recipientController.clear();
-                                      selectedChip.value = "";
-                                    }
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(double.maxFinite, 60),
-                                  primary: AppTheme.primaryColor,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                                child: Text(
-                                  "SAVE ADDRESS",
-                                  style: Theme
-                                      .of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                      color: AppTheme.backgroundcolor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AddSize.font18),
-                                )),
-                          ],
+          return WillPopScope(
+            onWillPop: () async{
+              return false;
+            },
+            child: Obx(() {
+
+              return Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isValue.value = !_isValue.value;
+                          });
+                          Get.back();
+                          setState(() {
+
+                          });
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: const ShapeDecoration(
+                              color: AppTheme.blackcolor, shape: CircleBorder()),
+                          child: Center(
+                              child: Icon(
+                                Icons.clear,
+                                color: AppTheme.backgroundcolor,
+                                size: AddSize.size30,
+                              )),
                         ),
                       ),
-                    ),
-                    // Obx(() {
-                    //   return SizedBox(
-                    //     height: sizeBoxHeight.value,
-                    //   );
-                    // })
-                  ],
+                      SizedBox(
+                        height: AddSize.size20,
+                      ),
+                      Container(
+                        width: double.maxFinite,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20))),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: AddSize.padding16,
+                              vertical: AddSize.padding16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Enter complete address",
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .headline5!
+                                    .copyWith(
+                                    color: AppTheme.blackcolor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AddSize.font16),
+                              ),
+                              SizedBox(
+                                height: AddSize.size12,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: List.generate(
+                                  choiceAddress.length,
+                                      (index) => chipList(choiceAddress[index]),
+                                ),
+                              ),
+                              SizedBox(
+                                height: AddSize.size20,
+                              ),
+                              if (customTip.value)
+                                EditProfileTextFieldWidget(
+                                  hint: "Other",
+                                  controller: otherController,
+                                ),
+                              SizedBox(
+                                height: AddSize.size20,
+                              ),
+                              EditProfileTextFieldWidget(
+                                controller: flatNoController,
+                                hint: "Flat, House no, Floor, Tower",
+                              ),
+                              SizedBox(
+                                height: AddSize.size20,
+                              ),
+                              EditProfileTextFieldWidget(
+                                controller: streetController,
+                                hint: "Street, Society, Landmark",
+                              ),
+                              SizedBox(
+                                height: AddSize.size20,
+                              ),
+                              EditProfileTextFieldWidget(
+                                controller: recipientController,
+                                hint: "Recipient’s name",
+                              ),
+                              SizedBox(
+                                height: AddSize.size20,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+
+                                    addAddress(
+                                        location: _address,
+                                        flat_no: flatNoController.text,
+                                        street: streetController.text,
+                                        landmark: streetController.text,
+                                        address_type: otherController.text,
+                                        context: context)
+                                        .then((value) {
+                                      showToast(value.message);
+                                      if (value.status == true) {
+                                        Get.back();
+                                        flatNoController.clear();
+                                        streetController.clear();
+                                        otherController.clear();
+                                        recipientController.clear();
+                                        selectedChip.value = "";
+                                      }
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size(double.maxFinite, 60),
+                                    primary: AppTheme.primaryColor,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                  child: Text(
+                                    "SAVE ADDRESS",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                        color: AppTheme.backgroundcolor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: AddSize.font18),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Obx(() {
+                      //   return SizedBox(
+                      //     height: sizeBoxHeight.value,
+                      //   );
+                      // })
+                    ],
+                  ),
                 ),
-              ),
-            );
-          });
+              );
+            }),
+          );
         });
   }
 
@@ -273,6 +288,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
     super.initState();
     //checkGps();
     _getCurrentPosition();
+    if(Get.arguments != null){
+      addressModel.value = Get.arguments[0];
+    }
   }
 
   String googleApikey = "GOOGLE_MAP_API_KEY";
@@ -442,24 +460,24 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                   ],
                                 ),
                               ),
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isValue.value = !_isValue.value;
-                                    });
-                                    showChangeAddressSheet();
-                                  },
-                                  child: Text(
-                                    "CHANGE",
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: AddSize.font12,
-                                        color: AppTheme.primaryColor),
-                                  ))
+                              // TextButton(
+                              //     onPressed: () {
+                              //       setState(() {
+                              //         _isValue.value = !_isValue.value;
+                              //       });
+                              //       showChangeAddressSheet();
+                              //     },
+                              //     child: Text(
+                              //       "CHANGE",
+                              //       style: Theme
+                              //           .of(context)
+                              //           .textTheme
+                              //           .headline5!
+                              //           .copyWith(
+                              //           fontWeight: FontWeight.w500,
+                              //           fontSize: AddSize.font12,
+                              //           color: AppTheme.primaryColor),
+                              //     ))
                             ],
                           ),
                           Text(
@@ -478,6 +496,10 @@ class _ChooseAddressState extends State<ChooseAddress> {
                           ),
                           ElevatedButton(
                               onPressed: () {
+                                  setState(() {
+                                    _isValue.value = !_isValue.value;
+                                  });
+                                  showChangeAddressSheet(addressModel.value);
                                 // Get.toNamed(MyRouter.chooseAddressScreen);
                               },
                               style: ElevatedButton.styleFrom(
@@ -508,6 +530,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
   }
 
   chipList(title,) {
+
     var height = MediaQuery
         .of(context)
         .size

@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               )),
                           validator: (value) {
                             if (value!.isEmpty || value.length < 10) {
-                              return 'Please enter ten digit number';
+                              return 'Please enter 10 digit number';
                             }
                             return null;
                           },

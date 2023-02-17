@@ -6,9 +6,9 @@ import '../model/MyAddressModel.dart';
 class MyAddressController extends GetxController {
   RxBool isAddressLoad = false.obs;
   Rx<MyAddressModel> myAddressModel = MyAddressModel().obs;
+  RxString id = "".obs;
 
   getAddress() {
-    isAddressLoad.value = false;
     myAddressRepo().then((value) {
       isAddressLoad.value = true;
       myAddressModel.value = value;

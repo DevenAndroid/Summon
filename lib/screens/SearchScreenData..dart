@@ -222,6 +222,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                       controller
@@ -339,6 +340,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                           EdgeInsets.symmetric(
                                                                         vertical:
                                                                             height * .005,
+                                                                            horizontal: width * .02
                                                                       ),
                                                                       child:
                                                                           Row(

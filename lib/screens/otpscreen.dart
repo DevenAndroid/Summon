@@ -1,13 +1,16 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fresh2_arrive/repositories/update_location_repository.dart';
 import 'package:fresh2_arrive/repositories/verify_otp_repository.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/home_page_controller.dart';
+import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/near_store_controller.dart';
 import '../repositories/resend_otp_rtepository.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
@@ -22,6 +25,8 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final homeController = Get.put(HomePageController());
+  final nearStoreController = Get.put(NearStoreController());
   String phoneNumber = "";
   String otp = "";
   final _formKey = GlobalKey<FormState>();
@@ -134,15 +139,6 @@ class _OtpScreenState extends State<OtpScreen> {
                               verifyOtp(phoneNumber, context, otp)
                                   .then((value) async {
                                 showToast(value.message);
-                                // Get.snackbar(
-                                //   '',
-                                //   "User login Succesfull",
-                                //   backgroundColor: Colors.green,
-                                //   colorText: Colors.white,
-                                //   //margin: EdgeInsets.only(bottom: 100.0),
-                                //   snackPosition: SnackPosition.BOTTOM,
-                                //   borderRadius: 20,
-                                // );
                                 if (value.status == true) {
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
@@ -154,6 +150,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               });
                             } else {
                               hasError1.value = true;
+                              showToast("Enter Valid OTP");
                               if (otpController.text.isEmpty) {
                                 showToast("Enter OTP");
                               } else if (otpController.text.length < 4) {

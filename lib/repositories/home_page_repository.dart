@@ -19,9 +19,9 @@ Future<HomePageModel> homeData() async {
   log(user.authToken.toString());
   http.Response response =
       await http.get(Uri.parse(ApiUrl.homeUrl), headers: headers);
-  print("<<<<<<<HomePageData from repository=======>${response.body}");
+  log("<<<<<<<HomePageData from repository=======>${response.body}");
   if (response.statusCode == 200) {
-    print("<<<<<<<HomePageData from repository=======>${response.body}");
+    log("<<<<<<<HomePageData from repository=======>${response.body}");
     return HomePageModel.fromJson(json.decode(response.body));
   } else {
     throw Exception(response.body);
