@@ -21,4 +21,6 @@ class ApiUrl {
   static const storeDetailsUrl = "${baseUrl}store-details";
   static const addAddressUrl = "${baseUrl}add-address";
   static const myAddressUrl = "${baseUrl}my-address";
+  static const myOrdersUrl = "${baseUrl}my-orders";
+  static const myOrderDetailsUrl = "${baseUrl}order-details";
 }
