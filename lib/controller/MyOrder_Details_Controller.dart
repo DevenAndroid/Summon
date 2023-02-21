@@ -17,9 +17,9 @@ class MyOrderDetailsController extends GetxController {
     });
   }
 
-// @override
-// void onInit() {
-//   super.onInit();
-//   getMyOrder();
-// }
+@override
+void onInit() {
+  super.onInit();
+  getMyOrderDetails();
+}
 }

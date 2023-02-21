@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/near_store_model.dart';
 import 'package:get/get.dart';
+import '../model/Store_Details_model.dart';
+import '../repositories/Store_Details_Repo.dart';
 import '../repositories/near_store_repository.dart';
 
 class NearStoreController extends GetxController {
@@ -9,7 +11,9 @@ class NearStoreController extends GetxController {
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
   RxInt pagination = 10.obs;
+  RxString storeId = "".obs;
   Rx<NearStoreModel> model = NearStoreModel().obs;
+  Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
   // RxList<NearStoreData> nearStoreData = <NearStoreData>[].obs;
 
   // final scrollController = ScrollController();
@@ -41,6 +45,12 @@ class NearStoreController extends GetxController {
     }
   }
 
+  getStoreDetails() {
+    isDataLoading.value = true;
+    storeDetailsRepo(storeId.value).then((value) {
+      storeDetailsModel.value = value;
+    });
+  }
   @override
   void onInit() {
     super.onInit();

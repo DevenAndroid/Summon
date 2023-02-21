@@ -18,7 +18,7 @@ Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
 
-  // try {
+   try {
   final response = await http.get(
       Uri.parse("${ApiUrl.myOrderDetailsUrl}?order_id=$id"),
       headers: headers);
@@ -29,7 +29,7 @@ Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
   } else {
     throw Exception(response.body);
   }
-  // } catch (e) {
-  //   throw Exception(e.toString());
-  // }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }

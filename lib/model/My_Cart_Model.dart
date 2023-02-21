@@ -60,15 +60,15 @@ class Data {
 }
 
 class CartItems {
-  int? id;
-  int? productId;
-  int? variantId;
+  dynamic id;
+  dynamic productId;
+  dynamic variantId;
   String? name;
-  String? variantQty;
+  dynamic variantQty;
   String? variantQtyType;
-  int? variantPrice;
-  int? cartItemQty;
-  int? totalPrice;
+  dynamic variantPrice;
+  dynamic cartItemQty;
+  dynamic totalPrice;
   String? image;
 
   CartItems(
@@ -113,15 +113,15 @@ class CartItems {
 }
 
 class CartPaymentSummary {
-  int? subTotal;
-  int? couponDiscount;
+  dynamic subTotal;
+  dynamic couponDiscount;
   String? couponCode;
   String? deliveryCharge;
   String? surCharge;
-  int? tipAmount;
-  String? packingFee;
-  int? taxAndFee;
-  int? total;
+  dynamic tipAmount;
+  dynamic packingFee;
+  dynamic taxAndFee;
+  dynamic total;
 
   CartPaymentSummary(
       {this.subTotal,

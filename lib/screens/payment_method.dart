@@ -199,7 +199,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
               checkOut(payment_type: selectedValue.value, context: context).then((value){
                 if(value.status == true){
                   Get.offAllNamed(ThankYouScreen.thankYouScreen,arguments: [value.data!.orderType,value.data!.orderId,value.data!.placedAt,
-                    value.data!.itemTotal,value.data!.tax,value.data!.deliveryCharges,value.data!.packingFee,value.data!.grandTotal]);
+                    value.data!.itemTotal,value.data!.tax,value.data!.deliveryCharges,value.data!.packingFee,value.data!.grandTotal,value.data!.orderId]);
                 }
               });
             },

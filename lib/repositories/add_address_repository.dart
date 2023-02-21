@@ -26,7 +26,7 @@ Future<ModelCommonResponse> addAddress(
   map['address_type'] = address_type;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));

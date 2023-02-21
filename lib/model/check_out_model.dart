@@ -23,19 +23,19 @@ class CheckOutDataModel {
 }
 
 class Data {
-  int? orderId;
-  int? itemTotal;
-  int? surcharge;
-  int? tax;
-  int? deliveryCharges;
-  int? packingFee;
-  int? tipAmount;
-  String? couponDiscount;
-  int? commissionDriver;
-  int? commissionAdmin;
-  int? grandTotal;
-  User? user;
-  User? vendor;
+  dynamic orderId;
+  dynamic itemTotal;
+  dynamic surcharge;
+  dynamic tax;
+  dynamic deliveryCharges;
+  dynamic packingFee;
+  dynamic tipAmount;
+  dynamic couponDiscount;
+  dynamic commissionDriver;
+  dynamic commissionAdmin;
+  dynamic grandTotal;
+  dynamic  user;
+  dynamic  vendor;
   Null? driver;
   Address? address;
   String? orderType;
@@ -126,11 +126,11 @@ class Data {
 }
 
 class User {
-  int? id;
-  int? isDriver;
-  int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic id;
+  dynamic isDriver;
+  dynamic isVendor;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? phone;
   String? email;
@@ -143,14 +143,14 @@ class User {
   String? referalCode;
   Null? deviceToken;
   Null? deviceId;
-  int? isDriverOnline;
-  int? isVendorOnline;
-  int? deliveryRange;
-  int? selfDelivery;
-  int? adminCommission;
-  int? asDriverVerified;
-  int? asVendorVerified;
-  int? featuredStore;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic adminCommission;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic featuredStore;
   Null? emailVerifiedAt;
   int? status;
   int? isProfileComplete;
@@ -324,14 +324,14 @@ class Address {
 }
 
 class OrderItems {
-  int? id;
-  int? productId;
+  dynamic id;
+  dynamic productId;
   String? productName;
-  int? variantId;
-  int? price;
+  dynamic variantId;
+  dynamic price;
   String? itemQty;
-  int? qty;
-  int? totalPrice;
+  dynamic qty;
+  dynamic totalPrice;
 
   OrderItems(
       {this.id,

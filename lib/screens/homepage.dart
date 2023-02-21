@@ -73,7 +73,7 @@ class HomePageState extends State<HomePage> {
           onRefresh: () async {
             nearStoreController.isPaginationLoading.value = true;
             nearStoreController.loadMore.value = true;
-           await nearStoreController.getData(isFirstTime: true);
+            await nearStoreController.getData(isFirstTime: true);
           },
           child: SingleChildScrollView(
             controller: scrollController,
@@ -157,8 +157,12 @@ class HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(15),
                                             child: CachedNetworkImage(
-                                              imageUrl: homeController.model.value
-                                                  .data!.sliderData![index].image
+                                              imageUrl: homeController
+                                                  .model
+                                                  .value
+                                                  .data!
+                                                  .sliderData![index]
+                                                  .image
                                                   .toString(),
                                               errorWidget: (_, __, ___) =>
                                                   const SizedBox(),
@@ -198,10 +202,11 @@ class HomePageState extends State<HomePage> {
                                   height: height * .35,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: homeController.model.value.data!
-                                          .bestFreshProduct!.length,
+                                      itemCount: homeController.model.value
+                                          .data!.bestFreshProduct!.length,
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.only(top: height * .02),
+                                      padding:
+                                          EdgeInsets.only(top: height * .02),
                                       physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return buildProduct(
@@ -237,10 +242,10 @@ class HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 GridView.builder(
+                                  padding: EdgeInsets.zero,
                                     physics: const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount: homeController
-                                        .model.value.data!.latestCategory!.length,
+                                    itemCount: homeController.model.value.data!.latestCategory!.length,
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 4,
@@ -253,13 +258,13 @@ class HomePageState extends State<HomePage> {
                                           controller.onItemTap(3);
                                         },
                                         child: Container(
-                                            // margin: const EdgeInsets.only(right: 10),
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: AddSize.size5,
                                                 vertical: AddSize.size5),
                                             decoration: BoxDecoration(
                                                 color: index % 3 == 0
-                                                    ? AppTheme.appPrimaryPinkColor
+                                                    ? AppTheme
+                                                        .appPrimaryPinkColor
                                                     : index % 3 == 2
                                                         ? AppTheme
                                                             .appPrimaryGreenColor
@@ -273,7 +278,8 @@ class HomePageState extends State<HomePage> {
                                               ),
                                               child: Column(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.spaceAround,
+                                                    MainAxisAlignment
+                                                        .spaceAround,
                                                 children: [
                                                   SizedBox(
                                                     height: AddSize.size50,
@@ -283,11 +289,13 @@ class HomePageState extends State<HomePage> {
                                                           .model
                                                           .value
                                                           .data!
-                                                          .latestCategory![index]
+                                                          .latestCategory![
+                                                              index]
                                                           .image
                                                           .toString(),
-                                                      errorWidget: (_, __, ___) =>
-                                                          const SizedBox(),
+                                                      errorWidget:
+                                                          (_, __, ___) =>
+                                                              const SizedBox(),
                                                       placeholder: (_, __) =>
                                                           const SizedBox(),
                                                       fit: BoxFit.contain,
@@ -299,12 +307,14 @@ class HomePageState extends State<HomePage> {
                                                           .model
                                                           .value
                                                           .data!
-                                                          .latestCategory![index]
+                                                          .latestCategory![
+                                                              index]
                                                           .slug
                                                           .toString(),
                                                       maxLines: 1,
                                                       style: const TextStyle(
-                                                          color: AppTheme.subText,
+                                                          color:
+                                                              AppTheme.subText,
                                                           fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.w500),
@@ -315,7 +325,9 @@ class HomePageState extends State<HomePage> {
                                             )),
                                       );
                                     }),
-                                SizedBox(height: height * 0.02),
+                                SizedBox(
+                                  height: height * .02,
+                                ),
                                 const Text(
                                   'Featured Stores',
                                   style: TextStyle(
@@ -327,15 +339,15 @@ class HomePageState extends State<HomePage> {
                                   height: height * .33,
                                   child: ListView.builder(
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: homeController.model.value.data!
-                                          .featuredStores!.length,
+                                      itemCount: homeController.model.value
+                                          .data!.featuredStores!.length,
                                       shrinkWrap: true,
                                       padding: EdgeInsets.only(top: height * .02),
                                       physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return Padding(
-                                          padding:
-                                              EdgeInsets.only(right: width * .03),
+                                          padding: EdgeInsets.only(
+                                              right: width * .03),
                                           child: Material(
                                             color: AppTheme.backgroundcolor,
                                             borderRadius:
@@ -352,7 +364,8 @@ class HomePageState extends State<HomePage> {
                                               child: Stack(
                                                 children: [
                                                   Padding(
-                                                    padding: EdgeInsets.symmetric(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
                                                       horizontal: width * .03,
                                                     ),
                                                     child: Column(
@@ -364,7 +377,8 @@ class HomePageState extends State<HomePage> {
                                                                 .center,
                                                         children: [
                                                           SizedBox(
-                                                            height: height * .19,
+                                                            height:
+                                                                height * .19,
                                                             width: width * .44,
                                                             child: ClipRRect(
                                                               borderRadius:
@@ -388,12 +402,14 @@ class HomePageState extends State<HomePage> {
                                                                 placeholder: (_,
                                                                         __) =>
                                                                     const SizedBox(),
-                                                                fit: BoxFit.cover,
+                                                                fit: BoxFit
+                                                                    .cover,
                                                               ),
                                                             ),
                                                           ),
                                                           SizedBox(
-                                                            height: height * .01,
+                                                            height:
+                                                                height * .01,
                                                           ),
                                                           Column(
                                                             mainAxisAlignment:
@@ -422,8 +438,8 @@ class HomePageState extends State<HomePage> {
                                                                           FontWeight
                                                                               .w500)),
                                                               SizedBox(
-                                                                height:
-                                                                    height * .01,
+                                                                height: height *
+                                                                    .01,
                                                               ),
                                                               Row(
                                                                 children: [
@@ -435,8 +451,9 @@ class HomePageState extends State<HomePage> {
                                                                     size: 20,
                                                                   ),
                                                                   SizedBox(
-                                                                    width: width *
-                                                                        .02,
+                                                                    width:
+                                                                        width *
+                                                                            .02,
                                                                   ),
                                                                   Text(
                                                                     "${homeController.model.value.data!.featuredStores![index].distance.toString()}KM",
@@ -447,8 +464,7 @@ class HomePageState extends State<HomePage> {
                                                                             AddSize
                                                                                 .font12,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w400),
+                                                                            FontWeight.w400),
                                                                   ),
                                                                 ],
                                                               ),
@@ -496,7 +512,8 @@ class HomePageState extends State<HomePage> {
                                 Obx(() {
                                   return ListView.builder(
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: nearStoreController
                                         .model.value.data!.length,
                                     scrollDirection: Axis.vertical,
@@ -506,18 +523,27 @@ class HomePageState extends State<HomePage> {
                                           onTap: () {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
+                                            nearStoreController
+                                                .storeId.value =
+                                                nearStoreController.model
+                                                    .value.data![index].id
+                                                    .toString();
                                           },
                                           child: Container(
-                                              margin:
-                                                  const EdgeInsets.only(top: 10),
+                                              margin: const EdgeInsets.only(
+                                                  top: 10),
                                               decoration: BoxDecoration(
-                                                  color: AppTheme.backgroundcolor,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
                                                   borderRadius:
-                                                      BorderRadius.circular(16)),
+                                                      BorderRadius.circular(
+                                                          16)),
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: AddSize.padding10,
-                                                    vertical: AddSize.padding10),
+                                                    horizontal:
+                                                        AddSize.padding10,
+                                                    vertical:
+                                                        AddSize.padding10),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
@@ -529,9 +555,10 @@ class HomePageState extends State<HomePage> {
                                                       width: width,
                                                       child: ClipRRect(
                                                         borderRadius:
-                                                            BorderRadius.circular(
-                                                                10),
-                                                        child: CachedNetworkImage(
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        child:
+                                                            CachedNetworkImage(
                                                           imageUrl:
                                                               nearStoreController
                                                                   .model
@@ -542,7 +569,8 @@ class HomePageState extends State<HomePage> {
                                                           errorWidget: (_, __,
                                                                   ___) =>
                                                               const SizedBox(),
-                                                          placeholder: (_, __) =>
+                                                          placeholder: (_,
+                                                                  __) =>
                                                               const SizedBox(),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -564,8 +592,8 @@ class HomePageState extends State<HomePage> {
                                                           style: TextStyle(
                                                               color: AppTheme
                                                                   .blackcolor,
-                                                              fontSize:
-                                                                  AddSize.font14,
+                                                              fontSize: AddSize
+                                                                  .font14,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500),
@@ -579,7 +607,8 @@ class HomePageState extends State<HomePage> {
                                                               size: 20,
                                                             ),
                                                             SizedBox(
-                                                              width: width * .02,
+                                                              width:
+                                                                  width * .02,
                                                             ),
                                                             Text(
                                                               "${nearStoreController.model.value.data![index].distance.toString()} KM",
@@ -771,9 +800,7 @@ class HomePageState extends State<HomePage> {
                                                                 .model
                                                                 .value
                                                                 .data!
-                                                                .bestFreshProduct![
-                                                                    index]
-                                                                .id
+                                                                .bestFreshProduct![index].id
                                                                 .toString(),
                                                             int.parse((myCartController
                                                                             .model
@@ -862,14 +889,14 @@ class HomePageState extends State<HomePage> {
                                                                   .value]
                                                               .id
                                                               .toString(),
-                                                      homeController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .bestFreshProduct![
-                                                      index]
-                                                          .id
-                                                          .toString(),
+                                                          homeController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .bestFreshProduct![
+                                                                  index]
+                                                              .id
+                                                              .toString(),
                                                           int.parse((myCartController
                                                                           .model
                                                                           .value
@@ -933,14 +960,13 @@ class HomePageState extends State<HomePage> {
                                                       .varints![vIndex]
                                                       .id
                                                       .toString(),
-                                              homeController
-                                                  .model
-                                                  .value
-                                                  .data!
-                                                  .bestFreshProduct![
-                                              index]
-                                                  .id
-                                                  .toString(),
+                                                  homeController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .bestFreshProduct![index]
+                                                      .id
+                                                      .toString(),
                                                   '1',
                                                   context)
                                               .then((value) {
