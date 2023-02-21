@@ -6,7 +6,7 @@ import '../model/MyOrder_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<MyOrdersModel> myOrderRepo() async {
+Future<MyOrdersModel> myOrderRepo({required filter, required status}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -17,8 +17,9 @@ Future<MyOrdersModel> myOrderRepo() async {
   };
 
   //try {
-  final response =
-      await http.get(Uri.parse(ApiUrl.myOrdersUrl), headers: headers);
+  final response = await http.get(
+      Uri.parse("${ApiUrl.myOrdersUrl}?filter=$filter&status=$status"),
+      headers: headers);
   print("My Orders Repository...${response.body}");
   if (response.statusCode == 200) {
     print("My Orders Repository...${response.body}");
