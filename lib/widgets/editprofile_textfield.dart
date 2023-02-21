@@ -13,6 +13,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final String? hint;
+  final String? label;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final bool? readOnly;
@@ -20,6 +21,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final bool? obscureText;
+  final bool? enable;
   final VoidCallback? onTap;
   final length;
 
@@ -28,6 +30,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.hint,
+    this.label,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -39,6 +42,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
     this.minLines = 1,
     this.maxLines = 1,
     this.obscureText = false,
+    this.enable,
     this.readOnly = false,
     this.onTap,
     this.length,
@@ -57,6 +61,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
       textInputAction: textInputAction,
       minLines: minLines,
       maxLines: maxLines,
+      enabled: enable,
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],
@@ -65,6 +70,8 @@ class EditProfileTextFieldWidget extends StatelessWidget {
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          labelText: label,
+          labelStyle: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: AppTheme.backgroundcolor,
           contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

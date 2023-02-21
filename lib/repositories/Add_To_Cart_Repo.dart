@@ -11,9 +11,10 @@ import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<AddToCartData> addToCartRepo(variant_id, qty, context) async {
+Future<AddToCartData> addToCartRepo(variant_id,product_id, qty, context) async {
   var map = <String, dynamic>{};
   map['variant_id'] = variant_id;
+  map['product_id'] = variant_id;
   map['qty'] = qty;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =

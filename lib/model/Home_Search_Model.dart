@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class HomeSerachModel {
   bool? status;
   String? message;
@@ -13,25 +15,25 @@ class HomeSerachModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
-    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
-    link = json['link'] != null ? new Link.fromJson(json['link']) : null;
+    meta = json['meta'] != null ? Meta.fromJson(json['meta']) : null;
+    link = json['link'] != null ? Link.fromJson(json['link']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    if (this.meta != null) {
-      data['meta'] = this.meta!.toJson();
+    if (meta != null) {
+      data['meta'] = meta!.toJson();
     }
-    if (this.link != null) {
-      data['link'] = this.link!.toJson();
+    if (link != null) {
+      data['link'] = link!.toJson();
     }
     return data;
   }
@@ -42,8 +44,9 @@ class Data {
   String? name;
   String? image;
   List<Varints>? varints;
+  RxInt? varientIndex = (0).obs;
 
-  Data({this.id, this.name, this.image, this.varints});
+  Data({this.id, this.name, this.image, this.varints,this.varientIndex});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -52,18 +55,18 @@ class Data {
     if (json['varints'] != null) {
       varints = <Varints>[];
       json['varints'].forEach((v) {
-        varints!.add(new Varints.fromJson(v));
+        varints!.add(Varints.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['image'] = this.image;
-    if (this.varints != null) {
-      data['varints'] = this.varints!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
+    if (varints != null) {
+      data['varints'] = varints!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -104,16 +107,16 @@ class Varints {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_product_id'] = this.vendorProductId;
-    data['market_price'] = this.marketPrice;
-    data['price'] = this.price;
-    data['variant_qty'] = this.variantQty;
-    data['variant_qty_type'] = this.variantQtyType;
-    data['min_qty'] = this.minQty;
-    data['max_qty'] = this.maxQty;
-    data['discount_off'] = this.discountOff;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['vendor_product_id'] = vendorProductId;
+    data['market_price'] = marketPrice;
+    data['price'] = price;
+    data['variant_qty'] = variantQty;
+    data['variant_qty_type'] = variantQtyType;
+    data['min_qty'] = minQty;
+    data['max_qty'] = maxQty;
+    data['discount_off'] = discountOff;
     return data;
   }
 }
@@ -134,11 +137,11 @@ class Meta {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_page'] = this.totalPage;
-    data['current_page'] = this.currentPage;
-    data['total_item'] = this.totalItem;
-    data['per_page'] = this.perPage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_page'] = totalPage;
+    data['current_page'] = currentPage;
+    data['total_item'] = totalItem;
+    data['per_page'] = perPage;
     return data;
   }
 }
@@ -155,9 +158,9 @@ class Link {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['next'] = this.next;
-    data['prev'] = this.prev;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['next'] = next;
+    data['prev'] = prev;
     return data;
   }
 }

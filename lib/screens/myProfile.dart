@@ -191,13 +191,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       ),
                                       child: controller.image.value.path == ""
                                           ? controller.model.value.data!
-                                                  .profileImage!.isEmpty
-                                              ? SizedBox()
+                                                      .profileImage!.isEmpty ||
+                                                  controller.model.value.data!
+                                                          .profileImage! ==
+                                                      "https://fresh2arrive.eoxyslive.com/uploads/profile-images"
+                                              ? const SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                )
                                               : Image.network(
                                                   controller.model.value.data!
                                                       .profileImage
                                                       .toString(),
                                                   fit: BoxFit.cover,
+                                                  height: 100,
+                                                  width: 100,
                                                 )
                                           : Image.file(
                                               controller.image.value,
@@ -233,9 +241,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 )),
                           ],
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        // const SizedBox(
+                        //   height: 20,
+                        // ),
                         Container(
                           decoration: BoxDecoration(
                             color: AppTheme.backgroundcolor,
@@ -324,6 +332,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   validator: validateMobile,
                                   keyboardType: TextInputType.number,
                                   length: 10,
+                                  readOnly: true,
+                                  enable: false,
                                 ),
                                 const SizedBox(
                                   height: 40,

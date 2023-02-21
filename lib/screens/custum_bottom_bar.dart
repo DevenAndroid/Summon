@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/AllCategories.dart';
@@ -6,6 +7,7 @@ import 'package:fresh2_arrive/screens/homepage.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
@@ -32,6 +34,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
+  final myCartController = Get.put(MyCartDataListController());
 
   @override
   void initState() {
@@ -186,12 +189,14 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                 return BottomAppBar(
                     color: Colors.transparent,
                     shape: const CircularNotchedRectangle(),
-                    clipBehavior: Clip.antiAlias,
+                    clipBehavior: Clip.hardEdge,
                     child: Theme(
                         data: ThemeData(
                             splashColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
                             bottomNavigationBarTheme:
                                 const BottomNavigationBarThemeData(
+                                  // backgroundColor: Colors.transparent,
                                     elevation: 0)),
                         child: BottomNavigationBar(
                             unselectedLabelStyle: const TextStyle(
@@ -213,25 +218,36 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                              const BottomNavigationBarItem(
+                               BottomNavigationBarItem(
                                   icon: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: ImageIcon(
-                                      AssetImage(AppAssets.cart),
-                                      size: 20,
-                                    ),
-                                  ),
+                                      padding:  const EdgeInsets.only(right: 12.0),
+                                      child: Badge(
+                                        badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                        badgeContent: Obx(() {
+                                          return Text(myCartController.sum.value.toString(),
+                                            style:
+                                             TextStyle(color: Colors.white,fontSize: AddSize.font12),
+                                          );
+                                        }),
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.cartImage),
+                                          size: 20,
+                                        ),
+                                      )),
+                                  // icon: Padding(
+                                  //   padding: EdgeInsets.all(8.0),
+                                  //   child: ImageIcon(
+                                  //     AssetImage(AppAssets.cart),
+                                  //     size: 20,
+                                  //   ),
+                                  // ),
                                   label: 'Cart'),
                               const BottomNavigationBarItem(
                                   icon: Padding(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 08,
                                     ),
-                                    child: Icon(
-                                      Icons.add_shopping_cart,
-                                      size: 22,
-                                      color: Colors.transparent,
-                                    ),
+                                    child: null
                                   ),
                                   label: ''),
                               BottomNavigationBarItem(
@@ -241,7 +257,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: ImageIcon(
+                                      child: const ImageIcon(
                                         AssetImage(AppAssets.store),
                                         size: 20,
                                       ),

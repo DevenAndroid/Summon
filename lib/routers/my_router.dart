@@ -1,3 +1,4 @@
+import 'package:fresh2_arrive/screens/SearchScreenData..dart';
 import 'package:fresh2_arrive/screens/add_money.dart';
 import 'package:fresh2_arrive/screens/custum_bottom_bar.dart';
 import 'package:fresh2_arrive/screens/coupons_screen.dart';
@@ -54,6 +55,7 @@ class MyRouter {
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
+    GetPage(name: SearchScreenData.searchScreen, page: () => const SearchScreenData()),
     GetPage(
         name: CustomNavigationBar.customNavigationBar,
         page: () => const CustomNavigationBar()),

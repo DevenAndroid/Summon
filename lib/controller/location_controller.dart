@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/controller/home_page_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../repositories/update_location_repository.dart';
+import 'near_store_controller.dart';
 
 class LocationController extends GetxController {
   RxBool servicestatus = false.obs;
@@ -22,9 +25,7 @@ class LocationController extends GetxController {
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-        } else if (permission == LocationPermission.deniedForever) {
-        } else {
+        if (permission != LocationPermission.denied) {
           haspermission.value = true;
         }
       } else {
@@ -38,64 +39,85 @@ class LocationController extends GetxController {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text(
-              "Location",
-            ),
-            content: const Text(
-              "Please turn on GPS location service to narrow down the nearest eateries.",
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Approve'),
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  await Geolocator.openLocationSettings();
-                  servicestatus.value =
-                  await Geolocator.isLocationServiceEnabled();
-                  if (servicestatus.value) {
-                    permission = await Geolocator.checkPermission();
+                title: const Text(
+                  "Location",
+                ),
+                content: const Text(
+                  "Please turn on GPS location service to narrow down the nearest eateries.",
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Approve'),
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                      await Geolocator.openLocationSettings();
+                      servicestatus.value =
+                          await Geolocator.isLocationServiceEnabled();
+                      if (servicestatus.value) {
+                        permission = await Geolocator.checkPermission();
 
-                    if (permission == LocationPermission.denied) {
-                      permission = await Geolocator.requestPermission();
-                      if (permission == LocationPermission.denied) {
-                      } else if (permission ==
-                          LocationPermission.deniedForever) {
-                      } else {
-                        haspermission.value = true;
+                        if (permission == LocationPermission.denied) {
+                          permission = await Geolocator.requestPermission();
+                          if (permission == LocationPermission.denied) {
+                          } else if (permission ==
+                              LocationPermission.deniedForever) {
+                          } else {
+                            haspermission.value = true;
+                          }
+                        } else {
+                          haspermission.value = true;
+                        }
+
+                        if (haspermission.value) {
+                          getLocation();
+                        }
                       }
-                    } else {
-                      haspermission.value = true;
-                    }
-
-                    if (haspermission.value) {
-                      getLocation();
-                    }
-                  }
-                },
-              ),
-            ],
-          ));
+                    },
+                  ),
+                ],
+              ));
     }
   }
 
-  getLocation() async {
+ Future getLocation() async {
     log("Getting user location.........");
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     long.value = position.longitude.toString();
     lat.value = position.latitude.toString();
-    print("Address${position}");
-    await placemarkFromCoordinates(double.parse(lat.value),double.parse(long.value))
-        .then((value) {
+    print("Address$position");
+    await placemarkFromCoordinates(
+            double.parse(lat.value), double.parse(long.value))
+        .then((value) async {
       locality.value = value.last.locality!;
       country.value = 'Country : ${value.last.country}';
       print(locality.value);
       print(country.value);
+     await updateLocation(
+        latitude: lat.toString(),
+        longitude: long.toString(),
+      ).then((value) {
+        log("+++++++++${value.message!}");
+        if(value.status == true){
+          Future.delayed(Duration(seconds: 1)).then((value){
+            final homeController = Get.put(HomePageController());
+            homeController.getData().then((value) {
+              final nearStoreController = Get.put(NearStoreController());
+              nearStoreController.isPaginationLoading.value = true;
+              nearStoreController.loadMore.value = true;
+              nearStoreController.getData(isFirstTime: true);
+            });
+          });
+        }
+      });
     });
   }
+
   getApiLocation() async {
     log("Getting user location.........");
-    await placemarkFromCoordinates(double.parse(lat.value==''?"0":lat.value), double.parse(long.value==''?"0":long.value))
+    await placemarkFromCoordinates(
+            double.parse(lat.value == '' ? "0" : lat.value),
+            double.parse(long.value == '' ? "0" : long.value))
         .then((value) {
       locality.value = 'Locality: ${value.first.locality}';
       country.value = 'Country : ${value.last.country}';
@@ -103,5 +125,12 @@ class LocationController extends GetxController {
       log(locality.value);
       log(country.value);
     });
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    checkGps(Get.context);
   }
 }

@@ -27,8 +27,12 @@ class MyApp extends StatelessWidget {
       getPages: MyRouter.route,
       theme: ThemeData(
           fontFamily: 'Poppins',
+          bottomAppBarTheme: BottomAppBarTheme(
+            color: Colors.transparent,
+            elevation: 0
+          ),
           primaryColor: AppTheme.primaryColor,
-          scaffoldBackgroundColor: Colors.white,
+          scaffoldBackgroundColor: const Color(0xffFFFFFF),
           // highlightColor: AppTheme.primaryColor,
           scrollbarTheme: const ScrollbarThemeData().copyWith(
             thumbColor: MaterialStateProperty.all(AppTheme.primaryColor),
