@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/repositories/vendor_registration_repo.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -25,7 +26,18 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   Rx<File> image3 = File("").obs;
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
-  final List<String> dropDownList = ["1 pc", "2 pc", "3 pc"];
+  final List<String> dropDownList = [
+    "5",
+    "10",
+    "15",
+    "20",
+    "25",
+    "30",
+    "35",
+    "40",
+    "45",
+    "50"
+  ];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
   bool checkValidation(bool bool1, bool2) {
@@ -183,13 +195,14 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(
-                                  value,
+                                  "${value}KG",
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               );
                             }).toList(),
                             onChanged: (newValue) {
                               selectedCAt.value = newValue.toString();
+                              print(newValue);
                               showValidation.value == false;
                             },
                             validator: (String? value) {
@@ -502,8 +515,35 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     image2.value.path != "" &&
                                     image3.value.path != "" &&
                                     image4.value.path != "") {
-                                  Get.toNamed(ThankYouVendorScreen
-                                      .thankYouVendorScreen);
+                                  Map<String, String> mapData = {
+                                    'aadhar_number':
+                                        adharNoController.text.trim(),
+                                    'pan_card_number':
+                                        panNoController.text.trim(),
+                                    'delivery_range': selectedCAt.value
+                                  };
+                                  vendorRegistrationRepo(
+                                          context: context,
+                                          mapData: mapData,
+                                          fieldName1: "store_image",
+                                          fieldName2: "bank_statement",
+                                          fieldName3: "pan_card_image",
+                                          fieldName4: "aadhar_card_front",
+                                          fieldName5: "aadhar_card_back",
+                                          file1: image.value,
+                                          file2: image1.value,
+                                          file3: image2.value,
+                                          file4: image3.value,
+                                          file5: image4.value)
+                                      .then((value) {
+                                    showToast(value.message);
+                                    if (value.status == true) {
+                                      Get.toNamed(ThankYouVendorScreen
+                                          .thankYouVendorScreen);
+                                    } else {
+                                      showToast(value.message);
+                                    }
+                                  });
                                 }
                                 showValidation.value = true;
                               },

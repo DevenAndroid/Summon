@@ -32,4 +32,5 @@ class ApiUrl {
   static const removeAddressUrl = "${baseUrl}remove-address";
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
+  static const vendorRegister = "${baseUrl}vendor-register";
 }
