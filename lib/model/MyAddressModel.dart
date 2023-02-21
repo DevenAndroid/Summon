@@ -1,7 +1,7 @@
 class MyAddressModel {
   bool? status;
   String? message;
-  List<Data>? data;
+  List<AddressData>? data;
 
   MyAddressModel({this.status, this.message, this.data});
 
@@ -9,9 +9,9 @@ class MyAddressModel {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <AddressData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new AddressData.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class MyAddressModel {
   }
 }
 
-class Data {
+class AddressData {
   int? id;
   int? userId;
   String? latitude;
@@ -38,7 +38,7 @@ class Data {
   String? landmark;
   String? addressType;
 
-  Data(
+  AddressData(
       {this.id,
       this.userId,
       this.latitude,
@@ -49,7 +49,7 @@ class Data {
       this.landmark,
       this.addressType});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  AddressData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     latitude = json['latitude'];

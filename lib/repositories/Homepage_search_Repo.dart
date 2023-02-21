@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
   if (keyword != "") {
     map['keyword'] = keyword;
   }
+  log(map.toString());
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,9 +28,10 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
     final response = await http.post(Uri.parse(ApiUrl.homeSearchUrl),
         body: jsonEncode(map), headers: headers);
 
+    log(response.body.toString());
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
-      print("Homepage Search Data...${response.body}");
+      log("Homepage Search Data...${response.body}");
       return HomeSerachModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

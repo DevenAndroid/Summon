@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/coupon_controller.dart';
+import 'package:fresh2_arrive/repositories/apply_coupons_repository.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
@@ -19,6 +21,7 @@ class CouponsScreen extends StatefulWidget {
 class _CouponsScreenState extends State<CouponsScreen> {
   final controller = Get.put(MainHomeController());
   final couponController = Get.put(CouponController());
+  final myCartController = Get.put(MyCartDataListController());
   final TextEditingController codeController = TextEditingController();
 
   @override
@@ -233,7 +236,19 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     Get.back();
-                                                    controller.onItemTap(1);
+                                                    applyCoupons(couponCode: couponController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .couponCode
+                                                        .toString(), context: context).
+                                                    then((value){
+                                                      showToast(value.message);
+                                                      if(value.status == true){
+                                                        myCartController.getAddToCartList();
+                                                        controller.onItemTap(1);
+                                                      }
+                                                    });
                                                   },
                                                   child: Text(
                                                     "APPLY",

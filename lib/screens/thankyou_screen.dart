@@ -88,7 +88,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     borderRadius: BorderRadius.circular(6)),
                               ),
                               child: Text(
-                                "COD",
+                                Get.arguments[0].toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5!
@@ -111,7 +111,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
                             Text(
-                              "#254600",
+                              "#${Get.arguments[1].toString()}",
                               style: TextStyle(
                                   color: Colors.grey.shade500,
                                   fontSize: AddSize.font14,
@@ -129,7 +129,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("24-11-2022",
+                            Text(Get.arguments[2].toString(),
                                 style: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: AddSize.font14,
@@ -146,7 +146,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("₹35.00",
+                            Text("₹${Get.arguments[3].toString()}",
                                 style: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: AddSize.font14,
@@ -163,7 +163,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("₹5.00",
+                            Text("₹${Get.arguments[4].toString()}",
                                 style: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: AddSize.font14,
@@ -180,7 +180,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("Free",
+                            Text("₹${Get.arguments[5].toString()}",
                                 style: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: AddSize.font14,
@@ -197,7 +197,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("Free",
+                            Text("₹${Get.arguments[6].toString()}",
                                 style: TextStyle(
                                     color: Colors.grey.shade500,
                                     fontSize: AddSize.font14,
@@ -214,7 +214,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     color: AppTheme.primaryColor,
                                     fontSize: AddSize.font16,
                                     fontWeight: FontWeight.w500)),
-                            Text("₹40.00",
+                            Text("₹${Get.arguments[7].toString()}",
                                 style: TextStyle(
                                     color: AppTheme.primaryColor,
                                     fontSize: AddSize.font14,

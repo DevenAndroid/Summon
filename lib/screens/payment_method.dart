@@ -5,6 +5,8 @@ import 'package:fresh2_arrive/screens/thankyou_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 
+import '../repositories/check_out_repository.dart';
+
 class PaymentMethod extends StatefulWidget {
   const PaymentMethod({Key? key}) : super(key: key);
   static var paymentScreen = "/paymentScreen";
@@ -14,7 +16,7 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
   bool _isValue = false;
-  RxString selectedValue = "cash".obs;
+  RxString selectedValue = "cod".obs;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +93,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 GestureDetector(
                   onTap: () {
                     selectedValue.value = "card";
+                    print(selectedValue.value);
                   },
                   child: Card(
                       shape: RoundedRectangleBorder(
@@ -139,7 +142,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    selectedValue.value = "cash";
+                    selectedValue.value = "cod";
+                    print(selectedValue.value);
                   },
                   child: Card(
                       shape: RoundedRectangleBorder(
@@ -174,7 +178,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                             ]),
                             Obx(() {
                               return Radio<String>(
-                                value: "cash",
+                                value: "cod",
                                 groupValue: selectedValue.value,
                                 onChanged: (value) {
                                   selectedValue.value = value!;
@@ -192,7 +196,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         child: ElevatedButton(
             onPressed: () {
-              Get.toNamed(ThankYouScreen.thankYouScreen);
+              checkOut(payment_type: selectedValue.value, context: context).then((value){
+                if(value.status == true){
+                  Get.offAllNamed(ThankYouScreen.thankYouScreen,arguments: [value.data!.orderType,value.data!.orderId,value.data!.placedAt,
+                    value.data!.itemTotal,value.data!.tax,value.data!.deliveryCharges,value.data!.packingFee,value.data!.grandTotal]);
+                }
+              });
             },
             style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.maxFinite, 60),

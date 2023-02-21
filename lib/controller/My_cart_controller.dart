@@ -8,6 +8,7 @@ class MyCartDataListController extends GetxController {
   Rx<MyCartData> model = MyCartData().obs;
   Rx<CartRelatedProductModel> relatedProductModel = CartRelatedProductModel().obs;
   RxBool isDataLoaded = false.obs;
+  RxBool isRelatedProductDataLoaded = false.obs;
   RxInt sum = 0.obs;
   getAddToCartList() {
     myCartRepo().then((value) {
@@ -23,7 +24,7 @@ class MyCartDataListController extends GetxController {
 
   getAddToCartRelatedList() {
     addToCartRelatedRepo().then((value) {
-      isDataLoaded.value = true;
+      isRelatedProductDataLoaded.value = true;
       relatedProductModel.value = value;
     });
   }
