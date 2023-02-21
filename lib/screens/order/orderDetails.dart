@@ -186,7 +186,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                               ),
                                               index != 2
                                                   ? const Divider()
-                                                  : SizedBox(),
+                                                  : const SizedBox(),
                                               SizedBox(
                                                 height: height * .005,
                                               ),
@@ -255,11 +255,11 @@ class _OrderDetailsState extends State<OrderDetails>
                   ];
                 },
                 body: TabBarView(
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   controller: tabController,
                   children: [
                     SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: AddSize.padding16,
@@ -319,7 +319,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                             decoration: const ShapeDecoration(
                                                 color: Colors.orange,
                                                 shape: CircleBorder()),
-                                            child: Center(
+                                            child: const Center(
                                                 child: Icon(
                                               Icons.person_rounded,
                                               color: AppTheme.backgroundcolor,
@@ -327,7 +327,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                           ),
                                         ],
                                       ),
-                                      Divider(),
+                                      const Divider(),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -371,14 +371,14 @@ class _OrderDetailsState extends State<OrderDetails>
                                               decoration: const ShapeDecoration(
                                                   color: AppTheme.primaryColor,
                                                   shape: CircleBorder()),
-                                              child: Center(
+                                              child: const Center(
                                                   child: Icon(
                                                 Icons.phone,
                                                 color: AppTheme.backgroundcolor,
                                               ))),
                                         ],
                                       ),
-                                      Divider(),
+                                      const Divider(),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -492,7 +492,7 @@ class _OrderDetailsState extends State<OrderDetails>
                       ),
                     ),
                     SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: AddSize.padding16),
@@ -551,8 +551,8 @@ class _OrderDetailsState extends State<OrderDetails>
                                             shape: CircleBorder()),
                                         child: Center(
                                             child: Image(
-                                          image:
-                                              AssetImage(AppAssets.store1Icon),
+                                          image: const AssetImage(
+                                              AppAssets.store1Icon),
                                           height: AddSize.size20,
                                           width: AddSize.size20,
                                         )),

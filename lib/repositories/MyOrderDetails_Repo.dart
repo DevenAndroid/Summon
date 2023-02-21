@@ -22,7 +22,7 @@ Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
   final response = await http.get(
       Uri.parse("${ApiUrl.myOrderDetailsUrl}?order_id=$id"),
       headers: headers);
-  print("MyOrder Details Repository...${response.body}");
+  print("MyOrder Details...${response.body}");
   if (response.statusCode == 200) {
     print("MyOrder Details...${response.body}");
     return MyOrdersDetailsModel.fromJson(jsonDecode(response.body));

@@ -71,8 +71,12 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       : buildAppBar(
                           false,
                           controller.currentIndex.value,
-                          profileController.isDataLoading.value ?
-                          (profileController.model.value.data!.profileImage??"").toString():"")
+                          profileController.isDataLoading.value
+                              ? (profileController
+                                          .model.value.data!.profileImage ??
+                                      "")
+                                  .toString()
+                              : "")
                   : AppBar(
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -196,7 +200,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                             backgroundColor: Colors.transparent,
                             bottomNavigationBarTheme:
                                 const BottomNavigationBarThemeData(
-                                  // backgroundColor: Colors.transparent,
+                                    // backgroundColor: Colors.transparent,
                                     elevation: 0)),
                         child: BottomNavigationBar(
                             unselectedLabelStyle: const TextStyle(
@@ -218,22 +222,33 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                               BottomNavigationBarItem(
+                              const BottomNavigationBarItem(
                                   icon: Padding(
-                                      padding:  const EdgeInsets.only(right: 12.0),
-                                      child: Badge(
-                                        badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                                        badgeContent: Obx(() {
-                                          return Text(myCartController.sum.value.toString(),
-                                            style:
-                                             TextStyle(color: Colors.white,fontSize: AddSize.font12),
-                                          );
-                                        }),
-                                        child: const ImageIcon(
-                                          AssetImage(AppAssets.cartImage),
-                                          size: 20,
-                                        ),
-                                      )),
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 08,
+                                    ),
+                                    child: ImageIcon(
+                                      AssetImage(AppAssets.cartImage),
+                                      size: 18,
+                                    ),
+                                  ),
+                                  // Padding(
+                                  //     padding:  const EdgeInsets.only(right: 12.0),
+                                  //     child:
+                                  //     Badge(
+                                  //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                  //       badgeContent: Obx(() {
+                                  //         return Text(myCartController.sum.value.toString(),
+                                  //           style:
+                                  //            TextStyle(color: Colors.white,fontSize: AddSize.font12),
+                                  //         );
+                                  //       }),
+                                  //       child: const ImageIcon(
+                                  //         AssetImage(AppAssets.cartImage),
+                                  //         size: 20,
+                                  //       ),
+                                  //     )
+                                  // ),
                                   // icon: Padding(
                                   //   padding: EdgeInsets.all(8.0),
                                   //   child: ImageIcon(
@@ -244,11 +259,10 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   label: 'Cart'),
                               const BottomNavigationBarItem(
                                   icon: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 08,
-                                    ),
-                                    child: null
-                                  ),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 08,
+                                      ),
+                                      child: null),
                                   label: ''),
                               BottomNavigationBarItem(
                                   icon: Padding(
