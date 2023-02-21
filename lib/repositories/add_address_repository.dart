@@ -12,7 +12,12 @@ import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
 Future<ModelCommonResponse> addAddress(
-    {required location,required flat_no,required street,required landmark,required address_type, required BuildContext context}) async {
+    {required location,
+    required flat_no,
+    required street,
+    required landmark,
+    required address_type,
+    required BuildContext context}) async {
   var map = <String, dynamic>{};
   map['location'] = location;
   map['flat_no'] = flat_no;
@@ -21,10 +26,10 @@ Future<ModelCommonResponse> addAddress(
   map['address_type'] = address_type;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
-  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
