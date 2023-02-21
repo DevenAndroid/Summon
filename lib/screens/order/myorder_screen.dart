@@ -33,11 +33,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   String? selectedStatus;
   String? selectedTime;
   final List<String> DropDownTimeList = [
-    "This week",
-    "Last week",
-    "This month",
-    "Last three month",
-    "Custom from-to calender icon"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May"
+        "June"
+        "July"
+        "August"
+        "September"
+        "November"
+        "December"
   ];
   final List<String> DropDownStatusList = ["Completed", "Pending"];
 
@@ -68,7 +74,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Spacer(flex: 2),
+                              const Spacer(flex: 2),
                               Expanded(
                                 flex: 4,
                                 child: Container(
@@ -80,9 +86,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       color: AppTheme.backgroundcolor),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton(
+                                      itemHeight: null,
                                       isExpanded: true,
                                       hint: Text(
-                                        'Select Time',
+                                        'Month',
                                         style: TextStyle(
                                             color: AppTheme.lightblack,
                                             fontSize: AddSize.font12,
@@ -353,16 +360,16 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                       vertical:
                                                                           height *
                                                                               .005),
-                                                              child: const Text(
-                                                                // myOrderController
-                                                                //     .model
-                                                                //     .value
-                                                                //     .data![
-                                                                //         index]
-                                                                //     .deliveryStatus
-                                                                //     .toString(),
-                                                                'pending',
-                                                                style: TextStyle(
+                                                              child: Text(
+                                                                myOrderController
+                                                                    .model
+                                                                    .value
+                                                                    .data![
+                                                                        index]
+                                                                    .deliveryStatus
+                                                                    .toString(),
+                                                                // 'pending',
+                                                                style: const TextStyle(
                                                                     fontSize:
                                                                         12,
                                                                     color: AppTheme
