@@ -23,7 +23,7 @@ Future<ModelCommonResponse> removeCartItemRepo(
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
   try {
     print(map);
     final response = await http.post(Uri.parse(ApiUrl.removeCartItemUrl),

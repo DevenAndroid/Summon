@@ -14,7 +14,7 @@ import '../resources/helper.dart';
 Future<AddToCartData> addToCartRepo(variant_id,product_id, qty, context) async {
   var map = <String, dynamic>{};
   map['variant_id'] = variant_id;
-  map['product_id'] = variant_id;
+  map['product_id'] = product_id;
   map['qty'] = qty;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
@@ -30,10 +30,10 @@ Future<AddToCartData> addToCartRepo(variant_id,product_id, qty, context) async {
   try {
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
         body: jsonEncode(map), headers: headers);
-    print("Add To Cart Data...${response.body}");
+    log("Add To Cart Data...${response.body}");
     if (response.statusCode == 200) {
       Helpers.hideShimmer(loader);
-      print("Add To Cart Data...${response.body}");
+      log("Add To Cart Data...${response.body}");
       return AddToCartData.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

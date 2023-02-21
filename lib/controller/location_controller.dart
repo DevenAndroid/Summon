@@ -99,7 +99,6 @@ class LocationController extends GetxController {
       ).then((value) {
         log("+++++++++${value.message!}");
         if(value.status == true){
-          Future.delayed(Duration(seconds: 1)).then((value){
             final homeController = Get.put(HomePageController());
             homeController.getData().then((value) {
               final nearStoreController = Get.put(NearStoreController());
@@ -107,7 +106,6 @@ class LocationController extends GetxController {
               nearStoreController.loadMore.value = true;
               nearStoreController.getData(isFirstTime: true);
             });
-          });
         }
       });
     });

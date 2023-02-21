@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
@@ -318,7 +319,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
     }
   }
 
-  String googleApikey = "GOOGLE_MAP_API_KEY";
+  String googleApikey = "AIzaSyAtvTCH-Vvvnq_lb_RlG0h1h3A1H26ULlQ";
   GoogleMapController? mapController1; //contrller for Google map
   CameraPosition? cameraPosition;
   LatLng startLocation = const LatLng(27.6602292, 85.308027);
@@ -380,25 +381,26 @@ class _ChooseAddressState extends State<ChooseAddress> {
                       onTap: () async {
                         var place = await PlacesAutocomplete.show(
                             context: context,
-                            apiKey:
-                            "AIzaSyAtvTCH-Vvvnq_lb_RlG0h1h3A1H26ULlQ",
+                            apiKey:googleApikey,
                             mode: Mode.overlay,
                             types: [],
                             strictbounds: false,
                             components: [
                               Component(Component.country, 'np')
                             ],
-                            onError: (err) {});
+                            onError: (err) {
+                              log("error.....   ${err.errorMessage}");
+                            });
                         if (place != null) {
                           setState(() {
                             location = place.description.toString();
                           });
                           final plist = GoogleMapsPlaces(
-                            apiKey:
-                            "AIzaSyAtvTCH-Vvvnq_lb_RlG0h1h3A1H26ULlQ",
+                            apiKey:googleApikey,
                             apiHeaders:
                             await const GoogleApiHeaders().getHeaders(),
                           );
+                          print(plist);
                           String placeid = place.placeId ?? "0";
                           final detail =
                           await plist.getDetailsByPlaceId(placeid);
