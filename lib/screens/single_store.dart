@@ -590,7 +590,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       );
                                     }),
                                 SizedBox(
-                                  height: height * .02,
+                                  height: height * .08,
                                 ),
                               ],
                             ),

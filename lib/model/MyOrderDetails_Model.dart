@@ -24,16 +24,16 @@ class MyOrdersDetailsModel {
 
 class Data {
   int? orderId;
-  int? itemTotal;
-  int? surcharge;
-  int? tax;
-  int? deliveryCharges;
-  int? packingFee;
-  int? tipAmount;
+  dynamic itemTotal;
+  dynamic surcharge;
+  dynamic tax;
+  dynamic deliveryCharges;
+  dynamic packingFee;
+  dynamic tipAmount;
   String? couponDiscount;
-  int? commissionDriver;
-  int? commissionAdmin;
-  int? grandTotal;
+  dynamic commissionDriver;
+  dynamic commissionAdmin;
+  dynamic grandTotal;
   User? user;
   User? vendor;
   Null? driver;
@@ -129,8 +129,8 @@ class User {
   int? id;
   int? isDriver;
   int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? phone;
   String? email;

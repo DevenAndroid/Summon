@@ -71,8 +71,8 @@ class _StoreListScreenState extends State<StoreListScreen> {
                         height: height * .02,
                       ),
                       nearStoreController.model.value.data!.isEmpty
-                          ? Center(
-                        child: const Text(
+                          ? const Center(
+                        child: Text(
                           'Store Not Available',
                           style: TextStyle(
                               color: AppTheme.backgroundcolor,
@@ -240,7 +240,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                       ),
                     ],
                   )
-                      : SizedBox();
+                      : const SizedBox();
                 }),
                 addHeight(30)
               ],
@@ -253,7 +253,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
             .model.value.data!.cartItems!.isNotEmpty
             ? addCartSection()
             : null
-            : SizedBox(),
+            : const SizedBox(),
       );
     });
   }

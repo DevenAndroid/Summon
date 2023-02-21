@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final myOrdersModel = myOrdersModelFromJson(jsonString);
-
 import 'dart:convert';
 
 MyOrdersModel myOrdersModelFromJson(String str) =>
@@ -74,46 +70,46 @@ class Datum {
   });
 
   int? orderId;
-  int? itemTotal;
-  int? surcharge;
-  int? tax;
-  int? deliveryCharges;
-  int? packingFee;
-  int? tipAmount;
+  dynamic itemTotal;
+  dynamic surcharge;
+  dynamic tax;
+  dynamic deliveryCharges;
+  dynamic packingFee;
+  dynamic tipAmount;
   CouponDiscount? couponDiscount;
-  int? commissionDriver;
-  int? commissionAdmin;
-  int? grandTotal;
+  dynamic commissionDriver;
+  dynamic commissionAdmin;
+  dynamic grandTotal;
   Driver? user;
   Driver? vendor;
   Driver? driver;
   dynamic address;
   String? orderType;
   String? deliveryStatus;
-  int? itemCount;
+  dynamic itemCount;
   List<OrderItem>? orderItems;
   String? image;
   String? placedAt;
 
   Datum copyWith({
     int? orderId,
-    int? itemTotal,
-    int? surcharge,
-    int? tax,
-    int? deliveryCharges,
-    int? packingFee,
-    int? tipAmount,
+    dynamic itemTotal,
+    dynamic surcharge,
+    dynamic tax,
+    dynamic deliveryCharges,
+    dynamic packingFee,
+    dynamic tipAmount,
     CouponDiscount? couponDiscount,
-    int? commissionDriver,
-    int? commissionAdmin,
-    int? grandTotal,
+    dynamic commissionDriver,
+    dynamic commissionAdmin,
+    dynamic grandTotal,
     Driver? user,
     Driver? vendor,
     Driver? driver,
     dynamic address,
     String? orderType,
     String? deliveryStatus,
-    int? itemCount,
+    dynamic itemCount,
     List<OrderItem>? orderItems,
     String? image,
     String? placedAt,
@@ -213,7 +209,7 @@ class CouponDiscount {
   int? userId;
   String? couponCode;
   String? discountType;
-  int? discountedPrice;
+  dynamic discountedPrice;
   dynamic createdAt;
   dynamic updatedAt;
 
@@ -295,8 +291,8 @@ class Driver {
   int? id;
   int? isDriver;
   int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? phone;
   String? email;
@@ -309,14 +305,14 @@ class Driver {
   String? referalCode;
   dynamic deviceToken;
   dynamic deviceId;
-  int? isDriverOnline;
-  int? isVendorOnline;
-  int? deliveryRange;
-  int? selfDelivery;
-  int? adminCommission;
-  int? asDriverVerified;
-  int? asVendorVerified;
-  int? featuredStore;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic adminCommission;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic featuredStore;
   dynamic emailVerifiedAt;
   int? status;
   int? isProfileComplete;
@@ -328,8 +324,8 @@ class Driver {
     int? id,
     int? isDriver,
     int? isVendor,
-    int? walletBalance,
-    int? earnedBalance,
+    dynamic walletBalance,
+    dynamic earnedBalance,
     String? name,
     String? phone,
     String? email,
@@ -342,14 +338,14 @@ class Driver {
     String? referalCode,
     dynamic deviceToken,
     dynamic deviceId,
-    int? isDriverOnline,
-    int? isVendorOnline,
-    int? deliveryRange,
-    int? selfDelivery,
-    int? adminCommission,
-    int? asDriverVerified,
-    int? asVendorVerified,
-    int? featuredStore,
+    dynamic isDriverOnline,
+    dynamic isVendorOnline,
+    dynamic deliveryRange,
+    dynamic selfDelivery,
+    dynamic adminCommission,
+    dynamic asDriverVerified,
+    dynamic asVendorVerified,
+    dynamic featuredStore,
     dynamic emailVerifiedAt,
     int? status,
     int? isProfileComplete,
@@ -480,10 +476,10 @@ class OrderItem {
   int? productId;
   String? productName;
   int? variantId;
-  int? price;
+  dynamic price;
   String? itemQty;
   int? qty;
-  int? totalPrice;
+  dynamic totalPrice;
 
   OrderItem copyWith({
     int? id,
@@ -493,7 +489,7 @@ class OrderItem {
     int? price,
     String? itemQty,
     int? qty,
-    int? totalPrice,
+    dynamic totalPrice,
   }) =>
       OrderItem(
         id: id ?? this.id,

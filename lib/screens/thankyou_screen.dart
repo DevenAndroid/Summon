@@ -3,10 +3,9 @@ import 'package:fresh2_arrive/screens/custum_bottom_bar.dart';
 import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
-
+import '../controller/MyOrder_Details_Controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
-import '../routers/my_router.dart';
 
 class ThankYouScreen extends StatefulWidget {
   const ThankYouScreen({Key? key}) : super(key: key);
@@ -16,6 +15,7 @@ class ThankYouScreen extends StatefulWidget {
 }
 
 class _ThankYouScreenState extends State<ThankYouScreen> {
+  final myOrderDetailsController = Get.put(MyOrderDetailsController());
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -35,7 +35,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
             Image(
               height: height * .25,
               width: width,
-              image: AssetImage(AppAssets.thankYou),
+              image: const AssetImage(AppAssets.thankYou),
             ),
             SizedBox(
               height: height * .04,
@@ -81,8 +81,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize:
-                                    Size(AddSize.size50, AddSize.size25),
-                                primary: AppTheme.primaryColor,
+                                    Size(AddSize.size50, AddSize.size25), backgroundColor: AppTheme.primaryColor,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6)),
@@ -232,6 +231,16 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppTheme.primaryColor, minimumSize: const Size(double.maxFinite, 60),
+                side: const BorderSide(color: AppTheme.primaryColor, width: 2),
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+              ),
+              onPressed: () {
+                myOrderDetailsController.id.value = Get.arguments[8].toString();
+                Get.toNamed(OrderDetails.orderDetailsScreen);
+              },
               child: Text(
                 'ORDER DETAILS',
                 style: Theme.of(context).textTheme.headline5!.copyWith(
@@ -239,16 +248,6 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                     fontWeight: FontWeight.w500,
                     fontSize: AddSize.font16),
               ),
-              style: OutlinedButton.styleFrom(
-                minimumSize: Size(double.maxFinite, 60),
-                primary: AppTheme.primaryColor,
-                side: BorderSide(color: AppTheme.primaryColor, width: 2),
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-              ),
-              onPressed: () {
-                Get.toNamed(OrderDetails.orderDetailsScreen);
-              },
             ),
             SizedBox(
               height: height * .01,
@@ -258,8 +257,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                   Get.offAllNamed(CustomNavigationBar.customNavigationBar);
                 },
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.maxFinite, 60),
-                    primary: AppTheme.primaryColor,
+                    minimumSize: const Size(double.maxFinite, 60), backgroundColor: AppTheme.primaryColor,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AddSize.size10)),
