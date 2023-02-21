@@ -8,7 +8,9 @@ import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../controller/MyOrder_Controller.dart';
+import '../../model/time_model.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 
@@ -27,25 +29,49 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   @override
   void initState() {
     super.initState();
+    myOrderController.filter.value = "";
     myOrderController.getMyOrder();
   }
 
   String? selectedStatus;
   String? selectedTime;
   final List<String> DropDownTimeList = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May"
-        "June"
-        "July"
-        "August"
-        "September"
-        "November"
-        "December"
+    "This week",
+    "Last week",
+    "This month",
+    "Custom calender"
   ];
   final List<String> DropDownStatusList = ["Completed", "Pending"];
+
+  RxString selectedDate = "".obs;
+  RxString selectedDate1 = "".obs;
+  final format = DateFormat('dd-MM-yyyy');
+
+  void selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.parse(selectedDate.value),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null) {
+      selectedDate.value = pickedDate.toString();
+      setState(() {});
+    }
+  }
+
+  void selectDate1() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.parse(selectedDate1.value),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null) {
+      selectedDate1.value = pickedDate.toString();
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,46 +104,59 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                               Expanded(
                                 flex: 4,
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding10,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      color: AppTheme.backgroundcolor),
-                                  child: DropdownButtonHideUnderline(
-                                    child: DropdownButton(
-                                      itemHeight: null,
-                                      isExpanded: true,
-                                      hint: Text(
-                                        'Month',
-                                        style: TextStyle(
-                                            color: AppTheme.lightblack,
-                                            fontSize: AddSize.font12,
-                                            fontWeight: FontWeight.w500),
-                                        textAlign: TextAlign.start,
-                                      ),
-                                      value: selectedTime == ""
-                                          ? null
-                                          : selectedTime,
-                                      items: DropDownTimeList.map((value) {
-                                        return DropdownMenuItem(
-                                          value: value.toString(),
-                                          child: Text(
-                                            value,
-                                            style: TextStyle(
-                                              fontSize: AddSize.font14,
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        setState(() {
-                                          selectedTime = newValue as String?;
-                                        });
-                                      },
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding10,
                                     ),
-                                  ),
-                                ),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        color: AppTheme.backgroundcolor),
+                                    child: DropdownButtonHideUnderline(
+                                        child: DropdownButton(
+                                            itemHeight: null,
+                                            isExpanded: true,
+                                            hint: Text(
+                                              'Select Time',
+                                              style: TextStyle(
+                                                  color: AppTheme.lightblack,
+                                                  fontSize: AddSize.font14,
+                                                  fontWeight: FontWeight.w500),
+                                              textAlign: TextAlign.start,
+                                            ),
+                                            value: selectedTime == ""
+                                                ? null
+                                                : selectedTime,
+                                            items: timeData.map((value) {
+                                              return DropdownMenuItem(
+                                                value: value.key.toString(),
+                                                child: Text(
+                                                  value.value,
+                                                  style: TextStyle(
+                                                    fontSize: AddSize.font14,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (newValue) {
+                                              setState(() {
+                                                selectedTime =
+                                                    newValue as String?;
+                                                myOrderController.filter.value =
+                                                    newValue!;
+                                                if (newValue != "custom") {
+                                                  myOrderController
+                                                      .getMyOrder();
+                                                } else {
+                                                  selectedDate.value =
+                                                      DateTime.now()
+                                                          .subtract(
+                                                              Duration(days: 5))
+                                                          .toString();
+                                                  selectedDate1.value =
+                                                      DateTime.now().toString();
+                                                }
+                                              });
+                                            }))),
                               ),
                               SizedBox(
                                 width: AddSize.size12,
@@ -145,11 +184,11 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       value: selectedStatus == ""
                                           ? null
                                           : selectedStatus,
-                                      items: DropDownStatusList.map((value) {
+                                      items: status.map((value) {
                                         return DropdownMenuItem(
-                                          value: value.toString(),
+                                          value: value.key.toString(),
                                           child: Text(
-                                            value,
+                                            value.value,
                                             style: TextStyle(
                                               fontSize: AddSize.font14,
                                             ),
@@ -159,6 +198,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           selectedStatus = newValue as String?;
+                                          myOrderController.status.value =
+                                              newValue!;
+                                          print(myOrderController.status.value);
+                                          myOrderController.getMyOrder();
                                         });
                                       },
                                     ),
@@ -176,15 +219,43 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                               )
                             ],
                           ),
-                          ListView.builder(
-                              itemCount:
-                                  myOrderController.model.value.data!.length,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.only(top: AddSize.padding10),
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return myOrderController.isDataLoading.value
-                                    ? Obx(() {
+                          if (myOrderController.filter.value == "custom")
+                            Obx(() {
+                              return Row(
+                                children: [
+                                  Expanded(
+                                      child: TextFormField(
+                                    controller: TextEditingController(
+                                        text: format.format(DateTime.parse(
+                                            selectedDate.value == ""
+                                                ? DateTime.now().toString()
+                                                : selectedDate.value))),
+                                  )),
+                                  SizedBox(
+                                    width: 18,
+                                  ),
+                                  Expanded(
+                                      child: TextFormField(
+                                    controller: TextEditingController(
+                                        text: format.format(DateTime.parse(
+                                            selectedDate1.value == ""
+                                                ? DateTime.now().toString()
+                                                : selectedDate1.value))),
+                                  )),
+                                ],
+                              );
+                            }),
+                          myOrderController.isDataLoading.value
+                              ? myOrderController.model.value.data!.isNotEmpty
+                                  ? ListView.builder(
+                                      itemCount: myOrderController
+                                          .model.value.data!.length,
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.only(
+                                          top: AddSize.padding10),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
                                         return Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
@@ -384,8 +455,9 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                           ),
                                         );
                                       })
-                                    : SizedBox();
-                              }),
+                                  : const Center(child: Text("No Order Found"))
+                              : const Center(
+                                  child: CircularProgressIndicator()),
                           SizedBox(
                             height: height * .05,
                           )
