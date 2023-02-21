@@ -61,4 +61,5 @@ class AppAssets {
   static const String driverimage2 = "assets/images/driverimage2.png";
   static const String orderDecline = "assets/images/orderdecline.png";
   static const String cartEmpty = "assets/images/empty.png";
+  static const String cartImage = "assets/images/cart_image.png";
 }

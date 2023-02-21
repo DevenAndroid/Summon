@@ -68,10 +68,13 @@ showToast(message) {
 addCartSection() {
   final myCartController = Get.put(MyCartDataListController());
   final controller = Get.put(MainHomeController());
-  return Hero(
+  return BottomAppBar(
+    elevation: 0,
+    color: Colors.transparent,
+      child: Hero(
     tag: "cart_section",
     child: Obx(() {
-  return myCartController.isDataLoaded.value?Column(
+      return myCartController.isDataLoaded.value?Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
@@ -95,24 +98,26 @@ addCartSection() {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${(myCartController.sum.value ?? "").toString()} Items",
-                          style: const TextStyle(
-                              fontSize: 15,
-                              color: AppTheme.backgroundcolor,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        Text(
-                          "₹${(myCartController.model.value.data!.cartPaymentSummary!.subTotal ?? "").toString()}",
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: AppTheme.backgroundcolor,
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${(myCartController.sum.value ?? "").toString()} Items",
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: AppTheme.backgroundcolor,
+                                fontWeight: FontWeight.w400),
+                          ),
+                          Text(
+                            "₹${(myCartController.model.value.data!.cartPaymentSummary!.subTotal ?? "").toString()}",
+                            style: const TextStyle(
+                                fontSize: 18,
+                                color: AppTheme.backgroundcolor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
                     ),
                     Row(
                       children: const [
@@ -139,8 +144,8 @@ addCartSection() {
           ),
         ],
       ):SizedBox();
-}),
-    );
+    }),
+  ));
 }
 
 

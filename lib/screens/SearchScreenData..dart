@@ -363,7 +363,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                           ),
                                                                           InkWell(
                                                                             onTap: () {
-                                                                              addToCartRepo(controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString(), "1", context).then((value) {
+                                                                              addToCartRepo(controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString(),controller.searchDataModel.value.data![index].id.toString(), "1", context).then((value) {
                                                                                 if (value.status == true) {
                                                                                   showToast(value.message);
                                                                                   myCartController.getAddToCartList();
@@ -414,6 +414,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                         .value;
                                                                     addToCartRepo(
                                                                             controller.searchDataModel.value.data![index].varints![vIndex].id.toString(),
+                                                                        controller.searchDataModel.value.data![index].id.toString(),
                                                                             '1',
                                                                             context)
                                                                         .then((value) {

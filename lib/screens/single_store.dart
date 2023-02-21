@@ -47,7 +47,6 @@ class _StoreScreenState extends State<StoreScreen> {
         body:
             singleStoreController.isDataLoading.value &&
                     categoryController.isDataLoading.value &&
-                    myCartController.isDataLoaded.value &&
                     singleStoreController.storeDetailsModel.value.data != null
                 ? CustomScrollView(
                     physics: const BouncingScrollPhysics(),
@@ -474,7 +473,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                             }
                                                                                           });
                                                                                         } else {
-                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) - 1, context).then((value) {
+                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) - 1, context).then((value) {
                                                                                             showToast(value.message);
                                                                                             if (value.status == true) {
                                                                                               myCartController.getAddToCartList();
@@ -497,7 +496,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                     }),
                                                                                     InkWell(
                                                                                       onTap: () {
-                                                                                        addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
+                                                                                        addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
                                                                                           showToast(value.message);
                                                                                           if (value.status == true) {
                                                                                             myCartController.getAddToCartList();
@@ -525,7 +524,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               ),
                                                                               onPressed: () {
                                                                                 int vIndex = singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value;
-                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(), '1', context).then((value) {
+                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), '1', context).then((value) {
                                                                                   if (value.status == true) {
                                                                                     showToast(value.message);
                                                                                     myCartController.getAddToCartList();
@@ -601,8 +600,9 @@ class _StoreScreenState extends State<StoreScreen> {
                     ],
                   )
                 : const Center(child: CircularProgressIndicator()),
-        bottomNavigationBar: myCartController
-                .model.value.data!.cartItems!.isNotEmpty
+        extendBody: true,
+        bottomNavigationBar: myCartController.isDataLoaded.value &&
+            myCartController.model.value.data!.cartItems!.isNotEmpty
             ? addCartSection()
             : null,
       );

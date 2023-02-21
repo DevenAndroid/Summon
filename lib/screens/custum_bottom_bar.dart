@@ -189,12 +189,14 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                 return BottomAppBar(
                     color: Colors.transparent,
                     shape: const CircularNotchedRectangle(),
-                    clipBehavior: Clip.antiAlias,
+                    clipBehavior: Clip.hardEdge,
                     child: Theme(
                         data: ThemeData(
                             splashColor: Colors.transparent,
+                            backgroundColor: Colors.transparent,
                             bottomNavigationBarTheme:
                                 const BottomNavigationBarThemeData(
+                                  // backgroundColor: Colors.transparent,
                                     elevation: 0)),
                         child: BottomNavigationBar(
                             unselectedLabelStyle: const TextStyle(
@@ -218,18 +220,18 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                               ),
                                BottomNavigationBarItem(
                                   icon: Padding(
-                                      padding:  EdgeInsets.only(right: 12.0),
+                                      padding:  const EdgeInsets.only(right: 12.0),
                                       child: Badge(
-                                        badgeStyle: BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                        badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
                                         badgeContent: Obx(() {
                                           return Text(myCartController.sum.value.toString(),
                                             style:
-                                            const TextStyle(color: Colors.white),
+                                             TextStyle(color: Colors.white,fontSize: AddSize.font12),
                                           );
                                         }),
-                                        child: const Icon(
-                                          Icons.shopping_cart_outlined,
-                                          size: 24,
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.cartImage),
+                                          size: 20,
                                         ),
                                       )),
                                   // icon: Padding(
@@ -245,11 +247,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     padding: EdgeInsets.symmetric(
                                       vertical: 08,
                                     ),
-                                    child: Icon(
-                                      Icons.add_shopping_cart,
-                                      size: 22,
-                                      color: Colors.transparent,
-                                    ),
+                                    child: null
                                   ),
                                   label: ''),
                               BottomNavigationBarItem(
@@ -259,7 +257,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: ImageIcon(
+                                      child: const ImageIcon(
                                         AssetImage(AppAssets.store),
                                         size: 20,
                                       ),

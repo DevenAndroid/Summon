@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
+import 'package:fresh2_arrive/screens/my_cart_screen.dart';
 import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../../resources/app_theme.dart';
 import '../controller/MyAddress_controller.dart';
+import '../controller/My_cart_controller.dart';
+import '../controller/main_home_controller.dart';
 
 class MyAddress extends StatefulWidget {
   const MyAddress({Key? key}) : super(key: key);
@@ -17,7 +20,8 @@ class MyAddress extends StatefulWidget {
 
 class _MyAddressState extends State<MyAddress> {
   final addressController = Get.put(MyAddressController());
-
+  final controller = Get.put(MyCartDataListController());
+  final mainController = Get.put(MainHomeController());
   @override
   void initState() {
     // TODO: implement initState
@@ -85,7 +89,18 @@ class _MyAddressState extends State<MyAddress> {
                                           // height: height * .23,
                                           child: InkWell(
                                             onTap: () {
-                                              // Get.toNamed(OrderDetails.orderDetailsScreen);
+                                              chooseOrderAddress(addressId: addressController
+                                                  .myAddressModel
+                                                  .value
+                                                  .data![index]
+                                                  .id
+                                                  .toString(), context: context).then((value){
+                                                    if(value.status == true){
+                                                      controller.getAddToCartList();
+                                                      Get.back();
+                                                      mainController.onItemTap(1);
+                                                    }
+                                              });
                                             },
                                             child: Card(
                                                 elevation: 0,

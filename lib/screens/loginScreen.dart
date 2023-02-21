@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -99,12 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: phoneNumberController,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(10),
                           ],
                           decoration: InputDecoration(
-                              counterText: "",
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 18.0),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 18.0),
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: BorderSide.none),

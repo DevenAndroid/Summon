@@ -11,15 +11,15 @@ class AddToCartData {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -59,15 +59,15 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['variant_qty'] = this.variantQty;
-    data['variant_qty_type'] = this.variantQtyType;
-    data['variant_price'] = this.variantPrice;
-    data['cart_item_qty'] = this.cartItemQty;
-    data['total_price'] = this.totalPrice;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['variant_qty'] = variantQty;
+    data['variant_qty_type'] = variantQtyType;
+    data['variant_price'] = variantPrice;
+    data['cart_item_qty'] = cartItemQty;
+    data['total_price'] = totalPrice;
+    data['image'] = image;
     return data;
   }
 }

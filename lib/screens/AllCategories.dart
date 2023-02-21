@@ -33,73 +33,83 @@ class _AllCategoriesState extends State<AllCategories> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Scaffold(
-        // backgroundColor: Colors.transparent,
+        // backgroundColor: Colors.white,
         body: Obx(() {
           return categoryController.isDataLoading.value
               ? Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: AddSize.padding15, vertical: AddSize.padding15),
-            child: GridView.builder(
-                shrinkWrap: true,
-                itemCount: categoryController.model.value.data!.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10.0,
-                    //  mainAxisExtent: 150,
-                    mainAxisSpacing: 10.0),
-                itemBuilder: (context, index) {
-                  var itemdata = categoryController.model.value.data![index];
-                  return GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      controller.onItemTap(3);
-                    },
-                    child: Container(
-                      //height: 100,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: AddSize.padding10,
-                            vertical: AddSize.padding10),
-                        decoration: BoxDecoration(
-                            color: index % 3 == 0
-                                ? AppTheme.appPrimaryPinkColor
-                                : index % 3 == 2
-                                ? AppTheme.appPrimaryGreenColor
-                                : AppTheme.appPrimaryYellowColor,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              height: AddSize.size50 * 1.2,
-                              width: AddSize.size50 * 2,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  imageUrl: itemdata.image.toString(),
-                                  errorWidget: (_, __, ___) => SizedBox(),
-                                  placeholder: (_, __) => SizedBox(),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              itemdata.name.toString(),
-                              maxLines: 1,
-                              style: TextStyle(
-                                  color: AppTheme.subText,
-                                  fontSize: AddSize.font14,
-                                  fontWeight: FontWeight.w500),
-                            )
-                          ],
-                        )),
-                  );
-                }),
+                horizontal: AddSize.padding15),
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(height: AddSize.size20,),
+                  GridView.builder(
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: categoryController.model.value.data!.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10.0,
+                          //  mainAxisExtent: 150,
+                          mainAxisSpacing: 10.0),
+                      itemBuilder: (context, index) {
+                        var itemdata = categoryController.model.value.data![index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            controller.onItemTap(3);
+                          },
+                          child: Container(
+                            //height: 100,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding10,
+                                  vertical: AddSize.padding10),
+                              decoration: BoxDecoration(
+                                  color: index % 3 == 0
+                                      ? AppTheme.appPrimaryPinkColor
+                                      : index % 3 == 2
+                                      ? AppTheme.appPrimaryGreenColor
+                                      : AppTheme.appPrimaryYellowColor,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  SizedBox(
+                                    height: AddSize.size50 * 1.2,
+                                    width: AddSize.size50 * 2,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl: itemdata.image.toString(),
+                                        errorWidget: (_, __, ___) => SizedBox(),
+                                        placeholder: (_, __) => SizedBox(),
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    itemdata.name.toString(),
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                        color: AppTheme.subText,
+                                        fontSize: AddSize.font14,
+                                        fontWeight: FontWeight.w500),
+                                  )
+                                ],
+                              )),
+                        );
+                      }),
+                ],
+              ),
+            ),
           )
               : const Center(
               child: CircularProgressIndicator(
                 color: AppTheme.primaryColor,
               ));
         }),
+        extendBody: true,
         bottomNavigationBar: myCartController.isDataLoaded.value
             ? myCartController
             .model.value.data!.cartItems!.isNotEmpty

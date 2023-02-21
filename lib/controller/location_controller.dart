@@ -10,8 +10,6 @@ import '../repositories/update_location_repository.dart';
 import 'near_store_controller.dart';
 
 class LocationController extends GetxController {
-  final homeController = Get.put(HomePageController());
-  final nearStoreController = Get.put(NearStoreController());
   RxBool servicestatus = false.obs;
   RxBool haspermission = false.obs;
   late LocationPermission permission;
@@ -27,9 +25,7 @@ class LocationController extends GetxController {
       permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-        } else if (permission == LocationPermission.deniedForever) {
-        } else {
+        if (permission != LocationPermission.denied) {
           haspermission.value = true;
         }
       } else {
@@ -83,26 +79,36 @@ class LocationController extends GetxController {
     }
   }
 
-  getLocation() async {
+ Future getLocation() async {
     log("Getting user location.........");
     position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     long.value = position.longitude.toString();
     lat.value = position.latitude.toString();
-    print("Address${position}");
+    print("Address$position");
     await placemarkFromCoordinates(
             double.parse(lat.value), double.parse(long.value))
-        .then((value) {
+        .then((value) async {
       locality.value = value.last.locality!;
       country.value = 'Country : ${value.last.country}';
       print(locality.value);
       print(country.value);
-      updateLocation(
+     await updateLocation(
         latitude: lat.toString(),
         longitude: long.toString(),
       ).then((value) {
-        homeController.getData();
-        nearStoreController.getData();
+        log("+++++++++${value.message!}");
+        if(value.status == true){
+          Future.delayed(Duration(seconds: 1)).then((value){
+            final homeController = Get.put(HomePageController());
+            homeController.getData().then((value) {
+              final nearStoreController = Get.put(NearStoreController());
+              nearStoreController.isPaginationLoading.value = true;
+              nearStoreController.loadMore.value = true;
+              nearStoreController.getData(isFirstTime: true);
+            });
+          });
+        }
       });
     });
   }

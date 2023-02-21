@@ -247,6 +247,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
             ),
           ),
         ),
+        extendBody: true,
         bottomNavigationBar: myCartController.isDataLoaded.value
             ? myCartController
             .model.value.data!.cartItems!.isNotEmpty

@@ -17,6 +17,8 @@ import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../my_address.dart';
+
 class ChooseAddress extends StatefulWidget {
   const ChooseAddress({Key? key}) : super(key: key);
   static var chooseAddressScreen = "/chooseAddressScreen";
@@ -107,8 +109,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
   final TextEditingController otherController = TextEditingController();
   showChangeAddressSheet(AddressData addressModel) {
     final TextEditingController flatNoController = TextEditingController(text: addressModel.flatNo ?? "");
-    final TextEditingController streetController = TextEditingController(text: addressModel.street ?? "");
-    final TextEditingController recipientController = TextEditingController(text: addressModel.flatNo ?? "");
+    final TextEditingController streetController = TextEditingController(text: ("${addressModel.street??""}"));
+    final TextEditingController recipientController = TextEditingController();
     otherController.text = addressModel.addressType ?? "";
     showModalBottomSheet(
         context: context,
@@ -123,7 +125,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
               return false;
             },
             child: Obx(() {
-
               return Padding(
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -206,6 +207,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               EditProfileTextFieldWidget(
                                 controller: flatNoController,
                                 hint: "Flat, House no, Floor, Tower",
+                                label: "Flat, House no, Floor, Tower",
                               ),
                               SizedBox(
                                 height: AddSize.size20,
@@ -213,6 +215,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               EditProfileTextFieldWidget(
                                 controller: streetController,
                                 hint: "Street, Society, Landmark",
+                                label: "Street, Society, Landmark",
                               ),
                               SizedBox(
                                 height: AddSize.size20,
@@ -220,13 +223,34 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               EditProfileTextFieldWidget(
                                 controller: recipientController,
                                 hint: "Recipient’s name",
+                                label: "Recipient’s name",
                               ),
                               SizedBox(
                                 height: AddSize.size20,
                               ),
                               ElevatedButton(
                                   onPressed: () {
-
+                                    addressModel.street != null && addressModel.flatNo != null && addressModel.landmark !=null?
+                                    editAddress(
+                                        location: _address,
+                                        flat_no: flatNoController.text,
+                                        street: streetController.text,
+                                        landmark: streetController.text,
+                                        address_type: otherController.text,
+                                        context: context,
+                                        address_id: addressModel.id.toString())
+                                        .then((value) {
+                                      showToast(value.message);
+                                      if (value.status == true) {
+                                        Get.toNamed(MyAddress.myAddressScreen);
+                                        addressController.getAddress();
+                                        flatNoController.clear();
+                                        streetController.clear();
+                                        otherController.clear();
+                                        recipientController.clear();
+                                        selectedChip.value = "";
+                                      }
+                                    }):
                                     addAddress(
                                         location: _address,
                                         flat_no: flatNoController.text,
@@ -237,7 +261,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                         .then((value) {
                                       showToast(value.message);
                                       if (value.status == true) {
-                                        Get.back();
+                                        Get.toNamed(MyAddress.myAddressScreen);
+                                        addressController.getAddress();
                                         flatNoController.clear();
                                         streetController.clear();
                                         otherController.clear();

@@ -19,7 +19,7 @@ Future<ModelCommonResponse> addAddress(
   map['street'] = street;
   map['landmark'] = landmark;
   map['address_type'] = address_type;
-  print(map);
+  log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -52,7 +52,7 @@ Future<ModelCommonResponse> editAddress(
   map['landmark'] = landmark;
   map['address_type'] = address_type;
   map['address_id'] = address_id;
-  print(map);
+  log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -93,6 +93,32 @@ Future<ModelCommonResponse> removeAddress(
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.removeAddressUrl),headers: headers,body:jsonEncode(map));
+  log(response.body.toString());
+  if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
+    return ModelCommonResponse.fromJson(json.decode(response.body));
+  } else {
+    Helpers.createSnackBar(context, response.body.toString());
+    Helpers.hideLoader(loader);
+    throw Exception(response.body);
+  }
+}
+
+Future<ModelCommonResponse> chooseOrderAddress(
+    {required addressId,required BuildContext context}) async {
+  var map = <String, dynamic>{};
+  map['address_id'] = addressId;
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  ModelVerifyOtp? user =
+  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
+  };
+  http.Response response = await http.post(Uri.parse(ApiUrl.chooseOrderAddressUrl),headers: headers,body:jsonEncode(map));
   log(response.body.toString());
   if (response.statusCode == 200) {
     Helpers.hideLoader(loader);

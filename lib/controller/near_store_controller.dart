@@ -15,6 +15,9 @@ class NearStoreController extends GetxController {
   // final scrollController = ScrollController();
 
   Future<dynamic> getData({isFirstTime = false, context}) async {
+    if(isFirstTime){
+      page.value = 1;
+    }
     if (isPaginationLoading.value && loadMore.value) {
       isPaginationLoading.value = false;
       await loadWithPagination(
