@@ -33,4 +33,6 @@ class ApiUrl {
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
   static const vendorRegister = "${baseUrl}vendor-register";
+  static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
+  static const referAndEarnUrl = "${baseUrl}refer-and-earn";
 }
