@@ -42,20 +42,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     "Custom calender"
   ];
   final List<String> DropDownStatusList = ["Completed", "Pending"];
-
-  RxString selectedDate = "".obs;
-  RxString selectedDate1 = "".obs;
   final format = DateFormat('dd-MM-yyyy');
 
   void selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.parse(selectedDate.value),
+      initialDate: DateTime.parse(myOrderController.selectedDate.value),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
-      selectedDate.value = pickedDate.toString();
+      myOrderController.selectedDate.value = pickedDate.toString();
       setState(() {});
     }
   }
@@ -63,12 +60,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   void selectDate1() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.parse(selectedDate1.value),
+      initialDate: DateTime.parse(myOrderController.selectedDate1.value),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
-      selectedDate1.value = pickedDate.toString();
+      myOrderController.selectedDate1.value = pickedDate.toString();
       setState(() {});
     }
   }
@@ -147,12 +144,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                   myOrderController
                                                       .getMyOrder();
                                                 } else {
-                                                  selectedDate.value =
+                                                  myOrderController.selectedDate.value =
                                                       DateTime.now()
                                                           .subtract(
                                                               Duration(days: 5))
                                                           .toString();
-                                                  selectedDate1.value =
+                                                  myOrderController.selectedDate1.value =
                                                       DateTime.now().toString();
                                                 }
                                               });
@@ -210,7 +207,9 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                               ),
                               Flexible(
                                 child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      myOrderController.getMyOrder();
+                                    },
                                     icon: ImageIcon(
                                       const AssetImage(AppAssets.filterImage),
                                       color: AppTheme.primaryColor,
@@ -225,22 +224,28 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                 children: [
                                   Expanded(
                                       child: TextFormField(
+                                        readOnly: true,
+                                    onTap: (){
+                                      selectDate();
+                                    },
                                     controller: TextEditingController(
-                                        text: format.format(DateTime.parse(
-                                            selectedDate.value == ""
-                                                ? DateTime.now().toString()
-                                                : selectedDate.value))),
+                                        text: format.format(DateTime.parse(myOrderController.selectedDate.value == "" ? DateTime.now().toString()
+                                                : myOrderController.selectedDate.value))),
                                   )),
                                   SizedBox(
                                     width: 18,
                                   ),
                                   Expanded(
                                       child: TextFormField(
+                                        onTap: (){
+                                          selectDate1();
+                                        },
+                                        readOnly: true,
                                     controller: TextEditingController(
                                         text: format.format(DateTime.parse(
-                                            selectedDate1.value == ""
+                                            myOrderController.selectedDate1.value == ""
                                                 ? DateTime.now().toString()
-                                                : selectedDate1.value))),
+                                                : myOrderController.selectedDate1.value))),
                                   )),
                                 ],
                               );

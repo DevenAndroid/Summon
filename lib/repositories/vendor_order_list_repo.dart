@@ -6,22 +6,20 @@ import '../model/MyOrder_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<MyOrdersModel> myOrderRepo({required filter, required status,required start_date, required end_date}) async {
+Future<MyOrdersModel> vendorOrderRepo({required filter, required status,required start_date, required end_date}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-
-   try {
+  try {
   final response = await http.get(
       Uri.parse("${ApiUrl.myOrdersUrl}?filter=$filter&status=$status&start_date=$start_date&end_date=$end_date"),
       headers: headers);
   print("My Orders Repository...${response.body}");
-  print("${ApiUrl.myOrdersUrl}?filter=$filter&status=$status&start_date=$start_date&end_date=$end_date");
   if (response.statusCode == 200) {
     print("My Orders Repository...${response.body}");
     return MyOrdersModel.fromJson(jsonDecode(response.body));
@@ -29,6 +27,6 @@ Future<MyOrdersModel> myOrderRepo({required filter, required status,required sta
     throw Exception(response.body);
   }
   } catch (e) {
-   throw Exception(e.toString());
+    throw Exception(e.toString());
   }
 }
