@@ -119,10 +119,12 @@ class _OrderDetailsState extends State<OrderDetails>
                                                       horizontal: width * .04,
                                                       vertical: height * .005),
                                                   child: Text(
-                                                    // myOrderDetailsController.model.value
-                                                    //     .data!.deliveryStatus
-                                                    //     .toString(),
-                                                    'Delivered',
+                                                    myOrderDetailsController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .deliveryStatus
+                                                        .toString(),
                                                     style: TextStyle(
                                                         fontSize:
                                                             AddSize.font14,
