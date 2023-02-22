@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ApiUrl {
   static const baseUrl = "https://fresh2arrive.eoxyslive.com/api/";
   static const loginApi = "${baseUrl}login";
@@ -33,4 +31,6 @@ class ApiUrl {
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
   static const vendorRegister = "${baseUrl}vendor-register";
+  static const myWalletUrl = "${baseUrl}wallet";
+  static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
 }

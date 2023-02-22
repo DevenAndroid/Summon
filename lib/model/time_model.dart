@@ -1,3 +1,10 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
+import '../resources/app_assets.dart';
+import '../resources/app_theme.dart';
+
 class TimeModel {
   dynamic key;
   dynamic value;
@@ -18,8 +25,8 @@ List<TimeModel> timeData = [
     value: "This Month",
   ),
   TimeModel(
-    key: "last_month",
-    value: "Last Month",
+    key: "last_three_month",
+    value: "Last three Month",
   ),
   TimeModel(
     key: "custom",
@@ -62,4 +69,35 @@ List<Status> status = [
     key: "D",
     value: "Delivered",
   ),
+];
+
+class WalletModel {
+  dynamic key;
+  dynamic value;
+  dynamic image;
+  Color color;
+  WalletModel({this.key, this.value, this.image, required this.color});
+}
+
+List<WalletModel> walletModel = [
+  WalletModel(
+      key: "A",
+      value: "All",
+      image: AppAssets.allIcon,
+      color: AppTheme.appPrimaryPinkColor),
+  WalletModel(
+      key: "V",
+      value: "Vendor",
+      image: AppAssets.store,
+      color: AppTheme.appPrimaryGreenColor),
+  WalletModel(
+      key: "D",
+      value: "Driver",
+      image: AppAssets.driverIcon,
+      color: AppTheme.appPrimaryYellowColor),
+  WalletModel(
+      key: "C",
+      value: "Customer",
+      image: AppAssets.personIcon,
+      color: AppTheme.appPrimaryOrangeColor),
 ];

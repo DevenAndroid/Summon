@@ -150,7 +150,8 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                   selectedDate.value =
                                                       DateTime.now()
                                                           .subtract(
-                                                              Duration(days: 5))
+                                                              const Duration(
+                                                                  days: 5))
                                                           .toString();
                                                   selectedDate1.value =
                                                       DateTime.now().toString();
@@ -231,7 +232,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                 ? DateTime.now().toString()
                                                 : selectedDate.value))),
                                   )),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 18,
                                   ),
                                   Expanded(
