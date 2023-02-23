@@ -24,8 +24,8 @@ class MyOrdersDetailsModel {
 
 class Data {
   int? orderId;
-  dynamic itemTotal;
-  dynamic surcharge;
+  int? itemTotal;
+  int? surcharge;
   dynamic tax;
   dynamic deliveryCharges;
   dynamic packingFee;
@@ -122,6 +122,7 @@ class Data {
     if (this.address != null) {
       data['address'] = this.address!.toJson();
     }
+    data['address'] = this.address;
     data['order_type'] = this.orderType;
     data['delivery_status'] = this.deliveryStatus;
     if (this.orderItems != null) {
@@ -176,8 +177,8 @@ class User {
   int? id;
   int? isDriver;
   int? isVendor;
-  dynamic walletBalance;
-  dynamic earnedBalance;
+  int? walletBalance;
+  int? earnedBalance;
   String? name;
   String? phone;
   String? email;
@@ -309,44 +310,101 @@ class User {
   }
 }
 
-class Address {
+class Driver {
   int? id;
-  int? userId;
+  int? isDriver;
+  int? isVendor;
+  int? walletBalance;
+  int? earnedBalance;
+  String? name;
+  String? phone;
+  String? email;
+  Null? otp;
+  String? profileImage;
   String? latitude;
   String? longitude;
   String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
+  Null? defaultAddress;
+  String? referalCode;
+  Null? deviceToken;
+  Null? deviceId;
+  int? isDriverOnline;
+  int? isVendorOnline;
+  int? deliveryRange;
+  int? selfDelivery;
+  int? adminCommission;
+  int? asDriverVerified;
+  int? asVendorVerified;
+  int? featuredStore;
+  Null? emailVerifiedAt;
+  int? status;
+  int? isProfileComplete;
   String? createdAt;
   String? updatedAt;
   Null? deletedAt;
 
-  Address(
+  Driver(
       {this.id,
-        this.userId,
-        this.latitude,
-        this.longitude,
-        this.location,
-        this.flatNo,
-        this.street,
-        this.landmark,
-        this.addressType,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+      this.isDriver,
+      this.isVendor,
+      this.walletBalance,
+      this.earnedBalance,
+      this.name,
+      this.phone,
+      this.email,
+      this.otp,
+      this.profileImage,
+      this.latitude,
+      this.longitude,
+      this.location,
+      this.defaultAddress,
+      this.referalCode,
+      this.deviceToken,
+      this.deviceId,
+      this.isDriverOnline,
+      this.isVendorOnline,
+      this.deliveryRange,
+      this.selfDelivery,
+      this.adminCommission,
+      this.asDriverVerified,
+      this.asVendorVerified,
+      this.featuredStore,
+      this.emailVerifiedAt,
+      this.status,
+      this.isProfileComplete,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
-  Address.fromJson(Map<String, dynamic> json) {
+  Driver.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    userId = json['user_id'];
+    isDriver = json['is_driver'];
+    isVendor = json['is_vendor'];
+    walletBalance = json['wallet_balance'];
+    earnedBalance = json['earned_balance'];
+    name = json['name'];
+    phone = json['phone'];
+    email = json['email'];
+    otp = json['otp'];
+    profileImage = json['profile_image'];
     latitude = json['latitude'];
     longitude = json['longitude'];
     location = json['location'];
-    flatNo = json['flat_no'];
-    street = json['street'];
-    landmark = json['landmark'];
-    addressType = json['address_type'];
+    defaultAddress = json['default_address'];
+    referalCode = json['referal_code'];
+    deviceToken = json['device_token'];
+    deviceId = json['device_id'];
+    isDriverOnline = json['is_driver_online'];
+    isVendorOnline = json['is_vendor_online'];
+    deliveryRange = json['delivery_range'];
+    selfDelivery = json['self_delivery'];
+    adminCommission = json['admin_commission'];
+    asDriverVerified = json['as_driver_verified'];
+    asVendorVerified = json['as_vendor_verified'];
+    featuredStore = json['featured_store'];
+    emailVerifiedAt = json['email_verified_at'];
+    status = json['status'];
+    isProfileComplete = json['is_profile_complete'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
@@ -355,14 +413,33 @@ class Address {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['user_id'] = this.userId;
+    data['is_driver'] = this.isDriver;
+    data['is_vendor'] = this.isVendor;
+    data['wallet_balance'] = this.walletBalance;
+    data['earned_balance'] = this.earnedBalance;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['email'] = this.email;
+    data['otp'] = this.otp;
+    data['profile_image'] = this.profileImage;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
     data['location'] = this.location;
-    data['flat_no'] = this.flatNo;
-    data['street'] = this.street;
-    data['landmark'] = this.landmark;
-    data['address_type'] = this.addressType;
+    data['default_address'] = this.defaultAddress;
+    data['referal_code'] = this.referalCode;
+    data['device_token'] = this.deviceToken;
+    data['device_id'] = this.deviceId;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['delivery_range'] = this.deliveryRange;
+    data['self_delivery'] = this.selfDelivery;
+    data['admin_commission'] = this.adminCommission;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['featured_store'] = this.featuredStore;
+    data['email_verified_at'] = this.emailVerifiedAt;
+    data['status'] = this.status;
+    data['is_profile_complete'] = this.isProfileComplete;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;

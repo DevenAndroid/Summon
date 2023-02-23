@@ -443,6 +443,9 @@ class _OrderDetailsState extends State<OrderDetails>
                                                             ),
                                                           ],
                                                         ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
                                                       ],
                                                     ),
                                                   ),

@@ -9,7 +9,11 @@ import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
 Future<VendorOrderListModel> vendorOrderListRepo(
-    {required filter, required status}) async {
+    {required keyword,
+    required filter,
+    required status,
+    required start_date,
+    required end_date}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -21,9 +25,12 @@ Future<VendorOrderListModel> vendorOrderListRepo(
 
   try {
     final response = await http.get(
-        Uri.parse("${ApiUrl.vendorOrderListUrl}?filter=$filter&status=$status"),
+        Uri.parse(
+            "${ApiUrl.vendorOrderListUrl}?filter=$filter&status=$status&start_date=$start_date&end_date=$end_date&keyword=$keyword"),
         headers: headers);
     print("Vendor Order List Repository...${response.body}");
+    print(
+        "${ApiUrl.myOrdersUrl}?filter=$filter&status=$status&start_date=$start_date&end_date=$end_date");
     if (response.statusCode == 200) {
       print("Vendor Order List Repository...${response.body}");
       return VendorOrderListModel.fromJson(jsonDecode(response.body));

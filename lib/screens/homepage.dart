@@ -7,7 +7,6 @@ import 'package:fresh2_arrive/repositories/Add_To_Cart_Repo.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
@@ -15,7 +14,6 @@ import '../controller/main_home_controller.dart';
 import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Remove_CartItem_Repo.dart';
-import '../repositories/update_location_repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -244,10 +242,12 @@ class HomePageState extends State<HomePage> {
                                   ],
                                 ),
                                 GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    padding: EdgeInsets.zero,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount: homeController.model.value.data!.latestCategory!.length,
+                                    itemCount: homeController.model.value.data!
+                                        .latestCategory!.length,
                                     gridDelegate:
                                         const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 4,
@@ -344,7 +344,8 @@ class HomePageState extends State<HomePage> {
                                       itemCount: homeController.model.value
                                           .data!.featuredStores!.length,
                                       shrinkWrap: true,
-                                      padding: EdgeInsets.only(top: height * .02),
+                                      padding:
+                                          EdgeInsets.only(top: height * .02),
                                       physics: const BouncingScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return Padding(
@@ -818,7 +819,9 @@ class HomePageState extends State<HomePage> {
                                                                 .model
                                                                 .value
                                                                 .data!
-                                                                .bestFreshProduct![index].id
+                                                                .bestFreshProduct![
+                                                                    index]
+                                                                .id
                                                                 .toString(),
                                                             int.parse((myCartController
                                                                             .model
