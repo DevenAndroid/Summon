@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/controller/notification_controller.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/app_assets.dart';
@@ -13,34 +14,36 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class NotificationScreenState extends State<NotificationScreen> {
+  final controller = Get.put(NotificationController());
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: backAppBar(title: "Notification", context: context),
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+        body: Obx(() {
+  return controller.isDataLoading.value ? SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: width * 0.02, vertical: height * .01),
             child: Column(
               children: [
                 ListView.builder(
-                    itemCount: 8,
+                    itemCount: controller.model.value.data!.notificationData!.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return notificationList(
-                          "Date - 09-12-2022",
-                          "Lorem ipsum dolor sit amet",
-                          "Lorem ipsum dolor sit amet consectetur adipiscingelit, sed do eiusmod");
+                          controller.model.value.data!.notificationData![index].time.toString(),
+                          controller.model.value.data!.notificationData![index].title.toString(),
+                        controller.model.value.data!.notificationData![index].body.toString());
                     })
               ],
             ),
           ),
-        ));
+        ):const Center(child: CircularProgressIndicator(),);
+}));
   }
 
   Widget notificationList(date, title, description) {

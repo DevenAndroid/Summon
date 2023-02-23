@@ -16,7 +16,7 @@ Future<MyOrdersModel> myOrderRepo({required filter, required status,required sta
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
 
-   try {
+   // try {
   final response = await http.get(
       Uri.parse("${ApiUrl.myOrdersUrl}?filter=$filter&status=$status&start_date=$start_date&end_date=$end_date"),
       headers: headers);
@@ -28,7 +28,8 @@ Future<MyOrdersModel> myOrderRepo({required filter, required status,required sta
   } else {
     throw Exception(response.body);
   }
-  } catch (e) {
-   throw Exception(e.toString());
-  }
+  // }
+  // catch (e) {
+  //  throw Exception(e.toString());
+  // }
 }

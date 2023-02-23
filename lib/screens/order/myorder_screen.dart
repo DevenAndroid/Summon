@@ -75,7 +75,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-        // backgroundColor: CupertinoColors.white,
+        // backgroundColor: Colors.transparent,
         appBar: backAppBar(
           title: "My Orders",
           context: context,
@@ -88,8 +88,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                 vertical: AddSize.padding10,
               ),
               child: Obx(() {
-                return myOrderController.isDataLoading.value
-                    ? Column(
+                return Column(
                         children: [
                           SizedBox(
                             height: AddSize.size10,
@@ -144,13 +143,15 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                   myOrderController
                                                       .getMyOrder();
                                                 } else {
-                                                  myOrderController.selectedDate.value =
+                                                  myOrderController
+                                                          .selectedDate.value =
                                                       DateTime.now()
                                                           .subtract(
                                                               const Duration(
                                                                   days: 5))
                                                           .toString();
-                                                  myOrderController.selectedDate1.value =
+                                                  myOrderController
+                                                          .selectedDate1.value =
                                                       DateTime.now().toString();
                                                 }
                                               });
@@ -225,28 +226,36 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                 children: [
                                   Expanded(
                                       child: TextFormField(
-                                        readOnly: true,
-                                    onTap: (){
+                                    readOnly: true,
+                                    onTap: () {
                                       selectDate();
                                     },
                                     controller: TextEditingController(
-                                        text: format.format(DateTime.parse(myOrderController.selectedDate.value == "" ? DateTime.now().toString()
-                                                : myOrderController.selectedDate.value))),
+                                        text: format.format(DateTime.parse(
+                                            myOrderController
+                                                        .selectedDate.value ==
+                                                    ""
+                                                ? DateTime.now().toString()
+                                                : myOrderController
+                                                    .selectedDate.value))),
                                   )),
                                   const SizedBox(
                                     width: 18,
                                   ),
                                   Expanded(
                                       child: TextFormField(
-                                        onTap: (){
-                                          selectDate1();
-                                        },
-                                        readOnly: true,
+                                    onTap: () {
+                                      selectDate1();
+                                    },
+                                    readOnly: true,
                                     controller: TextEditingController(
                                         text: format.format(DateTime.parse(
-                                            myOrderController.selectedDate1.value == ""
+                                            myOrderController
+                                                        .selectedDate1.value ==
+                                                    ""
                                                 ? DateTime.now().toString()
-                                                : myOrderController.selectedDate1.value))),
+                                                : myOrderController
+                                                    .selectedDate1.value))),
                                   )),
                                 ],
                               );
@@ -277,7 +286,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                   .orderDetailsScreen);
                                             },
                                             child: Card(
-                                                elevation: 3,
+                                                elevation: 0,
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -306,7 +315,8 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                     .size80,
                                                                 width: AddSize
                                                                     .size80,
-                                                                decoration: const BoxDecoration(
+                                                                decoration:  BoxDecoration(
+                                                                  border: Border.all(color:Colors.grey.shade300,width: 2),
                                                                     color: Color(
                                                                         0xffEAEAEA),
                                                                     shape: BoxShape
@@ -332,7 +342,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                         (_, __) =>
                                                                             const SizedBox(),
                                                                     fit: BoxFit
-                                                                        .fill,
+                                                                        .cover,
                                                                   ),
                                                                 ),
                                                               ),
@@ -383,15 +393,19 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                           TextAlign
                                                                               .start,
                                                                     ),
+                                                                    SizedBox(
+                                                                      height: AddSize
+                                                                          .size5,
+                                                                    ),
                                                                     Text(
                                                                       ' ${myOrderController.model.value.data![index].itemCount.toString()} Items',
                                                                       style: const TextStyle(
                                                                           color: Color(
                                                                               0xff727786),
                                                                           fontSize:
-                                                                              14,
+                                                                              12,
                                                                           fontWeight:
-                                                                              FontWeight.w500),
+                                                                              FontWeight.w400),
                                                                     ),
                                                                     SizedBox(
                                                                       height: AddSize
@@ -413,7 +427,8 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                     ),
                                                                   ],
                                                                 ),
-                                                              )
+                                                              ),
+                                                               Icon(Icons.arrow_forward_ios,size: AddSize.size15)
                                                             ]),
                                                       ),
                                                     ),
@@ -461,15 +476,26 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                           ),
                                         );
                                       })
-                                  : const Center(child: Text("No Order Found"))
-                              : const Center(
-                                  child: CircularProgressIndicator()),
+                                  : Center(
+                                      child: Padding(
+                                          padding: EdgeInsets.only(top: AddSize.size100),
+                                          child: Text(
+                                            "No Order Found",
+                                            style: TextStyle(
+                                                fontSize: AddSize.font14,
+                                                color: AppTheme.blackcolor,
+                                                fontWeight: FontWeight.w500),
+                                          )))
+                              :  Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: AddSize.size100),
+                                    child: const CircularProgressIndicator(),
+                                  )),
                           SizedBox(
                             height: height * .05,
                           )
                         ],
-                      )
-                    : const Center(child: CircularProgressIndicator());
+                      );
               }),
             )));
   }

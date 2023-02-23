@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ReferAndEarn extends StatefulWidget {
   const ReferAndEarn({Key? key}) : super(key: key);
@@ -19,7 +20,12 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
   final key = GlobalKey<ScaffoldState>();
   final controller = Get.put(ReferAndEarnController());
   final String _copy = "YAF5KJHGCX45YTUY";
-
+  void onShare(code,BuildContext context) async {
+    final box = context.findRenderObject() as RenderBox?;
+    await Share.share(code,
+        subject: "link",
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery
@@ -141,7 +147,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                               ]),
                               GestureDetector(
                                 onTap: () {
-
+                                  onShare(controller.referAndEarnModel.value.data!.referCode.toString(),context);
                                 },
                                 child: const Icon(
                                   Icons.share_outlined,
@@ -185,7 +191,7 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          // Get.toNamed(MyRouter.editProfileScreen);
+                          onShare(controller.referAndEarnModel.value.data!.referCode.toString(),context);
                         },
                         style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.all(10),

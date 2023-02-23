@@ -34,4 +34,5 @@ class ApiUrl {
   static const myWalletUrl = "${baseUrl}wallet";
   static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
   static const referAndEarnUrl = "${baseUrl}refer-and-earn";
+  static const notificationUrl = "${baseUrl}notification-list";
 }
