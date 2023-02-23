@@ -42,7 +42,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: AddSize.padding16,vertical: AddSize.padding10),
+          padding: EdgeInsets.symmetric(
+              horizontal: AddSize.padding16, vertical: AddSize.padding10),
           child: Column(
             children: [
               SizedBox(
@@ -54,7 +55,11 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                   textAlignVertical: TextAlignVertical.center,
                   textInputAction: TextInputAction.search,
                   onSubmitted: (value) {
-                    controller.getSearchData();
+                    controller.getSearchData().then((value) {
+                      if (value.status == false) {
+                        showToast("No data found");
+                      }
+                    });
                   },
                   decoration: InputDecoration(
                       focusedBorder: const OutlineInputBorder(
@@ -62,13 +67,12 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                         color: Colors.grey,
                       )),
                       enabledBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey, width: 0.0),
+                        borderSide: BorderSide(color: Colors.grey, width: 0.0),
                       ),
                       filled: true,
                       suffixIcon: IconButton(
                         onPressed: () {
-                          log("AAAAAA");
+                          // log("AAAAAA");
                           controller.getSearchData().then((value) {
                             if (value.status == false) {
                               showToast("No data found");
@@ -166,9 +170,10 @@ class _SearchScreenDataState extends State<SearchScreenData> {
               //   ),
               // ),
               Obx(() {
-                return (controller.searchDataModel.value.data != null && controller.searchDataModel.value.data!.isNotEmpty) ?ListView.builder(
-                        itemCount: controller.searchDataModel.value.data !=
-                                null
+                return (controller.searchDataModel.value.data != null &&
+                        controller.searchDataModel.value.data!.isNotEmpty)
+                    ? ListView.builder(
+                        itemCount: controller.searchDataModel.value.data != null
                             ? controller.searchDataModel.value.data!.length
                             : 0,
                         shrinkWrap: true,
@@ -222,7 +227,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                               child: Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                       controller
@@ -237,8 +243,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                               .blackcolor,
                                                           fontSize: 16,
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .w500)),
+                                                              FontWeight.w500)),
                                                   SizedBox(
                                                     height: height * .01,
                                                   ),
@@ -251,8 +256,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(
-                                                                    8.0),
+                                                                .circular(8.0),
                                                         color: Colors
                                                             .grey.shade100),
                                                     child:
@@ -273,8 +277,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                 .start,
                                                         children: [
                                                           SizedBox(
-                                                            width:
-                                                                width * .02,
+                                                            width: width * .02,
                                                           ),
                                                           Text(
                                                             "₹${controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString()}",
@@ -287,8 +290,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                         .w600),
                                                           ),
                                                           SizedBox(
-                                                            width:
-                                                                width * .02,
+                                                            width: width * .02,
                                                           ),
                                                           Text(
                                                             "₹${controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].marketPrice.toString()}",
@@ -297,8 +299,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                     TextDecoration
                                                                         .lineThrough,
                                                                 fontSize: 12,
-                                                                color: Colors
-                                                                    .grey,
+                                                                color:
+                                                                    Colors.grey,
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w400),
@@ -336,22 +338,23 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                             BorderRadius.circular(6)),
                                                                     child:
                                                                         Padding(
-                                                                      padding:
-                                                                          EdgeInsets.symmetric(
-                                                                        vertical:
-                                                                            height * .005,
-                                                                            horizontal: width * .02
-                                                                      ),
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          vertical: height *
+                                                                              .005,
+                                                                          horizontal:
+                                                                              width * .02),
                                                                       child:
                                                                           Row(
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.spaceBetween,
                                                                         children: [
                                                                           InkWell(
-                                                                            onTap: () {
+                                                                            onTap:
+                                                                                () {
                                                                               removeCartItemRepo(controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString(), context);
                                                                             },
-                                                                            child: const Icon(
+                                                                            child:
+                                                                                const Icon(
                                                                               Icons.remove,
                                                                               color: AppTheme.backgroundcolor,
                                                                               size: 15,
@@ -359,11 +362,15 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                           ),
                                                                           Text(
                                                                             myCartController.model.value.data!.cartItems![0].cartItemQty.toString(),
-                                                                            style: TextStyle(fontSize: AddSize.font14, color: AppTheme.backgroundcolor, fontWeight: FontWeight.w500),
+                                                                            style: TextStyle(
+                                                                                fontSize: AddSize.font14,
+                                                                                color: AppTheme.backgroundcolor,
+                                                                                fontWeight: FontWeight.w500),
                                                                           ),
                                                                           InkWell(
-                                                                            onTap: () {
-                                                                              addToCartRepo(controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString(),controller.searchDataModel.value.data![index].id.toString(), "1", context).then((value) {
+                                                                            onTap:
+                                                                                () {
+                                                                              addToCartRepo(controller.searchDataModel.value.data![index].varints![controller.searchDataModel.value.data![index].varientIndex!.value].price.toString(), controller.searchDataModel.value.data![index].id.toString(), "1", context).then((value) {
                                                                                 if (value.status == true) {
                                                                                   showToast(value.message);
                                                                                   myCartController.getAddToCartList();
@@ -372,7 +379,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                                 }
                                                                               });
                                                                             },
-                                                                            child: const Icon(
+                                                                            child:
+                                                                                const Icon(
                                                                               Icons.add,
                                                                               color: AppTheme.backgroundcolor,
                                                                               size: 15,
@@ -413,12 +421,16 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                         .varientIndex!
                                                                         .value;
                                                                     addToCartRepo(
-                                                                            controller.searchDataModel.value.data![index].varints![vIndex].id.toString(),
-                                                                        controller.searchDataModel.value.data![index].id.toString(),
+                                                                            controller.searchDataModel.value.data![index].varints![vIndex].id
+                                                                                .toString(),
+                                                                            controller.searchDataModel.value.data![index].id
+                                                                                .toString(),
                                                                             '1',
                                                                             context)
-                                                                        .then((value) {
-                                                                      if (value.status ==
+                                                                        .then(
+                                                                            (value) {
+                                                                      if (value
+                                                                              .status ==
                                                                           true) {
                                                                         showToast(
                                                                             value.message);
@@ -433,10 +445,12 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                                   child: Text(
                                                                       "ADD",
                                                                       style: TextStyle(
-                                                                          fontSize:
-                                                                              AddSize.font12,
-                                                                          color: AppTheme.primaryColor,
-                                                                          fontWeight: FontWeight.w600)),
+                                                                          fontSize: AddSize
+                                                                              .font12,
+                                                                          color: AppTheme
+                                                                              .primaryColor,
+                                                                          fontWeight:
+                                                                              FontWeight.w600)),
                                                                 )
                                                           : const SizedBox()
                                                     ],
@@ -454,14 +468,11 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                             width: width * .18,
                                             decoration: const BoxDecoration(
                                                 color: AppTheme.primaryColor,
-                                                borderRadius:
-                                                    BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                10),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                10))),
+                                                borderRadius: BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    bottomRight:
+                                                        Radius.circular(10))),
                                             child: Center(
                                                 child: Text(
                                               controller
@@ -478,10 +489,9 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                   .toString(),
                                               style: const TextStyle(
                                                   fontSize: 14,
-                                                  color: AppTheme
-                                                      .backgroundcolor,
-                                                  fontWeight:
-                                                      FontWeight.w400),
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                  fontWeight: FontWeight.w400),
                                             )))),
                                   ],
                                 )),
@@ -497,7 +507,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                           //   //     .searchModel.value.data![index].image
                           //   //     .toString()),
                           // );
-                        }):const Text("No data found");
+                        })
+                    : const Text("No data found");
               })
             ],
           ),

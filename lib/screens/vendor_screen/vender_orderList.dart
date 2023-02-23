@@ -6,9 +6,10 @@ import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import '../../controller/MyOrder_Details_Controller.dart';
 import '../../controller/Vendor_Orderlist_Controller.dart';
 import '../../resources/app_assets.dart';
-import '../SearchScreenData..dart';
 
 class VendorOrderList extends StatefulWidget {
   const VendorOrderList({Key? key}) : super(key: key);
@@ -20,7 +21,8 @@ class VendorOrderList extends StatefulWidget {
 
 class _VendorOrderListState extends State<VendorOrderList> {
   final vendorOrderListController = Get.put(VendorOrderListController());
-  // final TextEditingController searchController = TextEditingController();
+  final controller = Get.put(MyOrderDetailsController());
+  final TextEditingController searchController = TextEditingController();
   RxBool isValue = false.obs;
   String? selectedStatus;
   String? selectedTime;
@@ -30,13 +32,43 @@ class _VendorOrderListState extends State<VendorOrderList> {
     "Last week",
     "This month",
     "Last three month",
-    "Custom from-to calender icon"
+    "Custom calender"
   ];
   final List<String> dropDownStatusList = ["Completed", "Pending"];
+
+  final format = DateFormat('dd-MM-yyyy');
+
+  void selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.parse(vendorOrderListController.selectedDate.value),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null) {
+      vendorOrderListController.selectedDate.value = pickedDate.toString();
+      setState(() {});
+    }
+  }
+
+  void selectDate1() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.parse(vendorOrderListController.selectedDate.value),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate != null) {
+      vendorOrderListController.selectedDate.value = pickedDate.toString();
+      controller.getMyOrderDetails();
+      setState(() {});
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    vendorOrderListController.filter.value = "";
     vendorOrderListController.vendorOrderListData();
   }
 
@@ -119,6 +151,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                       ),
                                       GestureDetector(
                                         onTap: () {
+                                          // controller.id.value=vendorOrderListController.model.value.data
                                           Get.toNamed(
                                               WithDrawMoney.withDrawMoney);
                                         },
@@ -206,8 +239,20 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                           selectedTime = newValue as String?;
                                           vendorOrderListController
                                               .filter.value = newValue!;
-                                          vendorOrderListController
-                                              .vendorOrderListData();
+                                          if (newValue != "custom") {
+                                            vendorOrderListController
+                                                .vendorOrderListData();
+                                          } else {
+                                            vendorOrderListController
+                                                    .selectedDate.value =
+                                                DateTime.now()
+                                                    .subtract(
+                                                        const Duration(days: 5))
+                                                    .toString();
+                                            vendorOrderListController
+                                                    .selectedDate1.value =
+                                                DateTime.now().toString();
+                                          }
                                         });
                                       },
                                     ),
@@ -275,6 +320,113 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                 ),
                               ],
                             ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            if (vendorOrderListController.filter.value ==
+                                "custom")
+                              Obx(() {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                        child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white10,
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          border: Border.all(
+                                              color: Colors.white24)),
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          color: AppTheme.backgroundcolor,
+                                        ),
+                                        decoration: InputDecoration(
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        AddSize.padding20,
+                                                    vertical:
+                                                        AddSize.padding10),
+                                            hintStyle: TextStyle(
+                                                fontSize: AddSize.font14,
+                                                color: AppTheme.backgroundcolor,
+                                                fontWeight: FontWeight.w400)),
+                                        readOnly: true,
+                                        onTap: () {
+                                          selectDate();
+                                        },
+                                        controller: TextEditingController(
+                                            text: format.format(DateTime.parse(
+                                                vendorOrderListController
+                                                            .selectedDate
+                                                            .value ==
+                                                        ""
+                                                    ? DateTime.now().toString()
+                                                    : vendorOrderListController
+                                                        .selectedDate.value))),
+                                      ),
+                                    )),
+                                    const SizedBox(
+                                      width: 18,
+                                    ),
+                                    Expanded(
+                                        child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white10,
+                                          borderRadius:
+                                              BorderRadius.circular(6),
+                                          border: Border.all(
+                                              color: Colors.white24)),
+                                      child: TextFormField(
+                                        style: const TextStyle(
+                                          fontSize: 17,
+                                          color: AppTheme.backgroundcolor,
+                                        ),
+                                        decoration: InputDecoration(
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide.none),
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        AddSize.padding20,
+                                                    vertical:
+                                                        AddSize.padding10),
+                                            hintStyle: TextStyle(
+                                                fontSize: AddSize.font14,
+                                                color: AppTheme.backgroundcolor,
+                                                fontWeight: FontWeight.w400)),
+                                        onTap: () {
+                                          selectDate1();
+                                        },
+                                        readOnly: true,
+                                        controller: TextEditingController(
+                                            text: format.format(DateTime.parse(
+                                                vendorOrderListController
+                                                            .selectedDate1
+                                                            .value ==
+                                                        ""
+                                                    ? DateTime.now().toString()
+                                                    : vendorOrderListController
+                                                        .selectedDate1.value))),
+                                      ),
+                                    )),
+                                    IconButton(
+                                        onPressed: () {
+                                          vendorOrderListController
+                                              .vendorOrderListData();
+                                        },
+                                        icon: ImageIcon(
+                                          const AssetImage(
+                                              AppAssets.filterImage),
+                                          color: Colors.white,
+                                          size: AddSize.size20,
+                                        ))
+                                  ],
+                                );
+                              }),
                             SizedBox(
                               height: AddSize.size12,
                             ),
@@ -284,6 +436,9 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                   borderRadius: BorderRadius.circular(6),
                                   border: Border.all(color: Colors.white24)),
                               child: TextField(
+                                // onTap: (){
+                                //   vendorOrderListController.searchController.value=vendorOrderListController.model.value.data.orderList.length;
+                                // },
                                 maxLines: 1,
                                 controller:
                                     vendorOrderListController.searchController,
@@ -294,8 +449,17 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                 textAlignVertical: TextAlignVertical.center,
                                 textInputAction: TextInputAction.search,
                                 onSubmitted: (value) {
-                                  // if (vendorOrderListController.searchController.text.contains(vendorOrderListController.model.value.data.orderList.first              ))
+                                  print(vendorOrderListController
+                                      .searchController.text);
+                                  vendorOrderListController
+                                      .vendorOrderListData();
+
+                                  // if (vendorOrderListController
+                                  //         .searchController.text ==
+                                  //     vendorOrderListController.model.value
+                                  //         .data!.orderList!.isNotEmpty) {
                                   //   vendorOrderListController.getSearchData();
+                                  // }
                                 },
                                 decoration: InputDecoration(
                                     filled: true,
@@ -370,7 +534,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                         color: AppTheme.primaryColor),
                               ),
                               Text(
-                                "Status",
+                                "                 Status",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5!
@@ -406,8 +570,28 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                           (BuildContext context, int index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            Get.toNamed(DeliveryOrderDetails
-                                                .deliveryOrderDetails);
+                                            // controller.id.value =
+                                            //     vendorOrderListController
+                                            //         .model
+                                            //         .value
+                                            //         .data!
+                                            //         .orderList![index]
+                                            //         .id
+                                            //         .toString();
+                                            print(
+                                                'order id ${controller.id.value}');
+                                            Get.toNamed(
+                                                DeliveryOrderDetails
+                                                    .deliveryOrderDetails,
+                                                arguments: [
+                                                  vendorOrderListController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderList![index]
+                                                      .id
+                                                      .toString()
+                                                ]);
                                           },
                                           child: Column(
                                             children: [
@@ -507,7 +691,16 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                         );
                                       },
                                     )
-                                  : const Center(child: Text("No Order Found"))
+                                  : const Padding(
+                                      padding: EdgeInsets.only(top: 100),
+                                      child: Center(
+                                          child: Text(
+                                        "No Order Found",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                                    )
                               : const CircularProgressIndicator()
                         ]),
                       ),

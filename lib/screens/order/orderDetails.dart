@@ -74,36 +74,41 @@ class _OrderDetailsState extends State<OrderDetails>
                                                 SizedBox(
                                                   width: AddSize.size15,
                                                 ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Order ID ${myOrderDetailsController.model.value.data!.orderId.toString()}',
-                                                      style: TextStyle(
-                                                          color: AppTheme
-                                                              .primaryColor,
-                                                          fontSize:
-                                                              AddSize.font16,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                    Text(
-                                                      myOrderDetailsController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .placedAt
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          color: AppTheme
-                                                              .blackcolor,
-                                                          fontSize:
-                                                              AddSize.font12,
-                                                          fontWeight:
-                                                              FontWeight.w400),
-                                                    ),
-                                                  ],
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        'Order ID ${myOrderDetailsController.model.value.data!.orderId.toString()}',
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            fontSize:
+                                                                AddSize.font16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      Text(
+                                                        myOrderDetailsController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .placedAt
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .blackcolor,
+                                                            fontSize:
+                                                                AddSize.font12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -301,7 +306,9 @@ class _OrderDetailsState extends State<OrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  "Rajesh Sharma",
+                                                  myOrderDetailsController.model
+                                                      .value.data!.driver!.name
+                                                      .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5!
@@ -353,7 +360,9 @@ class _OrderDetailsState extends State<OrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  "+91 9876454321",
+                                                  myOrderDetailsController.model
+                                                      .value.data!.driver!.phone
+                                                      .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5!
@@ -409,7 +418,13 @@ class _OrderDetailsState extends State<OrderDetails>
                                                     Row(
                                                       children: [
                                                         Text(
-                                                          'Flat no ${myOrderDetailsController.model.value.data!.address!.flatNo.toString()}',
+                                                          myOrderDetailsController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .driver!
+                                                              .location
+                                                              .toString(),
                                                           style: Theme.of(
                                                                   context)
                                                               .textTheme
@@ -425,46 +440,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                                         const SizedBox(
                                                           width: 5,
                                                         ),
-                                                        Text(
-                                                          myOrderDetailsController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .address!
-                                                              .street
-                                                              .toString(),
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: AddSize
-                                                                      .font16),
-                                                        ),
                                                       ],
-                                                    ),
-                                                    Text(
-                                                      myOrderDetailsController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .address!
-                                                          .location
-                                                          .toString(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline5!
-                                                          .copyWith(
-                                                              height: 1.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: AddSize
-                                                                  .font16),
                                                     ),
                                                   ],
                                                 ),
@@ -488,7 +464,26 @@ class _OrderDetailsState extends State<OrderDetails>
                                     ],
                                   ),
                                 )),
-                            paymentDetails()
+                            paymentDetails(
+                              subTotal: myOrderDetailsController
+                                  .model.value.data!.itemTotal
+                                  .toString(),
+                              tax: myOrderDetailsController
+                                  .model.value.data!.tax
+                                  .toString(),
+                              delivery: myOrderDetailsController
+                                  .model.value.data!.deliveryCharges
+                                  .toString(),
+                              packing: myOrderDetailsController
+                                  .model.value.data!.packingFee
+                                  .toString(),
+                              orderType: myOrderDetailsController
+                                  .model.value.data!.orderType
+                                  .toString(),
+                              total: myOrderDetailsController
+                                  .model.value.data!.grandTotal
+                                  .toString(),
+                            )
                           ],
                         ),
                       ),
@@ -563,7 +558,26 @@ class _OrderDetailsState extends State<OrderDetails>
                                   ),
                                 ),
                               ),
-                              paymentDetails()
+                              paymentDetails(
+                                subTotal: myOrderDetailsController
+                                    .model.value.data!.itemTotal
+                                    .toString(),
+                                tax: myOrderDetailsController
+                                    .model.value.data!.tax
+                                    .toString(),
+                                delivery: myOrderDetailsController
+                                    .model.value.data!.deliveryCharges
+                                    .toString(),
+                                packing: myOrderDetailsController
+                                    .model.value.data!.packingFee
+                                    .toString(),
+                                orderType: myOrderDetailsController
+                                    .model.value.data!.orderType
+                                    .toString(),
+                                total: myOrderDetailsController
+                                    .model.value.data!.grandTotal
+                                    .toString(),
+                              )
                             ],
                           ),
                         ))
@@ -660,7 +674,14 @@ class _OrderDetailsState extends State<OrderDetails>
     );
   }
 
-  paymentDetails() {
+  paymentDetails({
+    required subTotal,
+    required tax,
+    required delivery,
+    required packing,
+    required total,
+    required orderType,
+  }) {
     return Card(
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -671,19 +692,19 @@ class _OrderDetailsState extends State<OrderDetails>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                details("Subtotal:", "₹30.30"),
+                details("Subtotal:", "$subTotal"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Tax & fee:", "₹5.00"),
+                details("Tax & fee:", tax),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Delivery:", "Free"),
+                details("Delivery:", delivery),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing fee:", "Free"),
+                details("Packing fee:", packing),
                 SizedBox(
                   height: AddSize.size5,
                 ),
@@ -695,7 +716,7 @@ class _OrderDetailsState extends State<OrderDetails>
                             color: AppTheme.primaryColor,
                             fontSize: AddSize.font16,
                             fontWeight: FontWeight.w500)),
-                    Text("₹40.00",
+                    Text(total,
                         style: TextStyle(
                             color: Colors.grey,
                             fontSize: AddSize.font14,
@@ -720,7 +741,7 @@ class _OrderDetailsState extends State<OrderDetails>
                               borderRadius: BorderRadius.circular(6)),
                         ),
                         child: Text(
-                          "COD",
+                          orderType,
                           style: Theme.of(context)
                               .textTheme
                               .headline5!

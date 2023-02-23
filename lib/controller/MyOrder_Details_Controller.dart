@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 
 import '../model/MyOrderDetails_Model.dart';
 import '../repositories/MyOrderDetails_Repo.dart';
-import '../repositories/MyOrders_Repo.dart';
 
 class MyOrderDetailsController extends GetxController {
   RxBool isDataLoading = false.obs;
@@ -17,9 +16,9 @@ class MyOrderDetailsController extends GetxController {
     });
   }
 
-@override
-void onInit() {
-  super.onInit();
-  getMyOrderDetails();
-}
+  @override
+  void onInit() {
+    super.onInit();
+    getMyOrderDetails();
+  }
 }
