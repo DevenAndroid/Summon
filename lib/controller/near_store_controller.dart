@@ -14,9 +14,6 @@ class NearStoreController extends GetxController {
   RxString storeId = "".obs;
   Rx<NearStoreModel> model = NearStoreModel().obs;
   Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
-  // RxList<NearStoreData> nearStoreData = <NearStoreData>[].obs;
-
-  // final scrollController = ScrollController();
 
   Future<dynamic> getData({isFirstTime = false, context}) async {
     if(isFirstTime){
@@ -38,7 +35,6 @@ class NearStoreController extends GetxController {
           if (!isFirstTime) {
             model.value.data!.addAll(value.data!);
           }
-
           loadMore.value = value.link!.next ?? false;
         }
       });

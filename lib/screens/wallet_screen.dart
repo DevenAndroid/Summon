@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/add_money.dart';
@@ -56,8 +55,8 @@ class _WalletScreenState extends State<WalletScreen> {
                               children: [
                                 Expanded(
                                   child: SizedBox(
-                                    height: 150,
-                                    width: 165,
+                                    height: 160,
+                                    width: 170,
                                     child: Card(
                                       elevation: 0,
                                       shape: RoundedRectangleBorder(
@@ -113,7 +112,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                 ),
                                 Expanded(
                                   child: SizedBox(
-                                    height: 150,
+                                    height: 160,
                                     width: 170,
                                     child: Card(
                                       elevation: 0,
@@ -181,7 +180,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                   child: listdata(
                                       walletModel[index].image,
                                       walletModel[index].value.toString(),
-                                      AppTheme.appPrimaryPinkColor),
+                                    walletModel[index].color),
                                   onTap: () {
                                     log("user type${walletModel[index].key}");
                                     myWalletController.userType.value =

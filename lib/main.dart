@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             elevation: 0
           ),
           primaryColor: AppTheme.primaryColor,
-          scaffoldBackgroundColor: const Color(0xffFFFFFF),
+          scaffoldBackgroundColor: const Color(0xffF5F5F5),
           // highlightColor: AppTheme.primaryColor,
           scrollbarTheme: const ScrollbarThemeData().copyWith(
             thumbColor: MaterialStateProperty.all(AppTheme.primaryColor),

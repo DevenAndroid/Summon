@@ -60,7 +60,16 @@ class _CouponsScreenState extends State<CouponsScreen> {
                           filled: true,
                           suffixIcon: TextButton(
                               onPressed: () {
-                                Get.back();
+                                applyCoupons(couponCode: codeController.text
+                                    .toString(), context: context).
+                                then((value){
+                                  showToast(value.message);
+                                  if(value.status == true){
+                                    myCartController.getAddToCartList();
+                                    controller.onItemTap(1);
+                                    Get.back();
+                                  }
+                                });
                               },
                               child: Text(
                                 "Apply  ".toUpperCase(),
@@ -235,7 +244,6 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                     )),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    Get.back();
                                                     applyCoupons(couponCode: couponController
                                                         .model
                                                         .value
@@ -247,6 +255,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                       if(value.status == true){
                                                         myCartController.getAddToCartList();
                                                         controller.onItemTap(1);
+                                                        Get.back();
                                                       }
                                                     });
                                                   },

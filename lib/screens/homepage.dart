@@ -11,6 +11,7 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_theme.dart';
@@ -35,6 +36,7 @@ class HomePageState extends State<HomePage> {
   final controller = Get.put(MainHomeController());
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
+  final singleStoreController = Get.put(StoreController());
   final addToCartQtyController = TextEditingController();
   RxString selectedCAt = "".obs;
   RxString price = "".obs;
@@ -354,126 +356,142 @@ class HomePageState extends State<HomePage> {
                                             borderRadius:
                                                 BorderRadius.circular(16),
                                             elevation: 0,
-                                            child: Container(
-                                              width: width * .5,
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.backgroundcolor,
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                              // height: height * .23,
-                                              child: Stack(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                      horizontal: width * .03,
-                                                    ),
-                                                    child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SizedBox(
-                                                            height:
-                                                                height * .19,
-                                                            width: width * .44,
-                                                            child: ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              child:
-                                                                  CachedNetworkImage(
-                                                                imageUrl: homeController
-                                                                    .model
-                                                                    .value
-                                                                    .data!
-                                                                    .featuredStores![
-                                                                        index]
-                                                                    .image
-                                                                    .toString(),
-                                                                errorWidget: (_,
-                                                                        __,
-                                                                        ___) =>
-                                                                    const SizedBox(),
-                                                                placeholder: (_,
-                                                                        __) =>
-                                                                    const SizedBox(),
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height:
-                                                                height * .01,
-                                                          ),
-                                                          Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                  homeController
+                                            child: GestureDetector(
+                                              onTap: (){
+                                                Get.toNamed(
+                                                    StoreScreen.singleStoreScreen);
+                                                singleStoreController
+                                                    .storeId.value =
+                                                    homeController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .featuredStores![index].id
+                                                        .toString();
+                                                print("AAAAA-------${singleStoreController
+                                                    .storeId.value}");
+                                              },
+                                              child: Container(
+                                                width: width * .5,
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.backgroundcolor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                                // height: height * .23,
+                                                child: Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                        horizontal: width * .03,
+                                                      ),
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              height:
+                                                                  height * .19,
+                                                              width: width * .44,
+                                                              child: ClipRRect(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl: homeController
                                                                       .model
                                                                       .value
                                                                       .data!
                                                                       .featuredStores![
                                                                           index]
-                                                                      .name
+                                                                      .image
                                                                       .toString(),
-                                                                  style: TextStyle(
-                                                                      color: AppTheme
-                                                                          .blackcolor,
-                                                                      fontSize:
-                                                                          AddSize
-                                                                              .font14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500)),
-                                                              SizedBox(
-                                                                height: height *
-                                                                    .01,
+                                                                  errorWidget: (_,
+                                                                          __,
+                                                                          ___) =>
+                                                                      const SizedBox(),
+                                                                  placeholder: (_,
+                                                                          __) =>
+                                                                      const SizedBox(),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
                                                               ),
-                                                              Row(
-                                                                children: [
-                                                                  const Icon(
-                                                                    Icons
-                                                                        .location_on,
-                                                                    color: AppTheme
-                                                                        .primaryColor,
-                                                                    size: 20,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width:
-                                                                        width *
-                                                                            .02,
-                                                                  ),
-                                                                  Text(
-                                                                    "${homeController.model.value.data!.featuredStores![index].distance.toString()}KM",
+                                                            ),
+                                                            SizedBox(
+                                                              height:
+                                                                  height * .01,
+                                                            ),
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    homeController
+                                                                        .model
+                                                                        .value
+                                                                        .data!
+                                                                        .featuredStores![
+                                                                            index]
+                                                                        .name
+                                                                        .toString(),
                                                                     style: TextStyle(
                                                                         color: AppTheme
                                                                             .blackcolor,
                                                                         fontSize:
                                                                             AddSize
-                                                                                .font12,
+                                                                                .font14,
                                                                         fontWeight:
-                                                                            FontWeight.w400),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ]),
-                                                  ),
-                                                ],
+                                                                            FontWeight
+                                                                                .w500)),
+                                                                SizedBox(
+                                                                  height: height *
+                                                                      .01,
+                                                                ),
+                                                                Row(
+                                                                  children: [
+                                                                    const Icon(
+                                                                      Icons
+                                                                          .location_on,
+                                                                      color: AppTheme
+                                                                          .primaryColor,
+                                                                      size: 20,
+                                                                    ),
+                                                                    SizedBox(
+                                                                      width:
+                                                                          width *
+                                                                              .02,
+                                                                    ),
+                                                                    Text(
+                                                                      "${homeController.model.value.data!.featuredStores![index].distance.toString()}KM",
+                                                                      style: TextStyle(
+                                                                          color: AppTheme
+                                                                              .blackcolor,
+                                                                          fontSize:
+                                                                              AddSize
+                                                                                  .font12,
+                                                                          fontWeight:
+                                                                              FontWeight.w400),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ]),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -524,7 +542,8 @@ class HomePageState extends State<HomePage> {
                                           onTap: () {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
-                                            nearStoreController.storeId.value =
+                                            singleStoreController
+                                                .storeId.value =
                                                 nearStoreController
                                                     .model.value.data![index].id
                                                     .toString();

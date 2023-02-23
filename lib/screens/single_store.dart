@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
 import '../repositories/Remove_CartItem_Repo.dart';
-import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 
