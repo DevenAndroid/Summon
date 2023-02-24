@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -5,12 +7,14 @@ import 'package:fresh2_arrive/controller/home_page_controller.dart';
 import 'package:fresh2_arrive/controller/near_store_controller.dart';
 import 'package:fresh2_arrive/repositories/Add_To_Cart_Repo.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
+import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/store_by_category_controller.dart';
 import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Remove_CartItem_Repo.dart';
@@ -37,6 +41,7 @@ class HomePageState extends State<HomePage> {
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
   final singleStoreController = Get.put(StoreController());
+  final storeCategoryController = Get.put(StoreByCategoryController());
   final addToCartQtyController = TextEditingController();
   RxString selectedCAt = "".obs;
   RxString price = "".obs;
@@ -241,92 +246,100 @@ class HomePageState extends State<HomePage> {
                                     )
                                   ],
                                 ),
-                                GridView.builder(
-                                    padding: EdgeInsets.zero,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: homeController.model.value.data!
-                                        .latestCategory!.length,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 4,
-                                            crossAxisSpacing: 10.0,
-                                            mainAxisSpacing: 10.0),
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Get.back();
-                                          controller.onItemTap(3);
-                                        },
-                                        child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: AddSize.size5,
-                                                vertical: AddSize.size5),
-                                            decoration: BoxDecoration(
-                                                color: index % 3 == 0
-                                                    ? AppTheme
-                                                        .appPrimaryPinkColor
-                                                    : index % 3 == 2
-                                                        ? AppTheme
-                                                            .appPrimaryGreenColor
-                                                        : AppTheme
-                                                            .appPrimaryYellowColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Padding(
+                                Obx(() {
+                                  return GridView.builder(
+                                      padding: EdgeInsets.zero,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: homeController.model.value
+                                          .data!.latestCategory!.length,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 4,
+                                              crossAxisSpacing: 10.0,
+                                              mainAxisSpacing: 10.0),
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            storeCategoryController
+                                                .storeId.value = homeController.model.value
+                                                .data!.latestCategory![index].id
+                                                .toString();
+                                            print(nearStoreController.storeId.value);
+                                            Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
+                                          },
+                                          child: Container(
                                               padding: EdgeInsets.symmetric(
-                                                horizontal: AddSize.padding10,
-                                              ),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  SizedBox(
-                                                    height: AddSize.size50,
-                                                    width: AddSize.size80,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl: homeController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .latestCategory![
-                                                              index]
-                                                          .image
-                                                          .toString(),
-                                                      errorWidget:
-                                                          (_, __, ___) =>
-                                                              const SizedBox(),
-                                                      placeholder: (_, __) =>
-                                                          const SizedBox(),
-                                                      fit: BoxFit.contain,
+                                                  horizontal: AddSize.size5,
+                                                  vertical: AddSize.size5),
+                                              decoration: BoxDecoration(
+                                                  color: index % 3 == 0
+                                                      ? AppTheme
+                                                          .appPrimaryPinkColor
+                                                      : index % 3 == 2
+                                                          ? AppTheme
+                                                              .appPrimaryGreenColor
+                                                          : AppTheme
+                                                              .appPrimaryYellowColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: AddSize.padding10,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: AddSize.size50,
+                                                      width: AddSize.size80,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: homeController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .latestCategory![
+                                                                index]
+                                                            .image
+                                                            .toString(),
+                                                        errorWidget: (_, __,
+                                                                ___) =>
+                                                            const SizedBox(),
+                                                        placeholder: (_, __) =>
+                                                            const SizedBox(),
+                                                        fit: BoxFit.contain,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Text(
-                                                      homeController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .latestCategory![
-                                                              index]
-                                                          .slug
-                                                          .toString(),
-                                                      maxLines: 1,
-                                                      style: const TextStyle(
-                                                          color:
-                                                              AppTheme.subText,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )),
-                                      );
-                                    }),
+                                                    Expanded(
+                                                      child: Text(
+                                                        homeController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .latestCategory![
+                                                                index]
+                                                            .slug
+                                                            .toString(),
+                                                        maxLines: 1,
+                                                        style: const TextStyle(
+                                                            color: AppTheme
+                                                                .subText,
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              )),
+                                        );
+                                      });
+                                }),
                                 SizedBox(
                                   height: height * .02,
                                 ),
@@ -357,24 +370,26 @@ class HomePageState extends State<HomePage> {
                                                 BorderRadius.circular(16),
                                             elevation: 0,
                                             child: GestureDetector(
-                                              onTap: (){
-                                                Get.toNamed(
-                                                    StoreScreen.singleStoreScreen);
+                                              onTap: () {
+                                                Get.toNamed(StoreScreen
+                                                    .singleStoreScreen);
                                                 singleStoreController
-                                                    .storeId.value =
+                                                        .storeId.value =
                                                     homeController
                                                         .model
                                                         .value
                                                         .data!
-                                                        .featuredStores![index].id
+                                                        .featuredStores![index]
+                                                        .id
                                                         .toString();
-                                                print("AAAAA-------${singleStoreController
-                                                    .storeId.value}");
+                                                print(
+                                                    "AAAAA-------${singleStoreController.storeId.value}");
                                               },
                                               child: Container(
                                                 width: width * .5,
                                                 decoration: BoxDecoration(
-                                                  color: AppTheme.backgroundcolor,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
                                                   borderRadius:
                                                       BorderRadius.circular(16),
                                                 ),
@@ -397,7 +412,8 @@ class HomePageState extends State<HomePage> {
                                                             SizedBox(
                                                               height:
                                                                   height * .19,
-                                                              width: width * .44,
+                                                              width:
+                                                                  width * .44,
                                                               child: ClipRRect(
                                                                 borderRadius:
                                                                     BorderRadius
@@ -453,11 +469,11 @@ class HomePageState extends State<HomePage> {
                                                                             AddSize
                                                                                 .font14,
                                                                         fontWeight:
-                                                                            FontWeight
-                                                                                .w500)),
+                                                                            FontWeight.w500)),
                                                                 SizedBox(
-                                                                  height: height *
-                                                                      .01,
+                                                                  height:
+                                                                      height *
+                                                                          .01,
                                                                 ),
                                                                 Row(
                                                                   children: [
@@ -478,9 +494,8 @@ class HomePageState extends State<HomePage> {
                                                                       style: TextStyle(
                                                                           color: AppTheme
                                                                               .blackcolor,
-                                                                          fontSize:
-                                                                              AddSize
-                                                                                  .font12,
+                                                                          fontSize: AddSize
+                                                                              .font12,
                                                                           fontWeight:
                                                                               FontWeight.w400),
                                                                     ),
@@ -543,7 +558,7 @@ class HomePageState extends State<HomePage> {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
                                             singleStoreController
-                                                .storeId.value =
+                                                    .storeId.value =
                                                 nearStoreController
                                                     .model.value.data![index].id
                                                     .toString();
@@ -1021,34 +1036,32 @@ class HomePageState extends State<HomePage> {
 
   buildDropdownButtonFormField(int index) {
     return Obx(() {
-      return DropdownButtonFormField<int>(
-          decoration: InputDecoration(
-            fillColor: Colors.grey.shade50,
-            border: InputBorder.none,
-            enabled: true,
-          ),
-          value: homeController
-              .model.value.data!.bestFreshProduct![index].varientIndex!.value,
-          hint: Text(
-            'Select qty',
-            style:
-                TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
-          ),
-          items: List.generate(
-              homeController
-                  .model.value.data!.bestFreshProduct![index].varints!.length,
-              (index1) => DropdownMenuItem(
-                    value: index1,
-                    child: Text(
-                      "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty}${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  )),
-          onChanged: (newValue) {
-            homeController.model.value.data!.bestFreshProduct![index]
-                .varientIndex!.value = newValue!;
-            setState(() {});
-          });
+      return SizedBox(
+        width: AddSize.size30 * 2,
+        child: DropdownButtonFormField<int>(
+            decoration: InputDecoration(
+              fillColor: Colors.grey.shade50,
+              border: InputBorder.none,
+              enabled: true,
+            ),
+            value: homeController
+                .model.value.data!.bestFreshProduct![index].varientIndex!.value,
+            items: List.generate(
+                homeController
+                    .model.value.data!.bestFreshProduct![index].varints!.length,
+                (index1) => DropdownMenuItem(
+                      value: index1,
+                      child: Text(
+                        "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty}${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    )),
+            onChanged: (newValue) {
+              homeController.model.value.data!.bestFreshProduct![index]
+                  .varientIndex!.value = newValue!;
+              setState(() {});
+            }),
+      );
     });
   }
 }

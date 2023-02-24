@@ -8,6 +8,7 @@ import '../../resources/app_theme.dart';
 import '../controller/MyAddress_controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../resources/app_assets.dart';
 
 class MyAddress extends StatefulWidget {
   const MyAddress({Key? key}) : super(key: key);
@@ -32,7 +33,29 @@ class _MyAddressState extends State<MyAddress> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: backAppBar(title: "My Address", context: context),
+        appBar:AppBar(
+          toolbarHeight: 60,
+          elevation: 0,
+          leadingWidth: AddSize.size20 * 1.6,
+          backgroundColor: AppTheme.backgroundcolor,
+          title: Text("My Address",
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                fontWeight: FontWeight.w500, fontSize: 20, color: AppTheme.blackcolor),
+          ),
+          leading: Padding(
+            padding: EdgeInsets.only(left: AddSize.padding10),
+            child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                  Get.back();
+                },
+                child: Image.asset(
+                      AppAssets.back,
+                      height: AddSize.size20,
+                    )),
+          ),
+        ),
+        // backAppBar(title: "My Address", context: context),
         body: Obx(() {
           return SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -148,23 +171,21 @@ class _MyAddressState extends State<MyAddress> {
                                                                 FontWeight
                                                                     .w400),
                                                       ),
-                                                      Text(
-                                                        addressController
-                                                            .myAddressModel
-                                                            .value
-                                                            .data![index]
-                                                            .location
-                                                            .toString(),
-                                                        style: const TextStyle(
-                                                            color: AppTheme
-                                                                .blackcolor,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
-                                                      SizedBox(
-                                                          height: height * .01),
+                                                      // Text(
+                                                      //   addressController
+                                                      //       .myAddressModel
+                                                      //       .value
+                                                      //       .data![index]
+                                                      //       .location
+                                                      //       .toString(),
+                                                      //   style: const TextStyle(
+                                                      //       color: AppTheme
+                                                      //           .blackcolor,
+                                                      //       fontSize: 16,
+                                                      //       fontWeight:
+                                                      //           FontWeight
+                                                      //               .w500),
+                                                      // ),
                                                       Row(
                                                         children: [
                                                           TextButton(

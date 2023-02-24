@@ -45,25 +45,24 @@ class Data {
 
   Data(
       {this.orderId,
-      this.itemTotal,
-      this.surcharge,
-      this.tax,
-      this.deliveryCharges,
-      this.packingFee,
-      this.tipAmount,
-      this.couponDiscount,
-      this.commissionDriver,
-      this.commissionAdmin,
-      this.grandTotal,
-      this.user,
-      this.vendor,
-      this.driver,
-      // this.address,
-      this.orderType,
-      this.deliveryStatus,
-      this.orderItems,
-      this.placedAt});
-
+        this.itemTotal,
+        this.surcharge,
+        this.tax,
+        this.deliveryCharges,
+        this.packingFee,
+        this.tipAmount,
+        this.couponDiscount,
+        this.commissionDriver,
+        this.commissionAdmin,
+        this.grandTotal,
+        this.user,
+        this.vendor,
+        this.driver,
+        // this.address,
+        this.orderType,
+        this.deliveryStatus,
+        this.orderItems,
+        this.placedAt});
   Data.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     itemTotal = json['item_total'];
@@ -80,10 +79,8 @@ class Data {
     grandTotal = json['grand_total'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     vendor = json['vendor'] != null ? new User.fromJson(json['vendor']) : null;
-    driver =
-        json['driver'] != null ? new Driver.fromJson(json['driver']) : null;
-    address =
-        json['address'] != null ? new Address.fromJson(json['address']) : null;
+    driver = json['driver'] != null ? new Driver.fromJson(json['driver']) : null;
+    address = json['address'] != null ? new Address.fromJson(json['address']) : null;
     orderType = json['order_type'];
     deliveryStatus = json['delivery_status'];
     if (json['order_items'] != null) {
@@ -446,7 +443,6 @@ class Driver {
     return data;
   }
 }
-
 class Address {
   int? id;
   int? userId;
@@ -463,18 +459,17 @@ class Address {
 
   Address(
       {this.id,
-      this.userId,
-      this.latitude,
-      this.longitude,
-      this.location,
-      this.flatNo,
-      this.street,
-      this.landmark,
-      this.addressType,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
-
+        this.userId,
+        this.latitude,
+        this.longitude,
+        this.location,
+        this.flatNo,
+        this.street,
+        this.landmark,
+        this.addressType,
+        this.createdAt,
+        this.updatedAt,
+        this.deletedAt});
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
@@ -507,7 +502,6 @@ class Address {
     return data;
   }
 }
-
 class OrderItems {
   dynamic id;
   dynamic productId;

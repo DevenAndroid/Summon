@@ -188,36 +188,36 @@ class CouponDiscount {
 
 class User {
   int? id;
-  int? isDriver;
-  int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic isDriver;
+  dynamic isVendor;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? phone;
   String? email;
-  int? otp;
-  String? profileImage;
-  String? latitude;
-  String? longitude;
-  String? location;
-  Null? defaultAddress;
-  String? referalCode;
-  Null? deviceToken;
-  Null? deviceId;
-  int? isDriverOnline;
-  int? isVendorOnline;
-  int? deliveryRange;
-  int? selfDelivery;
-  int? adminCommission;
-  int? asDriverVerified;
-  int? asVendorVerified;
-  int? featuredStore;
+  dynamic otp;
+  dynamic profileImage;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic defaultAddress;
+  dynamic referalCode;
+  dynamic deviceToken;
+  dynamic deviceId;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic adminCommission;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic featuredStore;
   Null? emailVerifiedAt;
   int? status;
   int? isProfileComplete;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   User(
       {this.id,
@@ -325,36 +325,36 @@ class User {
 
 class Driver {
   int? id;
-  int? isDriver;
-  int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic isDriver;
+  dynamic isVendor;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   String? name;
   String? phone;
   String? email;
-  Null? otp;
+  dynamic otp;
   String? profileImage;
   String? latitude;
   String? longitude;
   String? location;
-  Null? defaultAddress;
+  dynamic defaultAddress;
   String? referalCode;
-  Null? deviceToken;
-  Null? deviceId;
-  int? isDriverOnline;
-  int? isVendorOnline;
-  int? deliveryRange;
-  int? selfDelivery;
-  int? adminCommission;
-  int? asDriverVerified;
-  int? asVendorVerified;
-  int? featuredStore;
-  Null? emailVerifiedAt;
+  dynamic deviceToken;
+  dynamic deviceId;
+  dynamic isDriverOnline;
+  dynamic isVendorOnline;
+  dynamic deliveryRange;
+  dynamic selfDelivery;
+  dynamic adminCommission;
+  dynamic asDriverVerified;
+  dynamic asVendorVerified;
+  dynamic featuredStore;
+  dynamic emailVerifiedAt;
   int? status;
   int? isProfileComplete;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Driver(
       {this.id,
@@ -463,16 +463,16 @@ class Driver {
 class Address {
   int? id;
   int? userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
-  String? createdAt;
-  String? updatedAt;
-  Null? deletedAt;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic flatNo;
+  dynamic street;
+  dynamic landmark;
+  dynamic addressType;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic deletedAt;
 
   Address(
       {this.id,
@@ -528,8 +528,8 @@ class OrderItems {
   int? variantId;
   int? price;
   String? itemQty;
-  int? qty;
-  int? totalPrice;
+  dynamic qty;
+  dynamic totalPrice;
   String? status;
 
   OrderItems(
