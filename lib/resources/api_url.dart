@@ -35,4 +35,7 @@ class ApiUrl {
   static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
   static const referAndEarnUrl = "${baseUrl}refer-and-earn";
   static const notificationUrl = "${baseUrl}notification-list";
+  static const vendorRejectVariantUrl = "${baseUrl}vendor-reject-variant";
+  static const withdrawalListUrl = "${baseUrl}withdrawal-list";
+  static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
 }

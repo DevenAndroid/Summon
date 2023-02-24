@@ -570,28 +570,29 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                           (BuildContext context, int index) {
                                         return GestureDetector(
                                           onTap: () {
-                                            // controller.id.value =
-                                            //     vendorOrderListController
-                                            //         .model
-                                            //         .value
-                                            //         .data!
-                                            //         .orderList![index]
-                                            //         .id
-                                            //         .toString();
+                                            controller.id.value =
+                                                vendorOrderListController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .orderList![index]
+                                                    .id
+                                                    .toString();
                                             print(
                                                 'order id ${controller.id.value}');
                                             Get.toNamed(
-                                                DeliveryOrderDetails
-                                                    .deliveryOrderDetails,
-                                                arguments: [
-                                                  vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .orderList![index]
-                                                      .id
-                                                      .toString()
-                                                ]);
+                                              DeliveryOrderDetails
+                                                  .deliveryOrderDetails,
+                                              // arguments: [
+                                              //   vendorOrderListController
+                                              //       .model
+                                              //       .value
+                                              //       .data!
+                                              //       .orderList![index]
+                                              //       .id
+                                              //       .toString()
+                                              // ]
+                                            );
                                           },
                                           child: Column(
                                             children: [
