@@ -4,6 +4,7 @@ class ApiUrl {
   static const otpApi = "${baseUrl}verify-otp";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
+  static const categoryUrl = "${baseUrl}category";
   static const couponsUrl = "${baseUrl}coupons";
   static const applyCouponsUrl = "${baseUrl}coupon-apply";
   static const removeCouponsUrl = "${baseUrl}remove-coupon";
@@ -35,4 +36,6 @@ class ApiUrl {
   static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
   static const referAndEarnUrl = "${baseUrl}refer-and-earn";
   static const notificationUrl = "${baseUrl}notification-list";
+  static const assignedOrderListUrl = "${baseUrl}assigned-order-list";
+  static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
 }

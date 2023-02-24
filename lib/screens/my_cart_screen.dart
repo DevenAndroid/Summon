@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/repositories/Remove_CartItem_Repo.dart';
@@ -10,8 +12,12 @@ import 'package:fresh2_arrive/screens/payment_method.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/location_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
 import '../resources/app_theme.dart';
@@ -27,12 +33,90 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   final controller = Get.put(MyCartDataListController());
+  final locationController = Get.put(LocationController());
   final TextEditingController tipController = TextEditingController();
   final TextEditingController variantIdController = TextEditingController();
   final List<String> tips = ["20", "30", "40", "Custom"];
   RxString selectedCAt = "".obs;
   RxBool customTip = false.obs;
   RxString selectedChip = "".obs;
+
+  final Completer<GoogleMapController> googleMapController = Completer();
+  GoogleMapController? mapController;
+
+  String? _currentAddress;
+  String? _address;
+  Position? _currentPosition;
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(
+                  _currentPosition!.latitude, _currentPosition!.longitude),
+              zoom: 15)));
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        _address =
+            '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+      });
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCurrentPosition();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -985,51 +1069,91 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           FontWeight.w500)))
                                         ],
                                       ),
-                                      controller.model.value.data!
-                                                  .orderAddress !=
-                                              null
-                                          ? Text(
-                                              "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: AddSize.font14,
-                                                  fontWeight: FontWeight.w500))
-                                          : SizedBox(),
+                                      _address != "" && _currentAddress != ""
+                                          ? Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  _address ?? "",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize:
+                                                              AddSize.font16),
+                                                ),
+                                                Text(
+                                                  _currentAddress ?? "",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize:
+                                                              AddSize.font14,
+                                                          color: AppTheme
+                                                              .lightblack),
+                                                ),
+                                              ],
+                                            )
+                                          : controller.model.value.data!
+                                                      .orderAddress !=
+                                                  null
+                                              ? Text(
+                                                  "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: AddSize.font14,
+                                                      fontWeight:
+                                                          FontWeight.w500))
+                                              : SizedBox(),
                                       SizedBox(
                                         height: height * .01,
                                       ),
                                       controller.model.value.data!
-                                          .orderAddress !=
-                                          null ? ElevatedButton(
-                                          onPressed: () {
-                                            Get.toNamed(
-                                                PaymentMethod.paymentScreen);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              padding: const EdgeInsets.all(10),
-                                              minimumSize: const Size(
-                                                  double.maxFinite, 50),
-                                              backgroundColor:
-                                                  AppTheme.primaryColor,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              textStyle: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600)),
-                                          child: Text(
-                                            "SELECT PAYMENT OPTION",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: AddSize.font16),
-                                          )):SizedBox(),
+                                                      .orderAddress !=
+                                                  null ||
+                                              (_address != "" &&
+                                                  _currentAddress != "")
+                                          ? ElevatedButton(
+                                              onPressed: () {
+                                                Get.toNamed(PaymentMethod
+                                                    .paymentScreen);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  minimumSize: const Size(
+                                                      double.maxFinite, 50),
+                                                  backgroundColor:
+                                                      AppTheme.primaryColor,
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  textStyle: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                              child: Text(
+                                                "SELECT PAYMENT OPTION",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                        color: AppTheme
+                                                            .backgroundcolor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize:
+                                                            AddSize.font16),
+                                              ))
+                                          : SizedBox(),
                                     ],
                                   ))),
                           SizedBox(
@@ -1138,33 +1262,32 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
   buildDropdownButtonFormField(int index) {
     return Obx(() {
-      return DropdownButtonFormField<int>(
-          decoration: InputDecoration(
-            fillColor: Colors.grey.shade50,
-            border: InputBorder.none,
-            enabled: true,
-          ),
-          value: controller
-              .relatedProductModel.value.data![index].varientIndex!.value,
-          hint: Text(
-            'Select qty',
-            style:
-                TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
-          ),
-          items: List.generate(
-              controller.relatedProductModel.value.data![index].varints!.length,
-              (index1) => DropdownMenuItem(
-                    value: index1,
-                    child: Text(
-                      "${controller.relatedProductModel.value.data![index].varints![index1].variantQty}${controller.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  )),
-          onChanged: (newValue) {
-            controller.relatedProductModel.value.data![index].varientIndex!
-                .value = newValue!;
-            setState(() {});
-          });
+      return SizedBox(
+        width: AddSize.size30 * 2,
+        child: DropdownButtonFormField<int>(
+            decoration: InputDecoration(
+              fillColor: Colors.grey.shade50,
+              border: InputBorder.none,
+              enabled: true,
+            ),
+            value: controller
+                .relatedProductModel.value.data![index].varientIndex!.value,
+            items: List.generate(
+                controller
+                    .relatedProductModel.value.data![index].varints!.length,
+                (index1) => DropdownMenuItem(
+                      value: index1,
+                      child: Text(
+                        "${controller.relatedProductModel.value.data![index].varints![index1].variantQty}${controller.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    )),
+            onChanged: (newValue) {
+              controller.relatedProductModel.value.data![index].varientIndex!
+                  .value = newValue!;
+              setState(() {});
+            }),
+      );
     });
   }
 }

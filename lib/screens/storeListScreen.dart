@@ -39,6 +39,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
     // TODO: implement initState
     super.initState();
     scrollController.addListener(_scrollListener);
+
   }
 
   @override

@@ -275,6 +275,7 @@ class _OrderDetailsState extends State<OrderDetails>
                         ),
                         child: Column(
                           children: [
+                            if(myOrderDetailsController.model.value.data!.driver != null)
                             Card(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
@@ -285,7 +286,6 @@ class _OrderDetailsState extends State<OrderDetails>
                                       vertical: AddSize.padding15),
                                   child: Column(
                                     children: [
-                                      if(myOrderDetailsController.model.value.data!.driver != null)
                                         ...[
                                           Row(
                                             mainAxisAlignment:
@@ -638,7 +638,7 @@ class _OrderDetailsState extends State<OrderDetails>
                 ),
               ),
               Text(
-                price,
+                "₹$price",
                 style: TextStyle(
                     fontSize: AddSize.font16,
                     color: AppTheme.primaryColor,
@@ -697,19 +697,19 @@ class _OrderDetailsState extends State<OrderDetails>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                details("Subtotal:", "$subTotal"),
+                details("Subtotal:", "₹$subTotal"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Tax & fee:", tax),
+                details("Tax & fee:", "₹$tax"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Delivery:", delivery),
+                details("Delivery:", "₹$delivery"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing fee:", packing),
+                details("Packing fee:", "₹$packing"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
@@ -721,7 +721,7 @@ class _OrderDetailsState extends State<OrderDetails>
                             color: AppTheme.primaryColor,
                             fontSize: AddSize.font16,
                             fontWeight: FontWeight.w500)),
-                    Text(total,
+                    Text("₹$total",
                         style: TextStyle(
                             color: Colors.grey,
                             fontSize: AddSize.font14,

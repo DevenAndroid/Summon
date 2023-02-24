@@ -13,11 +13,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import '../../controller/MyAddress_controller.dart';
 import '../../model/MyAddressModel.dart';
-import '../../repositories/myAddress_repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
-
 import '../my_address.dart';
 
 class ChooseAddress extends StatefulWidget {
@@ -111,9 +109,10 @@ class _ChooseAddressState extends State<ChooseAddress> {
     final TextEditingController flatNoController =
         TextEditingController(text: addressModel.flatNo ?? "");
     final TextEditingController streetController =
-        TextEditingController(text: ("${addressModel.street ?? ""}"));
+        TextEditingController(text: (addressModel.street ?? ""));
     final TextEditingController recipientController = TextEditingController();
     otherController.text = addressModel.addressType ?? "";
+    selectedChip.value = addressModel.addressType ?? "";
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,

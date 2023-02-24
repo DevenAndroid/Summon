@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,12 +33,36 @@ class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController otpController = TextEditingController();
   RxBool hasError1 = false.obs;
+  late Timer timer;
+  RxInt timerSeconds = 30.obs;
+  RxBool showTimer = false.obs;
+  setTimer() {
+    if (showTimer.value == false) {
+      showTimer.value = true;
+      timer = Timer.periodic(const Duration(seconds: 1), (value) {
+        if (timerSeconds.value > 1) {
+          timerSeconds.value--;
+        } else {
+          showTimer.value = false;
+          timer.cancel();
+          timerSeconds.value = 30;
+        }
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     phoneNumber = Get.arguments[0];
     otp = Get.arguments[1];
+    setTimer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
   }
 
   @override
@@ -52,7 +77,7 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
         const Image(image: AssetImage(AppAssets.login)),
         SizedBox(
-          height: height * .10,
+          height: height * .05,
         ),
         Form(
           key: _formKey,
@@ -170,29 +195,34 @@ class _OtpScreenState extends State<OtpScreen> {
                       SizedBox(
                         height: height * .02,
                       ),
-                      TextButton(
-                          onPressed: () {
-                            resendOtp(phoneNumber, context).then((value) async {
-                              if (value.status == true) {
-                                otp = value.data.toString();
-                                showToast("${value.message} $otp");
-                              } else {
-                                showToast(value.message);
-                              }
-                              return;
-                            });
-                          },
-                          child: Text(
-                            "Resend OTP",
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    color: AppTheme.primaryColor),
-                          )),
+                      TextButton(onPressed: () {
+                        if (showTimer.value == false) {
+                          resendOtp(phoneNumber, context).then((value) async {
+                            if (value.status == true) {
+                              otp = value.data.toString();
+                              showToast("${value.message} $otp");
+                              setTimer();
+                            } else {
+                              showToast(value.message);
+                            }
+                            return;
+                          });
+                        }
+                      }, child: Obx(() {
+                        return Text(
+                          !showTimer.value
+                              ? "Resend OTP"
+                              : "Resend OTP in 00:${timerSeconds.value > 9 ? timerSeconds.value : "0${timerSeconds.value}"}",
+                          textAlign: TextAlign.right,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: AppTheme.primaryColor),
+                        );
+                      })),
                       SizedBox(
                         height: height * .02,
                       ),
