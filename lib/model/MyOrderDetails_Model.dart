@@ -63,7 +63,6 @@ class Data {
         this.deliveryStatus,
         this.orderItems,
         this.placedAt});
-
   Data.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     itemTotal = json['item_total'];
@@ -80,8 +79,7 @@ class Data {
     grandTotal = json['grand_total'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     vendor = json['vendor'] != null ? new User.fromJson(json['vendor']) : null;
-    driver =
-    json['driver'] != null ? new Driver.fromJson(json['driver']) : null;
+    driver = json['driver'] != null ? new Driver.fromJson(json['driver']) : null;
     address = json['address'] != null ? new Address.fromJson(json['address']) : null;
     orderType = json['order_type'];
     deliveryStatus = json['delivery_status'];
@@ -142,12 +140,12 @@ class CouponDiscount {
 
   CouponDiscount(
       {this.id,
-        this.userId,
-        this.couponCode,
-        this.discountType,
-        this.discountedPrice,
-        this.createdAt,
-        this.updatedAt});
+      this.userId,
+      this.couponCode,
+      this.discountType,
+      this.discountedPrice,
+      this.createdAt,
+      this.updatedAt});
 
   CouponDiscount.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -171,6 +169,7 @@ class CouponDiscount {
     return data;
   }
 }
+
 class User {
   dynamic id;
   dynamic isDriver;
@@ -206,36 +205,36 @@ class User {
 
   User(
       {this.id,
-        this.isDriver,
-        this.isVendor,
-        this.walletBalance,
-        this.earnedBalance,
-        this.name,
-        this.phone,
-        this.email,
-        this.otp,
-        this.profileImage,
-        this.latitude,
-        this.longitude,
-        this.location,
-        this.defaultAddress,
-        this.referalCode,
-        this.deviceToken,
-        this.deviceId,
-        this.isDriverOnline,
-        this.isVendorOnline,
-        this.deliveryRange,
-        this.selfDelivery,
-        this.adminCommission,
-        this.asDriverVerified,
-        this.asVendorVerified,
-        this.featuredStore,
-        this.emailVerifiedAt,
-        this.status,
-        this.isProfileComplete,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+      this.isDriver,
+      this.isVendor,
+      this.walletBalance,
+      this.earnedBalance,
+      this.name,
+      this.phone,
+      this.email,
+      this.otp,
+      this.profileImage,
+      this.latitude,
+      this.longitude,
+      this.location,
+      this.defaultAddress,
+      this.referalCode,
+      this.deviceToken,
+      this.deviceId,
+      this.isDriverOnline,
+      this.isVendorOnline,
+      this.deliveryRange,
+      this.selfDelivery,
+      this.adminCommission,
+      this.asDriverVerified,
+      this.asVendorVerified,
+      this.featuredStore,
+      this.emailVerifiedAt,
+      this.status,
+      this.isProfileComplete,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -471,7 +470,6 @@ class Address {
         this.createdAt,
         this.updatedAt,
         this.deletedAt});
-
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
@@ -517,14 +515,14 @@ class OrderItems {
 
   OrderItems(
       {this.id,
-        this.productId,
-        this.productName,
-        this.variantId,
-        this.price,
-        this.itemQty,
-        this.qty,
-        this.totalPrice,
-        this.status});
+      this.productId,
+      this.productName,
+      this.variantId,
+      this.price,
+      this.itemQty,
+      this.qty,
+      this.totalPrice,
+      this.status});
 
   OrderItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
