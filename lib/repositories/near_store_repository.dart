@@ -15,35 +15,36 @@ Future<NearStoreModel> loadWithPagination(
   if (context != null) {
     Overlay.of(context)!.insert(loader);
   }
-  try {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    ModelVerifyOtp? user =
-        ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
-    final headers = {
-      HttpHeaders.contentTypeHeader: 'application/json',
-      HttpHeaders.acceptHeader: 'application/json',
-      HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
-    };
-    http.Response response = await http.get(
-        Uri.parse("${ApiUrl.nearStores}?page=$page&pagination=$pagination"),
-        headers: headers);
-    Helpers.hideLoader(loader);
-    log("${ApiUrl.nearStores}?page=$page&pagination=$pagination");
-    log("NearStore List APi......    ${ApiUrl.nearStores}");
-    log("NearStore List APi......Response......    ${response.body}");
-    if (response.statusCode == 200) {
-      return NearStoreModel.fromJson(jsonDecode(response.body));
-    } else if (response.statusCode == 404) {
-      return NearStoreModel(status: true, message: "No Data Found", data: null);
-    } else {
-      throw Exception(response.body);
-    }
-  } on SocketException {
-    Helpers.hideLoader(loader);
-    return NearStoreModel(
-        status: false, message: "No Internet Access", data: null);
-  } catch (e) {
-    Helpers.hideLoader(loader);
-    throw Exception(e);
+  // try {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  ModelVerifyOtp? user =
+      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
+  };
+  http.Response response = await http.get(
+      Uri.parse("${ApiUrl.nearStores}?page=$page&pagination=$pagination"),
+      headers: headers);
+  Helpers.hideLoader(loader);
+  log("${ApiUrl.nearStores}?page=$page&pagination=$pagination");
+  log("NearStore List APi......    ${ApiUrl.nearStores}");
+  log("NearStore List APi......Response......    ${response.body}");
+  if (response.statusCode == 200) {
+    return NearStoreModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 404) {
+    return NearStoreModel(status: true, message: "No Data Found", data: null);
+  } else {
+    throw Exception(response.body);
   }
+  // }
+  // on SocketException {
+  //   Helpers.hideLoader(loader);
+  //   return NearStoreModel(
+  //       status: false, message: "No Internet Access", data: null);
+  // } catch (e) {
+  //   Helpers.hideLoader(loader);
+  //   throw Exception(e);
+  // }
 }

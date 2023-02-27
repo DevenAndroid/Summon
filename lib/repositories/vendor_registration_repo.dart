@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/model_common_ressponse.dart';
-import '../model/update_profile_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
@@ -24,10 +23,10 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
 }) async {
   try {
     var request =
-    http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorRegister));
+        http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorRegister));
     SharedPreferences pref = await SharedPreferences.getInstance();
     ModelVerifyOtp? user =
-    ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+        ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptHeader: 'application/json',
@@ -37,7 +36,11 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "" && file2.path != "" && file3.path != "" && file4.path != "" && file5.path != "") {
+    if (file1.path != "" &&
+        file2.path != "" &&
+        file3.path != "" &&
+        file4.path != "" &&
+        file5.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
       request.files.add(await multipartFile(fieldName2, file2));
       request.files.add(await multipartFile(fieldName3, file3));

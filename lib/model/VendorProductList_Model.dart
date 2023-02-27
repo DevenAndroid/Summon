@@ -32,8 +32,9 @@ class Data {
   Product? product;
   String? image;
   bool? status;
+  List<Variants>? variants;
 
-  Data({this.id, this.product, this.image, this.status});
+  Data({this.id, this.product, this.image, this.status, this.variants});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -41,6 +42,12 @@ class Data {
         json['product'] != null ? new Product.fromJson(json['product']) : null;
     image = json['image'];
     status = json['status'];
+    if (json['variants'] != null) {
+      variants = <Variants>[];
+      json['variants'].forEach((v) {
+        variants!.add(new Variants.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +58,9 @@ class Data {
     }
     data['image'] = this.image;
     data['status'] = this.status;
+    if (this.variants != null) {
+      data['variants'] = this.variants!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -172,6 +182,55 @@ class Tax {
     data['title'] = this.title;
     data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
+    return data;
+  }
+}
+
+class Variants {
+  int? id;
+  int? vendorProductId;
+  int? marketPrice;
+  int? price;
+  String? variantQty;
+  String? variantQtyType;
+  int? minQty;
+  int? maxQty;
+  String? discountOff;
+
+  Variants(
+      {this.id,
+      this.vendorProductId,
+      this.marketPrice,
+      this.price,
+      this.variantQty,
+      this.variantQtyType,
+      this.minQty,
+      this.maxQty,
+      this.discountOff});
+
+  Variants.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    vendorProductId = json['vendor_product_id'];
+    marketPrice = json['market_price'];
+    price = json['price'];
+    variantQty = json['variant_qty'];
+    variantQtyType = json['variant_qty_type'];
+    minQty = json['min_qty'];
+    maxQty = json['max_qty'];
+    discountOff = json['discount_off'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['vendor_product_id'] = this.vendorProductId;
+    data['market_price'] = this.marketPrice;
+    data['price'] = this.price;
+    data['variant_qty'] = this.variantQty;
+    data['variant_qty_type'] = this.variantQtyType;
+    data['min_qty'] = this.minQty;
+    data['max_qty'] = this.maxQty;
+    data['discount_off'] = this.discountOff;
     return data;
   }
 }

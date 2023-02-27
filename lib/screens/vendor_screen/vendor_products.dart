@@ -270,7 +270,14 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "\$10.00",
+                                                  vendorProductListController
+                                                      .model
+                                                      .value
+                                                      .data![index]
+                                                      .variants![index]
+                                                      .price
+                                                      .toString(),
+                                                  // "100",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline6!
@@ -292,13 +299,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                     toggleSize: AddSize.size20,
                                                     activeTextFontWeight:
                                                         FontWeight.w500,
-                                                    activeText:
-                                                        vendorProductListController
-                                                                .model
-                                                                .value
-                                                                .data![index]
-                                                                .status ==
-                                                            true.toString(),
+                                                    activeText: "   IN",
                                                     inactiveText: "   OUT",
                                                     inactiveTextColor: AppTheme
                                                         .backgroundcolor,
@@ -310,11 +311,24 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                         Colors.grey.shade400,
                                                     activeColor:
                                                         AppTheme.primaryColor,
-                                                    value: _store[index],
+                                                    value:
+                                                        vendorProductListController
+                                                            .model
+                                                            .value
+                                                            .data![index]
+                                                            .product!
+                                                            .category!
+                                                            .status!,
                                                     borderRadius: 20.0,
                                                     showOnOff: true,
                                                     onToggle: (val) {
-                                                      _store[index] = val;
+                                                      vendorProductListController
+                                                          .model
+                                                          .value
+                                                          .data![index]
+                                                          .product!
+                                                          .category!
+                                                          .status = val;
                                                     },
                                                   );
                                                 }),
