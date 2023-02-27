@@ -317,8 +317,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                     .size80,
                                                                 decoration:  BoxDecoration(
                                                                   border: Border.all(color:Colors.grey.shade300,width: 2),
-                                                                    color: Color(
-                                                                        0xffEAEAEA),
+                                                                    color: const Color(0xffEAEAEA),
                                                                     shape: BoxShape
                                                                         .circle),
                                                                 child: Padding(

@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/store_by_category_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 
@@ -19,12 +23,13 @@ class AllCategories extends StatefulWidget {
 class _AllCategoriesState extends State<AllCategories> {
   final controller = Get.put(MainHomeController());
   final categoryController = Get.put(CategoryController());
+  final nearStoreController= Get.put(StoreByCategoryController());
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    categoryController.getData();
+    categoryController.getData(
+    );
   }
 
   final myCartController = Get.put(MyCartDataListController());
@@ -57,8 +62,13 @@ class _AllCategoriesState extends State<AllCategories> {
                         var itemdata = categoryController.model.value.data![index];
                         return GestureDetector(
                           onTap: () {
-                            Get.back();
-                            controller.onItemTap(3);
+                            nearStoreController
+                                .storeId.value = categoryController.model
+                                .value.data![index].id
+                                .toString();
+                            log(nearStoreController
+                                .storeId.value);
+                            Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
                           },
                           child: Container(
                             //height: 100,

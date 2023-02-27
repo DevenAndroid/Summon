@@ -281,7 +281,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   height: 10,
                                 ),
                                 EditProfileTextFieldWidget(
-                                  hint: "Williams Jones",
+                                  hint: "Enter Your Name",
                                   controller: controller.nameController,
                                   validator: validateName,
                                 ),
@@ -301,7 +301,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   height: 10,
                                 ),
                                 EditProfileTextFieldWidget(
-                                  hint: "williamsjones@gmail.com",
+                                  hint: "Enter Your Email",
                                   controller: controller.emailController,
                                   // validator: MultiValidator([
                                   //   RequiredValidator(
@@ -327,7 +327,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   height: 10,
                                 ),
                                 EditProfileTextFieldWidget(
-                                  hint: "+91-9251272491",
+                                  hint: "Enter Your Mobile Number",
                                   controller: controller.mobileController,
                                   validator: validateMobile,
                                   keyboardType: TextInputType.number,

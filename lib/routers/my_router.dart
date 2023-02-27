@@ -38,6 +38,7 @@ import '../screens/notification_screen.dart';
 import '../screens/onboardingScreen.dart';
 import '../screens/payment_method.dart';
 import '../screens/refer_and_earn.dart';
+import '../screens/store_by_category.dart';
 import '../screens/vendor_screen/Add_vendor_product.dart';
 import '../screens/vendor_screen/store_open_time_screen.dart';
 import '../screens/vendor_screen/thank_you.dart';
@@ -67,6 +68,8 @@ class MyRouter {
         page: () => const EditProfileScreen()),
     GetPage(
         name: CouponsScreen.couponsScreen, page: () => const CouponsScreen()),
+    GetPage(
+        name: StoreByCategoryListScreen.storeByCategoryScreen, page: () => const StoreByCategoryListScreen()),
     GetPage(
         name: MyOrderScreen.myOrderScreen, page: () => const MyOrderScreen()),
     GetPage(
