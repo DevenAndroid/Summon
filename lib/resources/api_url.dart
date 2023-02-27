@@ -38,4 +38,6 @@ class ApiUrl {
   static const vendorRejectVariantUrl = "${baseUrl}vendor-reject-variant";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
+  static const storeAvailabilityUrl = "${baseUrl}store-availability";
+  static const vendorProductListUrl = "${baseUrl}vendor-product-list";
 }
