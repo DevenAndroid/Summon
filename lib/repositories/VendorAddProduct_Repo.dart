@@ -1,12 +1,16 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/VendorProductList_Model.dart';
+import '../model/VendorAddProduct_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
+import '../resources/helper.dart';
 
-Future<VendorProductListModel> vendorProductListRepo({required keyword}) async {
+Future<VendorAddProductModel> vendorAddProductRepo({
+  required id,
+}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -15,15 +19,16 @@ Future<VendorProductListModel> vendorProductListRepo({required keyword}) async {
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-
-  // try {
-  final response = await http.get(
-      Uri.parse("${ApiUrl.vendorProductListUrl}?keyword=$keyword"),
-      headers: headers);
-  print("Vendor Product List Repository...${response.body}");
+  // OverlayEntry loader = Helpers.overlayLoader(context);
+  // Overlay.of(context as BuildContext).insert(loader);
+  //try {
+  final response = await http
+      .get(Uri.parse("${ApiUrl.vendorAddProductsUrl}/$id"), headers: headers);
+  print("Vendor add product Repository...${response.body}");
   if (response.statusCode == 200) {
-    print("Vendor Product List Repository...${response.body}");
-    return VendorProductListModel.fromJson(jsonDecode(response.body));
+    //Helpers.hideLoader(loader);
+    print("Vendor add product  Repository...${response.body}");
+    return VendorAddProductModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);
   }

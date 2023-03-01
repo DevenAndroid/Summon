@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/edit_product.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../../controller/vendor_productList_controller.dart';
+import '../../repositories/ToggleStatus_Repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
 import 'Add_vendor_product.dart';
@@ -36,10 +37,10 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Scaffold(
-          appBar: backAppBar(title: "All Products", context: context),
-          body: vendorProductListController.isDataLoading.value
+    return Scaffold(
+        appBar: backAppBar(title: "All Products", context: context),
+        body: Obx(() {
+          return vendorProductListController.isDataLoading.value
               ? SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Padding(
@@ -65,15 +66,22 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                   ]),
                               child: TextField(
                                 maxLines: 1,
-                                controller: searchController,
+                                controller: vendorProductListController
+                                    .searchController,
                                 style: const TextStyle(fontSize: 17),
                                 textAlignVertical: TextAlignVertical.center,
                                 textInputAction: TextInputAction.search,
-                                onSubmitted: (value) => {},
+                                onChanged: (value) => {
+                                  vendorProductListController
+                                      .getVendorProductList()
+                                },
                                 decoration: InputDecoration(
                                     filled: true,
                                     suffixIcon: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        vendorProductListController
+                                            .getVendorProductList();
+                                      },
                                       icon: Icon(
                                         Icons.search,
                                         color: AppTheme.lightblack,
@@ -172,24 +180,37 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Expanded(
-                                                  child: Text(
-                                                    vendorProductListController
-                                                        .model
-                                                        .value
-                                                        .data![index]
-                                                        .product!
-                                                        .name
-                                                        .toString(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline6!
-                                                        .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize:
-                                                                AddSize.font16,
-                                                            color: AppTheme
-                                                                .blackcolor),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      print(
+                                                          vendorProductListController
+                                                              .model
+                                                              .value
+                                                              .data![index]
+                                                              .product!
+                                                              .id
+                                                              .toString());
+                                                    },
+                                                    child: Text(
+                                                      vendorProductListController
+                                                          .model
+                                                          .value
+                                                          .data![index]
+                                                          .product!
+                                                          .name
+                                                          .toString(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline6!
+                                                          .copyWith(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: AddSize
+                                                                  .font16,
+                                                              color: AppTheme
+                                                                  .blackcolor),
+                                                    ),
                                                   ),
                                                 ),
                                                 GestureDetector(
@@ -316,22 +337,42 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                             .model
                                                             .value
                                                             .data![index]
-                                                            .product!
-                                                            .category!
                                                             .status!,
                                                     borderRadius: 20.0,
                                                     showOnOff: true,
                                                     onToggle: (val) {
-                                                      vendorProductListController
-                                                          .model
-                                                          .value
-                                                          .data![index]
-                                                          .product!
-                                                          .category!
-                                                          .status = val;
+                                                      setState(() {
+                                                        vendorProductListController
+                                                            .model
+                                                            .value
+                                                            .data![index]
+                                                            .status = val;
+                                                        print(val);
+
+                                                        toggleStatusRepo(
+                                                                id: vendorProductListController
+                                                                    .model
+                                                                    .value
+                                                                    .data![
+                                                                        index]
+                                                                    .id
+                                                                    .toString())
+                                                            .then((value) {
+                                                          if (value.status ==
+                                                              true) {
+                                                            /* vendorProductListController
+                                                                .getVendorProductList();*/
+                                                          }
+                                                          showToast(value
+                                                              .message
+                                                              .toString());
+                                                          print(value.message
+                                                              .toString());
+                                                        });
+                                                      });
                                                     },
                                                   );
-                                                }),
+                                                })
                                               ],
                                             ),
                                           ],
@@ -347,7 +388,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                       ],
                     ),
                   ))
-              : const Center(child: CircularProgressIndicator()));
-    });
+              : const Center(child: CircularProgressIndicator());
+        }));
   }
 }

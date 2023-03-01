@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -263,11 +261,15 @@ class HomePageState extends State<HomePage> {
                                         return GestureDetector(
                                           onTap: () {
                                             storeCategoryController
-                                                .storeId.value = homeController.model.value
-                                                .data!.latestCategory![index].id
-                                                .toString();
-                                            print(nearStoreController.storeId.value);
-                                            Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
+                                                    .storeId.value =
+                                                homeController.model.value.data!
+                                                    .latestCategory![index].id
+                                                    .toString();
+                                            print(nearStoreController
+                                                .storeId.value);
+                                            Get.toNamed(
+                                                StoreByCategoryListScreen
+                                                    .storeByCategoryScreen);
                                           },
                                           child: Container(
                                               padding: EdgeInsets.symmetric(

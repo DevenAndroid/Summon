@@ -42,6 +42,14 @@ class ApiUrl {
   static const storeAvailabilityUrl = "${baseUrl}store-availability";
   static const vendorProductListUrl = "${baseUrl}vendor-product-list";
   static const assignedOrderListUrl = "${baseUrl}assigned-order-list";
+  static const vendorSearchProductsUrl = "${baseUrl}products";
+  static const vendorAddProductsUrl = "${baseUrl}product";
+  static const vendorDashboardUrl = "${baseUrl}vendor-dashboard";
+  static const orderAcceptUrl = "${baseUrl}order-accept";
+  static const storeUpdateStatusUrl = "${baseUrl}store-status-update";
+  static const selfDeliveryUpdateStatusUrl =
+      "${baseUrl}self-delivery-status-update";
+  static const toggleStatusUrl = "${baseUrl}vendor-product-status-update";
   static const driverDeliveryRequestListUrl =
       "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
