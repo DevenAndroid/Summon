@@ -590,30 +590,6 @@ class _OrderDetailsState extends State<OrderDetails>
                 ),
               )
             : const Center(child: CircularProgressIndicator()),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: AddSize.padding16, vertical: AddSize.padding16),
-          child: ElevatedButton(
-              onPressed: () {
-                // Get.toNamed(MyRouter.editProfileScreen);
-              },
-              style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(10),
-                  minimumSize: Size(double.maxFinite, AddSize.size50),
-                  primary: AppTheme.primaryColor,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  textStyle: TextStyle(
-                      fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
-              child: Text(
-                "Mark Delivered",
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: AppTheme.backgroundcolor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18),
-              )),
-        ),
       );
     });
   }

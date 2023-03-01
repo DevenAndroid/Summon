@@ -25,9 +25,12 @@ class HomePageController extends GetxController {
     });
   }
 
-   getSearchData() async {
-    homeSearchRepo(searchController.text.trim()).then((value) {
+  Future<HomeSerachModel> getSearchData() async {
+    isDataLoading.value = false;
+  return await homeSearchRepo(searchController.text.trim()).then((value) {
+    isDataLoading.value = true;
       searchDataModel.value = value;
+      return value;
     });
   }
 }

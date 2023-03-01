@@ -41,4 +41,8 @@ class ApiUrl {
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
   static const assignedOrderListUrl = "${baseUrl}assigned-order-list";
   static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
+  static const assignedOrderUrl = "${baseUrl}assigned-order";
+  static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
+  static const driverRegisterUrl = "${baseUrl}driver-register";
+  static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
 }

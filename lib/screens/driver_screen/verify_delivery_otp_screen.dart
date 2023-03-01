@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivered_successfully.dart';
+import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../repositories/delivery_verify_otp_repo.dart';
 import '../../resources/app_theme.dart';
 
 class VerifyOtpDeliveryScreen extends StatefulWidget {
@@ -99,8 +101,13 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                 SizedBox(height: AddSize.size30),
                 ElevatedButton(
                     onPressed: () {
-                      Get.toNamed(DeliveredSuccessfullyScreen
-                          .deliveredSuccessfullyScreen);
+                      deliveryOtpVerify(orderId: Get.arguments[0], otp: otpController.text, context: context).then((value){
+                        showToast(value.message.toString());
+                        if(value.status == true){
+                          Get.offAndToNamed(DeliveredSuccessfullyScreen
+                              .deliveredSuccessfullyScreen);
+                        }
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.all(10),

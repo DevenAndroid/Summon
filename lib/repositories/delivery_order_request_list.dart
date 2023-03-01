@@ -17,7 +17,7 @@ Future<DriverDeliveryOrderList> driverDeliveryOrderListRepo() async {
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-  try {
+  // try {
     final response =
     await http.get(Uri.parse(ApiUrl.driverDeliveryRequestListUrl), headers: headers);
 
@@ -26,8 +26,8 @@ Future<DriverDeliveryOrderList> driverDeliveryOrderListRepo() async {
       return DriverDeliveryOrderList.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
-    }
-  } catch (e) {
-    throw Exception(e.toString());
-  }
+  //   }
+  // } catch (e) {
+  //   throw Exception(e.toString());
+   }
 }

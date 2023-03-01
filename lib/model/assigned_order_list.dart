@@ -30,7 +30,7 @@ class AssignedOrderList {
 class Data {
   int? orderId;
   String? paymentMethod;
-  int? orderTotal;
+  dynamic orderTotal;
   String? orderStatus;
   String? date;
   Location? location;

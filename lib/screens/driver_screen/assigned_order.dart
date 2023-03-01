@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fresh2_arrive/screens/driver_screen/verify_delivery_otp_screen.dart';
+import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../../controller/assigned_order_list_controller.dart';
 import '../../controller/main_home_controller.dart';
+import '../../repositories/driver_status_update_repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
@@ -18,6 +20,7 @@ class AssignedOrder extends StatefulWidget {
 
 class _AssignedOrderState extends State<AssignedOrder> {
   final RxBool _store = true.obs;
+  final RxBool _isValue = false.obs;
   final controller = Get.put(MainHomeController());
   final assignedController = Get.put(AssignedOrderController());
   String? selectedTime;
@@ -355,8 +358,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                           MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
-                                                child: Text(
-                                        assignedController.model.value.data![index].location.toString(),
+                                                child: Text(assignedController.model.value.data![index].location!.location.toString() + assignedController.model.value.data![index].location!.flatNo.toString() + assignedController.model.value.data![index].location!.street.toString(),
                                                   style: Theme
                                                       .of(context)
                                                       .textTheme
@@ -373,36 +375,104 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                         SizedBox(
                                           height: AddSize.size10,
                                         ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Get.toNamed(
-                                                  VerifyOtpDeliveryScreen
-                                                      .verifyOtpDeliveryScreen);
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: AddSize
-                                                      .padding22),
-                                              minimumSize: Size(AddSize.size100,
-                                                  AddSize.size20 * 1.8),
-                                              primary: AppTheme.userActive,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(6)),
-                                            ),
-                                            child: Text(
-                                              "Pickup".toUpperCase(),
-                                              style: Theme
-                                                  .of(context)
-                                                  .textTheme
-                                                  .headline5!
-                                                  .copyWith(
-                                                  color: AppTheme
-                                                      .backgroundcolor,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: AddSize.font14),
-                                            )),
+                                        Obx((){
+                                         return assignedController.model.value.data![index].orderStatus == "Pickup" ?
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                driverUpdateOrder(orderId: assignedController.model.value.data![index].orderId, status: "delivered", context: context).then((value){
+                                                  showToast(value.message.toString());
+                                                  if(value.status==true){
+                                                    Get.toNamed(
+                                                        VerifyOtpDeliveryScreen
+                                                            .verifyOtpDeliveryScreen,arguments: [assignedController.model.value.data![index].orderId]);
+                                                  }
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: AddSize
+                                                        .padding22),
+                                                minimumSize: Size(AddSize.size100,
+                                                    AddSize.size20 * 1.8),
+                                                primary: AppTheme.userActive,
+                                                elevation: 0,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(6)),
+                                              ),
+                                              child: Text(
+                                                "Deliver".toUpperCase(),
+                                                style: Theme
+                                                    .of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: AddSize.font14),
+                                              )):assignedController.model.value.data![index].orderStatus == "Accepted" ?
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                driverUpdateOrder(orderId: assignedController.model.value.data![index].orderId, status: "pickup", context: context).then((value){
+                                                  if(value.status==true){
+                                                    _isValue.value = true;
+                                                  }
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: AddSize
+                                                        .padding22),
+                                                minimumSize: Size(AddSize.size100,
+                                                    AddSize.size20 * 1.8),
+                                                primary: AppTheme.userActive,
+                                                elevation: 0,
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.circular(6)),
+                                              ),
+                                              child: Text(
+                                                "Pickup".toUpperCase(),
+                                                style: Theme
+                                                    .of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: AddSize.font14),
+                                              ))
+                                         : ElevatedButton(
+                                             onPressed: () {
+                                              null;
+                                             },
+                                             style: ElevatedButton.styleFrom(
+                                               padding: EdgeInsets.symmetric(
+                                                   horizontal: AddSize
+                                                       .padding22),
+                                               minimumSize: Size(AddSize.size100,
+                                                   AddSize.size20 * 1.8),
+                                               primary: AppTheme.userActive,
+                                               elevation: 0,
+                                               shape: RoundedRectangleBorder(
+                                                   borderRadius:
+                                                   BorderRadius.circular(6)),
+                                             ),
+                                             child: Text(
+                                               "Delivered".toUpperCase(),
+                                               style: Theme
+                                                   .of(context)
+                                                   .textTheme
+                                                   .headline5!
+                                                   .copyWith(
+                                                   color: AppTheme
+                                                       .backgroundcolor,
+                                                   fontWeight: FontWeight.w500,
+                                                   fontSize: AddSize.font14),
+                                             ));
+                                        }),
                                         SizedBox(
                                           height: AddSize.size10,
                                         )

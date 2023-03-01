@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 class NewHelper {
   Future addFilePicker() async {
     try {
-      final item = await FilePicker.platform.pickFiles();
+      final item = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['jpg','png','jpeg'],);
       if (item == null) {
         return null;
       } else {

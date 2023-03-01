@@ -65,7 +65,7 @@ class _MyAddressState extends State<MyAddress> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: height * .01,
+                      height: height * .02,
                     ),
                     InkWell(
                       onTap: () {
@@ -74,14 +74,14 @@ class _MyAddressState extends State<MyAddress> {
                       child: Row(
                         children: [
                           const Icon(
-                            Icons.gps_fixed,
+                            Icons.add,
                             color: AppTheme.primaryColor,
                           ),
                           SizedBox(
                             width: width * .02,
                           ),
                           const Text(
-                            "Use Current Location",
+                            "Add New Address",
                             style: TextStyle(
                                 color: AppTheme.primaryColor,
                                 fontSize: 16,
@@ -89,6 +89,9 @@ class _MyAddressState extends State<MyAddress> {
                           )
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: height * .02,
                     ),
                     addressController.isAddressLoad.value
                         ? addressController
@@ -123,6 +126,11 @@ class _MyAddressState extends State<MyAddress> {
                                                   .then((value) {
                                                 if (value.status == true) {
                                                   controller.getAddToCartList();
+                                                  Get.back();
+                                                  Get.back();
+                                                  Get.back();
+                                                  Get.back();
+                                                  Get.back();
                                                   Get.back();
                                                   mainController.onItemTap(1);
                                                 }
@@ -278,30 +286,30 @@ class _MyAddressState extends State<MyAddress> {
                                   SizedBox(
                                     height: height * .05,
                                   ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        Get.toNamed(
-                                            ChooseAddress.chooseAddressScreen);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize:
-                                            const Size(double.maxFinite, 60),
-                                        primary: AppTheme.primaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                      ),
-                                      child: Text(
-                                        "ADD NEW",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5!
-                                            .copyWith(
-                                                color: AppTheme.backgroundcolor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18),
-                                      )),
+                                  // ElevatedButton(
+                                  //     onPressed: () {
+                                  //       Get.toNamed(
+                                  //           ChooseAddress.chooseAddressScreen);
+                                  //     },
+                                  //     style: ElevatedButton.styleFrom(
+                                  //       minimumSize:
+                                  //           const Size(double.maxFinite, 60),
+                                  //       primary: AppTheme.primaryColor,
+                                  //       elevation: 0,
+                                  //       shape: RoundedRectangleBorder(
+                                  //           borderRadius:
+                                  //               BorderRadius.circular(10)),
+                                  //     ),
+                                  //     child: Text(
+                                  //       "ADD NEW",
+                                  //       style: Theme.of(context)
+                                  //           .textTheme
+                                  //           .headline5!
+                                  //           .copyWith(
+                                  //               color: AppTheme.backgroundcolor,
+                                  //               fontWeight: FontWeight.w500,
+                                  //               fontSize: 18),
+                                  //     )),
                                 ],
                               )
                             : const SizedBox()
