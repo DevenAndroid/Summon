@@ -25,6 +25,8 @@ class DriverDeliveryOrderList {
 class Data {
   int? deliveredOrders;
   int? pendingOrders;
+  dynamic username;
+  dynamic deliveryMode;
   List<List1>? list;
 
   Data({this.deliveredOrders, this.pendingOrders, this.list});
@@ -32,6 +34,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     deliveredOrders = json['deliveredOrders'];
     pendingOrders = json['pendingOrders'];
+    username = json['username'];
+    deliveryMode = json['delivery_mode'];
     if (json['list'] != null) {
       list = <List1>[];
       json['list'].forEach((v) {
@@ -44,6 +48,8 @@ class Data {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['deliveredOrders'] = deliveredOrders;
     data['pendingOrders'] = pendingOrders;
+    data['username'] = username;
+    data['delivery_mode'] = deliveryMode;
     if (list != null) {
       data['list'] = list!.map((v) => v.toJson()).toList();
     }

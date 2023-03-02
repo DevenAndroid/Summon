@@ -380,11 +380,14 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                           ElevatedButton(
                                               onPressed: () {
                                                 driverUpdateOrder(orderId: assignedController.model.value.data![index].orderId, status: "delivered", context: context).then((value){
-                                                  showToast(value.message.toString());
                                                   if(value.status==true){
+                                                    showToast("Otp ${value.message} Send Successfully".toString());
                                                     Get.toNamed(
                                                         VerifyOtpDeliveryScreen
                                                             .verifyOtpDeliveryScreen,arguments: [assignedController.model.value.data![index].orderId]);
+                                                  }
+                                                  else{
+                                                    showToast(value.message.toString());
                                                   }
                                                 });
                                               },

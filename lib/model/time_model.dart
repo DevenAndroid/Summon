@@ -30,7 +30,7 @@ List<TimeModel> timeData = [
   ),
   TimeModel(
     key: "custom",
-    value: "Custom calender",
+    value: "Custom",
   ),
 ];
 

@@ -1,6 +1,6 @@
 class AssignedOrderList {
   bool? status;
-  String? message;
+  dynamic message;
   List<Data>? data;
 
   AssignedOrderList({this.status, this.message, this.data});

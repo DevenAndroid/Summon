@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/controller/payment_option_controller.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/thankyou_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
+import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 
 import '../repositories/check_out_repository.dart';
@@ -10,11 +12,13 @@ import '../repositories/check_out_repository.dart';
 class PaymentMethod extends StatefulWidget {
   const PaymentMethod({Key? key}) : super(key: key);
   static var paymentScreen = "/paymentScreen";
+
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
+  final controller = Get.put(PaymentOptionController());
   bool _isValue = false;
   RxString selectedValue = "cod".obs;
 
@@ -24,188 +28,214 @@ class _PaymentMethodState extends State<PaymentMethod> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: backAppBar(title: "Select Payment Method", context: context),
-      body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            child: Column(
-              children: [
-                Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [
-                            Image(
-                              image: const AssetImage(AppAssets.paymentIcon1),
-                              height: height * .03,
-                              width: width * .10,
-                            ),
-                            SizedBox(
-                              width: width * .04,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Obx(() {
+        return controller.isDataLoading.value
+            ? SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Column(
+                    children: [
+                      Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          elevation: 0,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "My Wallet balance",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          height: 1.5,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppTheme.blackcolor,
-                                          fontSize: 14),
-                                ),
-                                Text(
-                                  "₹2400",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          height: 1.5,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 18),
-                                ),
+                                Row(children: [
+                                  Image(
+                                    image: const AssetImage(
+                                        AppAssets.paymentIcon1),
+                                    height: height * .03,
+                                    width: width * .10,
+                                  ),
+                                  SizedBox(
+                                    width: width * .04,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "My Wallet balance",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                                height: 1.5,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppTheme.blackcolor,
+                                                fontSize: 14),
+                                      ),
+                                      Text(
+                                        "₹2400",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                                height: 1.5,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                                Checkbox(
+                                    side: const BorderSide(
+                                        color: AppTheme.primaryColor, width: 2),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(2)),
+                                    value: _isValue,
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        _isValue = value!;
+                                        if (_isValue == true) {
+                                          selectedValue.value = "";
+                                        } else {
+                                          selectedValue.value = "cod";
+                                        }
+                                      });
+                                    })
                               ],
                             ),
-                          ]),
-                          Checkbox(
-                              side: const BorderSide(
-                                  color: AppTheme.primaryColor, width: 2),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                              value: _isValue,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _isValue = value!;
-                                  if(_isValue == true){
-                                    selectedValue.value = "";
-                                  }
-                                  else{
-                                    selectedValue.value = "cod";
-                                  }
-                                });
-                              })
-                        ],
+                          )),
+                      GestureDetector(
+                        onTap: () {
+                          selectedValue.value = "card";
+                          print(selectedValue.value);
+                        },
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(children: [
+                                    Image(
+                                      image: const AssetImage(
+                                          AppAssets.mastercardIcon),
+                                      height: height * .04,
+                                      width: width * .10,
+                                    ),
+                                    SizedBox(
+                                      width: width * .04,
+                                    ),
+                                    Text(
+                                      "Card",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              height: 1.5,
+                                              fontWeight: FontWeight.w500,
+                                              color: AppTheme.blackcolor,
+                                              fontSize: 16),
+                                    ),
+                                  ]),
+                                  Obx(() {
+                                    return Radio<String>(
+                                      value: "card",
+                                      groupValue: selectedValue.value,
+                                      onChanged: (value) {
+                                        selectedValue.value = value!;
+                                      },
+                                    );
+                                  }),
+                                ],
+                              ),
+                            )),
                       ),
-                    )),
-                GestureDetector(
-                  onTap: () {
-                    selectedValue.value = "card";
-                    print(selectedValue.value);
-                  },
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(children: [
-                              Image(
-                                image:
-                                    const AssetImage(AppAssets.mastercardIcon),
-                                height: height * .04,
-                                width: width * .10,
-                              ),
-                              SizedBox(
-                                width: width * .04,
-                              ),
-                              Text(
-                                "Card",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5!
-                                    .copyWith(
-                                        height: 1.5,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppTheme.blackcolor,
-                                        fontSize: 16),
-                              ),
-                            ]),
-                            Obx(() {
-                              return Radio<String>(
-                                value: "card",
-                                groupValue: selectedValue.value,
-                                onChanged: (value) {
-                                  selectedValue.value = value!;
-                                },
-                              );
-                            }),
-                          ],
-                        ),
-                      )),
+                      controller.model.value.data!.cod == false
+                          ? GestureDetector(
+                              onTap: () {
+                                selectedValue.value = "cod";
+                                print(selectedValue.value);
+                              },
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  elevation: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(children: [
+                                          Image(
+                                            image: const AssetImage(
+                                                AppAssets.cashIcon),
+                                            height: height * .03,
+                                            width: width * .08,
+                                          ),
+                                          SizedBox(
+                                            width: width * .04,
+                                          ),
+                                          Text(
+                                            "Cash on delivery",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                    height: 1.5,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppTheme.blackcolor,
+                                                    fontSize: 16),
+                                          ),
+                                        ]),
+                                        Obx(() {
+                                          return Radio<String>(
+                                            value: "cod",
+                                            groupValue: selectedValue.value,
+                                            onChanged: (value) {
+                                              selectedValue.value = value!;
+                                            },
+                                          );
+                                        }),
+                                      ],
+                                    ),
+                                  )),
+                            )
+                          : SizedBox(),
+                    ],
+                  ),
+                ))
+            : Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: AddSize.padding20),
+                  child: CircularProgressIndicator(),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    selectedValue.value = "cod";
-                    print(selectedValue.value);
-                  },
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      elevation: 0,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(children: [
-                              Image(
-                                image: const AssetImage(AppAssets.cashIcon),
-                                height: height * .03,
-                                width: width * .08,
-                              ),
-                              SizedBox(
-                                width: width * .04,
-                              ),
-                              Text(
-                                "Cash on delivery",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5!
-                                    .copyWith(
-                                        height: 1.5,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppTheme.blackcolor,
-                                        fontSize: 16),
-                              ),
-                            ]),
-                            Obx(() {
-                              return Radio<String>(
-                                value: "cod",
-                                groupValue: selectedValue.value,
-                                onChanged: (value) {
-                                  selectedValue.value = value!;
-                                },
-                              );
-                            }),
-                          ],
-                        ),
-                      )),
-                ),
-              ],
-            ),
-          )),
+              );
+      }),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         child: ElevatedButton(
             onPressed: () {
-              checkOut(payment_type: selectedValue.value, context: context).then((value){
-                if(value.status == true){
-                  Get.offAllNamed(ThankYouScreen.thankYouScreen,arguments: [value.data!.orderType,value.data!.orderId,value.data!.placedAt,
-                    value.data!.itemTotal,value.data!.tax,value.data!.deliveryCharges,value.data!.packingFee,value.data!.grandTotal,value.data!.orderId]);
+              checkOut(payment_type: selectedValue.value, context: context)
+                  .then((value) {
+                if (value.status == true) {
+                  Get.offAllNamed(ThankYouScreen.thankYouScreen, arguments: [
+                    value.data!.orderType,
+                    value.data!.orderId,
+                    value.data!.placedAt,
+                    value.data!.itemTotal,
+                    value.data!.tax,
+                    value.data!.deliveryCharges,
+                    value.data!.packingFee,
+                    value.data!.grandTotal,
+                    value.data!.orderId
+                  ]);
                 }
               });
             },

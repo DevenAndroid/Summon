@@ -101,9 +101,13 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                 SizedBox(height: AddSize.size30),
                 ElevatedButton(
                     onPressed: () {
-                      deliveryOtpVerify(orderId: Get.arguments[0], otp: otpController.text, context: context).then((value){
+                      deliveryOtpVerify(
+                              orderId: Get.arguments[0],
+                              otp: otpController.text,
+                              context: context)
+                          .then((value) {
                         showToast(value.message.toString());
-                        if(value.status == true){
+                        if (value.status == true) {
                           Get.offAndToNamed(DeliveredSuccessfullyScreen
                               .deliveredSuccessfullyScreen);
                         }
@@ -126,7 +130,15 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                           fontSize: AddSize.font16),
                     )),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      resendDeliveryOtpVerify(
+                              orderId: Get.arguments[0], context: context)
+                          .then((value) {
+                        showToast(value.message.toString());
+                        if (value.status == true) {
+                        }
+                      });
+                    },
                     child: Text(
                       "Resend OTP",
                       style: Theme.of(context).textTheme.headline5!.copyWith(
