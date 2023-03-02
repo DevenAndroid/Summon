@@ -108,6 +108,7 @@ class HomePageState extends State<HomePage> {
                                         suffixIcon: IconButton(
                                           onPressed: () {
                                             // Get.to(const SearchScreenData());
+                                            FocusManager.instance.primaryFocus!.unfocus();
                                             print(homeSearchController
                                                 .searchController);
                                             Get.toNamed(

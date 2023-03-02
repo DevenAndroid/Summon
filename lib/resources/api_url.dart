@@ -53,4 +53,9 @@ class ApiUrl {
   static const driverDeliveryRequestListUrl =
       "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
+  static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
+  static const assignedOrderUrl = "${baseUrl}assigned-order";
+  static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
+  static const driverRegisterUrl = "${baseUrl}driver-register";
+  static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
 }

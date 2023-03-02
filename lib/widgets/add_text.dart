@@ -81,6 +81,11 @@ addCartSection() {
                       child: ElevatedButton(
                         onPressed: () {
                           Get.back();
+                          Get.back();
+                          Get.back();
+                          Get.back();
+                          Get.back();
+                          Get.back();
                           controller.onItemTap(1);
                         },
                         style: ElevatedButton.styleFrom(

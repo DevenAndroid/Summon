@@ -43,21 +43,23 @@ class Data {
   int? id;
   String? name;
   String? image;
-  List<Varints>? varints;
+  dynamic distance;
+  // List<Varints>? varints;
   RxInt? varientIndex = (0).obs;
 
-  Data({this.id, this.name, this.image, this.varints,this.varientIndex});
+  Data({this.id, this.name, this.image,this.distance, this.varientIndex});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
-    if (json['varints'] != null) {
-      varints = <Varints>[];
-      json['varints'].forEach((v) {
-        varints!.add(Varints.fromJson(v));
-      });
-    }
+    distance = json['distance'];
+    // if (json['varints'] != null) {
+    //   varints = <Varints>[];
+    //   json['varints'].forEach((v) {
+    //     varints!.add(Varints.fromJson(v));
+    //   });
+    // }
   }
 
   Map<String, dynamic> toJson() {
@@ -65,61 +67,62 @@ class Data {
     data['id'] = id;
     data['name'] = name;
     data['image'] = image;
-    if (varints != null) {
-      data['varints'] = varints!.map((v) => v.toJson()).toList();
-    }
+    data['distance'] = distance;
+    // if (varints != null) {
+    //   data['varints'] = varints!.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }
 
-class Varints {
-  int? id;
-  int? vendorProductId;
-  int? marketPrice;
-  int? price;
-  String? variantQty;
-  String? variantQtyType;
-  int? minQty;
-  int? maxQty;
-  String? discountOff;
-
-  Varints(
-      {this.id,
-      this.vendorProductId,
-      this.marketPrice,
-      this.price,
-      this.variantQty,
-      this.variantQtyType,
-      this.minQty,
-      this.maxQty,
-      this.discountOff});
-
-  Varints.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    vendorProductId = json['vendor_product_id'];
-    marketPrice = json['market_price'];
-    price = json['price'];
-    variantQty = json['variant_qty'];
-    variantQtyType = json['variant_qty_type'];
-    minQty = json['min_qty'];
-    maxQty = json['max_qty'];
-    discountOff = json['discount_off'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['vendor_product_id'] = vendorProductId;
-    data['market_price'] = marketPrice;
-    data['price'] = price;
-    data['variant_qty'] = variantQty;
-    data['variant_qty_type'] = variantQtyType;
-    data['min_qty'] = minQty;
-    data['max_qty'] = maxQty;
-    data['discount_off'] = discountOff;
-    return data;
-  }
-}
+// class Varints {
+//   int? id;
+//   int? vendorProductId;
+//   int? marketPrice;
+//   int? price;
+//   String? variantQty;
+//   String? variantQtyType;
+//   int? minQty;
+//   int? maxQty;
+//   String? discountOff;
+//
+//   Varints(
+//       {this.id,
+//       this.vendorProductId,
+//       this.marketPrice,
+//       this.price,
+//       this.variantQty,
+//       this.variantQtyType,
+//       this.minQty,
+//       this.maxQty,
+//       this.discountOff});
+//
+//   Varints.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     vendorProductId = json['vendor_product_id'];
+//     marketPrice = json['market_price'];
+//     price = json['price'];
+//     variantQty = json['variant_qty'];
+//     variantQtyType = json['variant_qty_type'];
+//     minQty = json['min_qty'];
+//     maxQty = json['max_qty'];
+//     discountOff = json['discount_off'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['vendor_product_id'] = vendorProductId;
+//     data['market_price'] = marketPrice;
+//     data['price'] = price;
+//     data['variant_qty'] = variantQty;
+//     data['variant_qty_type'] = variantQtyType;
+//     data['min_qty'] = minQty;
+//     data['max_qty'] = maxQty;
+//     data['discount_off'] = discountOff;
+//     return data;
+//   }
+// }
 
 class Meta {
   int? totalPage;

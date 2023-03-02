@@ -22,14 +22,8 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
 
-  print('Map data.. ${map}');
-
   try {
-    final response =
-        await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),
-            // body: jsonEncode(map),
-            headers: headers);
-
+    final response = await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),headers: headers);
     log(response.body.toString());
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);

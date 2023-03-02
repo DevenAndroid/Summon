@@ -2,11 +2,13 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/store_by_category_controller.dart';
 import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
@@ -27,6 +29,7 @@ class _StoreScreenState extends State<StoreScreen> {
   final myCartController = Get.put(MyCartDataListController());
   final controller = Get.put(MainHomeController());
   final categoryController = Get.put(CategoryController());
+  final nearStoreController = Get.put(StoreByCategoryController());
   String? selectedCAt;
 
   @override
@@ -162,7 +165,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Categories',
                                       style: TextStyle(
                                           color: AppTheme.blackcolor,
@@ -200,65 +203,79 @@ class _StoreScreenState extends State<StoreScreen> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return Container(
-                                            width: AddSize.size50 * 2,
-                                            margin: EdgeInsets.only(
-                                                left: AddSize.padding10),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: AddSize.padding10,
-                                                vertical: AddSize.size5),
-                                            decoration: BoxDecoration(
-                                                color: index % 3 == 0
-                                                    ? AppTheme
-                                                        .appPrimaryPinkColor
-                                                    : index % 3 == 2
-                                                        ? AppTheme
-                                                            .appPrimaryGreenColor
-                                                        : AppTheme
-                                                            .appPrimaryYellowColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                SizedBox(
-                                                  height: AddSize.size50,
-                                                  width: AddSize.size50 * 1.2,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          categoryController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .image
-                                                              .toString(),
-                                                      errorWidget:
-                                                          (_, __, ___) =>
-                                                              const SizedBox(),
-                                                      placeholder: (_, __) =>
-                                                          const SizedBox(),
-                                                      fit: BoxFit.contain,
+                                        return GestureDetector(
+                                          onTap: () {
+                                            nearStoreController.storeId.value =
+                                                categoryController
+                                                    .model.value.data![index].id
+                                                    .toString();
+                                            Get.toNamed(
+                                                StoreByCategoryListScreen
+                                                    .storeByCategoryScreen);
+                                          },
+                                          child: Container(
+                                              width: AddSize.size50 * 2,
+                                              margin: EdgeInsets.only(
+                                                  left: AddSize.padding10),
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: AddSize.padding10,
+                                                  vertical: AddSize.size5),
+                                              decoration: BoxDecoration(
+                                                  color: index % 3 == 0
+                                                      ? AppTheme
+                                                          .appPrimaryPinkColor
+                                                      : index % 3 == 2
+                                                          ? AppTheme
+                                                              .appPrimaryGreenColor
+                                                          : AppTheme
+                                                              .appPrimaryYellowColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  SizedBox(
+                                                    height: AddSize.size50,
+                                                    width: AddSize.size50 * 1.2,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            categoryController
+                                                                .model
+                                                                .value
+                                                                .data![index]
+                                                                .image
+                                                                .toString(),
+                                                        errorWidget: (_, __,
+                                                                ___) =>
+                                                            const SizedBox(),
+                                                        placeholder: (_, __) =>
+                                                            const SizedBox(),
+                                                        fit: BoxFit.contain,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                Text(
-                                                  categoryController.model.value
-                                                      .data![index].name
-                                                      .toString(),
-                                                  maxLines: 2,
-                                                  style: TextStyle(
-                                                      color: AppTheme.subText,
-                                                      fontSize: AddSize.font14,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                )
-                                              ],
-                                            ));
+                                                  Text(
+                                                    categoryController.model
+                                                        .value.data![index].name
+                                                        .toString(),
+                                                    maxLines: 2,
+                                                    style: TextStyle(
+                                                        color: AppTheme.subText,
+                                                        fontSize:
+                                                            AddSize.font14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                ],
+                                              )),
+                                        );
                                       },
                                     )),
                                 SizedBox(height: height * .015),
@@ -350,7 +367,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .center,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
                                                             children: [
                                                               Text(
                                                                   singleStoreController
@@ -471,7 +490,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                             }
                                                                                           });
                                                                                         } else {
-                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) - 1, context).then((value) {
+                                                                                          addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) - 1, context).then((value) {
                                                                                             showToast(value.message);
                                                                                             if (value.status == true) {
                                                                                               myCartController.getAddToCartList();
@@ -494,7 +513,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                     }),
                                                                                     InkWell(
                                                                                       onTap: () {
-                                                                                        addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
+                                                                                        addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), int.parse((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
                                                                                           showToast(value.message);
                                                                                           if (value.status == true) {
                                                                                             myCartController.getAddToCartList();
@@ -522,7 +541,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               ),
                                                                               onPressed: () {
                                                                                 int vIndex = singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value;
-                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), '1', context).then((value) {
+                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(), singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), '1', context).then((value) {
                                                                                   if (value.status == true) {
                                                                                     showToast(value.message);
                                                                                     myCartController.getAddToCartList();
@@ -588,7 +607,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       );
                                     }),
                                 SizedBox(
-                                  height: height * .08,
+                                  height: height * .13,
                                 ),
                               ],
                             ),
@@ -600,7 +619,7 @@ class _StoreScreenState extends State<StoreScreen> {
                 : const Center(child: CircularProgressIndicator()),
         extendBody: true,
         bottomNavigationBar: myCartController.isDataLoaded.value &&
-            myCartController.model.value.data!.cartItems!.isNotEmpty
+                myCartController.model.value.data!.cartItems!.isNotEmpty
             ? addCartSection()
             : null,
       );

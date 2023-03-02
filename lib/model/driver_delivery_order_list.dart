@@ -1,19 +1,14 @@
 class DriverDeliveryOrderList {
   bool? status;
   String? message;
-  List<Data>? data;
+  Data? data;
 
   DriverDeliveryOrderList({this.status, this.message, this.data});
 
   DriverDeliveryOrderList.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,27 +16,56 @@ class DriverDeliveryOrderList {
     data['status'] = status;
     data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
+  int? deliveredOrders;
+  int? pendingOrders;
+  List<List1>? list;
+
+  Data({this.deliveredOrders, this.pendingOrders, this.list});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    deliveredOrders = json['deliveredOrders'];
+    pendingOrders = json['pendingOrders'];
+    if (json['list'] != null) {
+      list = <List1>[];
+      json['list'].forEach((v) {
+        list!.add(List1.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['deliveredOrders'] = deliveredOrders;
+    data['pendingOrders'] = pendingOrders;
+    if (list != null) {
+      data['list'] = list!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class List1 {
   String? date;
   int? orderId;
   String? paymentMethod;
-  int? orderTotal;
+  dynamic orderTotal;
   Location? location;
 
-  Data(
+  List1(
       {this.date,
         this.orderId,
         this.paymentMethod,
         this.orderTotal,
         this.location});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  List1.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     orderId = json['order_id'];
     paymentMethod = json['payment_method'];
@@ -76,7 +100,7 @@ class Location {
   String? addressType;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   Location(
       {this.id,

@@ -85,6 +85,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               onChanged: (bool? value) {
                                 setState(() {
                                   _isValue = value!;
+                                  if(_isValue == true){
+                                    selectedValue.value = "";
+                                  }
+                                  else{
+                                    selectedValue.value = "cod";
+                                  }
                                 });
                               })
                         ],

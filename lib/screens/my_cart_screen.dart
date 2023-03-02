@@ -91,7 +91,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   _currentPosition!.latitude, _currentPosition!.longitude),
               zoom: 15)));
     }).catchError((e) {
-      debugPrint(e);
+      debugPrint(e.toString());
     });
   }
 
@@ -1011,13 +1011,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       SizedBox(
                                         height: height * .01,
                                       ),
-                                      details("Tax & fee:",
-                                          "₹${controller.model.value.data!.cartPaymentSummary!.taxAndFee ?? ""}"),
-                                      SizedBox(
-                                        height: height * .01,
-                                      ),
+                                      // details("Tax & fee:",
+                                      //     "₹${controller.model.value.data!.cartPaymentSummary!.taxAndFee ?? ""}"),
+                                      // SizedBox(
+                                      //   height: height * .01,
+                                      // ),
                                       details("Delivery:",
-                                          "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge ?? ""}"),
+                                          controller.model.value.data!.cartPaymentSummary!.deliveryCharge == "-"? "Free": "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge}"),
                                       SizedBox(
                                         height: height * .01,
                                       ),
@@ -1055,70 +1055,71 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                   color: AppTheme.blackcolor,
                                                   fontSize: AddSize.font16,
                                                   fontWeight: FontWeight.w500)),
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.toNamed(
-                                                    MyAddress.myAddressScreen);
-                                              },
-                                              child: Text("Change",
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppTheme.primaryColor,
-                                                      fontSize: AddSize.font16,
-                                                      fontWeight:
-                                                          FontWeight.w500)))
                                         ],
                                       ),
-                                      _address != "" && _currentAddress != ""
-                                          ? Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  _address ?? "",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5!
-                                                      .copyWith(
+                                      // _address != "" && _currentAddress != ""
+                                      //     ? Column(
+                                      //         crossAxisAlignment:
+                                      //             CrossAxisAlignment.start,
+                                      //         children: [
+                                      //           Text(
+                                      //             _address ?? "",
+                                      //             style: Theme.of(context)
+                                      //                 .textTheme
+                                      //                 .headline5!
+                                      //                 .copyWith(
+                                      //                     fontWeight:
+                                      //                         FontWeight.w500,
+                                      //                     fontSize:
+                                      //                         AddSize.font16),
+                                      //           ),
+                                      //           Text(
+                                      //             _currentAddress ?? "",
+                                      //             style: Theme.of(context)
+                                      //                 .textTheme
+                                      //                 .headline5!
+                                      //                 .copyWith(
+                                      //                     fontWeight:
+                                      //                         FontWeight.w400,
+                                      //                     fontSize:
+                                      //                         AddSize.font14,
+                                      //                     color: AppTheme
+                                      //                         .lightblack),
+                                      //           ),
+                                      //         ],
+                                      //       )
+                                      //     :
+                                      controller.model.value.data!.orderAddress != null
+                                              ? Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                      "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: AddSize.font14,
                                                           fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize:
-                                                              AddSize.font16),
-                                                ),
-                                                Text(
-                                                  _currentAddress ?? "",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize:
-                                                              AddSize.font14,
-                                                          color: AppTheme
-                                                              .lightblack),
-                                                ),
-                                              ],
-                                            )
-                                          : controller.model.value.data!
-                                                      .orderAddress !=
-                                                  null
-                                              ? Text(
-                                                  "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: AddSize.font14,
-                                                      fontWeight:
-                                                          FontWeight.w500))
+                                                              FontWeight.w500)),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Get.toNamed(
+                                                            MyAddress.myAddressScreen);
+                                                      },
+                                                      child: Text("Change",
+                                                          style: TextStyle(
+                                                              color:
+                                                              AppTheme.primaryColor,
+                                                              fontSize: AddSize.font16,
+                                                              fontWeight:
+                                                              FontWeight.w500)))
+                                                ],
+                                              )
                                               : SizedBox(),
                                       SizedBox(
                                         height: height * .01,
                                       ),
-                                      controller.model.value.data!
-                                                      .orderAddress !=
-                                                  null ||
-                                              (_address != "" &&
-                                                  _currentAddress != "")
+                                      controller.model.value.data!.orderAddress != null
+                                          // || (_address != "" && _currentAddress != "")
                                           ? ElevatedButton(
                                               onPressed: () {
                                                 Get.toNamed(PaymentMethod
@@ -1153,7 +1154,39 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                         fontSize:
                                                             AddSize.font16),
                                               ))
-                                          : SizedBox(),
+                                          : ElevatedButton(
+                                          onPressed: () {
+                                            Get.toNamed(MyAddress.myAddressScreen);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              padding:
+                                              const EdgeInsets.all(10),
+                                              minimumSize: const Size(
+                                                  double.maxFinite, 50),
+                                              backgroundColor:
+                                              AppTheme.primaryColor,
+                                              elevation: 0,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      10)),
+                                              textStyle: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight:
+                                                  FontWeight.w600)),
+                                          child: Text(
+                                            "SELECT ADDRESS",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                color: AppTheme
+                                                    .backgroundcolor,
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                fontSize:
+                                                AddSize.font16),
+                                          )),
                                     ],
                                   ))),
                           SizedBox(
