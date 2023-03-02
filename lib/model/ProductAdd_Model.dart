@@ -1,27 +1,22 @@
-class VendorProductListModel {
+class ProductAddModel {
   bool? status;
   String? message;
-  List<Data>? data;
+  Data? data;
 
-  VendorProductListModel({this.status, this.message, this.data});
+  ProductAddModel({this.status, this.message, this.data});
 
-  VendorProductListModel.fromJson(Map<String, dynamic> json) {
+  ProductAddModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
@@ -29,23 +24,32 @@ class VendorProductListModel {
 
 class Data {
   int? id;
+  Vendor? vendor;
   Product? product;
   String? image;
   bool? status;
-  List<Variants>? variants;
+  List<ProductsVariant>? productsVariant;
 
-  Data({this.id, this.product, this.image, this.status, this.variants});
+  Data(
+      {this.id,
+      this.vendor,
+      this.product,
+      this.image,
+      this.status,
+      this.productsVariant});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    vendor =
+        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
     product =
         json['product'] != null ? new Product.fromJson(json['product']) : null;
     image = json['image'];
     status = json['status'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(new Variants.fromJson(v));
+    if (json['products_variant'] != null) {
+      productsVariant = <ProductsVariant>[];
+      json['products_variant'].forEach((v) {
+        productsVariant!.add(new ProductsVariant.fromJson(v));
       });
     }
   }
@@ -53,14 +57,111 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    if (this.vendor != null) {
+      data['vendor'] = this.vendor!.toJson();
+    }
     if (this.product != null) {
       data['product'] = this.product!.toJson();
     }
     data['image'] = this.image;
     data['status'] = this.status;
-    if (this.variants != null) {
-      data['variants'] = this.variants!.map((v) => v.toJson()).toList();
+    if (this.productsVariant != null) {
+      data['products_variant'] =
+          this.productsVariant!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Vendor {
+  int? id;
+  bool? isDriver;
+  bool? isVendor;
+  String? latitude;
+  String? longitude;
+  String? location;
+  String? name;
+  String? email;
+  String? phone;
+  String? walletBalance;
+  String? earnedBalance;
+  String? profileImage;
+  String? referalCode;
+  bool? isDriverOnline;
+  bool? isVendorOnline;
+  int? deliveryRange;
+  bool? selfDelivery;
+  bool? asDriverVerified;
+  bool? asVendorVerified;
+  bool? isProfileComplete;
+
+  Vendor(
+      {this.id,
+      this.isDriver,
+      this.isVendor,
+      this.latitude,
+      this.longitude,
+      this.location,
+      this.name,
+      this.email,
+      this.phone,
+      this.walletBalance,
+      this.earnedBalance,
+      this.profileImage,
+      this.referalCode,
+      this.isDriverOnline,
+      this.isVendorOnline,
+      this.deliveryRange,
+      this.selfDelivery,
+      this.asDriverVerified,
+      this.asVendorVerified,
+      this.isProfileComplete});
+
+  Vendor.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    isDriver = json['is_driver'];
+    isVendor = json['is_vendor'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    location = json['location'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    walletBalance = json['wallet_balance'];
+    earnedBalance = json['earned_balance'];
+    profileImage = json['profile_image'];
+    referalCode = json['referal_code'];
+    isDriverOnline = json['is_driver_online'];
+    isVendorOnline = json['is_vendor_online'];
+    deliveryRange = json['delivery_range'];
+    selfDelivery = json['self_delivery'];
+    asDriverVerified = json['as_driver_verified'];
+    asVendorVerified = json['as_vendor_verified'];
+    isProfileComplete = json['is_profile_complete'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['is_driver'] = this.isDriver;
+    data['is_vendor'] = this.isVendor;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['location'] = this.location;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['wallet_balance'] = this.walletBalance;
+    data['earned_balance'] = this.earnedBalance;
+    data['profile_image'] = this.profileImage;
+    data['referal_code'] = this.referalCode;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['delivery_range'] = this.deliveryRange;
+    data['self_delivery'] = this.selfDelivery;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['is_profile_complete'] = this.isProfileComplete;
     return data;
   }
 }
@@ -68,7 +169,7 @@ class Data {
 class Product {
   int? id;
   Category? category;
-  Tax? tax;
+  String? tax;
   String? sKU;
   String? name;
   String? qty;
@@ -100,7 +201,7 @@ class Product {
     category = json['category'] != null
         ? new Category.fromJson(json['category'])
         : null;
-    //tax = json['tax'] != null ? new Tax.fromJson(json['tax']) : null;
+    tax = json['tax'];
     sKU = json['SKU'];
     name = json['name'];
     qty = json['qty'];
@@ -119,7 +220,7 @@ class Product {
     if (this.category != null) {
       data['category'] = this.category!.toJson();
     }
-
+    data['tax'] = this.tax;
     data['SKU'] = this.sKU;
     data['name'] = this.name;
     data['qty'] = this.qty;
@@ -146,7 +247,7 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    // tax = json['tax'] != null ? new Tax.fromJson(json['tax']) : null;
+    tax = json['tax'] != null ? new Tax.fromJson(json['tax']) : null;
     name = json['name'];
     slug = json['slug'];
     image = json['image'];
@@ -156,9 +257,9 @@ class Category {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    // if (this.tax != null) {
-    //   data['tax'] = this.tax!.toJson();
-    // }
+    if (this.tax != null) {
+      data['tax'] = this.tax!.toJson();
+    }
     data['name'] = this.name;
     data['slug'] = this.slug;
     data['image'] = this.image;
@@ -178,7 +279,7 @@ class Tax {
   Tax.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    // taxPercent = json['tax_percent'];
+    taxPercent = json['tax_percent'];
     status = json['status'];
   }
 
@@ -186,13 +287,13 @@ class Tax {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    //data['tax_percent'] = this.taxPercent;
+    data['tax_percent'] = this.taxPercent;
     data['status'] = this.status;
     return data;
   }
 }
 
-class Variants {
+class ProductsVariant {
   int? id;
   int? vendorProductId;
   int? marketPrice;
@@ -203,7 +304,7 @@ class Variants {
   int? maxQty;
   String? discountOff;
 
-  Variants(
+  ProductsVariant(
       {this.id,
       this.vendorProductId,
       this.marketPrice,
@@ -214,7 +315,7 @@ class Variants {
       this.maxQty,
       this.discountOff});
 
-  Variants.fromJson(Map<String, dynamic> json) {
+  ProductsVariant.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     vendorProductId = json['vendor_product_id'];
     marketPrice = json['market_price'];

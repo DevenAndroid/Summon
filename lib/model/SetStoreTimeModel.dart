@@ -1,7 +1,7 @@
 class SetStoreTimeModel {
   bool? status;
-  String? message;
-  List<Data>? data;
+  dynamic message;
+  List<StoreTimeData>? data;
 
   SetStoreTimeModel({this.status, this.message, this.data});
 
@@ -9,9 +9,9 @@ class SetStoreTimeModel {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <StoreTimeData>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new StoreTimeData.fromJson(v));
       });
     }
   }
@@ -27,16 +27,17 @@ class SetStoreTimeModel {
   }
 }
 
-class Data {
-  int? id;
-  int? weekDay;
-  String? startTime;
-  String? endTime;
+class StoreTimeData {
+  dynamic id;
+  dynamic weekDay;
+  dynamic startTime;
+  dynamic endTime;
   bool? status;
 
-  Data({this.id, this.weekDay, this.startTime, this.endTime, this.status});
+  StoreTimeData(
+      {this.id, this.weekDay, this.startTime, this.endTime, this.status});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  StoreTimeData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     weekDay = json['week_day'];
     startTime = json['start_time'];

@@ -32,7 +32,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
     "Last week",
     "This month",
     "Last three month",
-    "Custom calender"
+    "Custom"
   ];
   final List<String> dropDownStatusList = ["Completed", "Pending"];
 

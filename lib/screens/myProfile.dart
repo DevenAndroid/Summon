@@ -1,8 +1,5 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/repositories/update_profile_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
