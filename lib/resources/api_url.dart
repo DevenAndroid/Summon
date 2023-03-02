@@ -4,7 +4,6 @@ class ApiUrl {
   static const otpApi = "${baseUrl}verify-otp";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
-  static const categoryUrl = "${baseUrl}category";
   static const couponsUrl = "${baseUrl}coupons";
   static const applyCouponsUrl = "${baseUrl}coupon-apply";
   static const removeCouponsUrl = "${baseUrl}remove-coupon";
@@ -39,7 +38,21 @@ class ApiUrl {
   static const vendorRejectVariantUrl = "${baseUrl}vendor-reject-variant";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
+  static const vendorInformationUrl = "${baseUrl}vendor-information";
+  static const storeAvailabilityUrl = "${baseUrl}store-availability";
+  static const vendorProductListUrl = "${baseUrl}vendor-product-list";
   static const assignedOrderListUrl = "${baseUrl}assigned-order-list";
+  static const vendorSearchProductsUrl = "${baseUrl}products";
+  static const vendorAddProductsUrl = "${baseUrl}product";
+  static const vendorDashboardUrl = "${baseUrl}vendor-dashboard";
+  static const orderAcceptUrl = "${baseUrl}order-accept";
+  static const storeUpdateStatusUrl = "${baseUrl}store-status-update";
+  static const selfDeliveryUpdateStatusUrl =
+      "${baseUrl}self-delivery-status-update";
+  static const toggleStatusUrl = "${baseUrl}vendor-product-status-update";
+  static const driverDeliveryRequestListUrl =
+      "${baseUrl}driver-delivery-request-list";
+  static const categoryUrl = "${baseUrl}category";
   static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
   static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";

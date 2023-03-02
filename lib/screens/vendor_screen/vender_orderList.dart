@@ -121,9 +121,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            vendorOrderListController
-                                                .model.value.data!.earnedBalance
-                                                .toString(),
+                                            '₹ ${vendorOrderListController.model.value.data!.earnedBalance.toString()}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!
@@ -662,13 +660,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                                                 .shade200),
                                                   ),
                                                   Text(
-                                                    vendorOrderListController
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .orderList![index]
-                                                        .amount
-                                                        .toString(),
+                                                    "₹ ${vendorOrderListController.model.value.data!.orderList![index].amount.toString()}",
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .headline5!

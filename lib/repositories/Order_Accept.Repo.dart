@@ -3,16 +3,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/Home_Search_Model.dart';
+import '../model/model_common_ressponse.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<HomeSerachModel> homeSearchRepo(String keyword) async {
+Future<ModelCommonResponse> orderAcceptRepo(String order_id) async {
   var map = <String, dynamic>{};
-  if (keyword != "") {
-    map['keyword'] = keyword;
-  }
-  log(map.toString());
+
+  map['order_id'] = order_id;
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -22,17 +20,19 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
 
-  try {
-    final response = await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),headers: headers);
-    log(response.body.toString());
-    if (response.statusCode == 200) {
-      //Helpers.hideShimmer(loader);
-      log("Homepage Search Data...${response.body}");
-      return HomeSerachModel.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception(response.body);
-    }
-  } catch (e) {
-    throw Exception(e.toString());
+  // try {
+  final response = await http.post(Uri.parse(ApiUrl.orderAcceptUrl),
+      body: jsonEncode(map), headers: headers);
+  log("Order Accept Repository...${response.body}");
+
+  if (response.statusCode == 200) {
+    log("Order Accept Repository...${response.body}");
+    return ModelCommonResponse.fromJson(jsonDecode(response.body));
+  } else {
+    return ModelCommonResponse.fromJson(jsonDecode(response.body));
   }
+  // }
+  // catch (e) {
+  //   throw Exception(e.toString());
+  // }
 }

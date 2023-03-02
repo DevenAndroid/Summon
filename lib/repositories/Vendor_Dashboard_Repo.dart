@@ -1,18 +1,14 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/Home_Search_Model.dart';
+import '../model/VendorProductList_Model.dart';
+import '../model/VendorSearchProductsModel.dart';
+import '../model/Vendor_Dashboard_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<HomeSerachModel> homeSearchRepo(String keyword) async {
-  var map = <String, dynamic>{};
-  if (keyword != "") {
-    map['keyword'] = keyword;
-  }
-  log(map.toString());
+Future<VendorDashboardModel> vendorDashboardRepo() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -23,12 +19,12 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
   };
 
   try {
-    final response = await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),headers: headers);
-    log(response.body.toString());
+    final response =
+        await http.get(Uri.parse(ApiUrl.vendorDashboardUrl), headers: headers);
+    print("Vendor Dashboard Repository...${response.body}");
     if (response.statusCode == 200) {
-      //Helpers.hideShimmer(loader);
-      log("Homepage Search Data...${response.body}");
-      return HomeSerachModel.fromJson(jsonDecode(response.body));
+      print("Vendor Dashboard Repository...${response.body}");
+      return VendorDashboardModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

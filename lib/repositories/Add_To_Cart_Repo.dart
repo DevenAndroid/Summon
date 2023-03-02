@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/Add_To_Cart_Model.dart';
-import '../model/My_Cart_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<AddToCartData> addToCartRepo(variant_id,product_id, qty, context) async {
+Future<AddToCartData> addToCartRepo(
+    variant_id, product_id, qty, context) async {
   var map = <String, dynamic>{};
   map['variant_id'] = variant_id;
   map['product_id'] = product_id;

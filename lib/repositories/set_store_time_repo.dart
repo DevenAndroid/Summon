@@ -3,16 +3,18 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/Home_Search_Model.dart';
+import '../model/Set_Store_Time_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<HomeSerachModel> homeSearchRepo(String keyword) async {
+Future<SetStoreTimeModel> setStoreTimeRepo(
+  start_time,
+  end_time,
+) async {
   var map = <String, dynamic>{};
-  if (keyword != "") {
-    map['keyword'] = keyword;
-  }
-  log(map.toString());
+  map['start_time'] = start_time;
+  map['end_time'] = end_time;
+
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -21,14 +23,17 @@ Future<HomeSerachModel> homeSearchRepo(String keyword) async {
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-
+  // OverlayEntry loader = Helpers.overlayLoader(context);
+  // Overlay.of(context).insert(loader);
+  log(map.toString());
   try {
-    final response = await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),headers: headers);
-    log(response.body.toString());
+    final response = await http.post(Uri.parse(ApiUrl.storeAvailabilityUrl),
+        body: jsonEncode(map), headers: headers);
+    log("Set store time Repository...${response.body}");
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
-      log("Homepage Search Data...${response.body}");
-      return HomeSerachModel.fromJson(jsonDecode(response.body));
+      log("Set store time Repository..${response.body}");
+      return SetStoreTimeModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

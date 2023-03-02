@@ -77,9 +77,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                 color: AppTheme.blackcolor),
                                       ),
                                       Text(
-                                        withdrawalListController
-                                            .model.value.data!.earnedBalance
-                                            .toString(),
+                                        "₹ ${withdrawalListController.model.value.data!.earnedBalance.toString()}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -251,13 +249,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              withdrawalListController
-                                                  .model
-                                                  .value
-                                                  .data!
-                                                  .withdrawalList![index]
-                                                  .amount
-                                                  .toString(),
+                                              "₹ ${withdrawalListController.model.value.data!.withdrawalList![index].amount.toString()}",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline5!

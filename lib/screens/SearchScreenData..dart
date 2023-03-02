@@ -76,7 +76,6 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                       filled: true,
                       suffixIcon: IconButton(
                         onPressed: () {
-                          // log("AAAAAA");
                           controller.getSearchData().then((value) {
                             if (value.status == false) {
                               showToast("No data found");

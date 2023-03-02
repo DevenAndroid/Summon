@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
+import '../../repositories/Order_Accept.Repo.dart';
 import '../../repositories/vendor_reject_variant_repo.dart';
 
 class DeliveryOrderDetails extends StatefulWidget {
@@ -721,6 +722,9 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               horizontal: AddSize.padding16, vertical: AddSize.padding16),
           child: ElevatedButton(
               onPressed: () {
+                orderAcceptRepo(vendorOrderListController
+                    .model.value.data!.orderId
+                    .toString());
                 // Get.toNamed(MyRouter.editProfileScreen);
               },
               style: ElevatedButton.styleFrom(
