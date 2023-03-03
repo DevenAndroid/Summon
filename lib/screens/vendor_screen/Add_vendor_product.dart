@@ -563,22 +563,6 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                   ],
                                 ),
 
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      listModelData.add(ListModel(
-                                          price: "",
-                                          qty: "",
-                                          minQty: "",
-                                          maxQty: ""));
-                                    });
-                                  },
-                                  child: const Text("AddProduct",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: AppTheme.primaryColor)),
-                                ),
                                 // ListView.builder(
                                 //     itemCount: listModelData.length,
                                 //     itemBuilder: (context, index) {
