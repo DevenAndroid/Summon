@@ -1,75 +1,103 @@
+// To parse this JSON data, do
+//
+//     final vendorProductListModel = vendorProductListModelFromJson(jsonString);
+
+import 'dart:convert';
+
+VendorProductListModel vendorProductListModelFromJson(String str) =>
+    VendorProductListModel.fromJson(json.decode(str));
+
+String vendorProductListModelToJson(VendorProductListModel data) =>
+    json.encode(data.toJson());
+
 class VendorProductListModel {
+  VendorProductListModel({
+    this.status,
+    this.message,
+    this.data,
+  });
+
   bool? status;
   String? message;
-  List<Data>? data;
+  List<Datum>? data;
 
-  VendorProductListModel({this.status, this.message, this.data});
+  factory VendorProductListModel.fromJson(Map<String, dynamic> json) =>
+      VendorProductListModel(
+        status: json["status"],
+        message: json["message"],
+        data: json["data"] == null
+            ? []
+            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+      );
 
-  VendorProductListModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+      };
 }
 
-class Data {
+class Datum {
+  Datum({
+    this.id,
+    this.product,
+    this.image,
+    this.status,
+    this.variants,
+  });
+
   int? id;
   Product? product;
   String? image;
   bool? status;
-  List<Variants>? variants;
+  List<Variant>? variants;
 
-  Data({this.id, this.product, this.image, this.status, this.variants});
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
+        product:
+            json["product"] == null ? null : Product.fromJson(json["product"]),
+        image: json["image"],
+        status: json["status"],
+        variants: json["variants"] == null
+            ? []
+            : List<Variant>.from(
+                json["variants"]!.map((x) => Variant.fromJson(x))),
+      );
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    product =
-        json['product'] != null ? new Product.fromJson(json['product']) : null;
-    image = json['image'];
-    status = json['status'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(new Variants.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
-    }
-    data['image'] = this.image;
-    data['status'] = this.status;
-    if (this.variants != null) {
-      data['variants'] = this.variants!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "product": product?.toJson(),
+        "image": image,
+        "status": status,
+        "variants": variants == null
+            ? []
+            : List<dynamic>.from(variants!.map((x) => x.toJson())),
+      };
 }
 
 class Product {
+  Product({
+    this.id,
+    this.category,
+    this.tax,
+    this.sku,
+    this.name,
+    this.qty,
+    this.qtyType,
+    this.minQty,
+    this.maxQty,
+    this.marketPrice,
+    this.regularPrice,
+    this.content,
+    this.image,
+  });
+
   int? id;
   Category? category;
-  Tax? tax;
-  String? sKU;
+  dynamic tax;
+  String? sku;
   String? name;
   String? qty;
   String? qtyType;
@@ -80,119 +108,118 @@ class Product {
   String? content;
   String? image;
 
-  Product(
-      {this.id,
-      this.category,
-      this.tax,
-      this.sKU,
-      this.name,
-      this.qty,
-      this.qtyType,
-      this.minQty,
-      this.maxQty,
-      this.marketPrice,
-      this.regularPrice,
-      this.content,
-      this.image});
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json["id"],
+        category: json["category"] == null
+            ? null
+            : Category.fromJson(json["category"]),
+        tax: json["tax"],
+        sku: json["SKU"],
+        name: json["name"],
+        qty: json["qty"],
+        qtyType: json["qty_type"],
+        minQty: json["min_qty"],
+        maxQty: json["max_qty"],
+        marketPrice: json["market_price"],
+        regularPrice: json["regular_price"],
+        content: json["content"],
+        image: json["image"],
+      );
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
-    //tax = json['tax'] != null ? new Tax.fromJson(json['tax']) : null;
-    sKU = json['SKU'];
-    name = json['name'];
-    qty = json['qty'];
-    qtyType = json['qty_type'];
-    minQty = json['min_qty'];
-    maxQty = json['max_qty'];
-    marketPrice = json['market_price'];
-    regularPrice = json['regular_price'];
-    content = json['content'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
-    }
-
-    data['SKU'] = this.sKU;
-    data['name'] = this.name;
-    data['qty'] = this.qty;
-    data['qty_type'] = this.qtyType;
-    data['min_qty'] = this.minQty;
-    data['max_qty'] = this.maxQty;
-    data['market_price'] = this.marketPrice;
-    data['regular_price'] = this.regularPrice;
-    data['content'] = this.content;
-    data['image'] = this.image;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "category": category?.toJson(),
+        "tax": tax,
+        "SKU": sku,
+        "name": name,
+        "qty": qty,
+        "qty_type": qtyType,
+        "min_qty": minQty,
+        "max_qty": maxQty,
+        "market_price": marketPrice,
+        "regular_price": regularPrice,
+        "content": content,
+        "image": image,
+      };
 }
 
 class Category {
+  Category({
+    this.id,
+    this.tax,
+    this.name,
+    this.slug,
+    this.image,
+    this.status,
+  });
+
   int? id;
-  Tax? tax;
+  TaxClass? tax;
   String? name;
   String? slug;
   String? image;
   bool? status;
 
-  Category({this.id, this.tax, this.name, this.slug, this.image, this.status});
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        tax: json["tax"] == null ? null : TaxClass.fromJson(json["tax"]),
+        name: json["name"],
+        slug: json["slug"],
+        image: json["image"],
+        status: json["status"],
+      );
 
-  Category.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    // tax = json['tax'] != null ? new Tax.fromJson(json['tax']) : null;
-    name = json['name'];
-    slug = json['slug'];
-    image = json['image'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    // if (this.tax != null) {
-    //   data['tax'] = this.tax!.toJson();
-    // }
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['image'] = this.image;
-    data['status'] = this.status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "tax": tax?.toJson(),
+        "name": name,
+        "slug": slug,
+        "image": image,
+        "status": status,
+      };
 }
 
-class Tax {
+class TaxClass {
+  TaxClass({
+    this.id,
+    this.title,
+    this.taxPercent,
+    this.status,
+  });
+
   int? id;
   String? title;
   int? taxPercent;
   bool? status;
 
-  Tax({this.id, this.title, this.taxPercent, this.status});
+  factory TaxClass.fromJson(Map<String, dynamic> json) => TaxClass(
+        id: json["id"],
+        title: json["title"],
+        taxPercent: json["tax_percent"],
+        status: json["status"],
+      );
 
-  Tax.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    // taxPercent = json['tax_percent'];
-    status = json['status'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    //data['tax_percent'] = this.taxPercent;
-    data['status'] = this.status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "tax_percent": taxPercent,
+        "status": status,
+      };
 }
 
-class Variants {
+class Variant {
+  Variant({
+    this.id,
+    this.vendorProductId,
+    this.marketPrice,
+    this.price,
+    this.variantQty,
+    this.variantQtyType,
+    this.minQty,
+    this.maxQty,
+    this.discountOff,
+  });
+
   int? id;
   int? vendorProductId;
   int? marketPrice;
@@ -203,40 +230,27 @@ class Variants {
   int? maxQty;
   String? discountOff;
 
-  Variants(
-      {this.id,
-      this.vendorProductId,
-      this.marketPrice,
-      this.price,
-      this.variantQty,
-      this.variantQtyType,
-      this.minQty,
-      this.maxQty,
-      this.discountOff});
+  factory Variant.fromJson(Map<String, dynamic> json) => Variant(
+        id: json["id"],
+        vendorProductId: json["vendor_product_id"],
+        marketPrice: json["market_price"],
+        price: json["price"],
+        variantQty: json["variant_qty"],
+        variantQtyType: json["variant_qty_type"],
+        minQty: json["min_qty"],
+        maxQty: json["max_qty"],
+        discountOff: json["discount_off"],
+      );
 
-  Variants.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    vendorProductId = json['vendor_product_id'];
-    marketPrice = json['market_price'];
-    price = json['price'];
-    variantQty = json['variant_qty'];
-    variantQtyType = json['variant_qty_type'];
-    minQty = json['min_qty'];
-    maxQty = json['max_qty'];
-    discountOff = json['discount_off'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['vendor_product_id'] = this.vendorProductId;
-    data['market_price'] = this.marketPrice;
-    data['price'] = this.price;
-    data['variant_qty'] = this.variantQty;
-    data['variant_qty_type'] = this.variantQtyType;
-    data['min_qty'] = this.minQty;
-    data['max_qty'] = this.maxQty;
-    data['discount_off'] = this.discountOff;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "vendor_product_id": vendorProductId,
+        "market_price": marketPrice,
+        "price": price,
+        "variant_qty": variantQty,
+        "variant_qty_type": variantQtyType,
+        "min_qty": minQty,
+        "max_qty": maxQty,
+        "discount_off": discountOff,
+      };
 }

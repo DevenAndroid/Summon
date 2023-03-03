@@ -40,7 +40,7 @@ class ApiUrl {
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
   static const vendorInformationUrl = "${baseUrl}vendor-information";
-  static const storeAvailabilityUrl = "${baseUrl}store-availability";
+  static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const vendorProductListUrl = "${baseUrl}vendor-product-list";
   static const assignedOrderListUrl = "${baseUrl}assigned-order-list";
   static const vendorSearchProductsUrl = "${baseUrl}products";
@@ -48,15 +48,20 @@ class ApiUrl {
   static const vendorDashboardUrl = "${baseUrl}vendor-dashboard";
   static const orderAcceptUrl = "${baseUrl}order-accept";
   static const storeUpdateStatusUrl = "${baseUrl}store-status-update";
-  static const selfDeliveryUpdateStatusUrl = "${baseUrl}self-delivery-status-update";
+  static const selfDeliveryUpdateStatusUrl =
+      "${baseUrl}self-delivery-status-update";
   static const toggleStatusUrl = "${baseUrl}vendor-product-status-update";
-  static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
+  static const driverDeliveryRequestListUrl =
+      "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
+  static const setStoreTimeUrl = "${baseUrl}store-timing";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
-  static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
+  static const driverOrderStatusUpdateUrl =
+      "${baseUrl}driver-order-status-update";
   static const driverRegisterUrl = "${baseUrl}driver-register";
   static const driverInformationUrl = "${baseUrl}driver-information";
   static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
-  static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
+  static const driverDeliveryModeUpdateUrl =
+      "${baseUrl}driver-delivery-mode-update";
 }

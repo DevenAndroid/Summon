@@ -51,13 +51,15 @@ class Data {
 class OrderList {
   int? id;
   String? amount;
+  String? date;
   String? status;
 
-  OrderList({this.id, this.amount, this.status});
+  OrderList({this.id, this.amount, this.date, this.status});
 
   OrderList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     amount = json['amount'];
+    date = json['date'];
     status = json['status'];
   }
 
@@ -65,6 +67,7 @@ class OrderList {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['amount'] = this.amount;
+    data['date'] = this.date;
     data['status'] = this.status;
     return data;
   }

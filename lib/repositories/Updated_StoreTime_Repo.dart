@@ -23,24 +23,6 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
   map["end_time"] = map2;
   map["status"] = map3;
 
-  // var mapStartTIme = <String, dynamic>{};
-  // var mapEndTime = <String, dynamic>{};
-  // var mapStatus = <String, dynamic>{};
-  //
-  // for (var i = 0; i < data.length; i++) {
-  //   mapStartTIme['$i'] = data[i].startTime.toString();
-  //
-  //   // map["end_time[$i]"] = data[i].endTime.toString();
-  //   // map["status[$i]"] = data[i].status! ? 1 : 0;
-  //   //map["week_day[$i]"] = (i + 1).toString();
-  // }
-  // for (var i = 0; i < data.length; i++) {
-  //   mapEndTime['$i'] = data[i].endTime.toString();
-  // }
-  // for (var i = 0; i < data.length; i++) {
-  //   mapStatus['$i'] = data[i].status.toString();
-  //   print("stutus data : ${mapStartTIme}");
-  // }
   log('start_time :${jsonEncode(map).toString()}');
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =

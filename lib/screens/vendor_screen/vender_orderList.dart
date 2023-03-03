@@ -621,7 +621,13 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                                                     .font14),
                                                       ),
                                                       Text(
-                                                        "2 June, 2021 - 11:57PM",
+                                                        vendorOrderListController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .orderList![index]
+                                                            .date
+                                                            .toString(),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .headline5!
