@@ -126,7 +126,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 child: CachedNetworkImage(
                                   imageUrl:
                                       profileController.isDataLoading.value
-                                          ? (profileController.model.value.data!.profileImage ?? "")
+                                          ? (profileController.model.value.data!
+                                                      .profileImage ??
+                                                  "")
                                               .toString()
                                           : "",
                                   height: screenSize.height * 0.12,
@@ -294,59 +296,70 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       const Divider(
                         height: 1,
                       ),
-                      _drawerTile(
-                          active: true,
-                          title: "Sign in as a vendor",
-                          icon: const ImageIcon(
-                            AssetImage(AppAssets.drawer_vendor),
-                            size: 22,
-                            color: AppTheme.primaryColor,
-                          ),
-                          onTap: () async {
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // if (pref.getString('user') != null) {
-                            //   Get.back();
-                            //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                            // } else {
-                            //   Get.back();
-                            Get.toNamed(
-                              VendorRegistrationForm.vendorRegistrationForm,
-                            );
-                            // }
-                          }),
-                      const Divider(
-                        height: 1,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _isValue.value = !_isValue.value;
-                        },
-                        child: ListTile(
-                          minLeadingWidth: 30,
-                          leading: const ImageIcon(
-                            AssetImage(AppAssets.drawer_vendor),
-                            size: 22,
-                            color: AppTheme.primaryColor,
-                          ),
-                          textColor: AppTheme.primaryColor,
-                          iconColor: AppTheme.blackcolor,
-                          title: const Text(
-                            'Vendor',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: AppTheme.primaryColor),
-                          ),
-                          trailing: GestureDetector(
-                              onTap: () {
-                                _isValue.value = !_isValue.value;
-                              },
-                              child: Icon(_isValue.value == true
-                                  ? Icons.keyboard_arrow_up_rounded
-                                  : Icons.keyboard_arrow_down_outlined)),
-                        ),
-                      ),
+                      profileController.isDataLoading.value
+                          ? profileController.model.value.data!.isVendor ==
+                                  false
+                              ? _drawerTile(
+                                  active: true,
+                                  title: "Sign in as a vendor",
+                                  icon: const ImageIcon(
+                                    AssetImage(AppAssets.drawer_vendor),
+                                    size: 22,
+                                    color: AppTheme.primaryColor,
+                                  ),
+                                  onTap: () async {
+                                    // SharedPreferences pref =
+                                    //     await SharedPreferences.getInstance();
+                                    // if (pref.getString('user') != null) {
+                                    //   Get.back();
+                                    //   Get.toNamed(MyRouter.subScriptionPlanScreen);
+                                    // } else {
+                                    //   Get.back();
+                                    Get.toNamed(
+                                      VendorRegistrationForm
+                                          .vendorRegistrationForm,
+                                    );
+                                    // }
+                                  })
+                              : Column(
+                                  children: [
+                                    const Divider(
+                                      height: 1,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _isValue.value = !_isValue.value;
+                                      },
+                                      child: ListTile(
+                                        minLeadingWidth: 30,
+                                        leading: const ImageIcon(
+                                          AssetImage(AppAssets.drawer_vendor),
+                                          size: 22,
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                        textColor: AppTheme.primaryColor,
+                                        iconColor: AppTheme.blackcolor,
+                                        title: const Text(
+                                          'Vendor',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppTheme.primaryColor),
+                                        ),
+                                        trailing: GestureDetector(
+                                            onTap: () {
+                                              _isValue.value = !_isValue.value;
+                                            },
+                                            child: Icon(_isValue.value == true
+                                                ? Icons
+                                                    .keyboard_arrow_up_rounded
+                                                : Icons
+                                                    .keyboard_arrow_down_outlined)),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                          : SizedBox(),
                       _isValue.value == true
                           ? Column(
                               children: List.generate(
@@ -380,59 +393,70 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       const Divider(
                         height: 1,
                       ),
-                      _drawerTile(
-                          active: true,
-                          title: "Sign in as a driver",
-                          icon: const ImageIcon(
-                            AssetImage(AppAssets.drawer_driver),
-                            size: 22,
-                            color: AppTheme.primaryColor,
-                          ),
-                          onTap: () async {
-                            Get.toNamed(DriverRegistrationScreen
-                                .driverRegistrationScreen);
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // if (pref.getString('user') != null) {
-                            //   Get.back();
-                            //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                            // } else {
-                            //   Get.back();
-                            //   Get.toNamed(MyRouter.logInScreen);
-                            // }
-                          }),
-                      const Divider(
-                        height: 1,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _isValue1.value = !_isValue1.value;
-                        },
-                        child: ListTile(
-                          minLeadingWidth: 30,
-                          leading: const ImageIcon(
-                            AssetImage(AppAssets.drawer_driver),
-                            size: 22,
-                            color: AppTheme.primaryColor,
-                          ),
-                          textColor: AppTheme.primaryColor,
-                          iconColor: AppTheme.blackcolor,
-                          title: const Text(
-                            'Driver',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400,
-                                color: AppTheme.primaryColor),
-                          ),
-                          trailing: GestureDetector(
-                              onTap: () {
-                                _isValue1.value = !_isValue1.value;
-                              },
-                              child: Icon(_isValue1.value == true
-                                  ? Icons.keyboard_arrow_up_rounded
-                                  : Icons.keyboard_arrow_down_outlined)),
-                        ),
-                      ),
+                      profileController.isDataLoading.value
+                          ? profileController.model.value.data!.isDriver ==
+                                  false
+                              ? _drawerTile(
+                                  active: true,
+                                  title: "Sign in as a driver",
+                                  icon: const ImageIcon(
+                                    AssetImage(AppAssets.drawer_driver),
+                                    size: 22,
+                                    color: AppTheme.primaryColor,
+                                  ),
+                                  onTap: () async {
+                                    Get.toNamed(DriverRegistrationScreen
+                                        .driverRegistrationScreen);
+                                    // SharedPreferences pref =
+                                    //     await SharedPreferences.getInstance();
+                                    // if (pref.getString('user') != null) {
+                                    //   Get.back();
+                                    //   Get.toNamed(MyRouter.subScriptionPlanScreen);
+                                    // } else {
+                                    //   Get.back();
+                                    //   Get.toNamed(MyRouter.logInScreen);
+                                    // }
+                                  })
+                              : Column(
+                                  children: [
+                                    const Divider(
+                                      height: 1,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        _isValue1.value = !_isValue1.value;
+                                      },
+                                      child: ListTile(
+                                        minLeadingWidth: 30,
+                                        leading: const ImageIcon(
+                                          AssetImage(AppAssets.drawer_driver),
+                                          size: 22,
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                        textColor: AppTheme.primaryColor,
+                                        iconColor: AppTheme.blackcolor,
+                                        title: const Text(
+                                          'Driver',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color: AppTheme.primaryColor),
+                                        ),
+                                        trailing: GestureDetector(
+                                            onTap: () {
+                                              _isValue1.value =
+                                                  !_isValue1.value;
+                                            },
+                                            child: Icon(_isValue1.value == true
+                                                ? Icons
+                                                    .keyboard_arrow_up_rounded
+                                                : Icons
+                                                    .keyboard_arrow_down_outlined)),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                          : SizedBox(),
                       _isValue1.value == true
                           ? Column(
                               children: List.generate(
