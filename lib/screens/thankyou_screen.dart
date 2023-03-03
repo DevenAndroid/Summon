@@ -81,7 +81,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize:
-                                    Size(AddSize.size50, AddSize.size25), backgroundColor: AppTheme.primaryColor,
+                                    Size(AddSize.size50, AddSize.size25),
+                                backgroundColor: AppTheme.primaryColor,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(6)),
@@ -151,23 +152,23 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                     fontSize: AddSize.font14,
                                     fontWeight: FontWeight.w500)),
                           ]),
-                      SizedBox(
-                        height: height * .01,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Tax and fee:",
-                                style: TextStyle(
-                                    color: AppTheme.blackcolor,
-                                    fontSize: AddSize.font16,
-                                    fontWeight: FontWeight.w500)),
-                            Text("₹${Get.arguments[4].toString()}",
-                                style: TextStyle(
-                                    color: Colors.grey.shade500,
-                                    fontSize: AddSize.font14,
-                                    fontWeight: FontWeight.w500)),
-                          ]),
+                      // SizedBox(
+                      //   height: height * .01,
+                      // ),
+                      // Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Text("Tax and fee:",
+                      //           style: TextStyle(
+                      //               color: AppTheme.blackcolor,
+                      //               fontSize: AddSize.font16,
+                      //               fontWeight: FontWeight.w500)),
+                      //       Text("₹${Get.arguments[4].toString()}",
+                      //           style: TextStyle(
+                      //               color: Colors.grey.shade500,
+                      //               fontSize: AddSize.font14,
+                      //               fontWeight: FontWeight.w500)),
+                      //     ]),
                       SizedBox(
                         height: height * .01,
                       ),
@@ -232,7 +233,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
           children: [
             OutlinedButton(
               style: OutlinedButton.styleFrom(
-                foregroundColor: AppTheme.primaryColor, minimumSize: const Size(double.maxFinite, 60),
+                foregroundColor: AppTheme.primaryColor,
+                minimumSize: const Size(double.maxFinite, 60),
                 side: const BorderSide(color: AppTheme.primaryColor, width: 2),
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -257,7 +259,8 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                   Get.offAllNamed(CustomNavigationBar.customNavigationBar);
                 },
                 style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.maxFinite, 60), backgroundColor: AppTheme.primaryColor,
+                    minimumSize: const Size(double.maxFinite, 60),
+                    backgroundColor: AppTheme.primaryColor,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(AddSize.size10)),

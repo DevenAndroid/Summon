@@ -39,7 +39,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     "This week",
     "Last week",
     "This month",
-    "Custom calender"
+    "Custom"
   ];
   final List<String> DropDownStatusList = ["Completed", "Pending"];
   final format = DateFormat('dd-MM-yyyy');
@@ -220,44 +220,96 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                               )
                             ],
                           ),
+                          SizedBox(height: AddSize.size10,),
                           if (myOrderController.filter.value == "custom")
                             Obx(() {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                      child: TextFormField(
-                                    readOnly: true,
-                                    onTap: () {
-                                      selectDate();
-                                    },
-                                    controller: TextEditingController(
-                                        text: format.format(DateTime.parse(
-                                            myOrderController
-                                                        .selectedDate.value ==
-                                                    ""
-                                                ? DateTime.now().toString()
-                                                : myOrderController
-                                                    .selectedDate.value))),
-                                  )),
-                                  const SizedBox(
-                                    width: 18,
-                                  ),
-                                  Expanded(
-                                      child: TextFormField(
-                                    onTap: () {
-                                      selectDate1();
-                                    },
-                                    readOnly: true,
-                                    controller: TextEditingController(
-                                        text: format.format(DateTime.parse(
-                                            myOrderController
-                                                        .selectedDate1.value ==
-                                                    ""
-                                                ? DateTime.now().toString()
-                                                : myOrderController
-                                                    .selectedDate1.value))),
-                                  )),
-                                ],
+                              return Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                  10)),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: AddSize.padding20,vertical: AddSize.padding20),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("Start Date"),
+                                            TextFormField(
+                                              decoration: InputDecoration(
+                                                contentPadding:
+                                                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                                  borderRadius: BorderRadius.circular(10.0),
+                                                ),
+                                                enabledBorder:  OutlineInputBorder(
+                                                    borderSide: BorderSide(color: Colors.grey.shade300),
+                                                    borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                                border: OutlineInputBorder(
+                                                    borderSide:
+                                                     BorderSide(color: Colors.grey.shade300, width: 3.0),
+                                                    borderRadius: BorderRadius.circular(15.0)),
+                                              ),
+                                      readOnly: true,
+                                      onTap: () {
+                                            selectDate();
+                                      },
+                                      controller: TextEditingController(
+                                              text: format.format(DateTime.parse(
+                                                  myOrderController
+                                                              .selectedDate.value ==
+                                                          ""
+                                                      ? DateTime.now().toString()
+                                                      : myOrderController
+                                                          .selectedDate.value))),
+                                    ),
+                                          ],
+                                        )),
+                                    const SizedBox(
+                                      width: 18,
+                                    ),
+                                    Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text("End Date"),
+                                            TextFormField(
+                                    decoration: InputDecoration(
+                                      contentPadding:
+                                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.grey.shade300),
+                                        borderRadius: BorderRadius.circular(10.0),
+                                      ),
+                                      enabledBorder:  OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.grey.shade300),
+                                          borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+                                      border: OutlineInputBorder(
+                                          borderSide:
+                                          BorderSide(color: Colors.grey.shade300, width: 3.0),
+                                          borderRadius: BorderRadius.circular(15.0)),
+                                    ),
+                                      onTap: () {
+                                            selectDate1();
+                                      },
+                                      readOnly: true,
+                                      controller: TextEditingController(
+                                              text: format.format(DateTime.parse(
+                                                  myOrderController.selectedDate1.value ==
+                                                          ""
+                                                      ? DateTime.now().toString()
+                                                      : myOrderController
+                                                          .selectedDate1.value))),
+                                    ),
+                                          ],
+                                        )),
+                                  ],
+                                ),
+                              )
                               );
                             }),
                           myOrderController.isDataLoading.value
