@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/screens/custum_bottom_bar.dart';
 import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vender_dashboard.dart';
@@ -15,6 +16,7 @@ class ThankYouVendorScreen extends StatefulWidget {
 }
 
 class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
+  final controller = Get.put(MainHomeController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +73,14 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
             horizontal: AddSize.padding16, vertical: AddSize.size40),
         child: ElevatedButton(
             onPressed: () {
-              Get.offAndToNamed(VenderDashboard.vendorDashboard);
+              // Get.offAndToNamed(VenderDashboard.vendorDashboard);
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              controller.onItemTap(2);
             },
             style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.maxFinite, 60),

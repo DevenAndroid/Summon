@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivery_dashboard.dart';
@@ -51,7 +53,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Order',
     'Products',
     'Store open time',
-    'Store setting',
+    'Vendor Information',
     'Bank Details',
     'Earning'
   ];
@@ -70,7 +72,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Assigned Order',
     'Bank Details',
     'Earning',
-    'Update driver setting',
+    'Driver Information',
   ];
   var driverRoutes = [
     DeliveryDashboard.deliveryDashboard,
@@ -79,6 +81,22 @@ class _CustomDrawerState extends State<CustomDrawer> {
     DriverWithdrawMoney.driverWithdrawMoney,
     DriverInformation.driverInformation,
   ];
+
+  ClientInformation? _clientInfo;
+  Future<void> _getClientInformation() async {
+    ClientInformation? info;
+    try {
+      info = await ClientInformation.fetch();
+    } on PlatformException {
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _clientInfo = info!;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('deviceId', _clientInfo!.deviceId.toString());
+  }
 
   @override
   void initState() {
@@ -543,6 +561,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: AppTheme.primaryColor,
                           ),
                           onTap: () async {
+                            _getClientInformation();
                             Get.back();
                             SharedPreferences preferences =
                                 await SharedPreferences.getInstance();

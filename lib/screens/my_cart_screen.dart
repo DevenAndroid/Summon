@@ -744,10 +744,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                 .toString());
                                                             if (value.status ==
                                                                 true) {
-                                                              controller
-                                                                  .getAddToCartList();
-                                                              selectedChip
-                                                                  .value = "";
+                                                              controller.getAddToCartList();
+                                                              selectedChip.value = "";
                                                             }
                                                           });
                                                         },
@@ -875,8 +873,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             size: AddSize.size15,
                                           ),
                                         ])),
-                                    controller
-                                                    .model
+                                    controller.model
                                                     .value
                                                     .data!
                                                     .cartPaymentSummary!
@@ -1001,11 +998,20 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       SizedBox(
                                         height: height * .01,
                                       ),
-                                      details("Tip for delivery partner:",
-                                          "₹${controller.model.value.data!.cartPaymentSummary!.tipAmount ?? ""}"),
-                                      SizedBox(
-                                        height: height * .01,
-                                      ),
+                                      controller
+                                          .model
+                                          .value
+                                          .data!
+                                          .cartPaymentSummary!
+                                          .tipAmount ==
+                                          0 ? SizedBox() :
+                                          Column(children: [
+                                            details("Tip for delivery partner:",
+                                                "₹${controller.model.value.data!.cartPaymentSummary!.tipAmount ?? ""}"),
+                                            SizedBox(
+                                              height: height * .01,
+                                            ),
+                                          ],),
                                       details("Save Coupon:",
                                           "₹${controller.model.value.data!.cartPaymentSummary!.couponDiscount ?? ""}"),
                                       SizedBox(
@@ -1016,8 +1022,17 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       // SizedBox(
                                       //   height: height * .01,
                                       // ),
-                                      details("Delivery:",
-                                          controller.model.value.data!.cartPaymentSummary!.deliveryCharge == "-"? "Free": "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge}"),
+                                      details(
+                                          "Delivery:",
+                                          controller
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .cartPaymentSummary!
+                                                      .deliveryCharge ==
+                                                  "-"
+                                              ? "Free"
+                                              : "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge}"),
                                       SizedBox(
                                         height: height * .01,
                                       ),
@@ -1089,36 +1104,44 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       //         ],
                                       //       )
                                       //     :
-                                      controller.model.value.data!.orderAddress != null
-                                              ? Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Text(
-                                                      "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
-                                                      style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: AddSize.font14,
-                                                          fontWeight:
-                                                              FontWeight.w500)),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Get.toNamed(
-                                                            MyAddress.myAddressScreen);
-                                                      },
-                                                      child: Text("Change",
-                                                          style: TextStyle(
-                                                              color:
-                                                              AppTheme.primaryColor,
-                                                              fontSize: AddSize.font16,
-                                                              fontWeight:
-                                                              FontWeight.w500)))
-                                                ],
-                                              )
-                                              : SizedBox(),
+                                      controller.model.value.data!
+                                                  .orderAddress !=
+                                              null
+                                          ? Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                    "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize:
+                                                            AddSize.font14,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Get.toNamed(MyAddress
+                                                          .myAddressScreen);
+                                                    },
+                                                    child: Text("Change",
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            fontSize:
+                                                                AddSize.font16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500)))
+                                              ],
+                                            )
+                                          : SizedBox(),
                                       SizedBox(
                                         height: height * .01,
                                       ),
-                                      controller.model.value.data!.orderAddress != null
+                                      controller.model.value.data!.orderAddress !=
+                                              null
                                           // || (_address != "" && _currentAddress != "")
                                           ? ElevatedButton(
                                               onPressed: () {
@@ -1155,38 +1178,33 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                             AddSize.font16),
                                               ))
                                           : ElevatedButton(
-                                          onPressed: () {
-                                            Get.toNamed(MyAddress.myAddressScreen);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              padding:
-                                              const EdgeInsets.all(10),
-                                              minimumSize: const Size(
-                                                  double.maxFinite, 50),
-                                              backgroundColor:
-                                              AppTheme.primaryColor,
-                                              elevation: 0,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      10)),
-                                              textStyle: const TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                  FontWeight.w600)),
-                                          child: Text(
-                                            "SELECT ADDRESS",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                color: AppTheme
-                                                    .backgroundcolor,
-                                                fontWeight:
-                                                FontWeight.w500,
-                                                fontSize:
-                                                AddSize.font16),
-                                          )),
+                                              onPressed: () {
+                                                Get.toNamed(
+                                                    MyAddress.myAddressScreen);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  minimumSize: const Size(
+                                                      double.maxFinite, 50),
+                                                  backgroundColor:
+                                                      AppTheme.primaryColor,
+                                                  elevation: 0,
+                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                                  textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                                              child: Text(
+                                                "SELECT ADDRESS",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                        color: AppTheme
+                                                            .backgroundcolor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize:
+                                                            AddSize.font16),
+                                              )),
                                     ],
                                   ))),
                           SizedBox(

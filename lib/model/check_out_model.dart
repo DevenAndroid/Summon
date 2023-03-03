@@ -139,10 +139,10 @@ class User {
   String? latitude;
   String? longitude;
   String? location;
-  Null? defaultAddress;
+  dynamic defaultAddress;
   String? referalCode;
-  Null? deviceToken;
-  Null? deviceId;
+  dynamic deviceToken;
+  dynamic deviceId;
   dynamic isDriverOnline;
   dynamic isVendorOnline;
   dynamic deliveryRange;
@@ -151,12 +151,12 @@ class User {
   dynamic asDriverVerified;
   dynamic asVendorVerified;
   dynamic featuredStore;
-  Null? emailVerifiedAt;
+  dynamic emailVerifiedAt;
   int? status;
   int? isProfileComplete;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  dynamic deletedAt;
 
   User(
       {this.id,
