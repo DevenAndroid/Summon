@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
+import '../widgets/dimensions.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -22,7 +23,7 @@ class NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
         appBar: backAppBar(title: "Notification", context: context),
         body: Obx(() {
-  return controller.isDataLoading.value ? SingleChildScrollView(
+  return controller.isDataLoading.value ? controller.model.value.data!.notificationData!.isNotEmpty ? SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -42,6 +43,9 @@ class NotificationScreenState extends State<NotificationScreen> {
               ],
             ),
           ),
+        ):Padding(
+          padding: EdgeInsets.only(top: AddSize.padding20 * 2,left: AddSize.padding20 * 5),
+          child: Text("Notification Not Available"),
         ):const Center(child: CircularProgressIndicator(),);
 }));
   }

@@ -56,7 +56,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   var options = {
     'key': 'rzp_live_1HJot1eILYIf7B',
-    'amount': 2000,
+    'amount': 100,
     'name': 'Demo',
     'description': 'Payment',
     'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
@@ -113,7 +113,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                 fontSize: 14),
                                       ),
                                       Text(
-                                        "₹2400",
+                                        "₹${controller.model.value.data!.earnedBalance}",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -301,25 +301,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
             SizedBox(
               height: AddSize.padding20,
             ),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       _razorpay.open(options);
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //         minimumSize: const Size(double.maxFinite, 60),
-            //         primary: AppTheme.primaryColor,
-            //         elevation: 0,
-            //         shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(10)),
-            //         textStyle: const TextStyle(
-            //             fontSize: 20, fontWeight: FontWeight.w600)),
-            //     child: Text(
-            //       "Checkout",
-            //       style: Theme.of(context).textTheme.headline5!.copyWith(
-            //           color: AppTheme.backgroundcolor,
-            //           fontWeight: FontWeight.w500,
-            //           fontSize: 16),
-            //     )),
+            ElevatedButton(
+                onPressed: () {
+                  _razorpay.open(options);
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.maxFinite, 60),
+                    primary: AppTheme.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w600)),
+                child: Text(
+                  "Checkout",
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: AppTheme.backgroundcolor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                )),
           ],
         ),
       ),

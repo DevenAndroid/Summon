@@ -35,7 +35,7 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   void initState() {
     super.initState();
-    singleStoreController.getStoreDetails();
+      singleStoreController.getStoreDetails();
   }
 
   @override
@@ -46,8 +46,7 @@ class _StoreScreenState extends State<StoreScreen> {
       return Scaffold(
         appBar: backAppBar(title: "Store", context: context),
         body:
-            singleStoreController.isDataLoading.value &&
-                    categoryController.isDataLoading.value &&
+            singleStoreController.isDataLoading.value && categoryController.isDataLoading.value &&
                     singleStoreController.storeDetailsModel.value.data != null
                 ? CustomScrollView(
                     physics: const BouncingScrollPhysics(),

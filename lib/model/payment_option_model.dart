@@ -24,16 +24,19 @@ class PaymentOptionModel {
 
 class Data {
   bool? cod;
+  dynamic earnedBalance;
 
-  Data({this.cod});
+  Data({this.cod,this.earnedBalance});
 
   Data.fromJson(Map<String, dynamic> json) {
     cod = json['cod'];
+    earnedBalance = json['earned_balance'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['cod'] = cod;
+    data['earned_balance'] = earnedBalance;
     return data;
   }
 }

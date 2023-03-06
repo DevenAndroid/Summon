@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/store_by_category.dart';
@@ -99,7 +98,7 @@ class _AllCategoriesState extends State<AllCategories> {
                                     ),
                                   ),
                                   Text(
-                                    itemdata.name.toString(),
+                                    itemdata.name.toString().capitalizeFirst!,
                                     maxLines: 1,
                                     style: TextStyle(
                                         color: AppTheme.subText,

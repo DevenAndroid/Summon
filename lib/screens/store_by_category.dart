@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/store_by_category_controller.dart';
+import '../controller/store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 
@@ -20,6 +21,7 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
   final scrollController = ScrollController();
   final nearStoreController = Get.put(StoreByCategoryController());
   final myCartController = Get.put(MyCartDataListController());
+  final storeController = Get.put(StoreController());
   void _scrollListener() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
@@ -32,8 +34,10 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
   @override
   void initState() {
     super.initState();
-    nearStoreController.getData(isFirstTime: true);
-    scrollController.addListener(_scrollListener);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      nearStoreController.getData(isFirstTime: true);
+      scrollController.addListener(_scrollListener);
+    });
   }
 
   @override
@@ -90,7 +94,7 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
                                           onTap: () {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
-                                            nearStoreController.storeId.value =
+                                            storeController.storeId.value =
                                                 nearStoreController
                                                     .model.value.data![index].id
                                                     .toString();
