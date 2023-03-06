@@ -63,7 +63,8 @@ dependencies:
   shimmer:
   intl:
   share_plus:
-
+  client_information:
+  razorpay_flutter:
 
 dev_dependencies:
   flutter_test:

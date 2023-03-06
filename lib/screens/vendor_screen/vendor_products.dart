@@ -131,8 +131,6 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: 2,
-                          // vendorProductListController
-                          //     .model.value.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding:

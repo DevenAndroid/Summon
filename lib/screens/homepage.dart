@@ -325,7 +325,7 @@ class HomePageState extends State<HomePage> {
                                                             .data!
                                                             .latestCategory![
                                                                 index]
-                                                            .slug
+                                                            .name
                                                             .toString(),
                                                         maxLines: 1,
                                                         style: const TextStyle(

@@ -609,8 +609,8 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                       file6: image6.value,
                                   )
                                       .then((value) {
-                                    showToast(value.message);
                                     if (value.status == true) {
+                                      showToast("${value.message} Wait For Admin Approval");
                                       Get.toNamed(ThankYouVendorScreen
                                           .thankYouVendorScreen);
                                     } else {

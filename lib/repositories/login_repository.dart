@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,15 @@ import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
 Future<ModelLogIn> createLogin(
-    String userPoneNo, String referalCode, BuildContext context) async {
+    {required String userPoneNo,
+    required String referalCode,
+    required String fcmToken,
+    required BuildContext context}) async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
   var map = <String, dynamic>{};
-
   map['phone'] = userPoneNo;
+  map['device_id'] = pref.getString('deviceId');
+  map['device_token'] = fcmToken;
 
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
@@ -22,6 +28,7 @@ Future<ModelLogIn> createLogin(
     HttpHeaders.acceptHeader: 'application/json',
   };
   print('REQUEST ::${jsonEncode(map)}');
+  log(pref.getString('deviceId')!);
   http.Response response = await http.post(Uri.parse(ApiUrl.loginApi),
       body: jsonEncode(map), headers: headers);
   print(response.body);

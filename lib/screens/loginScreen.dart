@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:client_information/client_information.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -21,12 +23,31 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+   ClientInformation? _clientInfo;
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController referralCodeController = TextEditingController();
   bool? _isValue = false;
   final _formKey = GlobalKey<FormState>();
   bool showValidation = false;
+  @override
+  void initState() {
+    super.initState();
+    _getClientInformation();
+  }
 
+  Future<void> _getClientInformation() async {
+    ClientInformation? info;
+    try {
+      info = await ClientInformation.fetch();
+    } on PlatformException {
+      // print('Failed to get client information');
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _clientInfo = info!;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -180,11 +201,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: height * .02,
                         ),
                         ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              var fcmToken =
+                              await FirebaseMessaging.instance
+                                  .getToken();
                               if (_formKey.currentState!.validate() &&
                                   _isValue == true) {
-                                createLogin(phoneNumberController.text,
-                                        referralCodeController.text, context)
+                                createLogin(userPoneNo:phoneNumberController.text,
+                                        referalCode:referralCodeController.text, context:context, fcmToken: fcmToken!)
                                     .then((value) async {
                                   if (value.status == true) {
                                     showToast(

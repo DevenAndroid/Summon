@@ -6,7 +6,7 @@ import 'package:fresh2_arrive/screens/thankyou_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
-
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../repositories/check_out_repository.dart';
 
 class PaymentMethod extends StatefulWidget {
@@ -21,6 +21,46 @@ class _PaymentMethodState extends State<PaymentMethod> {
   final controller = Get.put(PaymentOptionController());
   bool _isValue = false;
   RxString selectedValue = "cod".obs;
+  Razorpay _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print(response.paymentId);
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print(response.message);
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
+    print(response.walletName);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  var options = {
+    'key': 'rzp_live_1HJot1eILYIf7B',
+    'amount': 2000,
+    'name': 'Demo',
+    'description': 'Payment',
+    'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +146,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           )),
                       GestureDetector(
                         onTap: () {
-                          selectedValue.value = "card";
+                          selectedValue.value = "online";
                           print(selectedValue.value);
                         },
                         child: Card(
@@ -144,7 +184,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                   ]),
                                   Obx(() {
                                     return Radio<String>(
-                                      value: "card",
+                                      value: "online",
                                       groupValue: selectedValue.value,
                                       onChanged: (value) {
                                         selectedValue.value = value!;
@@ -155,7 +195,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               ),
                             )),
                       ),
-                      controller.model.value.data!.cod == false
+                      controller.model.value.data!.cod == true
                           ? GestureDetector(
                               onTap: () {
                                 selectedValue.value = "cod";
@@ -220,40 +260,68 @@ class _PaymentMethodState extends State<PaymentMethod> {
       }),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-        child: ElevatedButton(
-            onPressed: () {
-              checkOut(payment_type: selectedValue.value, context: context)
-                  .then((value) {
-                if (value.status == true) {
-                  Get.offAllNamed(ThankYouScreen.thankYouScreen, arguments: [
-                    value.data!.orderType,
-                    value.data!.orderId,
-                    value.data!.placedAt,
-                    value.data!.itemTotal,
-                    value.data!.tax,
-                    value.data!.deliveryCharges,
-                    value.data!.packingFee,
-                    value.data!.grandTotal,
-                    value.data!.orderId
-                  ]);
-                }
-              });
-            },
-            style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.maxFinite, 60),
-                primary: AppTheme.primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                textStyle:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
-            child: Text(
-              "PAY NOW",
-              style: Theme.of(context).textTheme.headline5!.copyWith(
-                  color: AppTheme.backgroundcolor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16),
-            )),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+                onPressed: () {
+                  checkOut(payment_type: selectedValue.value, context: context)
+                      .then((value) {
+                    if (value.status == true) {
+                      Get.offAllNamed(ThankYouScreen.thankYouScreen,
+                          arguments: [
+                            value.data!.orderType,
+                            value.data!.orderId,
+                            value.data!.placedAt,
+                            value.data!.itemTotal,
+                            value.data!.tax,
+                            value.data!.deliveryCharges,
+                            value.data!.packingFee,
+                            value.data!.grandTotal,
+                            value.data!.orderId
+                          ]);
+                    }
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.maxFinite, 60),
+                    primary: AppTheme.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    textStyle: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w600)),
+                child: Text(
+                  "PAY NOW",
+                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                      color: AppTheme.backgroundcolor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                )),
+            SizedBox(
+              height: AddSize.padding20,
+            ),
+            // ElevatedButton(
+            //     onPressed: () {
+            //       _razorpay.open(options);
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //         minimumSize: const Size(double.maxFinite, 60),
+            //         primary: AppTheme.primaryColor,
+            //         elevation: 0,
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(10)),
+            //         textStyle: const TextStyle(
+            //             fontSize: 20, fontWeight: FontWeight.w600)),
+            //     child: Text(
+            //       "Checkout",
+            //       style: Theme.of(context).textTheme.headline5!.copyWith(
+            //           color: AppTheme.backgroundcolor,
+            //           fontWeight: FontWeight.w500,
+            //           fontSize: 16),
+            //     )),
+          ],
+        ),
       ),
     );
   }

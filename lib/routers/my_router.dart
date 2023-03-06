@@ -40,6 +40,7 @@ import '../screens/payment_method.dart';
 import '../screens/refer_and_earn.dart';
 import '../screens/store_by_category.dart';
 import '../screens/vendor_screen/Add_vendor_product.dart';
+import '../screens/vendor_screen/admin_response_screen.dart';
 import '../screens/vendor_screen/store_open_time_screen.dart';
 import '../screens/vendor_screen/thank_you.dart';
 import '../screens/vendor_screen/vendor_products.dart';
@@ -54,6 +55,7 @@ class MyRouter {
         name: OnBoardingScreen.onBoardingScreen,
         page: () => const OnBoardingScreen()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
+    GetPage(name: AdminResponse.adminResponse, page: () => const AdminResponse()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
     GetPage(name: SearchScreenData.searchScreen, page: () => const SearchScreenData()),
