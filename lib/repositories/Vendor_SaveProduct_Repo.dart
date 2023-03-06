@@ -1,25 +1,20 @@
-import 'dart:developer';
-import 'dart:io';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import '../model/VendorSaveProduct_Model.dart';
-import '../model/verify_otp_model.dart';
-import '../resources/api_url.dart';
+// import 'dart:developer';
+// import 'dart:io';
+// import 'package:http/http.dart' as http;
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:convert';
+// import '../model/VendorSaveProduct_Model.dart';
+// import '../model/verify_otp_model.dart';
+// import '../resources/api_url.dart';
 //
+// //
 // Future<VendorSaveProductModel> updatedSetStoreTimeRepo(
 //     List<VendorSaveProductModel> data) async {
-//   // Map<String, dynamic> map = {};
-//   // for (var i = 0; i < data.length; i++) {
-//   //   map1['$i'] = data[i].startTime.toString();
-//   //   map2['$i'] = data[i].endTime.toString();
-//   //   map3['$i'] = data[i].status! ? 1 : 0;
-//   // }
-//   // map["product_id"] = product_id;
-//   // map["category_id"] = category_id;
-//   // map["variants"[0]['variant_qty']] = map1;
-//   // map["end_time"] = map2;
-//   // map["status"] = map3;
+//   Map<String, dynamic> map = {};
+// List<Product> map = Product(maxQty: "");
+//   map["product_id"] = product_id;
+//   map["category_id"] = category_id;
+//   map["variants"[0]] = map;
 //
 //   //log('start_time :${jsonEncode(map).toString()}');
 //   SharedPreferences pref = await SharedPreferences.getInstance();

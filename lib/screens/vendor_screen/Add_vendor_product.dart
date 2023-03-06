@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
@@ -27,7 +28,16 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
   List<ListModel> listModelData = <ListModel>[
-    ListModel(qty: "", price: "", minQty: "", maxQty: "")
+    // ListModel(qty: "", price: "", minQty: "", maxQty: "")
+  ];
+  String? selectedType;
+  final List<String> quintityType = [
+    "kg",
+    "grm",
+    "ltr",
+    "ml",
+    "dozen",
+    "piece"
   ];
 
   showChangeAddressSheet() {
@@ -142,6 +152,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
           );
         });
   }
+
+  // listDataFields() {
+  //   final qtyController = TextEditingController();
+  //   final priceController = TextEditingController();
+  //   final minQtyController = TextEditingController();
+  //   final maxQtyController = TextEditingController();
+  //
+  //   listModelData;
+  // }
 
   RxList<File> imageList = <File>[].obs;
 
@@ -364,19 +383,20 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                       .toString();
                               vendorAddProductController.qtyController.text =
                                   (vendorAddProductController
-                                                  .vendorAddProductModel
-                                                  .value
-                                                  .data!
-                                                  .qty ??
-                                              "")
-                                          .toString() +
-                                      (vendorAddProductController
-                                                  .vendorAddProductModel
-                                                  .value
-                                                  .data!
-                                                  .qtyType ??
-                                              "")
-                                          .toString();
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .qty ??
+                                          "")
+                                      .toString();
+                              vendorAddProductController.qtyTypeController
+                                  .text = (vendorAddProductController
+                                          .vendorAddProductModel
+                                          .value
+                                          .data!
+                                          .qtyType ??
+                                      "")
+                                  .toString();
                               vendorAddProductController.minQtyController.text =
                                   (vendorAddProductController
                                               .vendorAddProductModel
@@ -504,14 +524,94 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                      child: RegistrationTextField1(
-                                        hint: "Qty",
-                                        controller: vendorAddProductController
-                                            .qtyController,
-                                        validator: MultiValidator([
-                                          RequiredValidator(
-                                              errorText: "Please enter qty")
-                                        ]),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            color: Colors.grey.shade50,
+                                            border: Border.all(
+                                              color: Colors.grey.shade300,
+                                            )),
+                                        child: Row(
+                                          //mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Expanded(
+                                              child: RegistrationTextField1(
+                                                hint: "Qty",
+                                                controller:
+                                                    vendorAddProductController
+                                                        .qtyController,
+                                                validator: MultiValidator([
+                                                  RequiredValidator(
+                                                      errorText:
+                                                          "Please enter qty")
+                                                ]),
+                                              ),
+                                            ),
+                                            const VerticalDivider(width: 1.0),
+                                            Expanded(
+                                              child: Container(
+                                                child: DropdownButtonFormField(
+                                                  isExpanded: true,
+                                                  dropdownColor:
+                                                      Colors.grey.shade50,
+                                                  iconEnabledColor:
+                                                      AppTheme.primaryColor,
+                                                  hint: Text(
+                                                    'Type',
+                                                    style: TextStyle(
+                                                        color:
+                                                            AppTheme.userText,
+                                                        fontSize:
+                                                            AddSize.font14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          enabled: true,
+                                                          border:
+                                                              InputBorder.none),
+                                                  value: vendorAddProductController
+                                                              .vendorAddProductModel
+                                                              .value
+                                                              .data !=
+                                                          null
+                                                      ? vendorAddProductController
+                                                          .vendorAddProductModel
+                                                          .value
+                                                          .data!
+                                                          .qtyType
+                                                          .toString()
+                                                      : selectedType,
+                                                  items: qtyType.map((value) {
+                                                    return DropdownMenuItem(
+                                                      value:
+                                                          value.key.toString(),
+                                                      child: Text(
+                                                        value.value,
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize:
+                                                                AddSize.font14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                  onChanged: (newValue) {
+                                                    setState(() {
+                                                      selectedType =
+                                                          newValue as String?;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -542,7 +642,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                             .minQtyController,
                                         validator: MultiValidator([
                                           RequiredValidator(
-                                              errorText: "Please enter qty")
+                                              errorText:
+                                                  "Please enter the Minimum qty")
                                         ]),
                                       ),
                                     ),
@@ -556,52 +657,196 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                             .maxQtyController,
                                         validator: MultiValidator([
                                           RequiredValidator(
-                                              errorText: "Please enter qty")
+                                              errorText:
+                                                  "Please enter the Max qty")
                                         ]),
                                       ),
                                     ),
                                   ],
                                 ),
-
-                                // ListView.builder(
-                                //     itemCount: listModelData.length,
-                                //     itemBuilder: (context, index) {
-                                //       return Row(
-                                //         mainAxisAlignment:
-                                //             MainAxisAlignment.spaceBetween,
-                                //         children: [
-                                //           Expanded(
-                                //             child: RegistrationTextField1(
-                                //               hint: "Qty",
-                                //               controller:
-                                //                   vendorAddProductController
-                                //                       .qtyController,
-                                //               validator: MultiValidator([
-                                //                 RequiredValidator(
-                                //                     errorText:
-                                //                         "Please enter qty")
-                                //               ]),
-                                //             ),
-                                //           ),
-                                //           SizedBox(
-                                //             width: AddSize.size10,
-                                //           ),
-                                //           Expanded(
-                                //             child: RegistrationTextField1(
-                                //               hint: "Price",
-                                //               controller:
-                                //                   vendorAddProductController
-                                //                       .myPriceController,
-                                //               validator: MultiValidator([
-                                //                 RequiredValidator(
-                                //                     errorText:
-                                //                         "Please enter price")
-                                //               ]),
-                                //             ),
-                                //           ),
-                                //         ],
-                                //       );
-                                //     }),
+                                // SizedBox(
+                                //   height: AddSize.size10,
+                                // ),
+                                ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: listModelData.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        color:
+                                                            Colors.grey.shade50,
+                                                        border: Border.all(
+                                                          color: Colors
+                                                              .grey.shade300,
+                                                        )),
+                                                    child: Row(
+                                                      //mainAxisSize: MainAxisSize.min,
+                                                      children: [
+                                                        Expanded(
+                                                          child:
+                                                              RegistrationTextField1(
+                                                            hint: "Qty",
+                                                            controller:
+                                                                vendorAddProductController
+                                                                    .qtyController,
+                                                            validator:
+                                                                MultiValidator([
+                                                              RequiredValidator(
+                                                                  errorText:
+                                                                      "Please enter qty")
+                                                            ]),
+                                                          ),
+                                                        ),
+                                                        const VerticalDivider(
+                                                            width: 1.0),
+                                                        Expanded(
+                                                          child:
+                                                              DropdownButtonFormField(
+                                                            isExpanded: true,
+                                                            dropdownColor:
+                                                                Colors.grey
+                                                                    .shade50,
+                                                            iconEnabledColor:
+                                                                AppTheme
+                                                                    .primaryColor,
+                                                            hint: Text(
+                                                              'Type',
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .userText,
+                                                                  fontSize:
+                                                                      AddSize
+                                                                          .font14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .start,
+                                                            ),
+                                                            decoration:
+                                                                const InputDecoration(
+                                                                    enabled:
+                                                                        true,
+                                                                    border:
+                                                                        InputBorder
+                                                                            .none),
+                                                            value: vendorAddProductController
+                                                                        .vendorAddProductModel
+                                                                        .value
+                                                                        .data !=
+                                                                    null
+                                                                ? vendorAddProductController
+                                                                    .vendorAddProductModel
+                                                                    .value
+                                                                    .data!
+                                                                    .qtyType
+                                                                    .toString()
+                                                                : selectedType,
+                                                            items: qtyType
+                                                                .map((value) {
+                                                              return DropdownMenuItem(
+                                                                value: value.key
+                                                                    .toString(),
+                                                                child: Text(
+                                                                  value.value,
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black,
+                                                                      fontSize:
+                                                                          AddSize
+                                                                              .font14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              );
+                                                            }).toList(),
+                                                            onChanged:
+                                                                (newValue) {
+                                                              setState(() {
+                                                                selectedType =
+                                                                    newValue
+                                                                        as String?;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: AddSize.size10,
+                                                ),
+                                                Expanded(
+                                                  child: RegistrationTextField1(
+                                                    hint: "Price",
+                                                    controller:
+                                                        vendorAddProductController
+                                                            .myPriceController,
+                                                    validator: MultiValidator([
+                                                      RequiredValidator(
+                                                          errorText:
+                                                              "Please enter price")
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              height: AddSize.size10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: RegistrationTextField1(
+                                                    hint: "Min",
+                                                    controller:
+                                                        vendorAddProductController
+                                                            .minQtyController,
+                                                    validator: MultiValidator([
+                                                      RequiredValidator(
+                                                          errorText:
+                                                              "Please enter the Minimum qty")
+                                                    ]),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: AddSize.size10,
+                                                ),
+                                                Expanded(
+                                                  child: RegistrationTextField1(
+                                                    hint: "Max",
+                                                    controller:
+                                                        vendorAddProductController
+                                                            .maxQtyController,
+                                                    validator: MultiValidator([
+                                                      RequiredValidator(
+                                                          errorText:
+                                                              "Please enter the Max qty")
+                                                    ]),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }),
                                 SizedBox(
                                   height: AddSize.size10,
                                 ),
@@ -620,7 +865,14 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                         ),
                                         child: Center(
                                             child: GestureDetector(
-                                          onTap: () {},
+                                          onTap: () {
+                                            listModelData.add(ListModel(
+                                                qty: "",
+                                                price: "",
+                                                minQty: "",
+                                                maxQty: ""));
+                                            setState(() {});
+                                          },
                                           child: Icon(
                                             Icons.add,
                                             color: AppTheme.backgroundcolor,
@@ -782,5 +1034,11 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             : const Center(child: CircularProgressIndicator()),
       );
     });
+    listDataFields() {
+      final qtyController = TextEditingController();
+      final priceController = TextEditingController();
+      final minQtyController = TextEditingController();
+      final maxQtyController = TextEditingController();
+    }
   }
 }
