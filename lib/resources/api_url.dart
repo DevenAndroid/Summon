@@ -48,13 +48,14 @@ class ApiUrl {
   static const vendorDashboardUrl = "${baseUrl}vendor-dashboard";
   static const orderAcceptUrl = "${baseUrl}order-accept";
   static const storeUpdateStatusUrl = "${baseUrl}store-status-update";
-  static const selfDeliveryUpdateStatusUrl = "${baseUrl}self-delivery-status-update";
+  static const selfDeliveryUpdateStatusUrl =
+      "${baseUrl}self-delivery-status-update";
   static const toggleStatusUrl = "${baseUrl}vendor-product-status-update";
   static const driverDeliveryRequestListUrl =
-     "${baseUrl}driver-delivery-request-list";
+      "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
-  static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
-  static const categoryUrl = "${baseUrl}category";
+  // static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
+  //static const categoryUrl = "${baseUrl}category";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
   static const driverOrderStatusUpdateUrl =
       "${baseUrl}driver-order-status-update";
@@ -64,5 +65,6 @@ class ApiUrl {
   static const setStoreTimeUrl = "${baseUrl}store-timing";
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
-  static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
+  static const driverDeliveryModeUpdateUrl =
+      "${baseUrl}driver-delivery-mode-update";
 }

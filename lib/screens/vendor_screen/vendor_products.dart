@@ -130,7 +130,8 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: 2,
+                          itemCount: vendorProductListController
+                              .model.value.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
                               padding:
@@ -294,10 +295,10 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .model
                                                       .value
                                                       .data![index]
-                                                      .variants![index]
-                                                      .price
+                                                      .product!
+                                                      .regularPrice
                                                       .toString(),
-                                                  // "100",
+                                                  //"100",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline6!

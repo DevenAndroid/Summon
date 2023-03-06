@@ -101,3 +101,36 @@ List<WalletModel> walletModel = [
       image: AppAssets.personIcon,
       color: AppTheme.appPrimaryOrangeColor),
 ];
+
+class SelectQtyType {
+  dynamic key;
+  dynamic value;
+  SelectQtyType({this.key, this.value});
+}
+
+List<SelectQtyType> qtyType = [
+  SelectQtyType(
+    key: "kg",
+    value: "kg",
+  ),
+  SelectQtyType(
+    key: "grm",
+    value: "grm",
+  ),
+  SelectQtyType(
+    key: "ltr",
+    value: "ltr",
+  ),
+  SelectQtyType(
+    key: "ml",
+    value: "ml",
+  ),
+  SelectQtyType(
+    key: "dozen",
+    value: "dozen",
+  ),
+  SelectQtyType(
+    key: "piece",
+    value: "piece",
+  ),
+];
