@@ -4,9 +4,11 @@ import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/repositories/selfDeliveryStatusUpdate_repo.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/store_open_time_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
+import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../../controller/VendorDashboard_Controller.dart';
+import '../../controller/profile_controller.dart';
 import '../../repositories/storeupdate_status_repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
@@ -20,6 +22,7 @@ class VenderDashboard extends StatefulWidget {
 }
 
 class _VenderDashboardState extends State<VenderDashboard> {
+  final profileController = Get.put(ProfileController());
   final vendorDashboardController = Get.put(VendorDashboardController());
   final controller = Get.put(MainHomeController());
   final RxBool _store = true.obs;
@@ -119,8 +122,10 @@ class _VenderDashboardState extends State<VenderDashboard> {
                           ),
                           child: CachedNetworkImage(
                             fit: BoxFit.cover,
-                            imageUrl:
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv00m-RB7TtdPHzzer0T4rTkqkbEkmov0wUg&usqp=CAU',
+                            imageUrl: profileController.isDataLoading.value
+                                ? profileController
+                                    .model.value.data!.profileImage!
+                                : '',
                             height: AddSize.size30,
                             width: AddSize.size30,
                             errorWidget: (_, __, ___) => const SizedBox(),
@@ -400,7 +405,18 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                       .data!
                                                       .store = val;
                                                   print(val);
-                                                  storeUpdateStatusRepo();
+                                                  storeUpdateStatusRepo()
+                                                      .then((value) {
+                                                    if (value.status == true) {
+                                                      if (val == true) {
+                                                        showToast(
+                                                            "Store is ON");
+                                                      } else {
+                                                        showToast(
+                                                            "Store is OFF");
+                                                      }
+                                                    }
+                                                  });
                                                 });
                                               },
                                             ),
@@ -466,7 +482,18 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                       .data!
                                                       .selfDelivery = val;
                                                   print(val);
-                                                  selfDeliveryUpdateStatusRepo();
+                                                  selfDeliveryUpdateStatusRepo()
+                                                      .then((value) {
+                                                    if (value.status == true) {
+                                                      if (val == true) {
+                                                        showToast(
+                                                            "self delivery is ON");
+                                                      } else {
+                                                        showToast(
+                                                            "self delivery is OFF");
+                                                      }
+                                                    }
+                                                  });
                                                 });
                                               },
                                             ),
@@ -548,7 +575,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                       const Color(0xff52AC1A)),
                                         ),
                                         Text(
-                                          "             Status",
+                                          "                      Status",
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!

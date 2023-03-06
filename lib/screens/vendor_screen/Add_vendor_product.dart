@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../controller/vendorAddProductController.dart';
-import '../../resources/app_assets.dart';
+import '../../model/ListModel.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 
@@ -25,6 +26,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   final vendorAddProductController = Get.put(VendorAddProductController());
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
+  List<ListModel> listModelData = <ListModel>[
+    ListModel(qty: "", price: "", minQty: "", maxQty: "")
+  ];
 
   showChangeAddressSheet() {
     showModalBottomSheet(
@@ -237,6 +241,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                                   .toString();
                                           vendorAddProductController
                                               .getVendorAddProduct();
+                                          vendorAddProductController
+                                              .vendorSearchProductController
+                                              .clear();
                                           setState(() {});
                                         },
                                         child: Row(
@@ -313,6 +320,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
+                        // if (vendorAddProductController
+                        //     .vendorSearchProductController.text.isNotEmpty)
                         Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -326,34 +335,63 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                 vendorAddProductController
                                         .vendorAddProductModel.value.data !=
                                     null) {
-                              vendorAddProductController
-                                      .productNameController.text =
-                                  vendorAddProductController
-                                      .vendorAddProductModel.value.data!.name
-                                      .toString();
-                              vendorAddProductController
-                                      .marketPriceController.text =
-                                  vendorAddProductController
-                                      .vendorAddProductModel
-                                      .value
-                                      .data!
-                                      .marketPrice
-                                      .toString();
+                              vendorAddProductController.productNameController
+                                  .text = (vendorAddProductController
+                                          .vendorAddProductModel
+                                          .value
+                                          .data!
+                                          .name ??
+                                      "")
+                                  .toString();
+                              vendorAddProductController.marketPriceController
+                                  .text = (vendorAddProductController
+                                          .vendorAddProductModel
+                                          .value
+                                          .data!
+                                          .marketPrice ??
+                                      "")
+                                  .toString();
                               vendorAddProductController
                                       .myPriceController.text =
-                                  vendorAddProductController
-                                      .vendorAddProductModel
-                                      .value
-                                      .data!
-                                      .regularPrice
-                                      .toString();
+                                  "₹ ${(vendorAddProductController.vendorAddProductModel.value.data!.regularPrice ?? "").toString()}";
                               vendorAddProductController.skuController.text =
-                                  vendorAddProductController
-                                      .vendorAddProductModel.value.data!.sKU
+                                  (vendorAddProductController
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .sKU ??
+                                          "")
                                       .toString();
                               vendorAddProductController.qtyController.text =
-                                  vendorAddProductController
-                                      .vendorAddProductModel.value.data!.qty
+                                  (vendorAddProductController
+                                                  .vendorAddProductModel
+                                                  .value
+                                                  .data!
+                                                  .qty ??
+                                              "")
+                                          .toString() +
+                                      (vendorAddProductController
+                                                  .vendorAddProductModel
+                                                  .value
+                                                  .data!
+                                                  .qtyType ??
+                                              "")
+                                          .toString();
+                              vendorAddProductController.minQtyController.text =
+                                  (vendorAddProductController
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .minQty ??
+                                          "")
+                                      .toString();
+                              vendorAddProductController.maxQtyController.text =
+                                  (vendorAddProductController
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .maxQty ??
+                                          "")
                                       .toString();
 
                               print(
@@ -377,8 +415,22 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                        child: image.value.path == ""
-                                            ? Column(
+                                        child: image.value.path != ""
+                                            ? SizedBox(
+                                                width: double.maxFinite,
+                                                height: AddSize.size100,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    NewHelper()
+                                                        .addFilePicker()
+                                                        .then((value) {
+                                                      image.value = value;
+                                                    });
+                                                  },
+                                                  child:
+                                                      Image.file(image.value),
+                                                ))
+                                            : Column(
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
@@ -388,10 +440,27 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                                         image.value = value;
                                                       });
                                                     },
-                                                    child: Icon(
-                                                      Icons
-                                                          .file_upload_outlined,
-                                                      size: AddSize.size30,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: vendorAddProductController
+                                                                  .vendorAddProductModel
+                                                                  .value
+                                                                  .data !=
+                                                              null
+                                                          ? vendorAddProductController
+                                                                  .vendorAddProductModel
+                                                                  .value
+                                                                  .data!
+                                                                  .image ??
+                                                              "".toString()
+                                                          : "",
+                                                      errorWidget:
+                                                          (_, __, ___) => Icon(
+                                                        Icons
+                                                            .file_upload_outlined,
+                                                        size: AddSize.size30,
+                                                      ),
+                                                      placeholder: (_, __) =>
+                                                          const SizedBox(),
                                                     ),
                                                   ),
                                                   SizedBox(
@@ -400,39 +469,12 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                                   const Text(
                                                       "Upload  Product image"),
                                                 ],
-                                              )
-                                            : vendorAddProductController
-                                                    .vendorAddProductModel
-                                                    .value
-                                                    .data!
-                                                    .image!
-                                                    .isNotEmpty
-                                                ? SizedBox(
-                                                    width: double.maxFinite,
-                                                    height: AddSize.size100,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:
-                                                          vendorAddProductController
-                                                              .vendorAddProductModel
-                                                              .value
-                                                              .data!
-                                                              .image!
-                                                              .toString(),
-                                                      errorWidget:
-                                                          (_, __, ___) =>
-                                                              const SizedBox(),
-                                                      placeholder: (_, __) =>
-                                                          const SizedBox(),
-                                                    ))
-                                                : SizedBox(
-                                                    width: double.maxFinite,
-                                                    height: AddSize.size100,
-                                                    child: Image.file(
-                                                        image.value)))),
+                                              ))),
                                 SizedBox(
                                   height: AddSize.size10,
                                 ),
                                 RegistrationTextField(
+                                  readOnly: true,
                                   hint: "Product Name",
                                   controller: vendorAddProductController
                                       .productNameController,
@@ -445,30 +487,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                   height: AddSize.size10,
                                 ),
                                 RegistrationTextField(
-                                  hint: "Market Price",
-                                  controller: vendorAddProductController
-                                      .marketPriceController,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: "Please enter price")
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: AddSize.size10,
-                                ),
-                                RegistrationTextField(
-                                  hint: "My Price",
-                                  controller: vendorAddProductController
-                                      .myPriceController,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: "Please enter my price")
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: AddSize.size10,
-                                ),
-                                RegistrationTextField(
+                                  readOnly: true,
                                   hint: "SKU",
                                   controller:
                                       vendorAddProductController.skuController,
@@ -485,7 +504,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
-                                      child: RegistrationTextField(
+                                      child: RegistrationTextField1(
                                         hint: "Qty",
                                         controller: vendorAddProductController
                                             .qtyController,
@@ -499,18 +518,90 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                       width: AddSize.size10,
                                     ),
                                     Expanded(
-                                      child: RegistrationTextField(
+                                      child: RegistrationTextField1(
                                         hint: "Price",
                                         controller: vendorAddProductController
-                                            .priceController,
+                                            .myPriceController,
                                         validator: MultiValidator([
                                           RequiredValidator(
                                               errorText: "Please enter price")
                                         ]),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
+                                SizedBox(
+                                  height: AddSize.size10,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: RegistrationTextField1(
+                                        hint: "Min",
+                                        controller: vendorAddProductController
+                                            .minQtyController,
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText: "Please enter qty")
+                                        ]),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: AddSize.size10,
+                                    ),
+                                    Expanded(
+                                      child: RegistrationTextField1(
+                                        hint: "Max",
+                                        controller: vendorAddProductController
+                                            .maxQtyController,
+                                        validator: MultiValidator([
+                                          RequiredValidator(
+                                              errorText: "Please enter qty")
+                                        ]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // ListView.builder(
+                                //     itemCount: listModelData.length,
+                                //     itemBuilder: (context, index) {
+                                //       return Row(
+                                //         mainAxisAlignment:
+                                //             MainAxisAlignment.spaceBetween,
+                                //         children: [
+                                //           Expanded(
+                                //             child: RegistrationTextField1(
+                                //               hint: "Qty",
+                                //               controller:
+                                //                   vendorAddProductController
+                                //                       .qtyController,
+                                //               validator: MultiValidator([
+                                //                 RequiredValidator(
+                                //                     errorText:
+                                //                         "Please enter qty")
+                                //               ]),
+                                //             ),
+                                //           ),
+                                //           SizedBox(
+                                //             width: AddSize.size10,
+                                //           ),
+                                //           Expanded(
+                                //             child: RegistrationTextField1(
+                                //               hint: "Price",
+                                //               controller:
+                                //                   vendorAddProductController
+                                //                       .myPriceController,
+                                //               validator: MultiValidator([
+                                //                 RequiredValidator(
+                                //                     errorText:
+                                //                         "Please enter price")
+                                //               ]),
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       );
+                                //     }),
                                 SizedBox(
                                   height: AddSize.size10,
                                 ),
@@ -528,10 +619,13 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                               BorderRadius.circular(50),
                                         ),
                                         child: Center(
-                                            child: Icon(
-                                          Icons.add,
-                                          color: AppTheme.backgroundcolor,
-                                          size: AddSize.size25,
+                                            child: GestureDetector(
+                                          onTap: () {},
+                                          child: Icon(
+                                            Icons.add,
+                                            color: AppTheme.backgroundcolor,
+                                            size: AddSize.size25,
+                                          ),
                                         )),
                                       ),
                                     )
@@ -544,121 +638,118 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
-                        Container(
-                            height: 200,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.backgroundcolor),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: AddSize.padding16,
-                                vertical: AddSize.padding10),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        "Image Gallery",
-                                        style: TextStyle(
-                                            fontSize: AddSize.font14,
-                                            color: AppTheme.blackcolor,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          showChangeAddressSheet();
-                                        },
-                                        child: Text(
-                                          "Choose From Gallery",
-                                          style: TextStyle(
-                                              fontSize: AddSize.font12,
-                                              color: AppTheme.primaryColor,
-                                              fontWeight: FontWeight.w500),
-                                        ))
-                                  ],
-                                ),
-                                Obx(() {
-                                  return Expanded(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: imageList.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: AddSize.padding16,
-                                                vertical: AddSize.padding16),
-                                            margin: EdgeInsets.all(05),
-                                            width: 100,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade100,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                    color:
-                                                        Colors.grey.shade300)),
-                                            child: imageList[index].path == ""
-                                                ? GestureDetector(
-                                                    onTap: () {
-                                                      NewHelper()
-                                                          .addFilePicker()
-                                                          .then((value) {
-                                                        if (imageList[index]
-                                                                .path ==
-                                                            "") {
-                                                          imageList[index] =
-                                                              value!;
-                                                          // Get.back();
-                                                          // break;
-                                                        }
-                                                      });
-                                                      // NewHelper()
-                                                      //     .addFilePicker()
-                                                      //     .then((value) {
-                                                      //   image.value = value;
-                                                      // });
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .grey.shade100,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                      ),
-                                                      child: Center(
-                                                          child: Image(
-                                                              height: AddSize
-                                                                  .size25,
-                                                              width: AddSize
-                                                                  .size25,
-                                                              color: Colors.grey
-                                                                  .shade500,
-                                                              image: const AssetImage(
-                                                                  AppAssets
-                                                                      .camaraImage))),
-                                                    ),
-                                                  )
-                                                : SizedBox(
-                                                    width: double.maxFinite,
-                                                    height: AddSize.size100,
-                                                    child: Image.file(File(
-                                                        imageList[index]
-                                                            .path))));
-                                      },
-                                    ),
-                                  );
-                                }),
-                              ],
-                            )),
-                        SizedBox(
-                          height: AddSize.size10,
-                        ),
+                        // Container(
+                        //     height: 200,
+                        //     decoration: BoxDecoration(
+                        //         borderRadius: BorderRadius.circular(10),
+                        //         color: AppTheme.backgroundcolor),
+                        //     padding: EdgeInsets.symmetric(
+                        //         horizontal: AddSize.padding16,
+                        //         vertical: AddSize.padding10),
+                        //     child: Column(
+                        //       children: [
+                        //         Row(
+                        //           mainAxisAlignment:
+                        //               MainAxisAlignment.spaceBetween,
+                        //           children: [
+                        //             Expanded(
+                        //               child: Text(
+                        //                 "Image Gallery",
+                        //                 style: TextStyle(
+                        //                     fontSize: AddSize.font14,
+                        //                     color: AppTheme.blackcolor,
+                        //                     fontWeight: FontWeight.w500),
+                        //               ),
+                        //             ),
+                        //             TextButton(
+                        //                 onPressed: () {
+                        //                   showChangeAddressSheet();
+                        //                 },
+                        //                 child: Text(
+                        //                   "Choose From Gallery",
+                        //                   style: TextStyle(
+                        //                       fontSize: AddSize.font12,
+                        //                       color: AppTheme.primaryColor,
+                        //                       fontWeight: FontWeight.w500),
+                        //                 ))
+                        //           ],
+                        //         ),
+                        //         Obx(() {
+                        //           return Expanded(
+                        //             child: ListView.builder(
+                        //               shrinkWrap: true,
+                        //               physics: const BouncingScrollPhysics(),
+                        //               scrollDirection: Axis.horizontal,
+                        //               itemCount: imageList.length,
+                        //               itemBuilder:
+                        //                   (BuildContext context, int index) {
+                        //                 return Container(
+                        //                     padding: EdgeInsets.symmetric(
+                        //                         horizontal: AddSize.padding16,
+                        //                         vertical: AddSize.padding16),
+                        //                     margin: EdgeInsets.all(05),
+                        //                     width: 100,
+                        //                     decoration: BoxDecoration(
+                        //                         color: Colors.grey.shade100,
+                        //                         borderRadius:
+                        //                             BorderRadius.circular(10),
+                        //                         border: Border.all(
+                        //                             color:
+                        //                                 Colors.grey.shade300)),
+                        //                     child: imageList[index].path == ""
+                        //                         ? GestureDetector(
+                        //                             onTap: () {
+                        //                               NewHelper()
+                        //                                   .addFilePicker()
+                        //                                   .then((value) {
+                        //                                 if (imageList[index]
+                        //                                         .path ==
+                        //                                     "") {
+                        //                                   imageList[index] =
+                        //                                       value!;
+                        //                                   // Get.back();
+                        //                                   // break;
+                        //                                 }
+                        //                               });
+                        //                               // NewHelper()
+                        //                               //     .addFilePicker()
+                        //                               //     .then((value) {
+                        //                               //   image.value = value;
+                        //                               // });
+                        //                             },
+                        //                             child: Container(
+                        //                               decoration: BoxDecoration(
+                        //                                 color: Colors
+                        //                                     .grey.shade100,
+                        //                                 borderRadius:
+                        //                                     BorderRadius
+                        //                                         .circular(30),
+                        //                               ),
+                        //                               child: Center(
+                        //                                   child: Image(
+                        //                                       height: AddSize
+                        //                                           .size25,
+                        //                                       width: AddSize
+                        //                                           .size25,
+                        //                                       color: Colors.grey
+                        //                                           .shade500,
+                        //                                       image: const AssetImage(
+                        //                                           AppAssets
+                        //                                               .camaraImage))),
+                        //                             ),
+                        //                           )
+                        //                         : SizedBox(
+                        //                             width: double.maxFinite,
+                        //                             height: AddSize.size100,
+                        //                             child: Image.file(File(
+                        //                                 imageList[index]
+                        //                                     .path))));
+                        //               },
+                        //             ),
+                        //           );
+                        //         }),
+                        //       ],
+                        //     )),
                         ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
