@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/verify_otp_model.dart';
+
 class ApiUrl {
   static const baseUrl = "https://fresh2arrive.eoxyslive.com/api/";
   static const loginApi = "${baseUrl}login";
@@ -67,4 +74,15 @@ class ApiUrl {
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const driverDeliveryModeUpdateUrl =
       "${baseUrl}driver-delivery-mode-update";
+}
+
+getHeaders() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    if(pref.getString('user_info') != null)
+    HttpHeaders.authorizationHeader: 'Bearer ${ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!)).authToken}'
+  };
+  return headers;
 }

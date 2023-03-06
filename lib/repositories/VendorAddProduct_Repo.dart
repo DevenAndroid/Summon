@@ -10,19 +10,9 @@ import '../resources/api_url.dart';
 Future<VendorAddProductModel> vendorAddProductRepo({
   required id,
 }) async {
-  SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
-  final headers = {
-    HttpHeaders.contentTypeHeader: 'application/json',
-    HttpHeaders.acceptHeader: 'application/json',
-    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
-  };
-  // OverlayEntry loader = Helpers.overlayLoader(context);
-  // Overlay.of(context as BuildContext).insert(loader);
-  //try {
   final response = await http
-      .get(Uri.parse("${ApiUrl.vendorAddProductsUrl}/$id"), headers: headers);
+      .get(Uri.parse("${ApiUrl.vendorAddProductsUrl}/$id"), headers: await getHeaders());
+
   print("Vendor add product Repository...${response.body}");
   if (response.statusCode == 200) {
     //Helpers.hideLoader(loader);
