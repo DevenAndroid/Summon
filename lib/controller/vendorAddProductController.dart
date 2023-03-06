@@ -8,14 +8,14 @@ import '../repositories/vendor_product_search_repo..dart';
 
 class VendorAddProductController extends GetxController {
   final TextEditingController productNameController = TextEditingController();
-  final TextEditingController marketPriceController = TextEditingController();
-  final TextEditingController myPriceController = TextEditingController();
+  // final TextEditingController marketPriceController = TextEditingController();
+  // final TextEditingController myPriceController = TextEditingController();
   final TextEditingController skuController = TextEditingController();
-  final TextEditingController qtyController = TextEditingController();
-  final TextEditingController qtyTypeController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController minQtyController = TextEditingController();
-  final TextEditingController maxQtyController = TextEditingController();
+  // final TextEditingController qtyController = TextEditingController();
+  // final TextEditingController qtyTypeController = TextEditingController();
+  // final TextEditingController priceController = TextEditingController();
+  // final TextEditingController minQtyController = TextEditingController();
+  // final TextEditingController maxQtyController = TextEditingController();
   RxString productId = "".obs;
   RxString qtyType = "".obs;
   RxBool isDataLoading = false.obs;
@@ -32,11 +32,13 @@ class VendorAddProductController extends GetxController {
       model.value = value;
     });
   }
+  bool initialSelect = false;
 
   getVendorAddProduct() {
     vendorAddProductRepo(id: productId.value).then((value) {
       isDataLoading.value = true;
       vendorAddProductModel.value = value;
+      initialSelect = false;
     });
   }
 }

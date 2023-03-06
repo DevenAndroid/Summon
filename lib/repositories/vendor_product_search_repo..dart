@@ -10,12 +10,16 @@ import '../resources/api_url.dart';
 Future<VendorSearchProductModel> vendorSearchProductListRepo(
     {required keyword}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  ModelVerifyOtp? user;
+  if(pref.getString('user_info') != null) {
+    user =
+    ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  }
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
-    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
+    if(pref.getString('user_info') != null)
+    HttpHeaders.authorizationHeader: 'Bearer ${user!.authToken}'
   };
 
   try {

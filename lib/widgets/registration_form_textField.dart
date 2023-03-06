@@ -107,6 +107,7 @@ class RegistrationTextField1 extends StatelessWidget {
   final bool? obscureText;
   final bool? enable;
   final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
   final length;
 
   const RegistrationTextField1({
@@ -128,7 +129,7 @@ class RegistrationTextField1 extends StatelessWidget {
     this.readOnly = false,
     this.onTap,
     this.enable,
-    this.length,
+    this.length, this.onChanged,
   }) : super(key: key);
 
   @override
@@ -137,6 +138,7 @@ class RegistrationTextField1 extends StatelessWidget {
       onTap: onTap,
       readOnly: readOnly!,
       controller: controller,
+      onChanged: onChanged,
       obscureText: hint == hint ? obscureText! : false,
       autofillHints: autofillHints,
       validator: validator,
