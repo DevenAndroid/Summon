@@ -211,12 +211,6 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                             fontWeight: FontWeight.w500),
                                         textAlign: TextAlign.start,
                                       ),
-                                      // style: TextStyle(
-                                      //     fontSize: AddSize.font12,
-                                      //     color: isValue.value == false
-                                      //         ? AppTheme.blackcolor
-                                      //         : AppTheme.backgroundcolor,
-                                      //     fontWeight: FontWeight.w500),
                                       value: selectedTime == ""
                                           ? null
                                           : selectedTime,

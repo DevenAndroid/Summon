@@ -1,10 +1,13 @@
-class ListModel {
-  String? qty;
-  String? price;
-  String? minQty;
-  String? maxQty;
+import 'package:get/get.dart';
 
-  ListModel({this.qty, this.price, this.minQty, this.maxQty});
+class ListModel {
+  RxString qty = "".obs;
+  RxString qtyType = "".obs;
+  RxString price = "".obs;
+  RxString minQty = "".obs;
+  RxString maxQty = "".obs;
+
+  ListModel({required this.qty, required this.price, required this.minQty, required this.maxQty, required this.qtyType});
 
   ListModel.fromJson(Map<String, dynamic> json) {
     qty = json['qty'];

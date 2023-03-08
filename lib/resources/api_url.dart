@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/verify_otp_model.dart';
+
 class ApiUrl {
   static const baseUrl = "https://fresh2arrive.eoxyslive.com/api/";
   static const loginApi = "${baseUrl}login";
@@ -48,11 +55,14 @@ class ApiUrl {
   static const vendorDashboardUrl = "${baseUrl}vendor-dashboard";
   static const orderAcceptUrl = "${baseUrl}order-accept";
   static const storeUpdateStatusUrl = "${baseUrl}store-status-update";
-  static const selfDeliveryUpdateStatusUrl = "${baseUrl}self-delivery-status-update";
+  static const selfDeliveryUpdateStatusUrl =
+      "${baseUrl}self-delivery-status-update";
   static const toggleStatusUrl = "${baseUrl}vendor-product-status-update";
   static const driverDeliveryRequestListUrl =
-     "${baseUrl}driver-delivery-request-list";
+      "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
+  // static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
+  //static const categoryUrl = "${baseUrl}category";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
   static const driverOrderStatusUpdateUrl =
       "${baseUrl}driver-order-status-update";
@@ -62,6 +72,17 @@ class ApiUrl {
   static const setStoreTimeUrl = "${baseUrl}store-timing";
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
-  static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
-  static const addMoneyUrl = "${baseUrl}add-money";
+  static const driverDeliveryModeUpdateUrl =
+      "${baseUrl}driver-delivery-mode-update";
+}
+
+getHeaders() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    if(pref.getString('user_info') != null)
+    HttpHeaders.authorizationHeader: 'Bearer ${ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!)).authToken}'
+  };
+  return headers;
 }
