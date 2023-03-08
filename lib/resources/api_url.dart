@@ -63,4 +63,5 @@ class ApiUrl {
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
+  static const addMoneyUrl = "${baseUrl}add-money";
 }

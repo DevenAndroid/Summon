@@ -7,7 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/verify_otp_model.dart';
 
-Future<AssignedOrderList> assignedOrderListRepo() async {
+Future<AssignedOrderList> assignedOrderListRepo({
+  required status
+}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -18,8 +20,8 @@ Future<AssignedOrderList> assignedOrderListRepo() async {
   };
   try {
     final response =
-    await http.get(Uri.parse(ApiUrl.assignedOrderListUrl), headers: headers);
-
+    await http.get(Uri.parse("${ApiUrl.assignedOrderListUrl}?status=$status"), headers: headers);
+     log("${ApiUrl.assignedOrderListUrl}?status=$status");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");
       return AssignedOrderList.fromJson(jsonDecode(response.body));

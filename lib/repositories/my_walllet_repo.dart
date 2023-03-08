@@ -9,7 +9,7 @@ import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<MyWallletModel> myWalletRepo({required user_type,context}) async {
+Future<MyWallletModel> myWalletRepo({user_type,context}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -20,7 +20,7 @@ Future<MyWallletModel> myWalletRepo({required user_type,context}) async {
   };
   try {
     final response = await http.get(
-        Uri.parse("${ApiUrl.myWalletUrl}?user_type=$user_type"),
+        Uri.parse("${ApiUrl.myWalletUrl}?user_type=C"),
         headers: headers);
     print("My Wallet Repository...${response.body}");
     log("${ApiUrl.myWalletUrl}?user_type=$user_type");

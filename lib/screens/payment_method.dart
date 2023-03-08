@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/payment_option_controller.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -21,30 +22,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
   final controller = Get.put(PaymentOptionController());
   bool _isValue = false;
   RxString selectedValue = "cod".obs;
-  Razorpay _razorpay = Razorpay();
+  final Razorpay _razorpay = Razorpay();
 
-  @override
-  void initState() {
-    // TODO: implement initState
+  void processPayment() {
+    _razorpay.open(options);
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-    super.initState();
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     // Do something when payment succeeds
-    print(response.paymentId);
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
-    print(response.message);
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
-    print(response.walletName);
   }
 
   @override
@@ -147,7 +143,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       GestureDetector(
                         onTap: () {
                           selectedValue.value = "online";
-                          print(selectedValue.value);
+                          if (kDebugMode) {
+                            print(selectedValue.value);
+                          }
                         },
                         child: Card(
                             shape: RoundedRectangleBorder(
@@ -199,7 +197,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ? GestureDetector(
                               onTap: () {
                                 selectedValue.value = "cod";
-                                print(selectedValue.value);
                               },
                               child: Card(
                                   shape: RoundedRectangleBorder(
@@ -247,14 +244,14 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     ),
                                   )),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   ),
                 ))
             : Center(
                 child: Padding(
                   padding: EdgeInsets.only(top: AddSize.padding20),
-                  child: CircularProgressIndicator(),
+                  child: const CircularProgressIndicator(),
                 ),
               );
       }),
@@ -285,7 +282,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.maxFinite, 60),
-                    primary: AppTheme.primaryColor,
+                    backgroundColor: AppTheme.primaryColor,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -301,25 +298,27 @@ class _PaymentMethodState extends State<PaymentMethod> {
             SizedBox(
               height: AddSize.padding20,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  _razorpay.open(options);
-                },
-                style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.maxFinite, 60),
-                    primary: AppTheme.primaryColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    textStyle: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.w600)),
-                child: Text(
-                  "Checkout",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: AppTheme.backgroundcolor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16),
-                )),
+            selectedValue.value != "cod"
+                ? ElevatedButton(
+                    onPressed: () {
+                      processPayment();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.maxFinite, 60),
+                        backgroundColor: AppTheme.primaryColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        textStyle: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      "Checkout",
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: AppTheme.backgroundcolor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16),
+                    ))
+                : const SizedBox(),
           ],
         ),
       ),

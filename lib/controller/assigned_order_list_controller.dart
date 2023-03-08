@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class AssignedOrderController extends GetxController {
   RxBool isDataLoading = false.obs;
   Rx<AssignedOrderList> model = AssignedOrderList().obs;
-
+  RxString status = "".obs;
   @override
   void onInit() {
     super.onInit();
@@ -14,7 +14,7 @@ class AssignedOrderController extends GetxController {
 
   getData() async {
     isDataLoading.value = false;
-    assignedOrderListRepo().then((value) {
+    assignedOrderListRepo(status: status.value).then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

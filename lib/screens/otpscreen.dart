@@ -171,10 +171,15 @@ class _OtpScreenState extends State<OtpScreen> {
                                   Get.offAllNamed(
                                       CustomNavigationBar.customNavigationBar);
                                 }
-                                else{
-                                  showToast(value.message.toString());
-                                }
                               });
+                            }
+                            else{
+                              if (otpController.text.isEmpty) {
+                                showToast("Enter OTP");
+                              }
+                              else{
+                                showToast("Enter Valid OTP");
+                              }
                             }
                             // else {
                             //   hasError1.value = true;
