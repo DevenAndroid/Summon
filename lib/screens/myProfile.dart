@@ -300,13 +300,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 EditProfileTextFieldWidget(
                                   hint: "Enter Your Email",
                                   controller: controller.emailController,
-                                  // validator: MultiValidator([
-                                  //   RequiredValidator(
-                                  //       errorText: 'Please Enter Email'),
-                                  //   EmailValidator(
-                                  //       errorText:
-                                  //           'Enter a valid email address')
-                                  // ]),
                                 ),
                                 const SizedBox(
                                   height: 15,

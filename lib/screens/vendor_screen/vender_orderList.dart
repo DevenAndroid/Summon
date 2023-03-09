@@ -486,7 +486,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                        color: AppTheme.backgroundcolor,
+                        // color: AppTheme.backgroundcolor,
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(

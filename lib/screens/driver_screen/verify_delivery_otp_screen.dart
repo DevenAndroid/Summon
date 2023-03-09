@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivered_successfully.dart';
@@ -20,6 +22,36 @@ class VerifyOtpDeliveryScreen extends StatefulWidget {
 class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
   TextEditingController otpController = TextEditingController();
   RxBool hasError1 = false.obs;
+  late Timer timer;
+  RxInt timerSeconds = 30.obs;
+  RxBool showTimer = false.obs;
+  setTimer() {
+    if (showTimer.value == false) {
+      showTimer.value = true;
+      timer = Timer.periodic(const Duration(seconds: 1), (value) {
+        if (timerSeconds.value > 1) {
+          timerSeconds.value--;
+        } else {
+          showTimer.value = false;
+          timer.cancel();
+          timerSeconds.value = 30;
+        }
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setTimer();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,23 +161,34 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                           fontWeight: FontWeight.w500,
                           fontSize: AddSize.font16),
                     )),
-                TextButton(
-                    onPressed: () {
-                      resendDeliveryOtpVerify(
-                              orderId: Get.arguments[0], context: context)
-                          .then((value) {
-                        showToast(value.message.toString());
-                        if (value.status == true) {
-                        }
-                      });
-                    },
-                    child: Text(
-                      "Resend OTP",
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: AppTheme.primaryColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: AddSize.font16),
-                    ))
+                 TextButton(onPressed: () {
+                      if (showTimer.value == false) {
+                        resendDeliveryOtpVerify(
+                            orderId: Get.arguments[0], context: context).then((value) async {
+                          if (value.status == true) {
+                            showToast("${value.message}");
+                            setTimer();
+                          } else {
+                            showToast(value.message);
+                          }
+                          return;
+                        });
+                      }
+                    }, child: Obx(() {
+                      return Text(
+                        !showTimer.value
+                            ? "Resend OTP"
+                            : "Resend OTP in 00:${timerSeconds.value > 9 ? timerSeconds.value : "0${timerSeconds.value}"}",
+                        textAlign: TextAlign.right,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5!
+                            .copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: AppTheme.primaryColor),
+                      );
+                    }))
               ],
             ),
           )),

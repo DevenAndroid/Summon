@@ -13,6 +13,7 @@ Future<ModelVerifyOtp> verifyOtp(
   map['otp'] = data;
 
   print("otpData map$map");
+  try {
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
@@ -26,5 +27,8 @@ Future<ModelVerifyOtp> verifyOtp(
     return ModelVerifyOtp.fromJson(json.decode(response.body));
   } else {
     throw Exception(response.body);
+  }
+  } catch (e) {
+    throw Exception(e.toString());
   }
 }

@@ -1,12 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../controller/main_home_controller.dart';
-import '../resources/app_assets.dart';
+import '../controller/myWallet_controller.dart';
+import '../repositories/add_money_repo.dart';
 
 class AddMoneyScreen extends StatefulWidget {
   const AddMoneyScreen({Key? key}) : super(key: key);
@@ -17,16 +17,58 @@ class AddMoneyScreen extends StatefulWidget {
 
 class _AddMoneyScreenState extends State<AddMoneyScreen> {
   final controller = Get.put(MainHomeController());
+  final myWalletController = Get.put(MyWalletController());
   final TextEditingController addMoneyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final List<String> moneyList = ["+₹500", "+₹800", "+₹1000", "+₹1200"];
+  final Razorpay _razorpay = Razorpay();
+
+
+  void processPayment() {
+    _razorpay.open(options);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    addMoneyRepo(amount: "100", razorpaySignature: response.signature??"SIGNATURE", paymentId: response.paymentId, context: context)
+        .then((value){
+      showToast(value.message).toString();
+    });
+    // Do something when payment succeeds
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  var options = {
+    'key': 'rzp_live_1HJot1eILYIf7B',
+    'amount': 100,
+    'name': 'Demo',
+    'description': 'Payment',
+    'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: backAppBar(title: "Add Money", context: context),
         body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: AddSize.padding16, vertical: AddSize.padding16),
@@ -58,7 +100,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                     controller: addMoneyController,
                                     cursorColor: AppTheme.primaryColor,
                                     validator: validateMoney,
-                                    decoration: InputDecoration()),
+                                    decoration: const InputDecoration()),
                                 SizedBox(
                                   height: AddSize.size15,
                                 ),
@@ -76,15 +118,15 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                 ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        Get.back();
-                                        controller.onItemTap(2);
+                                        processPayment();
+                                        myWalletController.getWalletData();
+                                        // Get.back();
+                                        // controller.onItemTap(2);
                                       }
-                                      ;
                                     },
                                     style: ElevatedButton.styleFrom(
                                         minimumSize: Size(
-                                            double.maxFinite, AddSize.size45),
-                                        primary: AppTheme.primaryColor,
+                                            double.maxFinite, AddSize.size45), backgroundColor: AppTheme.primaryColor,
                                         elevation: 0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -123,7 +165,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("${title}",
+      label: Text("$title",
           style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,

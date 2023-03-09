@@ -159,11 +159,10 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            if (_formKey.currentState!.validate() &&
-                                otp == otpController.text) {
-                              verifyOtp(phoneNumber, context, otp)
+                            if (_formKey.currentState!.validate() && otpController.text.isNotEmpty) {
+                              verifyOtp(phoneNumber, context, otpController.text)
                                   .then((value) async {
-                                showToast(value.message);
+                                showToast(value.message.toString());
                                 if (value.status == true) {
                                   SharedPreferences pref =
                                       await SharedPreferences.getInstance();
@@ -173,15 +172,24 @@ class _OtpScreenState extends State<OtpScreen> {
                                       CustomNavigationBar.customNavigationBar);
                                 }
                               });
-                            } else {
-                              hasError1.value = true;
-                              showToast("Enter Valid OTP");
+                            }
+                            else{
                               if (otpController.text.isEmpty) {
                                 showToast("Enter OTP");
-                              } else if (otpController.text.length < 4) {
+                              }
+                              else{
                                 showToast("Enter Valid OTP");
                               }
                             }
+                            // else {
+                            //   hasError1.value = true;
+                            //   showToast("Enter Valid OTP");
+                            //   if (otpController.text.isEmpty) {
+                            //     showToast("Enter OTP");
+                            //   } else if (otp.length < 4) {
+                            //     showToast("Enter Valid OTP");
+                            //   }
+                            // }
                           },
                           style: ElevatedButton.styleFrom(
                               primary: AppTheme.primaryColor,
@@ -199,8 +207,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         if (showTimer.value == false) {
                           resendOtp(phoneNumber, context).then((value) async {
                             if (value.status == true) {
-                              otp = value.data.toString();
-                              showToast("${value.message} $otp");
+                              showToast("${value.message}");
                               setTimer();
                             } else {
                               showToast(value.message);

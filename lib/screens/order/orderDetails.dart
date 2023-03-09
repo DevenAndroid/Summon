@@ -424,19 +424,23 @@ class _OrderDetailsState extends State<OrderDetails>
                                                         ),
                                                         Row(
                                                           children: [
-                                                            Text(
-                                                              (myOrderDetailsController.model.value.data!.driver!.location ?? "").toString(),
-                                                              style: Theme.of(
-                                                                  context)
-                                                                  .textTheme
-                                                                  .headline5!
-                                                                  .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                  fontSize: AddSize
-                                                                      .font16),
+                                                            Expanded(
+                                                              child: Text(
+                                                                (myOrderDetailsController.model.value.data!.driver!.location ?? "").toString(),
+                                                                maxLines: 2,
+                                                                style: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .headline5!
+                                                                    .copyWith(
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    fontSize: AddSize
+                                                                        .font16),
+                                                              ),
                                                             ),
                                                             const SizedBox(
                                                               width: 5,

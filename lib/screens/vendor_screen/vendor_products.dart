@@ -277,11 +277,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                         width: AddSize.size80,
                                         child: CachedNetworkImage(
                                           imageUrl: vendorProductListController
-                                              .model
-                                              .value
-                                              .data![index]
-                                              .product!
-                                              .image
+                                              .model.value.data![index].image
                                               .toString(),
                                           errorWidget: (_, __, ___) =>
                                               const SizedBox(),
@@ -340,22 +336,24 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
-                                                    // r.id.value =
-                                                    //     vendorProductListController
-                                                    //         .model
-                                                    //         .value
-                                                    //         .data![index]
-                                                    //         .id
-                                                    //         .toString();
+                                                    editProductsController
+                                                            .id.value =
+                                                        vendorProductListController
+                                                            .model
+                                                            .value
+                                                            .data![index]
+                                                            .id
+                                                            .toString();
                                                     Get.toNamed(
-                                                        EditProductScreen
-                                                            .editProductScreen,
-                                                        arguments: [
-                                                          vendorProductListController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                        ]);
+                                                      EditProductScreen
+                                                          .editProductScreen,
+                                                      // arguments:[
+                                                      //   vendorProductListController
+                                                      //       .model
+                                                      //       .value
+                                                      //       .data![index]
+                                                      // ]
+                                                    );
                                                   },
                                                   child: Container(
                                                       height: AddSize.size30,

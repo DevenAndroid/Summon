@@ -75,6 +75,8 @@ class ApiUrl {
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const driverDeliveryModeUpdateUrl =
       "${baseUrl}driver-delivery-mode-update";
+  static const addMoneyUrl = "${baseUrl}add-money";
+  static const vendorEditProductUrl = "${baseUrl}vendor-product/";
 }
 
 getHeaders() async {

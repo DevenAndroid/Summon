@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/bank_details.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -23,7 +25,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
 
   final TextEditingController addMoneyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final List<String> moneyList = ["+₹500", "+₹800", "+₹1000", "+₹1200"];
+  final List<String> moneyList = ["500", "800", "1000", "1200"];
 
   final walletStatus = "";
 
@@ -140,19 +142,18 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                     ),
                                     ElevatedButton(
                                         onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            print(addMoneyController.text);
-                                            withdrawalRequestRepo(
-                                                    addMoneyController.text,
-                                                    context)
-                                                .then((value) {
+                                          if (_formKey.currentState!.validate()) {
+                                            log(addMoneyController.text);
+                                            withdrawalRequestRepo(addMoneyController.text, context).then((value) {
                                               showToast(value.message);
+                                              if(value.status==true){
+                                                withdrawalListController.getWithdrawalList();
+                                                addMoneyController.clear();
+                                                FocusManager.instance.primaryFocus!.unfocus();
+                                              }
                                             });
-                                            withdrawalListController
-                                                .getWithdrawalList();
-                                            Get.toNamed(BankDetailsScreen
-                                                .bankDetailsScreen);
+                                            // Get.toNamed(BankDetailsScreen
+                                            //     .bankDetailsScreen);
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -249,7 +250,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              "₹ ${withdrawalListController.model.value.data!.withdrawalList![index].amount.toString()}",
+                                              "₹ ${withdrawalListController.model.value.data!.withdrawalList![index].amount.toString()}.00",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline5!
@@ -304,8 +305,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 FontWeight.w500,
                                                             fontSize:
                                                                 AddSize.font14,
-                                                            color:
-                                                                Colors.green),
+                                                            color:Color(0xffFFB26B)),
                                                   )
                                                 : withdrawalListController
                                                             .model
@@ -362,8 +362,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 fontSize:
                                                                     AddSize
                                                                         .font14,
-                                                                color: Colors
-                                                                    .green),
+                                                                color: Color(0xffFF557E)),
                                                       ),
                                           ],
                                         ),
@@ -398,7 +397,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("${title}",
+      label: Text("+₹${title}",
           style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,

@@ -26,7 +26,7 @@ class DeliveryDashboard extends StatefulWidget {
 }
 
 class _DeliveryDashboardState extends State<DeliveryDashboard> {
-  final RxBool _store = true.obs;
+  final RxBool _store = false.obs;
   final controller = Get.put(MainHomeController());
   final deliveryOrderListController = Get.put(DeliveryOrderListController());
   final orderController = Get.put(MyOrderDetailsController());

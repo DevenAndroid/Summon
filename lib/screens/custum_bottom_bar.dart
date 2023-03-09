@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/screens/homepage.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:badges/badges.dart' as badges;
 import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
@@ -221,37 +222,36 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                              BottomNavigationBarItem(
+                              const BottomNavigationBarItem(
                                   icon:
-                                      // Padding(
-                                      //   padding: EdgeInsets.symmetric(
-                                      //     vertical: 08,
-                                      //   ),
-                                      //   child: ImageIcon(
-                                      //     AssetImage(AppAssets.cartImage),
-                                      //     size: 18,
-                                      //   ),
-                                      // ),
                                       Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 12.0),
-                                          child: Badge(
-                                            backgroundColor:
-                                                AppTheme.blackcolor,
-                                            label: Obx(() {
-                                              return Text(
-                                                myCartController.sum.value
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: AddSize.font12),
-                                              );
-                                            }),
-                                            child: const ImageIcon(
-                                              AssetImage(AppAssets.cartImage),
-                                              size: 20,
-                                            ),
-                                          )),
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 08,
+                                        ),
+                                        child: ImageIcon(
+                                          AssetImage(AppAssets.cartImage),
+                                          size: 18,
+                                        ),
+                                      ),
+                                      // Padding(
+                                      //     padding: const EdgeInsets.only(
+                                      //         right: 12.0),
+                                      //     child: Badge(
+                                      //       backgroundColor: AppTheme.blackcolor,
+                                      //       label: Obx(() {
+                                      //         return Text(
+                                      //           myCartController.sum.value
+                                      //               .toString(),
+                                      //           style: TextStyle(
+                                      //               color: Colors.white,
+                                      //               fontSize: AddSize.font12),
+                                      //         );
+                                      //       }),
+                                      //       child: const ImageIcon(
+                                      //         AssetImage(AppAssets.cartImage),
+                                      //         size: 20,
+                                      //       ),
+                                      //     )),
                                   // icon: Padding(
                                   //   padding: EdgeInsets.all(8.0),
                                   //   child: ImageIcon(

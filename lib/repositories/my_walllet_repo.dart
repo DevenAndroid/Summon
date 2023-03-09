@@ -1,13 +1,15 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/MyWallet_model..dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
+import '../resources/helper.dart';
 
-Future<MyWallletModel> myWalletRepo({required user_type}) async {
+Future<MyWallletModel> myWalletRepo({required user_type,context}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -16,7 +18,6 @@ Future<MyWallletModel> myWalletRepo({required user_type}) async {
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-
   try {
     final response = await http.get(
         Uri.parse("${ApiUrl.myWalletUrl}?user_type=$user_type"),

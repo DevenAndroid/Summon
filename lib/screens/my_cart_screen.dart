@@ -744,8 +744,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                 .toString());
                                                             if (value.status ==
                                                                 true) {
-                                                              controller.getAddToCartList();
-                                                              selectedChip.value = "";
+                                                              controller
+                                                                  .getAddToCartList();
+                                                              selectedChip
+                                                                  .value = "";
                                                             }
                                                           });
                                                         },
@@ -873,7 +875,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             size: AddSize.size15,
                                           ),
                                         ])),
-                                    controller.model
+                                    controller
+                                                    .model
                                                     .value
                                                     .data!
                                                     .cartPaymentSummary!
@@ -999,19 +1002,23 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         height: height * .01,
                                       ),
                                       controller
-                                          .model
-                                          .value
-                                          .data!
-                                          .cartPaymentSummary!
-                                          .tipAmount ==
-                                          0 ? SizedBox() :
-                                          Column(children: [
-                                            details("Tip for delivery partner:",
-                                                "₹${controller.model.value.data!.cartPaymentSummary!.tipAmount ?? ""}"),
-                                            SizedBox(
-                                              height: height * .01,
+                                                  .model
+                                                  .value
+                                                  .data!
+                                                  .cartPaymentSummary!
+                                                  .tipAmount ==
+                                              0
+                                          ? SizedBox()
+                                          : Column(
+                                              children: [
+                                                details(
+                                                    "Tip for delivery partner:",
+                                                    "₹${controller.model.value.data!.cartPaymentSummary!.tipAmount ?? ""}"),
+                                                SizedBox(
+                                                  height: height * .01,
+                                                ),
+                                              ],
                                             ),
-                                          ],),
                                       details("Save Coupon:",
                                           "₹${controller.model.value.data!.cartPaymentSummary!.couponDiscount ?? ""}"),
                                       SizedBox(
@@ -1112,14 +1119,19 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                Text(
-                                                    "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}",
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize:
-                                                            AddSize.font14,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
+                                                Expanded(
+                                                  child: Text(
+                                                      "Flat No. ${(controller.model.value.data!.orderAddress!.flatNo ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.street ?? "").toString()}, ${(controller.model.value.data!.orderAddress!.location ?? "").toString()}",
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          color: Colors.grey,
+                                                          fontSize:
+                                                              AddSize.font14,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                ),
                                                 TextButton(
                                                     onPressed: () {
                                                       Get.toNamed(MyAddress
