@@ -7,7 +7,8 @@ import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import '../../resources/app_assets.dart';
+import '../../model/ListModel.dart';
+import '../../model/time_model.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 
@@ -144,6 +145,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   RxList<File> imageList = <File>[].obs;
+  RxList<ListModel> listModelData = <ListModel>[].obs;
+
+  @override
+  void initState() {
+    super.initState();
+    Get.arguments[0];
+    print(Get.arguments[0]);
+    print(Get.arguments);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,30 +235,82 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         height: AddSize.size10,
                       ),
                       RegistrationTextField(
-                        hint: "Market Price",
-                        controller: marketPriceController,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Please enter price")
-                        ]),
-                      ),
-                      SizedBox(
-                        height: AddSize.size10,
-                      ),
-                      RegistrationTextField(
-                        hint: "My Price",
-                        controller: myPriceController,
-                        validator: MultiValidator([
-                          RequiredValidator(errorText: "Please enter my price")
-                        ]),
-                      ),
-                      SizedBox(
-                        height: AddSize.size10,
-                      ),
-                      RegistrationTextField(
                         hint: "SKU",
                         controller: skuController,
                         validator: MultiValidator(
                             [RequiredValidator(errorText: "Please enter SKU")]),
+                      ),
+                      SizedBox(
+                        height: AddSize.size10,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0),
+                            color: Colors.grey.shade50,
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                            )),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: RegistrationTextField(
+                                hint: "Qty",
+                                controller: qtyController,
+                                validator: MultiValidator([
+                                  RequiredValidator(
+                                      errorText: "Please enter qty")
+                                ]),
+                              ),
+                            ),
+                            Expanded(
+                              child: DropdownButtonFormField(
+                                //isExpanded: true,
+                                dropdownColor: Colors.grey.shade50,
+                                iconEnabledColor: AppTheme.primaryColor,
+                                hint: Text(
+                                  'Type',
+                                  style: TextStyle(
+                                      color: AppTheme.userText,
+                                      fontSize: AddSize.font14,
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.start,
+                                ),
+                                decoration: const InputDecoration(
+                                    enabled: true, border: InputBorder.none),
+                                items: qtyType.map((value) {
+                                  return DropdownMenuItem(
+                                    value: value.key.toString(),
+                                    child: Text(
+                                      value.value,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: AddSize.font14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (newValue) {
+                                  // value =
+                                  // newValue as String;
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: AddSize.size10,
+                            ),
+                            Expanded(
+                              child: RegistrationTextField(
+                                hint: "Price",
+                                controller: priceController,
+                                validator: MultiValidator([
+                                  RequiredValidator(
+                                      errorText: "Please enter price")
+                                ]),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: AddSize.size10,
@@ -258,10 +320,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         children: [
                           Expanded(
                             child: RegistrationTextField(
-                              hint: "Qty",
+                              hint: "Min",
                               controller: qtyController,
                               validator: MultiValidator([
-                                RequiredValidator(errorText: "Please enter qty")
+                                RequiredValidator(
+                                    errorText: "Please enter Mix Quintity")
                               ]),
                             ),
                           ),
@@ -270,11 +333,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           ),
                           Expanded(
                             child: RegistrationTextField(
-                              hint: "Price",
+                              hint: "Max",
                               controller: priceController,
                               validator: MultiValidator([
                                 RequiredValidator(
-                                    errorText: "Please enter price")
+                                    errorText: "Please enter Max Quintity")
                               ]),
                             ),
                           )
@@ -309,112 +372,112 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: AddSize.size10,
+                  height: AddSize.size20,
                 ),
-                Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppTheme.backgroundcolor),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding16,
-                        vertical: AddSize.padding10),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                "Image Gallery",
-                                style: TextStyle(
-                                    fontSize: AddSize.font14,
-                                    color: AppTheme.blackcolor,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            TextButton(
-                                onPressed: () {
-                                  showChangeAddressSheet();
-                                },
-                                child: Text(
-                                  "Choose From Gallery",
-                                  style: TextStyle(
-                                      fontSize: AddSize.font12,
-                                      color: AppTheme.primaryColor,
-                                      fontWeight: FontWeight.w500),
-                                ))
-                          ],
-                        ),
-                        Obx(() {
-                          return Expanded(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemCount: imageList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    margin: const EdgeInsets.all(05),
-                                    width: 100,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade100,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Colors.grey.shade300)),
-                                    child: imageList[index].path == ""
-                                        ? GestureDetector(
-                                            onTap: () {
-                                              NewHelper()
-                                                  .addFilePicker()
-                                                  .then((value) {
-                                                if (imageList[index].path ==
-                                                    "") {
-                                                  imageList[index] = value!;
-                                                  // Get.back();
-                                                  // break;
-                                                }
-                                              });
-                                              // NewHelper()
-                                              //     .addFilePicker()
-                                              //     .then((value) {
-                                              //   image.value = value;
-                                              // });
-                                            },
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey.shade100,
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                              child: Center(
-                                                  child: Image(
-                                                      height: AddSize.size25,
-                                                      width: AddSize.size25,
-                                                      color:
-                                                          Colors.grey.shade500,
-                                                      image: const AssetImage(
-                                                          AppAssets
-                                                              .camaraImage))),
-                                            ),
-                                          )
-                                        : SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(
-                                                File(imageList[index].path))));
-                              },
-                            ),
-                          );
-                        }),
-                      ],
-                    )),
-                SizedBox(
-                  height: AddSize.size10,
-                ),
+                // Container(
+                //     height: 200,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         color: AppTheme.backgroundcolor),
+                //     padding: EdgeInsets.symmetric(
+                //         horizontal: AddSize.padding16,
+                //         vertical: AddSize.padding10),
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Expanded(
+                //               child: Text(
+                //                 "Image Gallery",
+                //                 style: TextStyle(
+                //                     fontSize: AddSize.font14,
+                //                     color: AppTheme.blackcolor,
+                //                     fontWeight: FontWeight.w500),
+                //               ),
+                //             ),
+                //             TextButton(
+                //                 onPressed: () {
+                //                   showChangeAddressSheet();
+                //                 },
+                //                 child: Text(
+                //                   "Choose From Gallery",
+                //                   style: TextStyle(
+                //                       fontSize: AddSize.font12,
+                //                       color: AppTheme.primaryColor,
+                //                       fontWeight: FontWeight.w500),
+                //                 ))
+                //           ],
+                //         ),
+                //         Obx(() {
+                //           return Expanded(
+                //             child: ListView.builder(
+                //               shrinkWrap: true,
+                //               physics: const BouncingScrollPhysics(),
+                //               scrollDirection: Axis.horizontal,
+                //               itemCount: imageList.length,
+                //               itemBuilder: (BuildContext context, int index) {
+                //                 return Container(
+                //                     padding: EdgeInsets.symmetric(
+                //                         horizontal: AddSize.padding16,
+                //                         vertical: AddSize.padding16),
+                //                     margin: const EdgeInsets.all(05),
+                //                     width: 100,
+                //                     decoration: BoxDecoration(
+                //                         color: Colors.grey.shade100,
+                //                         borderRadius: BorderRadius.circular(10),
+                //                         border: Border.all(
+                //                             color: Colors.grey.shade300)),
+                //                     child: imageList[index].path == ""
+                //                         ? GestureDetector(
+                //                             onTap: () {
+                //                               NewHelper()
+                //                                   .addFilePicker()
+                //                                   .then((value) {
+                //                                 if (imageList[index].path ==
+                //                                     "") {
+                //                                   imageList[index] = value!;
+                //                                   // Get.back();
+                //                                   // break;
+                //                                 }
+                //                               });
+                //                               // NewHelper()
+                //                               //     .addFilePicker()
+                //                               //     .then((value) {
+                //                               //   image.value = value;
+                //                               // });
+                //                             },
+                //                             child: Container(
+                //                               decoration: BoxDecoration(
+                //                                 color: Colors.grey.shade100,
+                //                                 borderRadius:
+                //                                     BorderRadius.circular(30),
+                //                               ),
+                //                               child: Center(
+                //                                   child: Image(
+                //                                       height: AddSize.size25,
+                //                                       width: AddSize.size25,
+                //                                       color:
+                //                                           Colors.grey.shade500,
+                //                                       image: const AssetImage(
+                //                                           AppAssets
+                //                                               .camaraImage))),
+                //                             ),
+                //                           )
+                //                         : SizedBox(
+                //                             width: double.maxFinite,
+                //                             height: AddSize.size100,
+                //                             child: Image.file(
+                //                                 File(imageList[index].path))));
+                //               },
+                //             ),
+                //           );
+                //         }),
+                //       ],
+                //     )),
+                // SizedBox(
+                //   height: AddSize.size10,
+                // ),
                 ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {

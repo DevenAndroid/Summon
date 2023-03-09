@@ -1,14 +1,19 @@
 class VendorSaveProductModel {
   bool? status;
   String? message;
-  Data? data;
+  List<Data>? data;
 
   VendorSaveProductModel({this.status, this.message, this.data});
 
   VendorSaveProductModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -16,7 +21,7 @@ class VendorSaveProductModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/update_profile_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
-import '../resources/helper.dart';
 
 Future<UpdateProfileModel> editUserProfileRepo({
   mapData,
