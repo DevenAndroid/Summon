@@ -50,15 +50,19 @@ import '../screens/wallet_screen.dart';
 class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
+    GetPage(name: '/', page: () => const SplashScreen()),
     GetPage(name: '/', page: () => const CustomNavigationBar()),
     GetPage(
         name: OnBoardingScreen.onBoardingScreen,
         page: () => const OnBoardingScreen()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
-    GetPage(name: AdminResponse.adminResponse, page: () => const AdminResponse()),
+    GetPage(
+        name: AdminResponse.adminResponse, page: () => const AdminResponse()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
-    GetPage(name: SearchScreenData.searchScreen, page: () => const SearchScreenData()),
+    GetPage(
+        name: SearchScreenData.searchScreen,
+        page: () => const SearchScreenData()),
     GetPage(
         name: CustomNavigationBar.customNavigationBar,
         page: () => const CustomNavigationBar()),
@@ -71,7 +75,8 @@ class MyRouter {
     GetPage(
         name: CouponsScreen.couponsScreen, page: () => const CouponsScreen()),
     GetPage(
-        name: StoreByCategoryListScreen.storeByCategoryScreen, page: () => const StoreByCategoryListScreen()),
+        name: StoreByCategoryListScreen.storeByCategoryScreen,
+        page: () => const StoreByCategoryListScreen()),
     GetPage(
         name: MyOrderScreen.myOrderScreen, page: () => const MyOrderScreen()),
     GetPage(

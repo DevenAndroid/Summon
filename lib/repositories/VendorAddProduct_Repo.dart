@@ -6,8 +6,9 @@ import '../resources/api_url.dart';
 Future<VendorAddProductModel> vendorAddProductRepo({
   required id,
 }) async {
-  final response = await http
-      .get(Uri.parse("${ApiUrl.vendorAddProductsUrl}/$id"), headers: await getHeaders());
+  final response = await http.get(
+      Uri.parse("${ApiUrl.vendorAddProductsUrl}/$id"),
+      headers: await getHeaders());
 
   print("Vendor add product Repository...${response.body}");
   if (response.statusCode == 200) {

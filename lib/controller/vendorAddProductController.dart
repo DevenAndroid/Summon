@@ -11,8 +11,8 @@ class VendorAddProductController extends GetxController {
   // final TextEditingController marketPriceController = TextEditingController();
   // final TextEditingController myPriceController = TextEditingController();
   final TextEditingController skuController = TextEditingController();
-  // final TextEditingController qtyController = TextEditingController();
-  // final TextEditingController qtyTypeController = TextEditingController();
+  final TextEditingController qtyController = TextEditingController();
+  final TextEditingController qtyTypeController = TextEditingController();
   // final TextEditingController priceController = TextEditingController();
   // final TextEditingController minQtyController = TextEditingController();
   // final TextEditingController maxQtyController = TextEditingController();
@@ -32,6 +32,7 @@ class VendorAddProductController extends GetxController {
       model.value = value;
     });
   }
+
   bool initialSelect = false;
 
   getVendorAddProduct() {

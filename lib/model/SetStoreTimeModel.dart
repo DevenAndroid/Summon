@@ -11,7 +11,7 @@ class SetStoreTimeModel {
     if (json['data'] != null) {
       data = <StoreTimeData>[];
       json['data'].forEach((v) {
-        data!.add(new StoreTimeData.fromJson(v));
+        data!.add(StoreTimeData.fromJson(v));
       });
     }
   }

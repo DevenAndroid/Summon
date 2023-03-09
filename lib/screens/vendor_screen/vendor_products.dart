@@ -1,12 +1,19 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/edit_product.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../controller/Edit_Products_Controller.dart';
+import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
+import '../../model/ListModel.dart';
 import '../../repositories/ToggleStatus_Repo.dart';
 import '../../resources/app_theme.dart';
+import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 import 'Add_vendor_product.dart';
 
@@ -20,8 +27,13 @@ class VendorProductScreen extends StatefulWidget {
 
 class _VendorProductScreenState extends State<VendorProductScreen> {
   final vendorProductListController = Get.put(VendorProductListController());
+  final editProductsController = Get.put(EditProductsController());
+  final vendorAddProductController = Get.put(VendorAddProductController());
   final TextEditingController searchController = TextEditingController();
   final RxList<bool> _store = <bool>[].obs;
+  RxList<ListModel> listModelData = <ListModel>[].obs;
+  Rx<File> image = File("").obs;
+  RxList<File> imageList = <File>[].obs;
 
   @override
   void initState() {
@@ -33,6 +45,119 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
         _store.add(false);
       }
     });
+  }
+
+  showChangeAddressSheet() {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        enableDrag: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: AddSize.size20,
+              ),
+              Container(
+                width: double.maxFinite,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: AddSize.padding16,
+                      vertical: AddSize.padding16),
+                  child: Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          NewHelper()
+                              .addImagePicker(imageSource: ImageSource.camera)
+                              .then((value) {
+                            for (var i = 0; i < imageList.length; i++) {
+                              if (imageList[i].path == "") {
+                                imageList[i] = value!;
+                                Get.back();
+                                break;
+                              }
+                            }
+                          });
+                        },
+                        child: Text(
+                          "Take picture",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                  color: AppTheme.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: AddSize.font16),
+                        ),
+                      ),
+                      SizedBox(
+                        height: AddSize.size12,
+                      ),
+                      const Divider(),
+                      SizedBox(
+                        height: AddSize.size12,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          NewHelper().addFilePickerList().then((value) {
+                            if (value != null) {
+                              for (var item in value) {
+                                if (imageList.length < 6) {
+                                  imageList.add(item);
+                                }
+                              }
+                            }
+                          });
+                        },
+                        child: Text(
+                          "Choose From Gallery",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                  color: AppTheme.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: AddSize.font16),
+                        ),
+                      ),
+                      SizedBox(
+                        height: AddSize.size12,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            // Get.toNamed(MyRouter.chooseAddressScreen);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(AddSize.size250, AddSize.size50),
+                            backgroundColor: AppTheme.primaryColor,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          child: Text(
+                            "Cancel".toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                    color: AppTheme.backgroundcolor,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: AddSize.font16),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -215,9 +340,22 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () {
+                                                    // r.id.value =
+                                                    //     vendorProductListController
+                                                    //         .model
+                                                    //         .value
+                                                    //         .data![index]
+                                                    //         .id
+                                                    //         .toString();
                                                     Get.toNamed(
                                                         EditProductScreen
-                                                            .editProductScreen);
+                                                            .editProductScreen,
+                                                        arguments: [
+                                                          vendorProductListController
+                                                              .model
+                                                              .value
+                                                              .data![index]
+                                                        ]);
                                                   },
                                                   child: Container(
                                                       height: AddSize.size30,

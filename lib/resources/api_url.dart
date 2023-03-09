@@ -70,6 +70,7 @@ class ApiUrl {
   static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
   static const setStoreTimeUrl = "${baseUrl}store-timing";
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
+  static const vendorSaveProductUrl = "${baseUrl}vendor-add-product";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
   static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
   static const addMoneyUrl = "${baseUrl}add-money";
@@ -80,8 +81,9 @@ getHeaders() async {
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
-    if(pref.getString('user_info') != null)
-    HttpHeaders.authorizationHeader: 'Bearer ${ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!)).authToken}'
+    if (pref.getString('user_info') != null)
+      HttpHeaders.authorizationHeader:
+          'Bearer ${ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!)).authToken}'
   };
   return headers;
 }
