@@ -1,10 +1,6 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/VendorAddProduct_Model.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
 Future<VendorAddProductModel> vendorAddProductRepo({

@@ -10,7 +10,7 @@ class MyWalletController extends GetxController {
 
   getWalletData() {
     isDataLoading.value = false;
-    myWalletRepo().then((value) {
+    myWalletRepo(user_type: userType).then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

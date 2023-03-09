@@ -183,8 +183,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     walletModel[index].color),
                                   onTap: () {
                                     log("user type${walletModel[index].key}");
-                                    myWalletController.userType.value =
-                                        walletModel[index].key;
+                                    myWalletController.userType.value = walletModel[index].key;
                                     print("user type${walletModel[index].key}");
                                     myWalletController.getWalletData();
                                     setState(() {});
@@ -244,16 +243,15 @@ class _WalletScreenState extends State<WalletScreen> {
                                                         .data!
                                                         .walletTransactions![
                                                             index]
-                                                        .status!
-                                                        .isNotEmpty
+                                                        .status == "Credit"
                                                     ? const Icon(
                                                         Icons
-                                                            .arrow_downward_outlined,
+                                                            .arrow_upward_sharp,
                                                         color: Colors.green,
                                                       )
                                                     : const Icon(
                                                         Icons
-                                                            .arrow_upward_sharp,
+                                                            .arrow_downward_sharp,
                                                         color: Colors.red,
                                                       )),
                                           ),
