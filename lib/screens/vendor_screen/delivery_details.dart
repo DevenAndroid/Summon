@@ -724,7 +724,9 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               onPressed: () {
                 orderAcceptRepo(vendorOrderListController
                     .model.value.data!.orderId
-                    .toString());
+                    .toString()).then((value){
+                      showToast(value.message.toString());
+                });
                 // Get.toNamed(MyRouter.editProfileScreen);
               },
               style: ElevatedButton.styleFrom(
@@ -737,7 +739,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                   textStyle: TextStyle(
                       fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
               child: Text(
-                "Accept All (2)",
+                "Accept All",
                 style: Theme.of(context).textTheme.headline5!.copyWith(
                     color: AppTheme.backgroundcolor,
                     fontWeight: FontWeight.w500,

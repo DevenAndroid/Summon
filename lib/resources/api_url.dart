@@ -64,8 +64,7 @@ class ApiUrl {
   // static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
   //static const categoryUrl = "${baseUrl}category";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
-  static const driverOrderStatusUpdateUrl =
-      "${baseUrl}driver-order-status-update";
+  static const driverOrderStatusUpdateUrl = "${baseUrl}driver-order-status-update";
   static const driverRegisterUrl = "${baseUrl}driver-register";
   static const driverInformationUrl = "${baseUrl}driver-information";
   static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
@@ -73,8 +72,8 @@ class ApiUrl {
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const vendorSaveProductUrl = "${baseUrl}vendor-add-product";
   static const resendDeliveryOtpUrl = "${baseUrl}resend-delivery-otp";
-  static const driverDeliveryModeUpdateUrl =
-      "${baseUrl}driver-delivery-mode-update";
+  static const driverDeliveryModeUpdateUrl = "${baseUrl}driver-delivery-mode-update";
+  static const addMoneyUrl = "${baseUrl}add-money";
 }
 
 getHeaders() async {

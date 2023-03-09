@@ -197,8 +197,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       onChanged: (newValue) {
                                         setState(() {
                                           selectedStatus = newValue as String?;
-                                          myOrderController.status.value =
-                                              newValue!;
+                                          myOrderController.status.value = newValue!;
                                           print(myOrderController.status.value);
                                           myOrderController.getMyOrder();
                                         });

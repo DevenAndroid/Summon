@@ -28,19 +28,83 @@ class _MyAddressState extends State<MyAddress> {
     super.initState();
   }
 
+  showUploadWindow(index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AddSize.padding16,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AddSize.size10),
+                    Text("Are you sure you want to delete this address?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: AddSize.font16)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          child: Text("No",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor,
+                                  fontSize: AddSize.font18)),
+                          onPressed: () {
+                            Get.back();
+                          },
+                        ),
+                        TextButton(
+                          child: Text("Yes",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor,
+                                  fontSize: AddSize.font18)),
+                          onPressed: () {
+                            removeAddress(
+                                    addressId: index.id.toString(),
+                                    context: context)
+                                .then((value) {
+                              showToast(value.message.toString());
+                              if (value.status == true) {
+                                addressController.getAddress();
+                                Get.back();
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar:AppBar(
+        appBar: AppBar(
           toolbarHeight: 60,
           elevation: 0,
           leadingWidth: AddSize.size20 * 1.6,
           backgroundColor: AppTheme.backgroundcolor,
-          title: Text("My Address",
+          title: Text(
+            "My Address",
             style: Theme.of(context).textTheme.headline6!.copyWith(
-                fontWeight: FontWeight.w500, fontSize: 20, color: AppTheme.blackcolor),
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+                color: AppTheme.blackcolor),
           ),
           leading: Padding(
             padding: EdgeInsets.only(left: AddSize.padding10),
@@ -50,9 +114,9 @@ class _MyAddressState extends State<MyAddress> {
                   Get.back();
                 },
                 child: Image.asset(
-                      AppAssets.back,
-                      height: AddSize.size20,
-                    )),
+                  AppAssets.back,
+                  height: AddSize.size20,
+                )),
           ),
         ),
         // backAppBar(title: "My Address", context: context),
@@ -169,10 +233,10 @@ class _MyAddressState extends State<MyAddress> {
                                                                     .w500),
                                                       ),
                                                       Text(
-                                                        "${addressController.myAddressModel.value.data![index].street.toString()}, Flat no ${addressController.myAddressModel.value.data![index].flatNo.toString()}, Landmark ${addressController.myAddressModel.value.data![index].landmark.toString()}, ",
+                                                        "Flat no - ${addressController.myAddressModel.value.data![index].flatNo.toString()}, ${addressController.myAddressModel.value.data![index].street.toString().capitalizeFirst}, ${addressController.myAddressModel.value.data![index].landmark.toString().capitalizeFirst}, ${addressController.myAddressModel.value.data![index].location.toString().capitalizeFirst},",
                                                         style: TextStyle(
-                                                            color: AppTheme
-                                                                .subText,
+                                                            color: Colors
+                                                                .grey.shade600,
                                                             fontSize:
                                                                 AddSize.font14,
                                                             fontWeight:
@@ -198,28 +262,11 @@ class _MyAddressState extends State<MyAddress> {
                                                         children: [
                                                           TextButton(
                                                             onPressed: () {
-                                                              removeAddress(
-                                                                      addressId: addressController
-                                                                          .myAddressModel
-                                                                          .value
-                                                                          .data![
-                                                                              index]
-                                                                          .id
-                                                                          .toString(),
-                                                                      context:
-                                                                          context)
-                                                                  .then(
-                                                                      (value) {
-                                                                showToast(value
-                                                                    .message
-                                                                    .toString());
-                                                                if (value
-                                                                        .status ==
-                                                                    true) {
+                                                              showUploadWindow(
                                                                   addressController
-                                                                      .getAddress();
-                                                                }
-                                                              });
+                                                                      .myAddressModel
+                                                                      .value
+                                                                      .data![index]);
                                                             },
                                                             child: const Text(
                                                               "Remove",

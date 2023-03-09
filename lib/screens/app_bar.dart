@@ -52,6 +52,7 @@ AppBar buildAppBar(
       child: GestureDetector(
           onTap: () {
             Get.back();
+            controller.onItemTap(2);
           },
           child: Image.asset(
                 AppAssets.back,

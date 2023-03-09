@@ -51,6 +51,7 @@ class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
     GetPage(name: '/', page: () => const SplashScreen()),
+    GetPage(name: '/', page: () => const CustomNavigationBar()),
     GetPage(
         name: OnBoardingScreen.onBoardingScreen,
         page: () => const OnBoardingScreen()),

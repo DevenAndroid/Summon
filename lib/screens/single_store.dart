@@ -35,7 +35,7 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   void initState() {
     super.initState();
-    singleStoreController.getStoreDetails();
+      singleStoreController.getStoreDetails();
   }
 
   @override
@@ -45,9 +45,7 @@ class _StoreScreenState extends State<StoreScreen> {
     return Obx(() {
       return Scaffold(
         appBar: backAppBar(title: "Store", context: context),
-        body:
-            singleStoreController.isDataLoading.value &&
-                    categoryController.isDataLoading.value &&
+        body: singleStoreController.isDataLoading.value && categoryController.isDataLoading.value &&
                     singleStoreController.storeDetailsModel.value.data != null
                 ? CustomScrollView(
                     physics: const BouncingScrollPhysics(),
@@ -174,6 +172,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
+                                        Get.back();
+                                        Get.back();
                                         Get.back();
                                         controller.currentIndex.value = 0;
                                       },

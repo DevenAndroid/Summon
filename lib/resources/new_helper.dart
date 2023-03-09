@@ -36,7 +36,7 @@ class NewHelper {
 
   Future<File?> addImagePicker(
       {ImageSource imageSource = ImageSource.gallery,
-      int imageQuality = 100}) async {
+      int imageQuality = 50}) async {
     try {
       final item = await ImagePicker()
           .pickImage(source: imageSource, imageQuality: imageQuality);

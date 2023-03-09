@@ -211,8 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         referalCode:referralCodeController.text, context:context, fcmToken: fcmToken!)
                                     .then((value) async {
                                   if (value.status == true) {
-                                    showToast(
-                                        "This is your login OTP ${value.data.toString()}");
+                                    showToast(value.message.toString());
                                     Get.toNamed(OtpScreen.otpScreen,
                                         arguments: [
                                           phoneNumberController.text,
