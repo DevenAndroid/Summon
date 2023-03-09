@@ -393,44 +393,44 @@ class _DriverInformationState extends State<DriverInformation> {
                                   SizedBox(
                                     height: AddSize.size15,
                                   ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          Get.toNamed(ThankYouVendorScreen
-                                              .thankYouVendorScreen);
-                                        }
-                                        //         selectedCAt.value == "" &&
-                                        //         image.value == null ||
-                                        //     image1.value == null ||
-                                        //     image2.value == null ||
-                                        //     image3.value == null ||
-                                        //     image4.value == null) {
-                                        //   Get.toNamed(ThankYouVendorScreen
-                                        //       .thankYouVendorScreen);
-                                        // } else {
-                                        //   showValidation.value = true;
-                                        //   setState(() {});
-                                        // }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize:
-                                            const Size(double.maxFinite, 60),
-                                        primary: AppTheme.primaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                      ),
-                                      child: Text(
-                                        "APPLY",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5!
-                                            .copyWith(
-                                                color: AppTheme.backgroundcolor,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 18),
-                                      )),
+                                  // ElevatedButton(
+                                  //     onPressed: () {
+                                  //       if (_formKey.currentState!.validate()) {
+                                  //         Get.toNamed(ThankYouVendorScreen
+                                  //             .thankYouVendorScreen);
+                                  //       }
+                                  //       //         selectedCAt.value == "" &&
+                                  //       //         image.value == null ||
+                                  //       //     image1.value == null ||
+                                  //       //     image2.value == null ||
+                                  //       //     image3.value == null ||
+                                  //       //     image4.value == null) {
+                                  //       //   Get.toNamed(ThankYouVendorScreen
+                                  //       //       .thankYouVendorScreen);
+                                  //       // } else {
+                                  //       //   showValidation.value = true;
+                                  //       //   setState(() {});
+                                  //       // }
+                                  //     },
+                                  //     style: ElevatedButton.styleFrom(
+                                  //       minimumSize:
+                                  //           const Size(double.maxFinite, 60),
+                                  //       primary: AppTheme.primaryColor,
+                                  //       elevation: 0,
+                                  //       shape: RoundedRectangleBorder(
+                                  //           borderRadius:
+                                  //               BorderRadius.circular(10)),
+                                  //     ),
+                                  //     child: Text(
+                                  //       "APPLY",
+                                  //       style: Theme.of(context)
+                                  //           .textTheme
+                                  //           .headline5!
+                                  //           .copyWith(
+                                  //               color: AppTheme.backgroundcolor,
+                                  //               fontWeight: FontWeight.w500,
+                                  //               fontSize: 18),
+                                  //     )),
                                   SizedBox(
                                     height: AddSize.size15,
                                   ),

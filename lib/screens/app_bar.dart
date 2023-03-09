@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
@@ -23,6 +25,7 @@ AppBar buildAppBar(
   ];
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
+  final notificationController = Get.put(NotificationController());
   return AppBar(
     // toolbarHeight: 80,
     backgroundColor:
@@ -52,7 +55,7 @@ AppBar buildAppBar(
       child: GestureDetector(
           onTap: () {
             Get.back();
-            controller.onItemTap(2);
+            controller.onItemTap(1);
           },
           child: Image.asset(
                 AppAssets.back,
@@ -72,11 +75,36 @@ AppBar buildAppBar(
             ),
           ),
     actions: [
+      if (controller.currentIndex.value != 0)
       IconButton(
-        icon: Image.asset(
-          AppAssets.notification,
-          height: 22,
-        ),
+        icon:
+        Padding(
+            padding: const EdgeInsets.only(
+                right: 12.0),
+            child: Badge(
+              badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+              badgeContent: Obx(() {
+                return Text(
+                  notificationController
+                      .isDataLoading.value
+                      ? notificationController
+                      .model.value.data!.count
+                      .toString()
+                      : "0",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: AddSize.font12),
+                );
+              }),
+              child: const ImageIcon(
+                AssetImage(AppAssets.notification),
+                size: 22,
+              ),
+            )),
+        // Image.asset(
+        //   AppAssets.notification,
+        //   height: 22,
+        // ),
         onPressed: () {
           Get.toNamed(NotificationScreen.notificationScreen);
         },

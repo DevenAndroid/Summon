@@ -46,8 +46,8 @@ class _VenderDashboardState extends State<VenderDashboard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Hi, Demo Vendor",
+                Text("Hi, ${ profileController.isDataLoading.value? (profileController.model.value.data!.name ?? "")
+                .toString(): ""}",
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                       fontWeight: FontWeight.w500, fontSize: AddSize.font16),
                 ),

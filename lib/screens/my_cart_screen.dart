@@ -1326,7 +1326,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
   buildDropdownButtonFormField(int index) {
     return Obx(() {
       return SizedBox(
-        width: AddSize.size30 * 2,
+        width: AddSize.size30 * 4,
         child: DropdownButtonFormField<int>(
             decoration: InputDecoration(
               fillColor: Colors.grey.shade50,

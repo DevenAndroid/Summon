@@ -195,7 +195,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(
-                                  "${value}KG",
+                                  "${value}KM",
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               );

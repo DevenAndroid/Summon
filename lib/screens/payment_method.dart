@@ -40,6 +40,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
+
     // Do something when an external wallet was selected
   }
 
@@ -186,6 +187,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       groupValue: selectedValue.value,
                                       onChanged: (value) {
                                         selectedValue.value = value!;
+                                        print(selectedValue.value);
                                       },
                                     );
                                   }),
@@ -237,6 +239,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                             groupValue: selectedValue.value,
                                             onChanged: (value) {
                                               selectedValue.value = value!;
+                                              print(selectedValue.value);
                                             },
                                           );
                                         }),
@@ -262,7 +265,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  checkOut(payment_type: selectedValue.value, context: context)
+                  if(selectedValue.value == "cod") {
+                    checkOut(payment_type: selectedValue.value, context: context)
                       .then((value) {
                     if (value.status == true) {
                       Get.offAllNamed(ThankYouScreen.thankYouScreen,
@@ -279,6 +283,10 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ]);
                     }
                   });
+                  }
+                  else{
+                    processPayment();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.maxFinite, 60),
@@ -289,7 +297,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     textStyle: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.w600)),
                 child: Text(
-                  "PAY NOW",
+                  "Checkout",
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: AppTheme.backgroundcolor,
                       fontWeight: FontWeight.w500,
@@ -298,27 +306,27 @@ class _PaymentMethodState extends State<PaymentMethod> {
             SizedBox(
               height: AddSize.padding20,
             ),
-            selectedValue.value != "cod"
-                ? ElevatedButton(
-                    onPressed: () {
-                      processPayment();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.maxFinite, 60),
-                        backgroundColor: AppTheme.primaryColor,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        textStyle: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                    child: Text(
-                      "Checkout",
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: AppTheme.backgroundcolor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16),
-                    ))
-                : const SizedBox(),
+            // selectedValue.value != "cod"
+            //     ? ElevatedButton(
+            //         onPressed: () {
+            //           processPayment();
+            //         },
+            //         style: ElevatedButton.styleFrom(
+            //             minimumSize: const Size(double.maxFinite, 60),
+            //             backgroundColor: AppTheme.primaryColor,
+            //             elevation: 0,
+            //             shape: RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(10)),
+            //             textStyle: const TextStyle(
+            //                 fontSize: 20, fontWeight: FontWeight.w600)),
+            //         child: Text(
+            //           "Checkout",
+            //           style: Theme.of(context).textTheme.headline5!.copyWith(
+            //               color: AppTheme.backgroundcolor,
+            //               fontWeight: FontWeight.w500,
+            //               fontSize: 16),
+            //         ))
+            //     : const SizedBox(),
           ],
         ),
       ),

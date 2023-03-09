@@ -12,6 +12,7 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
+import '../controller/profile_controller.dart';
 import '../controller/store_by_category_controller.dart';
 import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
@@ -40,6 +41,7 @@ class HomePageState extends State<HomePage> {
   final nearStoreController = Get.put(NearStoreController());
   final singleStoreController = Get.put(StoreController());
   final storeCategoryController = Get.put(StoreByCategoryController());
+  final profileController = Get.put(ProfileController());
   final addToCartQtyController = TextEditingController();
   RxString selectedCAt = "".obs;
   RxString price = "".obs;
@@ -77,6 +79,7 @@ class HomePageState extends State<HomePage> {
             nearStoreController.isPaginationLoading.value = true;
             nearStoreController.loadMore.value = true;
             await nearStoreController.getData(isFirstTime: true);
+            profileController.getData();
           },
           child: SingleChildScrollView(
             controller: scrollController,
@@ -108,7 +111,8 @@ class HomePageState extends State<HomePage> {
                                         suffixIcon: IconButton(
                                           onPressed: () {
                                             // Get.to(const SearchScreenData());
-                                            FocusManager.instance.primaryFocus!.unfocus();
+                                            FocusManager.instance.primaryFocus!
+                                                .unfocus();
                                             print(homeSearchController
                                                 .searchController);
                                             Get.toNamed(
@@ -1040,7 +1044,7 @@ class HomePageState extends State<HomePage> {
   buildDropdownButtonFormField(int index) {
     return Obx(() {
       return SizedBox(
-        width: AddSize.size30 * 2,
+        width: AddSize.size30 * 4,
         child: DropdownButtonFormField<int>(
             decoration: InputDecoration(
               fillColor: Colors.grey.shade50,

@@ -123,8 +123,9 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                         ),
                         ElevatedButton(
                             onPressed: () {
-                              updatedSetStoreTimeRepo(
-                                  setStoreTimeController.model.value.data!);
+                              updatedSetStoreTimeRepo(setStoreTimeController.model.value.data!).then((value){
+                                showToast(value.message);
+                              });
                             },
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(10),
@@ -177,7 +178,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
       },
       secondary: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.55,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
