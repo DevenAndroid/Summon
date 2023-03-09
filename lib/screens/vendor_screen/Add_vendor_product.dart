@@ -157,7 +157,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   @override
   void initState() {
     super.initState();
-    vendorAddProductController.getVendorSearchProductList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      vendorAddProductController.getVendorSearchProductList();
+    });
   }
 
   @override
@@ -456,8 +458,10 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             //                 .vendorAddProductModel.value.data!.qty ??
             //             "")
             //         .toString();
-            listModelData[0].price.value =
-                "₹ ${(vendorAddProductController.vendorAddProductModel.value.data!.regularPrice ?? "").toString()}";
+            listModelData[0].price.value = (vendorAddProductController
+                        .vendorAddProductModel.value.data!.regularPrice ??
+                    "")
+                .toString();
             listModelData[0].qty.value = (vendorAddProductController
                         .vendorAddProductModel.value.data!.qty ??
                     "")
@@ -567,18 +571,24 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               height: AddSize.size10,
             ),
             Obx(() {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: listModelData.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return repeatUnit(
-                        qty1: listModelData[index].qty.value,
-                        price1: listModelData[index].price.value,
-                        minQty1: listModelData[index].minQty.value,
-                        maxQty1: listModelData[index].maxQty.value,
-                        index: index);
-                  });
+              if (vendorAddProductController.isDataLoading.value &&
+                  vendorAddProductController.vendorAddProductModel.value.data !=
+                      null) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: listModelData.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return repeatUnit(
+                          qty1: listModelData[index].qty.value,
+                          price1: listModelData[index].price.value,
+                          minQty1: listModelData[index].minQty.value,
+                          maxQty1: listModelData[index].maxQty.value,
+                          index: index);
+                    });
+              } else {
+                return Container();
+              }
             }),
             SizedBox(
               height: AddSize.size10,
