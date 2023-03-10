@@ -47,7 +47,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Hi, Demo Vendor",
+                  profileController.model.value.data!.name.toString(),
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                       fontWeight: FontWeight.w500, fontSize: AddSize.font16),
                 ),

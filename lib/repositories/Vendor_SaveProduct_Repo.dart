@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/model_common_ressponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
+import '../resources/helper.dart';
 
 Future<ModelCommonResponse> vendorSaveProductRepo({
   mapData,
@@ -14,6 +16,8 @@ Future<ModelCommonResponse> vendorSaveProductRepo({
   required context,
 }) async {
   print(mapData);
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context).insert(loader);
   try {
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorSaveProductUrl));
@@ -31,19 +35,18 @@ Future<ModelCommonResponse> vendorSaveProductRepo({
     request.fields.addAll(mapData);
     print(request.fields);
 
-    log("testingggg...${request.fields.toString()}");
     if (file1.path != "") {
       print("imge part");
       request.files.add(await multipartFile(fieldName1, file1));
     }
 
-    log("testingggg...${request.fields.toString()}");
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
 
     String gg = await response.stream.bytesToString();
     log(gg);
     if (response.statusCode == 200 || response.statusCode == 400) {
+      Helpers.hideLoader(loader);
       log(gg);
       return ModelCommonResponse.fromJson(jsonDecode(gg));
     } else {

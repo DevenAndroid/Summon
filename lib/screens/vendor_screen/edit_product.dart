@@ -196,18 +196,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   .editModel.value.data!.product!.maxQty ??
                               "")
                           .toString();
-                  // return ListView.builder(
-                  //     shrinkWrap: true,
-                  //     itemCount: listModelData.length,
-                  //     physics: const NeverScrollableScrollPhysics(),
-                  //     itemBuilder: (context, index) {
-                  //       return repeatUnit(
-                  //           qty1: listModelData[index].qty.value,
-                  //           price1: listModelData[index].price.value,
-                  //           minQty1: listModelData[index].minQty.value,
-                  //           maxQty1: listModelData[index].maxQty.value,
-                  //           index: index);
-                  //     });
                 }
                 return SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),

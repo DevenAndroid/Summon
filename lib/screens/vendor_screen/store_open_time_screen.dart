@@ -124,7 +124,13 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                         ElevatedButton(
                             onPressed: () {
                               updatedSetStoreTimeRepo(
-                                  setStoreTimeController.model.value.data!);
+                                      setStoreTimeController.model.value.data!,
+                                      context)
+                                  .then((value) {
+                                if (value.status == true) {
+                                  showToast(value.message);
+                                }
+                              });
                             },
                             style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.all(10),
