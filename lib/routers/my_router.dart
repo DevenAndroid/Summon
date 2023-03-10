@@ -60,8 +60,9 @@ class MyRouter {
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
     GetPage(
-        name: SearchScreenData.searchScreen,
-        page: () => const SearchScreenData()),
+      name: SearchScreenData.searchScreen,
+      page: () => const SearchScreenData(),
+    ),
     GetPage(
         name: CustomNavigationBar.customNavigationBar,
         page: () => const CustomNavigationBar()),

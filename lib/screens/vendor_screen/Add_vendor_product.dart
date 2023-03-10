@@ -457,11 +457,32 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             .vendorAddProductModel.value.data!.sKU ??
                         "")
                     .toString();
-            // vendorAddProductController.qtyController.text =
-            //     (vendorAddProductController
-            //                 .vendorAddProductModel.value.data!.qty ??
-            //             "")
-            //         .toString();
+            vendorAddProductController.qtyController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.qty ??
+                        "")
+                    .toString();
+            vendorAddProductController.qtyTypeController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.qtyType ??
+                        "")
+                    .toString();
+            vendorAddProductController.priceController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.regularPrice ??
+                        "")
+                    .toString();
+            vendorAddProductController.minQtyController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.minQty ??
+                        "")
+                    .toString();
+            vendorAddProductController.maxQtyController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.maxQty ??
+                        "")
+                    .toString();
+
             listModelData[0].price.value = (vendorAddProductController
                         .vendorAddProductModel.value.data!.regularPrice ??
                     "")
@@ -574,6 +595,121 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             SizedBox(
               height: AddSize.size10,
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Expanded(
+            //       child: Container(
+            //         decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(8.0),
+            //             color: Colors.grey.shade50,
+            //             border: Border.all(
+            //               color: Colors.grey.shade300,
+            //             )),
+            //         child: Row(
+            //           //mainAxisSize: MainAxisSize.min,
+            //           children: [
+            //             Expanded(
+            //               child: RegistrationTextField1(
+            //                 // onChanged: (value) {
+            //                 //   listModelData[index].qty.value = value;
+            //                 // },
+            //                 hint: "Qty",
+            //                 controller:
+            //                     vendorAddProductController.qtyController,
+            //                 validator: MultiValidator([
+            //                   RequiredValidator(errorText: "Please enter qty")
+            //                 ]),
+            //               ),
+            //             ),
+            //             Expanded(
+            //               child: DropdownButtonFormField(
+            //                 isExpanded: true,
+            //                 dropdownColor: Colors.grey.shade50,
+            //                 iconEnabledColor: AppTheme.primaryColor,
+            //                 hint: Text(
+            //                   'Type',
+            //                   style: TextStyle(
+            //                       color: AppTheme.userText,
+            //                       fontSize: AddSize.font14,
+            //                       fontWeight: FontWeight.w500),
+            //                   textAlign: TextAlign.start,
+            //                 ),
+            //                 decoration: const InputDecoration(
+            //                     enabled: true, border: InputBorder.none),
+            //                 value: selectedType == "" ? null : selectedType,
+            //                 items: qtyType.map((value) {
+            //                   return DropdownMenuItem(
+            //                     value: value.key.toString(),
+            //                     child: Text(
+            //                       value.value,
+            //                       style: TextStyle(
+            //                           color: Colors.black,
+            //                           fontSize: AddSize.font14,
+            //                           fontWeight: FontWeight.w500),
+            //                     ),
+            //                   );
+            //                 }).toList(),
+            //                 onChanged: (newValue) {
+            //                   selectedType = newValue as String;
+            //                 },
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: AddSize.size10,
+            //     ),
+            //     Expanded(
+            //       child: RegistrationTextField1(
+            //         hint: "Price",
+            //         // onChanged: (value) {
+            //         //   listModelData[index].price.value = value;
+            //         // },
+            //         controller: vendorAddProductController.priceController,
+            //         validator: MultiValidator(
+            //             [RequiredValidator(errorText: "Please enter price")]),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(
+            //   height: AddSize.size10,
+            // ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: RegistrationTextField1(
+            //         hint: "Min",
+            //         // onChanged: (value) {
+            //         //   listModelData[index].minQty.value = value;
+            //         // },
+            //         controller: vendorAddProductController.minQtyController,
+            //         validator: MultiValidator([
+            //           RequiredValidator(
+            //               errorText: "Please enter the Minimum qty")
+            //         ]),
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: AddSize.size10,
+            //     ),
+            //     Expanded(
+            //       child: RegistrationTextField1(
+            //         hint: "Max",
+            //         // onChanged: (value) {
+            //         //   listModelData[index].maxQty.value = value;
+            //         // },
+            //         controller: vendorAddProductController.maxQtyController,
+            //         validator: MultiValidator([
+            //           RequiredValidator(errorText: "Please enter the Max qty")
+            //         ]),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             Obx(() {
               if (vendorAddProductController.isDataLoading.value &&
                   vendorAddProductController.vendorAddProductModel.value.data !=
@@ -583,12 +719,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                     itemCount: listModelData.length,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      return repeatUnit(
-                          qty1: listModelData[index].qty.value,
-                          price1: listModelData[index].price.value,
-                          minQty1: listModelData[index].minQty.value,
-                          maxQty1: listModelData[index].maxQty.value,
-                          index: index);
+                      return GestureDetector(
+                        onTap: () {},
+                        child: repeatUnit(
+                            qty1: listModelData[index].qty.value,
+                            price1: listModelData[index].price.value,
+                            minQty1: listModelData[index].minQty.value,
+                            maxQty1: listModelData[index].maxQty.value,
+                            index: index),
+                      );
                     });
               } else {
                 return Container();
@@ -734,6 +873,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                       [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    listModelData.removeAt(index);
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppTheme.primaryColor,
+                  )),
             ],
           ),
           SizedBox(

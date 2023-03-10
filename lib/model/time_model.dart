@@ -50,6 +50,10 @@ List<Status> status = [
     value: "Accepted",
   ),
   Status(
+    key: "P",
+    value: "Pending",
+  ),
+  Status(
     key: "R",
     value: "Reject",
   ),
