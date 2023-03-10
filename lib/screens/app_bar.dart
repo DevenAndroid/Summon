@@ -48,20 +48,22 @@ AppBar buildAppBar(
                   fontSize: 20),
             );
     }),
-    leadingWidth: controller.currentIndex.value != 0 ? AddSize.size40 : AddSize.size20 * 1.6,
+    leadingWidth: controller.currentIndex.value != 0
+        ? AddSize.size40
+        : AddSize.size20 * 1.6,
     leading: controller.currentIndex.value == 0
         ? Padding(
-      padding: EdgeInsets.only(left: AddSize.padding10),
-      child: GestureDetector(
-          onTap: () {
-            Get.back();
-            controller.onItemTap(1);
-          },
-          child: Image.asset(
-                AppAssets.back,
-                height: AddSize.size20,
-              )),
-    )
+            padding: EdgeInsets.only(left: AddSize.padding10),
+            child: GestureDetector(
+                onTap: () {
+                  Get.back();
+                  controller.onItemTap(1);
+                },
+                child: Image.asset(
+                  AppAssets.back,
+                  height: AddSize.size20,
+                )),
+          )
         : Padding(
             padding: EdgeInsets.only(left: AddSize.padding10),
             child: GestureDetector(
@@ -76,39 +78,39 @@ AppBar buildAppBar(
           ),
     actions: [
       if (controller.currentIndex.value != 0)
-      IconButton(
-        icon:
-        Padding(
-            padding: const EdgeInsets.only(
-                right: 12.0),
-            child: Badge(
-              badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-              badgeContent: Obx(() {
-                return Text(
-                  notificationController
-                      .isDataLoading.value
-                      ? notificationController
-                      .model.value.data!.count
-                      .toString()
-                      : "0",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: AddSize.font12),
-                );
-              }),
-              child: const ImageIcon(
-                AssetImage(AppAssets.notification),
-                size: 22,
-              ),
-            )),
-        // Image.asset(
-        //   AppAssets.notification,
-        //   height: 22,
-        // ),
-        onPressed: () {
-          Get.toNamed(NotificationScreen.notificationScreen);
-        },
-      ),
+        IconButton(
+          icon:
+              // Padding(
+              //     padding: const EdgeInsets.only(
+              //         right: 12.0),
+              //     child: Badge(
+              //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+              //       badgeContent: Obx(() {
+              //         return Text(
+              //           notificationController
+              //               .isDataLoading.value
+              //               ? notificationController
+              //               .model.value.data!.count
+              //               .toString()
+              //               : "0",
+              //           style: TextStyle(
+              //               color: Colors.white,
+              //               fontSize: AddSize.font12),
+              //         );
+              //       }),
+              //       child: const ImageIcon(
+              //         AssetImage(AppAssets.notification),
+              //         size: 22,
+              //       ),
+              //     )),
+              Image.asset(
+            AppAssets.notification,
+            height: 22,
+          ),
+          onPressed: () {
+            Get.toNamed(NotificationScreen.notificationScreen);
+          },
+        ),
       addWidth(10),
       if (controller.currentIndex.value != 0)
         Obx(() {

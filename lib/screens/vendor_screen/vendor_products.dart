@@ -28,7 +28,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
   final vendorProductListController = Get.put(VendorProductListController());
   final editProductsController = Get.put(EditProductsController());
   final vendorAddProductController = Get.put(VendorAddProductController());
-  final TextEditingController searchController = TextEditingController();
+  // final TextEditingController searchController = TextEditingController();
   final RxList<bool> _store = <bool>[].obs;
   RxList<ListModel> listModelData = <ListModel>[].obs;
   Rx<File> image = File("").obs;
@@ -346,12 +346,6 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                     Get.toNamed(
                                                       EditProductScreen
                                                           .editProductScreen,
-                                                      // arguments:[
-                                                      //   vendorProductListController
-                                                      //       .model
-                                                      //       .value
-                                                      //       .data![index]
-                                                      // ]
                                                     );
                                                   },
                                                   child: Container(
@@ -488,10 +482,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                                     .toString())
                                                             .then((value) {
                                                           if (value.status ==
-                                                              true) {
-                                                            /* vendorProductListController
-                                                                .getVendorProductList();*/
-                                                          }
+                                                              true) {}
                                                           showToast(value
                                                               .message
                                                               .toString());

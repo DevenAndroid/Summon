@@ -346,17 +346,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                               if (_formKey.currentState!.validate()) {
                                 print("Hello this is map");
 
-                                Map<String, String> map = {
-                                  // 'product_id': vendorAddProductController
-                                  //     .vendorAddProductModel.value.data!.id,
-                                  // 'category_id': vendorAddProductController
-                                  //     .vendorAddProductModel.value.data!.id,
-                                  // 'image': vendorAddProductController
-                                  //     .vendorAddProductModel.value.data!.image,
-                                };
-                                // map['id'] = vendorAddProductController
-                                //     .vendorAddProductModel.value.data!.id
-                                //     .toString();
+                                Map<String, String> map = {};
+
                                 map['product_id'] = vendorAddProductController
                                     .vendorAddProductModel.value.data!.id
                                     .toString();
@@ -370,8 +361,6 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                 map['imageOld'] = vendorAddProductController
                                     .vendorAddProductModel.value.data!.image
                                     .toString();
-                                // map['variant_id'] = vendorAddProductController
-                                //     .vendorAddProductModel.value.data!.id;
 
                                 for (var i = 0; i < listModelData.length; i++) {
                                   map["variants[$i][variant_qty]"] =
@@ -395,7 +384,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                     .then((value) {
                                   if (value.status == true) {
                                     showToast(value.message);
-                                    vendorProductListController.getVendorProductList();
+                                    vendorProductListController
+                                        .getVendorProductList();
                                     Get.back();
                                   }
                                 });
@@ -595,121 +585,6 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             SizedBox(
               height: AddSize.size10,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Expanded(
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(8.0),
-            //             color: Colors.grey.shade50,
-            //             border: Border.all(
-            //               color: Colors.grey.shade300,
-            //             )),
-            //         child: Row(
-            //           //mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Expanded(
-            //               child: RegistrationTextField1(
-            //                 // onChanged: (value) {
-            //                 //   listModelData[index].qty.value = value;
-            //                 // },
-            //                 hint: "Qty",
-            //                 controller:
-            //                     vendorAddProductController.qtyController,
-            //                 validator: MultiValidator([
-            //                   RequiredValidator(errorText: "Please enter qty")
-            //                 ]),
-            //               ),
-            //             ),
-            //             Expanded(
-            //               child: DropdownButtonFormField(
-            //                 isExpanded: true,
-            //                 dropdownColor: Colors.grey.shade50,
-            //                 iconEnabledColor: AppTheme.primaryColor,
-            //                 hint: Text(
-            //                   'Type',
-            //                   style: TextStyle(
-            //                       color: AppTheme.userText,
-            //                       fontSize: AddSize.font14,
-            //                       fontWeight: FontWeight.w500),
-            //                   textAlign: TextAlign.start,
-            //                 ),
-            //                 decoration: const InputDecoration(
-            //                     enabled: true, border: InputBorder.none),
-            //                 value: selectedType == "" ? null : selectedType,
-            //                 items: qtyType.map((value) {
-            //                   return DropdownMenuItem(
-            //                     value: value.key.toString(),
-            //                     child: Text(
-            //                       value.value,
-            //                       style: TextStyle(
-            //                           color: Colors.black,
-            //                           fontSize: AddSize.font14,
-            //                           fontWeight: FontWeight.w500),
-            //                     ),
-            //                   );
-            //                 }).toList(),
-            //                 onChanged: (newValue) {
-            //                   selectedType = newValue as String;
-            //                 },
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       width: AddSize.size10,
-            //     ),
-            //     Expanded(
-            //       child: RegistrationTextField1(
-            //         hint: "Price",
-            //         // onChanged: (value) {
-            //         //   listModelData[index].price.value = value;
-            //         // },
-            //         controller: vendorAddProductController.priceController,
-            //         validator: MultiValidator(
-            //             [RequiredValidator(errorText: "Please enter price")]),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(
-            //   height: AddSize.size10,
-            // ),
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: RegistrationTextField1(
-            //         hint: "Min",
-            //         // onChanged: (value) {
-            //         //   listModelData[index].minQty.value = value;
-            //         // },
-            //         controller: vendorAddProductController.minQtyController,
-            //         validator: MultiValidator([
-            //           RequiredValidator(
-            //               errorText: "Please enter the Minimum qty")
-            //         ]),
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       width: AddSize.size10,
-            //     ),
-            //     Expanded(
-            //       child: RegistrationTextField1(
-            //         hint: "Max",
-            //         // onChanged: (value) {
-            //         //   listModelData[index].maxQty.value = value;
-            //         // },
-            //         controller: vendorAddProductController.maxQtyController,
-            //         validator: MultiValidator([
-            //           RequiredValidator(errorText: "Please enter the Max qty")
-            //         ]),
-            //       ),
-            //     ),
-            //   ],
-            // ),
             Obx(() {
               if (vendorAddProductController.isDataLoading.value &&
                   vendorAddProductController.vendorAddProductModel.value.data !=
@@ -805,7 +680,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                     //mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                        child: RegistrationTextField1(
+                        child: RegistrationTextField2(
                           onChanged: (value) {
                             listModelData[index].qty.value = value;
                           },
@@ -881,6 +756,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                   icon: const Icon(
                     Icons.delete,
                     color: AppTheme.primaryColor,
+                    size: 30,
                   )),
             ],
           ),
