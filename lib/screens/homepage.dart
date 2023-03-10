@@ -790,33 +790,41 @@ class HomePageState extends State<HomePage> {
                                               InkWell(
                                                 onTap: () {
                                                   // removeCartItemRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
-                                                  if (myCartController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .cartItems![index]
-                                                          .cartItemQty ==
-                                                      1) {
-                                                    removeCartItemRepo(
-                                                            myCartController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .cartItems![
-                                                                    index]
-                                                                .id
-                                                                .toString(),
-                                                            context)
-                                                        .then((value) {
-                                                      if (value.status ==
-                                                          true) {
-                                                        showToast(
-                                                            value.message);
-                                                        myCartController
-                                                            .getAddToCartList();
+                                                  if ((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == homeController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .bestFreshProduct![
+                                                  index]
+                                                      .varints![homeController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .bestFreshProduct![
+                                                  index]
+                                                      .varientIndex!
+                                                      .value]
+                                                      .id.toString(), orElse: () => CartItems()).cartItemQty ?? "0") == 1) {
+                                                    removeCartItemRepo((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == homeController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .bestFreshProduct![
+                                                    index]
+                                                        .varints![homeController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .bestFreshProduct![
+                                                    index]
+                                                        .varientIndex!
+                                                        .value]
+                                                        .id.toString(), orElse: () => CartItems()).id ?? "0").toString(), context).then((value) {
+                                                      if (value.status == true) {
+                                                        showToast(value.message);
+                                                        myCartController.getAddToCartList();
                                                       } else {
-                                                        showToast(
-                                                            value.message);
+                                                        showToast(value.message);
                                                       }
                                                     });
                                                   } else {

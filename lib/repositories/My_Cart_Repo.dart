@@ -26,7 +26,8 @@ Future<MyCartData> myCartRepo() async {
     } else {
       throw Exception(response.body);
     }
-  } catch (e) {
+  }
+  catch (e) {
     throw Exception(e.toString());
   }
 }

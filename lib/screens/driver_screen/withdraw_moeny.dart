@@ -148,11 +148,14 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                                     context)
                                                 .then((value) {
                                               showToast(value.message);
+                                              if(value.status == true){
+                                                withdrawalListController.getWithdrawalList();
+                                                addMoneyController.clear();
+                                                FocusManager.instance.primaryFocus!.unfocus();
+                                              }
                                             });
-                                            withdrawalListController
-                                                .getWithdrawalList();
-                                            Get.toNamed(BankDetailsScreen
-                                                .bankDetailsScreen);
+                                            // Get.toNamed(BankDetailsScreen
+                                            //     .bankDetailsScreen);
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -184,7 +187,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: AppTheme.backgroundcolor,
+                              // color: AppTheme.backgroundcolor,
                               borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: EdgeInsets.symmetric(

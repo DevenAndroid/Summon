@@ -115,9 +115,9 @@ class CartItems {
 class CartPaymentSummary {
   dynamic subTotal;
   dynamic couponDiscount;
-  String? couponCode;
-  String? deliveryCharge;
-  String? surCharge;
+  dynamic couponCode;
+  dynamic deliveryCharge;
+  dynamic surCharge;
   dynamic tipAmount;
   dynamic packingFee;
   dynamic taxAndFee;
@@ -164,16 +164,16 @@ class CartPaymentSummary {
 class OrderAddress {
   int? id;
   int? userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
-  String? createdAt;
-  String? updatedAt;
-  Null? deletedAt;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic flatNo;
+  dynamic street;
+  dynamic landmark;
+  dynamic addressType;
+  dynamic createdAt;
+  dynamic updatedAt;
+  dynamic deletedAt;
 
   OrderAddress(
       {this.id,

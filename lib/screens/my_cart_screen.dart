@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -1157,8 +1158,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                           // || (_address != "" && _currentAddress != "")
                                           ? ElevatedButton(
                                               onPressed: () {
-                                                Get.toNamed(PaymentMethod
-                                                    .paymentScreen);
+                                                Get.toNamed(PaymentMethod.paymentScreen,arguments: [controller.model.value.data!.cartPaymentSummary!.total]);
+                                                log(controller.model.value.data!.cartPaymentSummary!.total.toString());
                                               },
                                               style: ElevatedButton.styleFrom(
                                                   padding:
