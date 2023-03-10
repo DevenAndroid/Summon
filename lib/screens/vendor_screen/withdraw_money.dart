@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/screens/vendor_screen/bank_details.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../../controller/main_home_controller.dart';
@@ -42,7 +40,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
         appBar: backAppBar(title: "Withdrawal money", context: context),
         body: withdrawalListController.isDataLoading.value
             ? SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: AddSize.padding16,
@@ -91,7 +89,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                     ],
                                   ),
                                   Image(
-                                    image: AssetImage(AppAssets.walletIcon),
+                                    image: const AssetImage(AppAssets.walletIcon),
                                     height: AddSize.size30,
                                     width: AddSize.size50,
                                   ),
@@ -125,7 +123,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                         controller: addMoneyController,
                                         cursorColor: AppTheme.primaryColor,
                                         validator: validateMoney,
-                                        decoration: InputDecoration()),
+                                        decoration: const InputDecoration()),
                                     SizedBox(
                                       height: AddSize.size15,
                                     ),
@@ -158,8 +156,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             minimumSize: Size(double.maxFinite,
-                                                AddSize.size45),
-                                            primary: AppTheme.primaryColor,
+                                                AddSize.size45), backgroundColor: AppTheme.primaryColor,
                                             elevation: 0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -185,7 +182,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: AppTheme.backgroundcolor,
+                              // color: AppTheme.backgroundcolor,
                               borderRadius: BorderRadius.circular(20)),
                           child: Padding(
                             padding: EdgeInsets.symmetric(
@@ -232,9 +229,9 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                     )
                                   ],
                                 ),
-                                Divider(),
+                                const Divider(),
                                 ListView.builder(
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: withdrawalListController
                                       .model.value.data!.withdrawalList!.length,
@@ -305,7 +302,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 FontWeight.w500,
                                                             fontSize:
                                                                 AddSize.font14,
-                                                            color:Color(0xffFFB26B)),
+                                                            color:const Color(0xffFFB26B)),
                                                   )
                                                 : withdrawalListController
                                                             .model
@@ -362,14 +359,14 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 fontSize:
                                                                     AddSize
                                                                         .font14,
-                                                                color: Color(0xffFF557E)),
+                                                                color: const Color(0xffFF557E)),
                                                       ),
                                           ],
                                         ),
                                         SizedBox(
                                           height: AddSize.size5,
                                         ),
-                                        Divider(),
+                                        const Divider(),
                                       ],
                                     );
                                   },

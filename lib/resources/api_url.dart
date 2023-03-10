@@ -61,8 +61,6 @@ class ApiUrl {
   static const driverDeliveryRequestListUrl =
       "${baseUrl}driver-delivery-request-list";
   static const categoryUrl = "${baseUrl}category";
-  // static const driverDeliveryRequestListUrl = "${baseUrl}driver-delivery-request-list";
-  //static const categoryUrl = "${baseUrl}category";
   static const assignedOrderUrl = "${baseUrl}assigned-order";
   static const driverOrderStatusUpdateUrl =
       "${baseUrl}driver-order-status-update";
@@ -76,6 +74,7 @@ class ApiUrl {
   static const driverDeliveryModeUpdateUrl =
       "${baseUrl}driver-delivery-mode-update";
   static const addMoneyUrl = "${baseUrl}add-money";
+  static const onlineSuccessPaymentUrl = "${baseUrl}online-success-payment";
   static const vendorEditProductUrl = "${baseUrl}vendor-product/";
 }
 
