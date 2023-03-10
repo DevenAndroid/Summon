@@ -12,7 +12,12 @@ import '../model/payment_option_model.dart';
 import '../resources/helper.dart';
 
 Future<CheckOutDataModel> paymentOrder(
-    {required order_id,required payment_id,required razorpay_signature,required wallet_deduction,required online_deduction,required BuildContext context}) async {
+    {required order_id,
+    required payment_id,
+    required razorpay_signature,
+    required wallet_deduction,
+    required online_deduction,
+    required BuildContext context}) async {
   var map = <String, dynamic>{};
   map['order_id'] = order_id;
   map['payment_id'] = payment_id;
@@ -22,14 +27,18 @@ Future<CheckOutDataModel> paymentOrder(
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user = ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  ModelVerifyOtp? user =
+      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   log(map.toString());
-  http.Response response = await http.post(Uri.parse(ApiUrl.onlineSuccessPaymentUrl),headers: headers,body:jsonEncode(map));
+  http.Response response = await http.post(
+      Uri.parse(ApiUrl.onlineSuccessPaymentUrl),
+      headers: headers,
+      body: jsonEncode(map));
   log(response.body.toString());
   if (response.statusCode == 200) {
     Helpers.hideLoader(loader);

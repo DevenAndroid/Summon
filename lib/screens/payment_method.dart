@@ -41,24 +41,24 @@ class _PaymentMethodState extends State<PaymentMethod> {
             order_id: orderId.value,
             payment_id: response.paymentId,
             razorpay_signature: "Signature",
-            wallet_deduction: 1,
-            online_deduction: 1)
+            wallet_deduction: controller.model.value.data!.earnedBalance,
+            online_deduction: Get.arguments[0] - controller.model.value.data!.earnedBalance)
         .then((value) {
       showToast(value.message).toString();
       if (value.status == true) {
         myCartController.getAddToCartList();
         Get.offAllNamed(ThankYouScreen.thankYouScreen,
-            // arguments: [
-            //   value.data!.orderType,
-            //   value.data!.orderId,
-            //   value.data!.placedAt,
-            //   value.data!.itemTotal,
-            //   value.data!.tax,
-            //   value.data!.deliveryCharges,
-            //   value.data!.packingFee,
-            //   value.data!.grandTotal,
-            //   value.data!.orderId
-            // ]
+            arguments: [
+              value.data!.orderType,
+              value.data!.orderId,
+              value.data!.placedAt,
+              value.data!.itemTotal,
+              value.data!.tax,
+              value.data!.deliveryCharges,
+              value.data!.packingFee,
+              value.data!.grandTotal,
+              value.data!.orderId
+            ]
         );
       }
     });
@@ -72,6 +72,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
   }
+
 
   @override
   void dispose() {
@@ -314,7 +315,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                             ]);
                       }
                     });
-                  } else if (_isValue == true) {
+                  }
+                  else if (_isValue == true) {
                     if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
                       checkOut(payment_type: "online", context: context)
                           .then((value) async {
@@ -328,7 +330,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               payment_id: "",
                               razorpay_signature: "",
                               wallet_deduction: Get.arguments[0],
-                              online_deduction: 0)
+                              online_deduction: "")
                               .then((value) {
                             showToast(value.message).toString();
                             if (value.status == true) {
@@ -350,7 +352,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           });
                         }
                       });
-                    } else {
+                    }
+                    else {
                       checkOut(payment_type: "online", context: context)
                           .then((value) {
                         if (value.status == true) {
@@ -361,7 +364,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         }
                       });
                     }
-                  } else {
+                  }
+                  else {
                     checkOut(payment_type: "online", context: context)
                         .then((value) {
                       if (value.status == true) {

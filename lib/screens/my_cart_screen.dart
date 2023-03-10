@@ -549,6 +549,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         fontWeight:
                                                                             FontWeight.w500),
                                                                   ),
+                                                                  Text(
+                                                                    "Qty: ${controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].maxQty.toString()}",
+                                                                    style:  TextStyle(
+                                                                        fontSize:
+                                                                        AddSize
+                                                                            .font14,
+                                                                        color:AppTheme.primaryColor,
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
                                                                   controller
                                                                           .isDataLoaded
                                                                           .value
@@ -607,6 +616,22 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                                     }),
                                                                                     InkWell(
                                                                                       onTap: () {
+                                                                                        controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].maxQty != (controller.model.value
+                                                                                            .data!.cartItems!
+                                                                                            .firstWhere(
+                                                                                                (element) =>
+                                                                                            element
+                                                                                                .variantId
+                                                                                                .toString() ==
+                                                                                                controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index]
+                                                                                                    .varientIndex!
+                                                                                                    .value]
+                                                                                                    .id
+                                                                                                    .toString(),
+                                                                                            orElse: () =>
+                                                                                                CartItems())
+                                                                                            .cartItemQty ??
+                                                                                            "") ?
                                                                                         addToCartRepo(controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), controller.relatedProductModel.value.data![index].id.toString(), int.parse((controller.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1, context).then((value) {
                                                                                           showToast(value.message);
                                                                                           if (value.status == true) {
@@ -614,7 +639,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                                           } else {
                                                                                             showToast(value.message);
                                                                                           }
-                                                                                        });
+                                                                                        }):showToast("You cross qty range");
                                                                                       },
                                                                                       child: const Icon(
                                                                                         Icons.add,
