@@ -183,7 +183,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
       },
       secondary: SizedBox(
         height: MediaQuery.of(context).size.height * 0.9,
-        width: MediaQuery.of(context).size.width * 0.5,
+        width: MediaQuery.of(context).size.width * 0.55,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

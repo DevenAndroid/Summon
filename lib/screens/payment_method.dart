@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/payment_option_controller.dart';
+import 'package:fresh2_arrive/repositories/payment_order_repo.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/thankyou_screen.dart';
@@ -8,6 +9,7 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import '../controller/My_cart_controller.dart';
 import '../repositories/check_out_repository.dart';
 
 class PaymentMethod extends StatefulWidget {
@@ -20,8 +22,10 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
   final controller = Get.put(PaymentOptionController());
+  final myCartController = Get.put(MyCartDataListController());
   bool _isValue = false;
   RxString selectedValue = "cod".obs;
+  RxString orderId = "".obs;
   final Razorpay _razorpay = Razorpay();
 
   void processPayment() {
@@ -32,6 +36,32 @@ class _PaymentMethodState extends State<PaymentMethod> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    paymentOrder(
+            context: context,
+            order_id: orderId.value,
+            payment_id: response.paymentId,
+            razorpay_signature: "Signature",
+            wallet_deduction: 1,
+            online_deduction: 1)
+        .then((value) {
+      showToast(value.message).toString();
+      if (value.status == true) {
+        myCartController.getAddToCartList();
+        Get.offAllNamed(ThankYouScreen.thankYouScreen,
+            // arguments: [
+            //   value.data!.orderType,
+            //   value.data!.orderId,
+            //   value.data!.placedAt,
+            //   value.data!.itemTotal,
+            //   value.data!.tax,
+            //   value.data!.deliveryCharges,
+            //   value.data!.packingFee,
+            //   value.data!.grandTotal,
+            //   value.data!.orderId
+            // ]
+        );
+      }
+    });
     // Do something when payment succeeds
   }
 
@@ -186,6 +216,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                       groupValue: selectedValue.value,
                                       onChanged: (value) {
                                         selectedValue.value = value!;
+                                        print(selectedValue.value);
                                       },
                                     );
                                   }),
@@ -237,6 +268,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                             groupValue: selectedValue.value,
                                             onChanged: (value) {
                                               selectedValue.value = value!;
+                                              print(selectedValue.value);
                                             },
                                           );
                                         }),
@@ -262,23 +294,84 @@ class _PaymentMethodState extends State<PaymentMethod> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  checkOut(payment_type: selectedValue.value, context: context)
-                      .then((value) {
-                    if (value.status == true) {
-                      Get.offAllNamed(ThankYouScreen.thankYouScreen,
-                          arguments: [
-                            value.data!.orderType,
-                            value.data!.orderId,
-                            value.data!.placedAt,
-                            value.data!.itemTotal,
-                            value.data!.tax,
-                            value.data!.deliveryCharges,
-                            value.data!.packingFee,
-                            value.data!.grandTotal,
-                            value.data!.orderId
-                          ]);
+                  if (selectedValue.value == "cod") {
+                    checkOut(
+                            payment_type: selectedValue.value, context: context)
+                        .then((value) {
+                      if (value.status == true) {
+                        myCartController.getAddToCartList();
+                        Get.offAllNamed(ThankYouScreen.thankYouScreen,
+                            arguments: [
+                              value.data!.orderType,
+                              value.data!.orderId,
+                              value.data!.placedAt,
+                              value.data!.itemTotal,
+                              value.data!.tax,
+                              value.data!.deliveryCharges,
+                              value.data!.packingFee,
+                              value.data!.grandTotal,
+                              value.data!.orderId
+                            ]);
+                      }
+                    });
+                  } else if (_isValue == true) {
+                    if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
+                      checkOut(payment_type: "online", context: context)
+                          .then((value) async {
+                        if (value.status == true) {
+                          myCartController.getAddToCartList();
+                          print(value.data!.orderId);
+                          print("aaaaaaaa");
+                         await paymentOrder(
+                              context: context,
+                              order_id: value.data!.orderId,
+                              payment_id: "",
+                              razorpay_signature: "",
+                              wallet_deduction: Get.arguments[0],
+                              online_deduction: 0)
+                              .then((value) {
+                            showToast(value.message).toString();
+                            if (value.status == true) {
+                              myCartController.getAddToCartList();
+                              Get.offAllNamed(ThankYouScreen.thankYouScreen,
+                                arguments: [
+                                  value.data!.orderType,
+                                  value.data!.orderId,
+                                  value.data!.placedAt,
+                                  value.data!.itemTotal,
+                                  value.data!.tax,
+                                  value.data!.deliveryCharges,
+                                  value.data!.packingFee,
+                                  value.data!.grandTotal,
+                                  value.data!.orderId
+                                ]
+                              );
+                            }
+                          });
+                        }
+                      });
+                    } else {
+                      checkOut(payment_type: "online", context: context)
+                          .then((value) {
+                        if (value.status == true) {
+                          orderId.value = value.data!.orderId.toString();
+                          print(orderId.value);
+                          myCartController.getAddToCartList();
+                          processPayment();
+                        }
+                      });
                     }
-                  });
+                  } else {
+                    checkOut(payment_type: "online", context: context)
+                        .then((value) {
+                      if (value.status == true) {
+                        orderId.value = value.data!.orderId.toString();
+                        print(orderId.value);
+                        myCartController.getAddToCartList();
+                        processPayment();
+                      }
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.maxFinite, 60),
@@ -289,7 +382,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     textStyle: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.w600)),
                 child: Text(
-                  "PAY NOW",
+                  "Checkout",
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       color: AppTheme.backgroundcolor,
                       fontWeight: FontWeight.w500,
@@ -298,27 +391,27 @@ class _PaymentMethodState extends State<PaymentMethod> {
             SizedBox(
               height: AddSize.padding20,
             ),
-            selectedValue.value != "cod"
-                ? ElevatedButton(
-                    onPressed: () {
-                      processPayment();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.maxFinite, 60),
-                        backgroundColor: AppTheme.primaryColor,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        textStyle: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600)),
-                    child: Text(
-                      "Checkout",
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          color: AppTheme.backgroundcolor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16),
-                    ))
-                : const SizedBox(),
+            // selectedValue.value != "cod"
+            //     ? ElevatedButton(
+            //         onPressed: () {
+            //           processPayment();
+            //         },
+            //         style: ElevatedButton.styleFrom(
+            //             minimumSize: const Size(double.maxFinite, 60),
+            //             backgroundColor: AppTheme.primaryColor,
+            //             elevation: 0,
+            //             shape: RoundedRectangleBorder(
+            //                 borderRadius: BorderRadius.circular(10)),
+            //             textStyle: const TextStyle(
+            //                 fontSize: 20, fontWeight: FontWeight.w600)),
+            //         child: Text(
+            //           "Checkout",
+            //           style: Theme.of(context).textTheme.headline5!.copyWith(
+            //               color: AppTheme.backgroundcolor,
+            //               fontWeight: FontWeight.w500,
+            //               fontSize: 16),
+            //         ))
+            //     : const SizedBox(),
           ],
         ),
       ),

@@ -151,8 +151,8 @@ class CouponDiscount {
   String? couponCode;
   String? discountType;
   int? discountedPrice;
-  Null? createdAt;
-  Null? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
 
   CouponDiscount(
       {this.id,

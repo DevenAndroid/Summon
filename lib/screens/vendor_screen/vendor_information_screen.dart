@@ -28,7 +28,16 @@ class _VendorInformationState extends State<VendorInformation> {
   Rx<File> image3 = File("").obs;
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
-  final List<String> dropDownList = ["1KM", "2KM", "3KM"];
+  final List<String> dropDownList = ["5",
+    "10",
+    "15",
+    "20",
+    "25",
+    "30",
+    "35",
+    "40",
+    "45",
+    "50"];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
 
@@ -90,40 +99,40 @@ class _VendorInformationState extends State<VendorInformation> {
                                                 ),
                                               ),
                                             ),
-                                            Positioned(
-                                              right: AddSize.padding10,
-                                              top: AddSize.padding10,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  NewHelper()
-                                                      .addFilePicker()
-                                                      .then((value) {
-                                                    image.value = value;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: AddSize.size30,
-                                                  width: AddSize.size30,
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: AppTheme
-                                                              .backgroundcolor),
-                                                      color:
-                                                          AppTheme.primaryColor,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              50)),
-                                                  child: const Center(
-                                                      child: Icon(
-                                                    Icons.edit,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                    size: 20,
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
+                                            // Positioned(
+                                            //   right: AddSize.padding10,
+                                            //   top: AddSize.padding10,
+                                            //   child: GestureDetector(
+                                            //     onTap: () {
+                                            //       NewHelper()
+                                            //           .addFilePicker()
+                                            //           .then((value) {
+                                            //         image.value = value;
+                                            //       });
+                                            //     },
+                                            //     child: Container(
+                                            //       height: AddSize.size30,
+                                            //       width: AddSize.size30,
+                                            //       decoration: BoxDecoration(
+                                            //           border: Border.all(
+                                            //               width: 1,
+                                            //               color: AppTheme
+                                            //                   .backgroundcolor),
+                                            //           color:
+                                            //               AppTheme.primaryColor,
+                                            //           borderRadius:
+                                            //               BorderRadius.circular(
+                                            //                   50)),
+                                            //       child: const Center(
+                                            //           child: Icon(
+                                            //         Icons.edit,
+                                            //         color: AppTheme
+                                            //             .backgroundcolor,
+                                            //         size: 20,
+                                            //       )),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
                                         )
                                       : Container(
@@ -210,13 +219,15 @@ class _VendorInformationState extends State<VendorInformation> {
                                           fontSize: AddSize.font14),
                                     ),
                                     value: selectedCAt.value == ""
-                                        ? null
+                                        ? vendorInformationController
+                                        .model.value.data!.deliveryRange
+                                        .toString()
                                         : selectedCAt.value,
                                     items: dropDownList.map((value) {
                                       return DropdownMenuItem(
                                         value: value,
                                         child: Text(
-                                          value,
+                                          "${value}KM",
                                           style: const TextStyle(fontSize: 14),
                                         ),
                                       );
@@ -429,44 +440,44 @@ class _VendorInformationState extends State<VendorInformation> {
                                 SizedBox(
                                   height: AddSize.size15,
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        Get.toNamed(ThankYouVendorScreen
-                                            .thankYouVendorScreen);
-                                      }
-                                      //         selectedCAt.value == "" &&
-                                      //         image.value == null ||
-                                      //     image1.value == null ||
-                                      //     image2.value == null ||
-                                      //     image3.value == null ||
-                                      //     image4.value == null) {
-                                      //   Get.toNamed(ThankYouVendorScreen
-                                      //       .thankYouVendorScreen);
-                                      // } else {
-                                      //   showValidation.value = true;
-                                      //   setState(() {});
-                                      // }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize:
-                                          const Size(double.maxFinite, 60),
-                                      primary: AppTheme.primaryColor,
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                    ),
-                                    child: Text(
-                                      "APPLY",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                              color: AppTheme.backgroundcolor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: AddSize.font18),
-                                    )),
+                                // ElevatedButton(
+                                //     onPressed: () {
+                                //       if (_formKey.currentState!.validate()) {
+                                //         Get.toNamed(ThankYouVendorScreen
+                                //             .thankYouVendorScreen);
+                                //       }
+                                //       //         selectedCAt.value == "" &&
+                                //       //         image.value == null ||
+                                //       //     image1.value == null ||
+                                //       //     image2.value == null ||
+                                //       //     image3.value == null ||
+                                //       //     image4.value == null) {
+                                //       //   Get.toNamed(ThankYouVendorScreen
+                                //       //       .thankYouVendorScreen);
+                                //       // } else {
+                                //       //   showValidation.value = true;
+                                //       //   setState(() {});
+                                //       // }
+                                //     },
+                                //     style: ElevatedButton.styleFrom(
+                                //       minimumSize:
+                                //           const Size(double.maxFinite, 60),
+                                //       primary: AppTheme.primaryColor,
+                                //       elevation: 0,
+                                //       shape: RoundedRectangleBorder(
+                                //           borderRadius:
+                                //               BorderRadius.circular(10)),
+                                //     ),
+                                //     child: Text(
+                                //       "APPLY",
+                                //       style: Theme.of(context)
+                                //           .textTheme
+                                //           .headline5!
+                                //           .copyWith(
+                                //               color: AppTheme.backgroundcolor,
+                                //               fontWeight: FontWeight.w500,
+                                //               fontSize: AddSize.font18),
+                                //     )),
                                 SizedBox(
                                   height: AddSize.size15,
                                 ),

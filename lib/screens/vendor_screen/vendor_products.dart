@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -427,13 +426,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  vendorProductListController
-                                                      .model
-                                                      .value
-                                                      .data![index]
-                                                      .product!
-                                                      .regularPrice
-                                                      .toString(),
+                                                  "₹${vendorProductListController.model.value.data![index].product!.regularPrice.toString()}",
                                                   //"100",
                                                   style: Theme.of(context)
                                                       .textTheme
