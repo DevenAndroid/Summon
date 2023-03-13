@@ -62,4 +62,5 @@ class AppAssets {
   static const String orderDecline = "assets/images/orderdecline.png";
   static const String cartEmpty = "assets/images/empty.png";
   static const String cartImage = "assets/images/cart_image.png";
+  static const String locationMarker = "assets/images/location_marker.png";
 }

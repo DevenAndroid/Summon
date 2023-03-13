@@ -568,7 +568,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                               ),
                                                                               onPressed: () {
                                                                                 int vIndex = singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value;
-                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(), singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(), '1', context).then((value) {
+                                                                                addToCartRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![vIndex].id.toString(), singleStoreController.storeDetailsModel.value.data!.latestProducts![index].id.toString(),singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].minQty, context).then((value) {
                                                                                   if (value.status == true) {
                                                                                     showToast(value.message);
                                                                                     myCartController.getAddToCartList();

@@ -660,7 +660,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                               ),
                                                                               onPressed: () {
                                                                                 int vIndex = controller.relatedProductModel.value.data![index].varientIndex!.value;
-                                                                                addToCartRepo(controller.relatedProductModel.value.data![index].varints![vIndex].id.toString(), controller.relatedProductModel.value.data![index].id.toString(), '1', context).then((value) {
+                                                                                addToCartRepo(controller.relatedProductModel.value.data![index].varints![vIndex].id.toString(), controller.relatedProductModel.value.data![index].id.toString(), controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].minQty.toString(), context).then((value) {
                                                                                   if (value.status == true) {
                                                                                     showToast(value.message);
                                                                                     controller.getAddToCartList();

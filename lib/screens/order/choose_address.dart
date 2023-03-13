@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -326,11 +329,50 @@ class _ChooseAddressState extends State<ChooseAddress> {
     }
   }
 
-  String googleApikey = "AIzaSyBJnOfGMGipjUVQgyLw5gnZnplFEc5pOrk";
+  String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
   GoogleMapController? mapController1; //contrller for Google map
   CameraPosition? cameraPosition;
   LatLng startLocation = const LatLng(27.6602292, 85.308027);
   String location = "Search Location";
+  // final Set<Marker> markers = {};
+  // Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  //   ByteData data = await rootBundle.load(path);
+  //   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+  //       targetWidth: width);
+  //   ui.FrameInfo fi = await codec.getNextFrame();
+  //   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+  //       .buffer
+  //       .asUint8List();
+  // }
+  // Future<void> _onAddMarkerButtonPressed(lastMapPosition, markerTitle,
+  //     {allowZoomIn = true}) async {
+  //   final Uint8List markerIcon =
+  //   await getBytesFromAsset(AppAssets.locationMarker, 80);
+  //   markers.add(Marker(
+  //       markerId: MarkerId(LatLng(
+  //           double.parse(
+  //               (cameraPosition!.target.latitude).toString()),
+  //           double.parse(
+  //               (cameraPosition!.target.longitude).toString()))
+  //           .toString()),
+  //       position: LatLng(
+  //           double.parse((cameraPosition!.target.latitude)
+  //               .toString()),
+  //           double.parse((cameraPosition!.target.longitude)
+  //               .toString())),
+  //       infoWindow: const InfoWindow(
+  //         title: "",
+  //       ),
+  //       icon: BitmapDescriptor.fromBytes(markerIcon)));
+  //   // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+  //   if (googleMapController.isCompleted) {
+  //     mapController!.animateCamera(CameraUpdate.newCameraPosition(
+  //         CameraPosition(
+  //             target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+  //   }
+  // }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -365,16 +407,17 @@ class _ChooseAddressState extends State<ChooseAddress> {
                     mapController = controller;
                   });
                 },
-                onCameraMove: (CameraPosition cameraPositiona) {
-                  cameraPosition = cameraPositiona;
+                // markers: markers,
+                onCameraMove: (CameraPosition cameraPositions) {
+                  cameraPosition = cameraPositions;
                 },
                 onCameraIdle: () async {
                   List<Placemark> placemarks = await placemarkFromCoordinates(
                       cameraPosition!.target.latitude,
                       cameraPosition!.target.longitude);
                   setState(() {
-                    location =
-                        "${placemarks.first.administrativeArea}, ${placemarks.first.street}";
+                    location = "${placemarks.first.subLocality},${placemarks.first.locality}, ${placemarks.first.street}, ${placemarks.first.administrativeArea}";
+
                   });
                 },
               ),
@@ -391,9 +434,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 mode: Mode.overlay,
                                 types: [],
                                 strictbounds: false,
-                                components: [
-                                  Component(Component.country, 'np')
-                                ],
+                                // components: [
+                                //   Component(Component.country, 'np')
+                                // ],
                                 onError: (err) {
                                   log("error.....   ${err.errorMessage}");
                                 });
@@ -414,7 +457,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               final lat = geometry.location.lat;
                               final lang = geometry.location.lng;
                               var newlatlang = LatLng(lat, lang);
-                              mapController1?.animateCamera(
+                              mapController?.animateCamera(
                                   CameraUpdate.newCameraPosition(CameraPosition(
                                       target: newlatlang, zoom: 17)));
                             }
@@ -474,7 +517,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        _address ?? "",
+                                        location.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -506,16 +549,16 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               //     ))
                             ],
                           ),
-                          Text(
-                            _currentAddress ?? "",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: AddSize.font14,
-                                    color: AppTheme.lightblack),
-                          ),
+                          // Text(
+                          //   _currentAddress ?? "",
+                          //   style: Theme.of(context)
+                          //       .textTheme
+                          //       .headline5!
+                          //       .copyWith(
+                          //           fontWeight: FontWeight.w400,
+                          //           fontSize: AddSize.font14,
+                          //           color: AppTheme.lightblack),
+                          // ),
                           SizedBox(
                             height: AddSize.size30,
                           ),

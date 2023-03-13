@@ -111,8 +111,7 @@ class HomePageState extends State<HomePage> {
                                         suffixIcon: IconButton(
                                           onPressed: () {
                                             // Get.to(const SearchScreenData());
-                                            FocusManager.instance.primaryFocus!
-                                                .unfocus();
+                                            FocusManager.instance.primaryFocus!.unfocus();
                                             print(homeSearchController
                                                 .searchController);
                                             Get.toNamed(
@@ -1052,13 +1051,12 @@ class HomePageState extends State<HomePage> {
                                                       .bestFreshProduct![index]
                                                       .id
                                                       .toString(),
-                                                  '1',
+                                              homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].minQty,
                                                   context)
                                               .then((value) {
                                             if (value.status == true) {
                                               showToast(value.message);
-                                              myCartController
-                                                  .getAddToCartList();
+                                              myCartController.getAddToCartList();
                                             } else {
                                               showToast(value.message);
                                             }

@@ -62,7 +62,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
         );
       }
     });
-    // Do something when payment succeeds
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
