@@ -232,8 +232,15 @@ class _WalletScreenState extends State<WalletScreen> {
                                             height: AddSize.size45,
                                             width: AddSize.size45,
                                             decoration: BoxDecoration(
-                                                color: AppTheme
-                                                    .appPrimaryGreenColor,
+                                                color: myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Credit" ? AppTheme
+                                                    .appPrimaryGreenColor:AppTheme
+                                                    .appPrimaryPinkColor,
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             child: Center(

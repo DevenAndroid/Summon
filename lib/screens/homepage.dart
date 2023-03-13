@@ -111,8 +111,7 @@ class HomePageState extends State<HomePage> {
                                         suffixIcon: IconButton(
                                           onPressed: () {
                                             // Get.to(const SearchScreenData());
-                                            FocusManager.instance.primaryFocus!
-                                                .unfocus();
+                                            FocusManager.instance.primaryFocus!.unfocus();
                                             print(homeSearchController
                                                 .searchController);
                                             Get.toNamed(
@@ -754,6 +753,13 @@ class HomePageState extends State<HomePage> {
                                   color: AppTheme.primaryColor,
                                   fontWeight: FontWeight.w500),
                             ),
+                            Text(
+                              "Qty: ${homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].maxQty.toString()}",
+                              style: TextStyle(
+                                  fontSize: AddSize.font14,
+                                  color: AppTheme.primaryColor,
+                                  fontWeight: FontWeight.w500),
+                            ),
                             myCartController.isDataLoaded.value
                                 ? myCartController.model.value.data!.cartItems!
                                         .map((e) => e.variantId.toString())
@@ -923,6 +929,33 @@ class HomePageState extends State<HomePage> {
                                               }),
                                               InkWell(
                                                 onTap: () {
+                                                  homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].maxQty != (myCartController.model.value
+                                                      .data!.cartItems!
+                                                      .firstWhere(
+                                                          (element) =>
+                                                      element
+                                                          .variantId
+                                                          .toString() ==
+                                                          homeController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .bestFreshProduct![
+                                                          index]
+                                                              .varints![homeController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .bestFreshProduct![
+                                                          index]
+                                                              .varientIndex!
+                                                              .value]
+                                                              .id
+                                                              .toString(),
+                                                      orElse: () =>
+                                                          CartItems())
+                                                      .cartItemQty ??
+                                                      "") ?
                                                   addToCartRepo(
                                                           homeController
                                                               .model
@@ -969,7 +1002,7 @@ class HomePageState extends State<HomePage> {
                                                     } else {
                                                       showToast(value.message);
                                                     }
-                                                  });
+                                                  }):showToast("You cross qty range");
                                                 },
                                                 child: const Icon(
                                                   Icons.add,
@@ -1018,13 +1051,12 @@ class HomePageState extends State<HomePage> {
                                                       .bestFreshProduct![index]
                                                       .id
                                                       .toString(),
-                                                  '1',
+                                              homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].minQty,
                                                   context)
                                               .then((value) {
                                             if (value.status == true) {
                                               showToast(value.message);
-                                              myCartController
-                                                  .getAddToCartList();
+                                              myCartController.getAddToCartList();
                                             } else {
                                               showToast(value.message);
                                             }

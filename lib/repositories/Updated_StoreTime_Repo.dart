@@ -25,7 +25,7 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
   map["end_time"] = map2;
   map["status"] = map3;
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
 
   log('start_time :${jsonEncode(map).toString()}');
   SharedPreferences pref = await SharedPreferences.getInstance();
