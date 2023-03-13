@@ -6,8 +6,15 @@ class ListModel {
   RxString price = "".obs;
   RxString minQty = "".obs;
   RxString maxQty = "".obs;
+  RxString? varientId = "".obs;
 
-  ListModel({required this.qty, required this.price, required this.minQty, required this.maxQty, required this.qtyType});
+  ListModel(
+      {required this.qty,
+      required this.price,
+      required this.minQty,
+      this.varientId,
+      required this.maxQty,
+      required this.qtyType});
 
   ListModel.fromJson(Map<String, dynamic> json) {
     qty = json['qty'];

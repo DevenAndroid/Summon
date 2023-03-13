@@ -27,16 +27,25 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
   final List<String> dropDownList = [
-    "5",
-    "10",
-    "15",
-    "20",
-    "25",
-    "30",
-    "35",
-    "40",
-    "45",
-    "50"
+    "500 Mtr",
+    "1 KM",
+    "2 KM",
+    "3 KM",
+    "4 KM",
+    "5 KM",
+    "6 KM",
+    "7 KM",
+    "8 KM",
+    "9 KM",
+    "10 KM",
+    "15 KM",
+    "20 KM",
+    "25 KM",
+    "30 KM",
+    "35 KM",
+    "40 KM",
+    "45 KM",
+    "50 KM"
   ];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
@@ -195,7 +204,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(
-                                  "${value}KM",
+                                  // "${value}KM",
+                                  value,
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               );
@@ -537,7 +547,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                           file5: image4.value)
                                       .then((value) {
                                     if (value.status == true) {
-                                      showToast("${value.message} Wait For Admin Approval");
+                                      showToast(
+                                          "${value.message} Wait For Admin Approval");
                                       Get.toNamed(ThankYouVendorScreen
                                           .thankYouVendorScreen);
                                     } else {

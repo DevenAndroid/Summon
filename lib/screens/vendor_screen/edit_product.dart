@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../controller/Edit_Products_Controller.dart';
+import '../../model/ListModel.dart';
 import '../../model/VendorEditProduct_model.dart';
 import '../../model/time_model.dart';
 import '../../repositories/Vendor_SaveProduct_Repo.dart';
@@ -28,6 +29,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Rx<VendorEditProductModel> editModel = VendorEditProductModel().obs;
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
+  //RxList<ListModel> listModelData = <ListModel>[].obs;
 
   showChangeAddressSheet() {
     showModalBottomSheet(
@@ -316,6 +318,43 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           SizedBox(
                             height: AddSize.size20,
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  height: AddSize.size30,
+                                  width: AddSize.size30,
+                                  decoration: BoxDecoration(
+                                    color: Colors.amber.shade600,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Center(
+                                      child: GestureDetector(
+                                    onTap: () {
+                                      editProductController.listModelData.add(
+                                          ListModel(
+                                              qty: "".obs,
+                                              price: "".obs,
+                                              minQty: "".obs,
+                                              maxQty: "".obs,
+                                              qtyType: "".obs));
+                                      setState(() {});
+                                    },
+                                    child: Icon(
+                                      Icons.add,
+                                      color: AppTheme.backgroundcolor,
+                                      size: AddSize.size25,
+                                    ),
+                                  )),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: AddSize.size20,
+                          ),
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
@@ -338,12 +377,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                       .editModel.value.data!.image
                                       .toString();
                                   map['product_variant_id'] =
-                                      editProductController.editModel.value
-                                          .data!.productsVariant!
-                                          .map((e) => e.id.toString())
+                                      editProductController.listModelData
+                                          .where((element) =>
+                                              element.varientId!.value != "")
                                           .toList()
+                                          .map((e) => e.varientId!.value)
                                           .join(",");
-
+                                  print("Map data...$map");
                                   for (var i = 0;
                                       i <
                                           editProductController
@@ -443,7 +483,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     //mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
-                        child: RegistrationTextField1(
+                        child: RegistrationTextField2(
                           onChanged: (value) {
                             editProductController
                                 .listModelData[index].qty.value = value;
@@ -516,6 +556,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    editProductController.listModelData.removeAt(index);
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppTheme.primaryColor,
+                    size: 30,
+                  )),
             ],
           ),
           SizedBox(

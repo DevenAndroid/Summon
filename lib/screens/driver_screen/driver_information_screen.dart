@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';

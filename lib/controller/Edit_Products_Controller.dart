@@ -35,7 +35,8 @@ class EditProductsController extends GetxController {
             price: element.price.toString().obs,
             minQty: element.minQty.toString().obs,
             maxQty: element.maxQty.toString().obs,
-            qtyType: element.variantQtyType.toString().obs));
+            qtyType: element.variantQtyType.toString().obs,
+            varientId: element.id.toString().obs));
       }
     });
   }
