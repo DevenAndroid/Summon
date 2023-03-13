@@ -32,6 +32,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
+import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
 import '../screens/my_cart_screen.dart';
 import '../screens/notification_screen.dart';
@@ -140,6 +141,9 @@ class MyRouter {
     GetPage(
         name: DeliveryDashboard.deliveryDashboard,
         page: () => const DeliveryDashboard()),
+    GetPage(
+        name: AdminResponseScreen.adminResponseScreen,
+        page: () => const AdminResponseScreen()),
     GetPage(
         name: AssignedOrder.assignedOrder, page: () => const AssignedOrder()),
     GetPage(

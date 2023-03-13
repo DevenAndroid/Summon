@@ -25,6 +25,13 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
 
 
   void processPayment() {
+    var options = {
+      'key': 'rzp_live_1HJot1eILYIf7B',
+      'amount': (int.parse((addMoneyController.text)*100).toString()),
+      'name': 'Demo',
+      'description': 'Payment',
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+    };
     _razorpay.open(options);
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -32,7 +39,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    addMoneyRepo(amount: "100", razorpaySignature: response.signature??"SIGNATURE", paymentId: response.paymentId, context: context)
+    addMoneyRepo(amount: addMoneyController.text, razorpaySignature: response.signature??"SIGNATURE", paymentId: response.paymentId, context: context)
         .then((value){
       showToast(value.message).toString();
     });
@@ -55,13 +62,6 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
     super.dispose();
   }
 
-  var options = {
-    'key': 'rzp_live_1HJot1eILYIf7B',
-    'amount': 100,
-    'name': 'Demo',
-    'description': 'Payment',
-    'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
-  };
 
   @override
   Widget build(BuildContext context) {

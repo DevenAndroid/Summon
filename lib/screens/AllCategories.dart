@@ -23,16 +23,23 @@ class _AllCategoriesState extends State<AllCategories> {
   final controller = Get.put(MainHomeController());
   final categoryController = Get.put(CategoryController());
   final nearStoreController= Get.put(StoreByCategoryController());
-
+  final scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
-    categoryController.getData(
-    );
+    scrollController.addListener(_scrollListener);
+    categoryController.getData();
+  }
+
+  void _scrollListener() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      categoryController.getData(context: context)
+          .then((value) => setState(() {}));
+    }
   }
 
   final myCartController = Get.put(MyCartDataListController());
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -44,6 +51,7 @@ class _AllCategoriesState extends State<AllCategories> {
             padding: EdgeInsets.symmetric(
                 horizontal: AddSize.padding15),
             child: SingleChildScrollView(
+              controller: scrollController,
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
