@@ -119,32 +119,32 @@ class _ReferAndEarnState extends State<ReferAndEarn> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(children: [
-                                GestureDetector(
-                                  child: Image(
+                              GestureDetector(
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: controller.referAndEarnModel.value.data!.referCode.toString()))
+                                      .then((value) =>
+                                      Fluttertoast.showToast(
+                                          msg: "Copied",
+                                          gravity: ToastGravity.CENTER));
+                                },
+                                child: Row(children: [
+                                  Image(
                                       height: height * .03,
                                       width: width * .05,
                                       fit: BoxFit.cover,
                                       image: const AssetImage(
                                           AppAssets.shareIcon1)),
-                                  onTap: () {
-                                    Clipboard.setData(
-                                        ClipboardData(text: _copy))
-                                        .then((value) =>
-                                        Fluttertoast.showToast(
-                                            msg: "Copied",
-                                            gravity: ToastGravity.CENTER));
-                                  },
-                                ),
-                                SizedBox(
-                                  width: width * .04,
-                                ),
-                                Text(controller.referAndEarnModel.value.data!.referCode.toString(),
-                                    style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500)),
-                              ]),
+                                  SizedBox(
+                                    width: width * .04,
+                                  ),
+                                  Text(controller.referAndEarnModel.value.data!.referCode.toString(),
+                                      style: TextStyle(
+                                          color: Colors.grey.shade500,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500)),
+                                ]),
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   onShare(controller.referAndEarnModel.value.data!.referCode.toString(),context);

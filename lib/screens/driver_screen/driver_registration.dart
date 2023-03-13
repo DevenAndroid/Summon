@@ -47,18 +47,16 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   }
 
   var selectedDate = DateTime.now().obs;
-
+  DateTime today = DateTime.now();
   void selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate.value,
+      initialDate: DateTime(DateTime.now().year-18,DateTime.now().month,DateTime.now().day),
       firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
+      lastDate: DateTime(DateTime.now().year-18,DateTime.now().month,DateTime.now().day));
     if (pickedDate != null && pickedDate != selectedDate.value) {
       selectedDate.value = pickedDate;
-      dateOfBirth.text =
-          DateFormat('yyyy-MM-dd').format(selectedDate.value).toString();
+      dateOfBirth.text = DateFormat('yyyy-MM-dd').format(selectedDate.value).toString();
     }
   }
   @override
@@ -115,6 +113,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                           RegistrationTextField(
                             controller: panNoController,
                             hint: "Pan card number",
+                            length: 10,
                             validator: MultiValidator([
                               RequiredValidator(
                                   errorText: 'Pan number is required'),
@@ -137,6 +136,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                           RegistrationTextField(
                             controller: licenceNumber,
                             hint: "Licence number",
+                            length: 14,
                             validator: MultiValidator([
                               RequiredValidator(
                                   errorText: 'Licence number is required'),

@@ -3,6 +3,7 @@ import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/screens/admin_response_screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivery_dashboard.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_delivery_details.dart';
@@ -87,8 +88,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     ClientInformation? info;
     try {
       info = await ClientInformation.fetch();
-    } on PlatformException {
-    }
+    } on PlatformException {}
     if (!mounted) return;
 
     setState(() {
@@ -326,58 +326,78 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     color: AppTheme.primaryColor,
                                   ),
                                   onTap: () async {
-                                    // SharedPreferences pref =
-                                    //     await SharedPreferences.getInstance();
-                                    // if (pref.getString('user') != null) {
-                                    //   Get.back();
-                                    //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                                    // } else {
-                                    //   Get.back();
                                     Get.toNamed(
                                       VendorRegistrationForm
                                           .vendorRegistrationForm,
                                     );
                                     // }
                                   })
-                              : Column(
-                                  children: [
-                                    const Divider(
-                                      height: 1,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _isValue.value = !_isValue.value;
-                                      },
-                                      child: ListTile(
-                                        minLeadingWidth: 30,
-                                        leading: const ImageIcon(
-                                          AssetImage(AppAssets.drawer_vendor),
-                                          size: 22,
-                                          color: AppTheme.primaryColor,
+                              : profileController
+                                          .model.value.data!.asVendorVerified ==
+                                      true
+                                  ? Column(
+                                      children: [
+                                        const Divider(
+                                          height: 1,
                                         ),
-                                        textColor: AppTheme.primaryColor,
-                                        iconColor: AppTheme.blackcolor,
-                                        title: const Text(
-                                          'Vendor',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppTheme.primaryColor),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _isValue.value = !_isValue.value;
+                                          },
+                                          child: ListTile(
+                                            minLeadingWidth: 30,
+                                            leading: const ImageIcon(
+                                              AssetImage(
+                                                  AppAssets.drawer_vendor),
+                                              size: 22,
+                                              color: AppTheme.primaryColor,
+                                            ),
+                                            textColor: AppTheme.primaryColor,
+                                            iconColor: AppTheme.blackcolor,
+                                            title: const Text(
+                                              'Vendor',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppTheme.primaryColor),
+                                            ),
+                                            trailing: GestureDetector(
+                                                onTap: () {
+                                                  _isValue.value =
+                                                      !_isValue.value;
+                                                },
+                                                child: Icon(_isValue.value ==
+                                                        true
+                                                    ? Icons
+                                                        .keyboard_arrow_up_rounded
+                                                    : Icons
+                                                        .keyboard_arrow_down_outlined)),
+                                          ),
                                         ),
-                                        trailing: GestureDetector(
-                                            onTap: () {
-                                              _isValue.value = !_isValue.value;
-                                            },
-                                            child: Icon(_isValue.value == true
-                                                ? Icons
-                                                    .keyboard_arrow_up_rounded
-                                                : Icons
-                                                    .keyboard_arrow_down_outlined)),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                          : SizedBox(),
+                                      ],
+                                    )
+                                  : _drawerTile(
+                          active: true,
+                          title: "Admin Response",
+                          icon: const ImageIcon(
+                            AssetImage(AppAssets.drawer_vendor),
+                            size: 22,
+                            color: AppTheme.primaryColor,
+                          ),
+                          onTap: () async {
+                            Get.toNamed(AdminResponseScreen
+                                .adminResponseScreen);
+                            // SharedPreferences pref =
+                            //     await SharedPreferences.getInstance();
+                            // if (pref.getString('user') != null) {
+                            //   Get.back();
+                            //   Get.toNamed(MyRouter.subScriptionPlanScreen);
+                            // } else {
+                            //   Get.back();
+                            //   Get.toNamed(MyRouter.logInScreen);
+                            // }
+                          })
+                          : const SizedBox(),
                       _isValue.value == true
                           ? Column(
                               children: List.generate(
@@ -435,46 +455,73 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     //   Get.toNamed(MyRouter.logInScreen);
                                     // }
                                   })
-                              : Column(
-                                  children: [
-                                    const Divider(
-                                      height: 1,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        _isValue1.value = !_isValue1.value;
-                                      },
-                                      child: ListTile(
-                                        minLeadingWidth: 30,
-                                        leading: const ImageIcon(
-                                          AssetImage(AppAssets.drawer_driver),
-                                          size: 22,
-                                          color: AppTheme.primaryColor,
+                              : profileController
+                                          .model.value.data!.asDriverVerified ==
+                                      true
+                                  ? Column(
+                                      children: [
+                                        const Divider(
+                                          height: 1,
                                         ),
-                                        textColor: AppTheme.primaryColor,
-                                        iconColor: AppTheme.blackcolor,
-                                        title: const Text(
-                                          'Driver',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400,
-                                              color: AppTheme.primaryColor),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _isValue1.value = !_isValue1.value;
+                                          },
+                                          child: ListTile(
+                                            minLeadingWidth: 30,
+                                            leading: const ImageIcon(
+                                              AssetImage(
+                                                  AppAssets.drawer_driver),
+                                              size: 22,
+                                              color: AppTheme.primaryColor,
+                                            ),
+                                            textColor: AppTheme.primaryColor,
+                                            iconColor: AppTheme.blackcolor,
+                                            title: const Text(
+                                              'Driver',
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: AppTheme.primaryColor),
+                                            ),
+                                            trailing: GestureDetector(
+                                                onTap: () {
+                                                  _isValue1.value =
+                                                      !_isValue1.value;
+                                                },
+                                                child: Icon(_isValue1
+                                                            .value ==
+                                                        true
+                                                    ? Icons
+                                                        .keyboard_arrow_up_rounded
+                                                    : Icons
+                                                        .keyboard_arrow_down_outlined)),
+                                          ),
                                         ),
-                                        trailing: GestureDetector(
-                                            onTap: () {
-                                              _isValue1.value =
-                                                  !_isValue1.value;
-                                            },
-                                            child: Icon(_isValue1.value == true
-                                                ? Icons
-                                                    .keyboard_arrow_up_rounded
-                                                : Icons
-                                                    .keyboard_arrow_down_outlined)),
+                                      ],
+                                    )
+                                  : _drawerTile(
+                                      active: true,
+                                      title: "Admin Response",
+                                      icon: const ImageIcon(
+                                        AssetImage(AppAssets.drawer_driver),
+                                        size: 22,
+                                        color: AppTheme.primaryColor,
                                       ),
-                                    ),
-                                  ],
-                                )
-                          : SizedBox(),
+                                      onTap: () async {
+                                        Get.toNamed(AdminResponseScreen
+                                            .adminResponseScreen);
+                                        // SharedPreferences pref =
+                                        //     await SharedPreferences.getInstance();
+                                        // if (pref.getString('user') != null) {
+                                        //   Get.back();
+                                        //   Get.toNamed(MyRouter.subScriptionPlanScreen);
+                                        // } else {
+                                        //   Get.back();
+                                        //   Get.toNamed(MyRouter.logInScreen);
+                                        // }
+                                      })
+                          : const SizedBox(),
                       _isValue1.value == true
                           ? Column(
                               children: List.generate(

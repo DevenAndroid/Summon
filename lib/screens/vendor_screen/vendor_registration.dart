@@ -154,6 +154,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           RegistrationTextField(
                             controller: adharNoController,
                             hint: "Aadhar card number",
+                            length: 12,
                             keyboardType: TextInputType.number,
                             validator: validateAdhar,
                           ),
@@ -162,6 +163,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           ),
                           RegistrationTextField(
                             controller: panNoController,
+                            length: 10,
                             hint: "Pan card number",
                             validator: validatePan,
                           ),

@@ -453,17 +453,17 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                 Colors.grey,
                                                                             fontWeight: FontWeight.w400),
                                                                       ),
-                                                                      SizedBox(
-                                                                        width: width *
-                                                                            .02,
-                                                                      ),
-                                                                      Text(
-                                                                        "Qty: ${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].maxQty.toString()}",
-                                                                        style: TextStyle(
-                                                                            fontSize: AddSize.font14,
-                                                                            color: AppTheme.primaryColor,
-                                                                            fontWeight: FontWeight.w500),
-                                                                      ),
+                                                                      // SizedBox(
+                                                                      //   width: width *
+                                                                      //       .02,
+                                                                      // ),
+                                                                      // Text(
+                                                                      //   "Qty: ${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].maxQty.toString()}",
+                                                                      //   style: TextStyle(
+                                                                      //       fontSize: AddSize.font14,
+                                                                      //       color: AppTheme.primaryColor,
+                                                                      //       fontWeight: FontWeight.w500),
+                                                                      // ),
                                                                     ],
                                                                   ),
                                                                   myCartController
@@ -491,7 +491,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                     InkWell(
                                                                                       onTap: () {
                                                                                         // removeCartItemRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
-                                                                                        if ((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0") == 1) {
+                                                                                        if ((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() ==
+                                                                                            singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.
+                                                                                        latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].minQty.toString()) {
                                                                                           removeCartItemRepo((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).id ?? "0").toString(), context).then((value) {
                                                                                             if (value.status == true) {
                                                                                               showToast(value.message);
@@ -547,7 +549,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                           } else {
                                                                                             showToast(value.message);
                                                                                           }
-                                                                                        }):showToast("You cross qty range");
+                                                                                        }):showToast("You can't add more then ${singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].maxQty.toString()} item");
                                                                                       },
                                                                                       child: const Icon(
                                                                                         Icons.add,

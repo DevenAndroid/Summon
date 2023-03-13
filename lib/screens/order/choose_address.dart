@@ -86,6 +86,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
               target: LatLng(
                   _currentPosition!.latitude, _currentPosition!.longitude),
               zoom: 15)));
+      // location = _currentAddress!;
     }).catchError((e) {
       debugPrint(e);
     });
@@ -334,45 +335,38 @@ class _ChooseAddressState extends State<ChooseAddress> {
   CameraPosition? cameraPosition;
   LatLng startLocation = const LatLng(27.6602292, 85.308027);
   String location = "Search Location";
-  // final Set<Marker> markers = {};
-  // Future<Uint8List> getBytesFromAsset(String path, int width) async {
-  //   ByteData data = await rootBundle.load(path);
-  //   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-  //       targetWidth: width);
-  //   ui.FrameInfo fi = await codec.getNextFrame();
-  //   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-  //       .buffer
-  //       .asUint8List();
-  // }
-  // Future<void> _onAddMarkerButtonPressed(lastMapPosition, markerTitle,
-  //     {allowZoomIn = true}) async {
-  //   final Uint8List markerIcon =
-  //   await getBytesFromAsset(AppAssets.locationMarker, 80);
-  //   markers.add(Marker(
-  //       markerId: MarkerId(LatLng(
-  //           double.parse(
-  //               (cameraPosition!.target.latitude).toString()),
-  //           double.parse(
-  //               (cameraPosition!.target.longitude).toString()))
-  //           .toString()),
-  //       position: LatLng(
-  //           double.parse((cameraPosition!.target.latitude)
-  //               .toString()),
-  //           double.parse((cameraPosition!.target.longitude)
-  //               .toString())),
-  //       infoWindow: const InfoWindow(
-  //         title: "",
-  //       ),
-  //       icon: BitmapDescriptor.fromBytes(markerIcon)));
-  //   // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
-  //   if (googleMapController.isCompleted) {
-  //     mapController!.animateCamera(CameraUpdate.newCameraPosition(
-  //         CameraPosition(
-  //             target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
-  //   }
-  // }
+  final Set<Marker> markers = {};
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
 
-
+  Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle,
+      {allowZoomIn = true}) async {
+    final Uint8List markerIcon =
+        await getBytesFromAsset(AppAssets.locationMarker, 400);
+    markers.clear();
+    markers.add(
+        Marker(
+        markerId: MarkerId(lastMapPosition.toString()),
+        position: lastMapPosition,
+        infoWindow: const InfoWindow(
+          title: "",
+        ),
+        icon: BitmapDescriptor.fromBytes(markerIcon)));
+    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
+    if (googleMapController.isCompleted) {
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -403,23 +397,15 @@ class _ChooseAddressState extends State<ChooseAddress> {
                 mapType: MapType.normal,
                 //map type
                 onMapCreated: (controller) {
-                  setState(() {
+                  setState(() async {
                     mapController = controller;
                   });
                 },
-                // markers: markers,
+                markers: markers,
                 onCameraMove: (CameraPosition cameraPositions) {
                   cameraPosition = cameraPositions;
                 },
-                onCameraIdle: () async {
-                  List<Placemark> placemarks = await placemarkFromCoordinates(
-                      cameraPosition!.target.latitude,
-                      cameraPosition!.target.longitude);
-                  setState(() {
-                    location = "${placemarks.first.subLocality},${placemarks.first.locality}, ${placemarks.first.street}, ${placemarks.first.administrativeArea}";
-
-                  });
-                },
+                onCameraIdle: () async {},
               ),
               _isValue.value == true
                   ? const SizedBox()
@@ -442,7 +428,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 });
                             if (place != null) {
                               setState(() {
-                                location = place.description.toString();
+                                _address = place.description.toString();
                               });
                               final plist = GoogleMapsPlaces(
                                 apiKey: googleApikey,
@@ -457,9 +443,15 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               final lat = geometry.location.lat;
                               final lang = geometry.location.lng;
                               var newlatlang = LatLng(lat, lang);
+                              setState(() {
+                                _address = place.description.toString();
+                                _onAddMarkerButtonPressed(
+                                    LatLng(lat, lang), place.description);
+                              });
                               mapController?.animateCamera(
                                   CameraUpdate.newCameraPosition(CameraPosition(
                                       target: newlatlang, zoom: 17)));
+                              setState(() {});
                             }
                           },
                           child: Padding(
@@ -474,7 +466,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                       width: AddSize.size15,
                                     ),
                                     title: Text(
-                                      location.toString(),
+                                      _address.toString(),
                                       style:
                                           TextStyle(fontSize: AddSize.font14),
                                     ),
@@ -517,7 +509,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                     ),
                                     Expanded(
                                       child: Text(
-                                        location.toString(),
+                                        _address.toString(),
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!

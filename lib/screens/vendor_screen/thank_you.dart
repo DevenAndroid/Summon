@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vender_dashboard.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../../controller/profile_controller.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 
@@ -17,6 +18,7 @@ class ThankYouVendorScreen extends StatefulWidget {
 
 class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
   final controller = Get.put(MainHomeController());
+  final profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +76,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
         child: ElevatedButton(
             onPressed: () {
               // Get.offAndToNamed(VenderDashboard.vendorDashboard);
+              profileController.getData();
               Get.back();
               Get.back();
               Get.back();
