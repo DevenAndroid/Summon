@@ -76,6 +76,9 @@ class ApiUrl {
   static const addMoneyUrl = "${baseUrl}add-money";
   static const onlineSuccessPaymentUrl = "${baseUrl}online-success-payment";
   static const vendorEditProductUrl = "${baseUrl}vendor-product/";
+  static const vendorBankDetailsUrl = "${baseUrl}account-details";
+  static const vendorBankListUrl = "${baseUrl}banks-list";
+  static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";
 }
 
 getHeaders() async {

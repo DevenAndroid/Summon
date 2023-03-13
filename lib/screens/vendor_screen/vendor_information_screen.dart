@@ -20,15 +20,24 @@ class VendorInformation extends StatefulWidget {
 
 class _VendorInformationState extends State<VendorInformation> {
   final vendorInformationController = Get.put(VendorInformationController());
-  final TextEditingController adharNoController = TextEditingController();
-  final TextEditingController panNoController = TextEditingController();
+
   Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
   Rx<File> image3 = File("").obs;
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
-  final List<String> dropDownList = ["5",
+  final List<String> dropDownList = [
+    "500",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
     "10",
     "15",
     "20",
@@ -37,7 +46,8 @@ class _VendorInformationState extends State<VendorInformation> {
     "35",
     "40",
     "45",
-    "50"];
+    "50"
+  ];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
 
@@ -52,6 +62,14 @@ class _VendorInformationState extends State<VendorInformation> {
     return Scaffold(
       appBar: backAppBar(title: "Vendor Information", context: context),
       body: Obx(() {
+        if (vendorInformationController.isDataLoading.value &&
+            vendorInformationController.model.value.data != null) {
+          vendorInformationController.adharNoController.text =
+              vendorInformationController.model.value.data!.aadharNo.toString();
+
+          vendorInformationController.panNoController.text =
+              vendorInformationController.model.value.data!.panNo.toString();
+        }
         return vendorInformationController.isDataLoading.value
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -165,7 +183,8 @@ class _VendorInformationState extends State<VendorInformation> {
                                   height: AddSize.size12,
                                 ),
                                 RegistrationTextField(
-                                  controller: adharNoController,
+                                  controller: vendorInformationController
+                                      .adharNoController,
                                   hint: vendorInformationController
                                       .model.value.data!.aadharNo
                                       .toString(),
@@ -175,7 +194,8 @@ class _VendorInformationState extends State<VendorInformation> {
                                   height: AddSize.size12,
                                 ),
                                 RegistrationTextField(
-                                  controller: panNoController,
+                                  controller: vendorInformationController
+                                      .panNoController,
                                   hint: vendorInformationController
                                       .model.value.data!.panNo
                                       .toString(),
@@ -220,14 +240,14 @@ class _VendorInformationState extends State<VendorInformation> {
                                     ),
                                     value: selectedCAt.value == ""
                                         ? vendorInformationController
-                                        .model.value.data!.deliveryRange
-                                        .toString()
+                                            .model.value.data!.deliveryRange
+                                            .toString()
                                         : selectedCAt.value,
                                     items: dropDownList.map((value) {
                                       return DropdownMenuItem(
                                         value: value,
                                         child: Text(
-                                          "${value}KM",
+                                          "$value KM",
                                           style: const TextStyle(fontSize: 14),
                                         ),
                                       );
