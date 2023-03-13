@@ -3,6 +3,9 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
+import '../../controller/VendorBankDetails_Controller.dart';
+import '../../controller/vendor_BankList_controller..dart';
+import '../../repositories/Vendor_AddBankDetails_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
@@ -15,17 +18,45 @@ class DriverBankDetails extends StatefulWidget {
 }
 
 class _DriverBankDetailsState extends State<DriverBankDetails> {
-  final TextEditingController bankAccountNumber = TextEditingController();
-  final TextEditingController accountHolderName = TextEditingController();
-  final TextEditingController iFSCCode = TextEditingController();
+  final driverBankDetailsController = Get.put(VendorBankDetailsController());
+  final driverBankListController = Get.put(VendorBankListController());
+  // final TextEditingController bankAccountNumber = TextEditingController();
+  // final TextEditingController accountHolderName = TextEditingController();
+  // final TextEditingController iFSCCode = TextEditingController();
   RxString selectedCAt = "".obs;
   final _formKey = GlobalKey<FormState>();
   final List<String> dropDownList = ["HDFC Bank", "SBI Bank", "PNB Bank"];
+
+  @override
+  void initState() {
+    super.initState();
+    driverBankListController.getVendorBankListDetails();
+    driverBankDetailsController.getVendorBankDetails().then((value) {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: backAppBar(title: "Bank Details", context: context),
       body: Obx(() {
+        if (driverBankDetailsController.isDataLoading.value &&
+            driverBankDetailsController.bankDetailsModel.value.data != null) {
+          driverBankDetailsController.bankAccountNumber.text =
+              driverBankDetailsController.bankDetailsModel.value.data!.accountNo
+                  .toString();
+
+          driverBankDetailsController.accountHolderName.text =
+              driverBankDetailsController
+                  .bankDetailsModel.value.data!.accountName
+                  .toString();
+
+          driverBankDetailsController.iFSCCode.text =
+              driverBankDetailsController.bankDetailsModel.value.data!.ifscCode
+                  .toString();
+        }
+
         return SingleChildScrollView(
             child: Padding(
           padding: EdgeInsets.symmetric(
@@ -89,30 +120,30 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             value: selectedCAt.value == ""
                                 ? null
                                 : selectedCAt.value,
-                            items: dropDownList.map((value) {
+                            items: driverBankListController
+                                .bankListModel.value.data!.banks!
+                                .toList()
+                                .map((value) {
                               return DropdownMenuItem(
-                                value: value,
+                                value: value.id.toString(),
                                 child: Text(
-                                  value,
+                                  value.name.toString(),
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               );
                             }).toList(),
                             onChanged: (newValue) {
-                              selectedCAt.value = newValue.toString();
-                            },
-                            validator: (String? value) {
-                              if (value?.isEmpty ?? true) {
-                                return 'Please select bank';
-                              }
-                              return null;
+                              setState(() {
+                                selectedCAt.value = newValue.toString();
+                              });
                             },
                           ),
                           SizedBox(
                             height: AddSize.size10,
                           ),
                           RegistrationTextField(
-                            controller: bankAccountNumber,
+                            controller:
+                                driverBankDetailsController.bankAccountNumber,
                             hint: "Bank Account Number",
                             validator: MultiValidator([
                               RequiredValidator(
@@ -123,7 +154,8 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             height: AddSize.size10,
                           ),
                           RegistrationTextField(
-                            controller: accountHolderName,
+                            controller:
+                                driverBankDetailsController.accountHolderName,
                             hint: "Account Holder Name",
                             validator: MultiValidator([
                               RequiredValidator(
@@ -134,7 +166,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             height: AddSize.size10,
                           ),
                           RegistrationTextField(
-                            controller: iFSCCode,
+                            controller: driverBankDetailsController.iFSCCode,
                             hint: "IFSC Code",
                             validator: MultiValidator([
                               RequiredValidator(
@@ -146,7 +178,16 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                if (_formKey.currentState!.validate()) {}
+                                if (_formKey.currentState!.validate()) {
+                                  vendorAddBankDetailsRepo(
+                                      selectedCAt.value,
+                                      driverBankDetailsController
+                                          .bankAccountNumber.text,
+                                      driverBankDetailsController
+                                          .accountHolderName.text,
+                                      driverBankDetailsController.iFSCCode.text,
+                                      context);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.maxFinite, 60),

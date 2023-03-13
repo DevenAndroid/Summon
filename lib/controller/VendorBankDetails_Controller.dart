@@ -12,9 +12,9 @@ class VendorBankDetailsController extends GetxController {
   final TextEditingController accountHolderName = TextEditingController();
   final TextEditingController iFSCCode = TextEditingController();
 
-  getVendorBankDetails() {
+  Future getVendorBankDetails() async {
     isDataLoading = false.obs;
-    vendorBankDetailsRepo().then((value) {
+    await vendorBankDetailsRepo().then((value) {
       isDataLoading = true.obs;
       bankDetailsModel.value = value;
     });

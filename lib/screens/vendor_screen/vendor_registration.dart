@@ -27,25 +27,25 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
   final List<String> dropDownList = [
-    "500 Mtr",
-    "1 KM",
-    "2 KM",
-    "3 KM",
-    "4 KM",
-    "5 KM",
-    "6 KM",
-    "7 KM",
-    "8 KM",
-    "9 KM",
-    "10 KM",
-    "15 KM",
-    "20 KM",
-    "25 KM",
-    "30 KM",
-    "35 KM",
-    "40 KM",
-    "45 KM",
-    "50 KM"
+    "500",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "15",
+    "20",
+    "25",
+    "30",
+    "35",
+    "40",
+    "45",
+    "50"
   ];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
@@ -204,8 +204,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               return DropdownMenuItem(
                                 value: value,
                                 child: Text(
-                                  // "${value}KM",
-                                  value,
+                                  "${value}KM",
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               );
