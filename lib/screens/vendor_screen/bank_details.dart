@@ -5,8 +5,8 @@ import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import '../../controller/VendorBankDetails_Controller.dart';
+import '../../controller/vendor_BankList_controller..dart';
 import '../../repositories/Vendor_AddBankDetails_Repo.dart';
-import '../../repositories/Vendor_BankList_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
@@ -21,6 +21,7 @@ class BankDetailsScreen extends StatefulWidget {
 
 class _BankDetailsScreenState extends State<BankDetailsScreen> {
   final vendorBankDetailsController = Get.put(VendorBankDetailsController());
+  final vendorBankListController = Get.put(VendorBankListController());
 
   // final TextEditingController bankAccountNumber = TextEditingController();
   // final TextEditingController accountHolderName = TextEditingController();
@@ -32,7 +33,10 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    vendorBankDetailsController.getVendorBankDetails();
+    vendorBankListController.getVendorBankListDetails();
+    vendorBankDetailsController.getVendorBankDetails().then((value) {
+      setState(() {});
+    });
   }
 
   @override
@@ -40,21 +44,6 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
     return Scaffold(
       appBar: backAppBar(title: "Bank Details", context: context),
       body: Obx(() {
-        if (vendorBankDetailsController.isDataLoading.value &&
-            vendorBankDetailsController.bankDetailsModel.value.data != null) {
-          vendorBankDetailsController.bankAccountNumber.text =
-              vendorBankDetailsController.bankDetailsModel.value.data!.accountNo
-                  .toString();
-
-          vendorBankDetailsController.accountHolderName.text =
-              vendorBankDetailsController
-                  .bankDetailsModel.value.data!.accountName
-                  .toString();
-
-          vendorBankDetailsController.iFSCCode.text =
-              vendorBankDetailsController.bankDetailsModel.value.data!.ifscCode
-                  .toString();
-        }
         return vendorBankDetailsController.isDataLoading.value
             ? SingleChildScrollView(
                 child: Padding(
@@ -124,24 +113,23 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                     value: selectedCAt.value == ""
                                         ? null
                                         : selectedCAt.value,
-                                    items: dropDownList.map((value) {
+                                    items: vendorBankListController
+                                        .bankListModel.value.data!.banks!
+                                        .toList()
+                                        .map((value) {
                                       return DropdownMenuItem(
-                                        value: value,
+                                        value: value.id.toString(),
                                         child: Text(
-                                          value,
+                                          value.name.toString(),
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                       );
                                     }).toList(),
                                     onChanged: (newValue) {
-                                      vendorBankListRepo();
-                                      selectedCAt.value = newValue.toString();
-                                    },
-                                    validator: (String? value) {
-                                      if (value?.isEmpty ?? true) {
-                                        return 'Please select bank';
-                                      }
-                                      return null;
+                                      setState(() {
+                                        selectedCAt.value = newValue.toString();
+                                      });
+                                      print(selectedCAt.value);
                                     },
                                   ),
                                   SizedBox(
@@ -189,13 +177,18 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           vendorAddBankDetailsRepo(
-                                              "2",
-                                              vendorBankDetailsController
-                                                  .accountHolderName.text,
-                                              vendorBankDetailsController
-                                                  .bankAccountNumber.text,
-                                              vendorBankDetailsController
-                                                  .iFSCCode.text);
+                                                  selectedCAt.value,
+                                                  vendorBankDetailsController
+                                                      .accountHolderName.text,
+                                                  vendorBankDetailsController
+                                                      .bankAccountNumber.text,
+                                                  vendorBankDetailsController
+                                                      .iFSCCode.text,
+                                                  context)
+                                              .then((value) {
+                                            showToast(
+                                                "Account Details Added Successfully");
+                                          });
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(

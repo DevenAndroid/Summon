@@ -89,7 +89,8 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                     ],
                                   ),
                                   Image(
-                                    image: const AssetImage(AppAssets.walletIcon),
+                                    image:
+                                        const AssetImage(AppAssets.walletIcon),
                                     height: AddSize.size30,
                                     width: AddSize.size50,
                                   ),
@@ -140,14 +141,23 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                     ),
                                     ElevatedButton(
                                         onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
+                                          if (_formKey.currentState!
+                                              .validate()) {
                                             log(addMoneyController.text);
-                                            withdrawalRequestRepo(addMoneyController.text, context).then((value) {
+                                            withdrawalRequestRepo(
+                                                    addMoneyController.text,
+                                                    context)
+                                                .then((value) {
                                               showToast(value.message);
-                                              if(value.status==true){
-                                                withdrawalListController.getWithdrawalList();
+                                              if (value.status == true) {
+                                                withdrawalListController
+                                                    .getWithdrawalList();
                                                 addMoneyController.clear();
-                                                FocusManager.instance.primaryFocus!.unfocus();
+                                                FocusManager
+                                                    .instance.primaryFocus!
+                                                    .unfocus();
+                                              } else {
+                                                showToast(value.message);
                                               }
                                             });
                                             // Get.toNamed(BankDetailsScreen
@@ -156,7 +166,9 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                         },
                                         style: ElevatedButton.styleFrom(
                                             minimumSize: Size(double.maxFinite,
-                                                AddSize.size45), backgroundColor: AppTheme.primaryColor,
+                                                AddSize.size45),
+                                            backgroundColor:
+                                                AppTheme.primaryColor,
                                             elevation: 0,
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
@@ -302,7 +314,8 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 FontWeight.w500,
                                                             fontSize:
                                                                 AddSize.font14,
-                                                            color:const Color(0xffFFB26B)),
+                                                            color: const Color(
+                                                                0xffFFB26B)),
                                                   )
                                                 : withdrawalListController
                                                             .model
@@ -359,7 +372,8 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                                 fontSize:
                                                                     AddSize
                                                                         .font14,
-                                                                color: const Color(0xffFF557E)),
+                                                                color: const Color(
+                                                                    0xffFF557E)),
                                                       ),
                                           ],
                                         ),

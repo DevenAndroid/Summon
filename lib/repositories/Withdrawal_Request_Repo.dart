@@ -24,14 +24,14 @@ Future<WithdrawalRequestModel> withdrawalRequestRepo(amount, context) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   log(map.toString());
   try {
     final response = await http.post(Uri.parse(ApiUrl.withdrawalRequestUrl),
         body: jsonEncode(map), headers: headers);
     log("withdrawal Request Repo...${response.body}");
     if (response.statusCode == 200) {
-      Helpers.hideShimmer(loader);
+      Helpers.hideLoader(loader);
       log("withdrawal Request Repo...${response.body}");
       return WithdrawalRequestModel.fromJson(jsonDecode(response.body));
     } else {
