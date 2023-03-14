@@ -27,7 +27,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   void processPayment() {
     var options = {
       'key': 'rzp_live_1HJot1eILYIf7B',
-      'amount': (int.parse((addMoneyController.text)*100).toString()),
+      'amount': (int.parse((addMoneyController.text))*100).toString(),
       'name': 'Demo',
       'description': 'Order Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
@@ -120,7 +120,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                       if (_formKey.currentState!.validate()) {
                                         processPayment();
                                         myWalletController.getWalletData();
-                                        // Get.back();
+                                        Get.back();
                                         // controller.onItemTap(2);
                                       }
                                     },

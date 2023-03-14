@@ -23,6 +23,15 @@ class ProfileController extends GetxController {
     userProfileData().then((value) {
       isDataLoading.value = true;
       model.value = value;
+      if (isDataLoading.value &&
+          model.value.data != null) {
+        nameController.text =
+            model.value.data!.name.toString();
+        emailController.text =
+            model.value.data!.email.toString();
+        mobileController.text =
+            model.value.data!.phone.toString();
+      }
     });
   }
 }

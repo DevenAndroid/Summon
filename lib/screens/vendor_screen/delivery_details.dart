@@ -148,35 +148,35 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               return Column(
                                                 children: [
                                                   orderList(
-                                                      vendorOrderListController
+                                                      name:vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .productName
                                                           .toString(),
-                                                      vendorOrderListController
+                                                      price:vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .price
                                                           .toString(),
-                                                      vendorOrderListController
+                                                      itemQty:vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .itemQty
                                                           .toString(),
-                                                      vendorOrderListController
+                                                      qty:vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .qty
                                                           .toString(),
-                                                      vendorOrderListController
+                                                      status1:vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
@@ -751,7 +751,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     });
   }
 
-  orderList(name, price, qty, itemQty, status1) {
+  orderList({required name,required price,required qty,required itemQty,required status1}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -820,8 +820,6 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                               .toString())
                       .then((value) {
                     if (value.status == true) {
-                      rejectButton = true;
-                      showToast(value.message);
                       vendorOrderListController.getMyOrderDetails();
                     }
                   });

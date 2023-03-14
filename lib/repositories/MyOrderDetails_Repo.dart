@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,9 +21,9 @@ Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
     final response = await http.get(
         Uri.parse("${ApiUrl.myOrderDetailsUrl}?order_id=$id"),
         headers: headers);
-    print("MyOrder Details...${response.body}");
+    log("MyOrder Details...${response.body}");
     if (response.statusCode == 200) {
-      print("MyOrder Details...${response.body}");
+      log("MyOrder Details...${response.body}");
       return MyOrdersDetailsModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

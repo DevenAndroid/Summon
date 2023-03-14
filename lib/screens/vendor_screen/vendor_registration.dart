@@ -157,7 +157,12 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             hint: "Aadhar card number",
                             length: 12,
                             keyboardType: TextInputType.number,
-                            validator: validateAdhar,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 12) {
+                                return 'Please enter 12 digit aadhar card number';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: AddSize.size12,
@@ -166,7 +171,12 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             controller: panNoController,
                             length: 10,
                             hint: "Pan card number",
-                            validator: validatePan,
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 10) {
+                                return 'Please enter 10 digit pan card number';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: AddSize.size12,
