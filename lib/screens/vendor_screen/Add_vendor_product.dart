@@ -761,36 +761,59 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             ],
           ),
           SizedBox(
-            height: AddSize.size10,
+            height: AddSize.size20,
           ),
           Row(
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Min",
-                  onChanged: (value) {
-                    listModelData[index].minQty.value = value;
-                  },
-                  controller: minQty,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: "Please enter the Minimum qty")
-                  ]),
-                ),
+                    lableText: "Min QTY",
+                    hint: "Min",
+                    onChanged: (value) {
+                      listModelData[index].minQty.value = value;
+                    },
+                    controller: minQty,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter the Min Qty";
+                      } else if (maxQty.text.length < minQty.text.length) {
+                        return "Max Qty should be greater than Min Qty";
+                      }
+                      return null;
+                    }
+                    // validator: MultiValidator([
+                    //   RequiredValidator(errorText: "Please enter the Minimum qty")
+                    // ]),
+                    ),
               ),
               SizedBox(
                 width: AddSize.size10,
               ),
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Max",
-                  onChanged: (value) {
-                    listModelData[index].maxQty.value = value;
-                  },
-                  controller: maxQty,
-                  validator: MultiValidator([
-                    RequiredValidator(errorText: "Please enter the Max qty")
-                  ]),
-                ),
+                    lableText: "Max QTY",
+                    hint: "Max",
+                    onChanged: (value) {
+                      listModelData[index].maxQty.value = value;
+                    },
+                    controller: maxQty,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter the Max Qty";
+                      } else if (maxQty.text.length < minQty.text.length) {
+                        return "Max Qty should be greater than Min Qty";
+                      }
+                      return null;
+                    }
+                    // validator: MultiValidator([
+                    //   //MinLengthValidator(1, errorText: "Enter the valid Max Qty"),
+                    //   LengthRangeValidator(
+                    //       min: 1,
+                    //       max: 1000,
+                    //       errorText: "Enter the Valid Max Qty"),
+                    //   //RequiredValidator(errorText: "Please enter the Max qty")
+                    // ]),
+                    ),
               ),
             ],
           ),

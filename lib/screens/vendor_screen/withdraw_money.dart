@@ -156,7 +156,8 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                 FocusManager
                                                     .instance.primaryFocus!
                                                     .unfocus();
-                                              } else {
+                                              } else if (value.status ==
+                                                  false) {
                                                 showToast(value.message);
                                               }
                                             });
