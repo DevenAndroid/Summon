@@ -9,6 +9,7 @@ import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/cart_related_product_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
@@ -34,6 +35,7 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final homeSearchController = Get.put(HomePageController());
   final myCartController = Get.put(MyCartDataListController());
+  final relatedCartController = Get.put(CartRelatedProductController());
   final viewAllController = Get.put(CategoryController());
   final locationController = Get.put(LocationController());
   final controller = Get.put(MainHomeController());
@@ -1083,8 +1085,8 @@ class HomePageState extends State<HomePage> {
                                               .then((value) {
                                             if (value.status == true) {
                                               showToast(value.message);
-                                              myCartController
-                                                  .getAddToCartList();
+                                              myCartController.getAddToCartList();
+                                              relatedCartController.getAddToCartRelatedList();
                                             } else {
                                               showToast(value.message);
                                             }

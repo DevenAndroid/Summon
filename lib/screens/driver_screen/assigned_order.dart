@@ -165,7 +165,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                           value: selectedTime == ""
                           ? null
                           : selectedTime,
-                          items: status.map((value) {
+                          items: status1.map((value) {
                             return DropdownMenuItem(
                               value: value.key.toString(),
                               child: Text(

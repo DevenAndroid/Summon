@@ -723,9 +723,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
           child: ElevatedButton(
               onPressed: () {
                 orderAcceptRepo(vendorOrderListController
-                    .model.value.data!.orderId
-                    .toString()).then((value){
-                      showToast(value.message.toString());
+                        .model.value.data!.orderId
+                        .toString())
+                    .then((value) {
+                  showToast(value.message.toString());
                 });
                 // Get.toNamed(MyRouter.editProfileScreen);
               },

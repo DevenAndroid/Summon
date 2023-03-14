@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/myWallet_controller.dart';
+import '../controller/profile_controller.dart';
 import '../model/time_model.dart';
 import '../resources/app_assets.dart';
 
@@ -19,7 +20,7 @@ class WalletScreen extends StatefulWidget {
 
 class _WalletScreenState extends State<WalletScreen> {
   final myWalletController = Get.put(MyWalletController());
-
+  final profileController = Get.put(ProfileController());
   @override
   void initState() {
     super.initState();
@@ -173,8 +174,9 @@ class _WalletScreenState extends State<WalletScreen> {
                       SizedBox(
                         height: AddSize.size125,
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children:
+                                profileController.model.value.data!.asVendorVerified == true && profileController.model.value.data!.asDriverVerified == true ?
                                 List.generate(walletModel.length, (index) {
                               return GestureDetector(
                                   child: listdata(
@@ -184,11 +186,66 @@ class _WalletScreenState extends State<WalletScreen> {
                                   onTap: () {
                                     log("user type${walletModel[index].key}");
                                     myWalletController.userType.value = walletModel[index].key;
+                                    if(myWalletController.userType.value=="A"){
+                                      myWalletController.userType.value = "";
+                                    }
                                     print("user type${walletModel[index].key}");
                                     myWalletController.getWalletData();
                                     setState(() {});
                                   });
-                            })
+                            }):profileController.model.value.data!.asVendorVerified == true?
+                                List.generate(walletModel.where((element) => element.value !="Vendor").length, (index) {
+                                  return GestureDetector(
+                                      child: listdata(
+                                          walletModel.where((element) => element.value !="Vendor").toList()[index].image,
+                                          walletModel.where((element) => element.value !="Vendor").toList()[index].value.toString(),
+                                          walletModel.where((element) => element.value !="Vendor").toList()[index].color),
+                                      onTap: () {
+                                        log("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
+                                        myWalletController.userType.value = walletModel.where((element) => element.value !="Vendor").toList()[index].key;
+                                        if(myWalletController.userType.value=="A"){
+                                          myWalletController.userType.value = "";
+                                        }
+                                        print("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
+                                        myWalletController.getWalletData();
+                                        setState(() {});
+                                      });
+                                })
+                                    :profileController.model.value.data!.asDriverVerified == true?
+                                List.generate(walletModel.where((element) => element.value !="Driver").length, (index) {
+                                  return GestureDetector(
+                                      child: listdata(
+                                          walletModel.where((element) => element.value !="Driver").toList()[index].image,
+                                          walletModel.where((element) => element.value !="Driver").toList()[index].value.toString(),
+                                          walletModel.where((element) => element.value !="Driver").toList()[index].color),
+                                      onTap: () {
+                                        log("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
+                                        myWalletController.userType.value = walletModel.where((element) => element.value !="Driver").toList()[index].key;
+                                        if(myWalletController.userType.value=="A"){
+                                          myWalletController.userType.value = "";
+                                        }
+                                        print("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
+                                        myWalletController.getWalletData();
+                                        setState(() {});
+                                      });
+                                }) :
+                                List.generate(walletModel.where((element) => element.value =="All" ||element.value =="Customer").length, (index) {
+                                  return GestureDetector(
+                                      child: listdata(
+                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].image,
+                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].value.toString(),
+                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].color),
+                                      onTap: () {
+                                        log("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
+                                        myWalletController.userType.value = walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key;
+                                        if(myWalletController.userType.value=="A"){
+                                          myWalletController.userType.value = "";
+                                        }
+                                        print("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
+                                        myWalletController.getWalletData();
+                                        setState(() {});
+                                      });
+                                })
 
                             // listdata(AppAssets.allIcon, "All",
                             //     AppTheme.appPrimaryPinkColor),

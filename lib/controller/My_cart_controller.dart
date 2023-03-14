@@ -22,17 +22,9 @@ class MyCartDataListController extends GetxController {
     });
   }
 
-  getAddToCartRelatedList() {
-    addToCartRelatedRepo().then((value) {
-      isRelatedProductDataLoaded.value = true;
-      relatedProductModel.value = value;
-    });
-  }
-
   @override
   void onInit() {
     super.onInit();
     getAddToCartList();
-    getAddToCartRelatedList();
   }
 }

@@ -29,7 +29,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
       'key': 'rzp_live_1HJot1eILYIf7B',
       'amount': (int.parse((addMoneyController.text)*100).toString()),
       'name': 'Demo',
-      'description': 'Payment',
+      'description': 'Order Payment',
       'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
     };
     _razorpay.open(options);

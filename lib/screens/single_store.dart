@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/cart_related_product_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/store_by_category_controller.dart';
@@ -27,6 +28,7 @@ class StoreScreen extends StatefulWidget {
 class _StoreScreenState extends State<StoreScreen> {
   final singleStoreController = Get.put(StoreController());
   final myCartController = Get.put(MyCartDataListController());
+  final relatedCartController = Get.put(CartRelatedProductController());
   final controller = Get.put(MainHomeController());
   final categoryController = Get.put(CategoryController());
   final nearStoreController = Get.put(StoreByCategoryController());
@@ -527,13 +529,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                     InkWell(
                                                                                       onTap: () {
                                                                                         singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].maxQty != (myCartController.model.value
-                                                                                            .data!.cartItems!
-                                                                                            .firstWhere(
-                                                                                                (element) =>
-                                                                                            element
-                                                                                                .variantId
-                                                                                                .toString() ==
-                                                                                                singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index]
+                                                                                            .data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index]
                                                                                                     .varientIndex!
                                                                                                     .value]
                                                                                                     .id
@@ -574,6 +570,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                   if (value.status == true) {
                                                                                     showToast(value.message);
                                                                                     myCartController.getAddToCartList();
+                                                                                    relatedCartController.getAddToCartRelatedList();
                                                                                   } else {
                                                                                     showToast(value.message);
                                                                                   }
