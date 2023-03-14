@@ -109,6 +109,7 @@ class RegistrationTextField1 extends StatelessWidget {
   final VoidCallback? onTap;
   final ValueChanged<String>? onChanged;
   final length;
+  final String? lableText;
 
   const RegistrationTextField1({
     Key? key,
@@ -131,6 +132,7 @@ class RegistrationTextField1 extends StatelessWidget {
     this.enable,
     this.length,
     this.onChanged,
+    this.lableText,
   }) : super(key: key);
 
   @override
@@ -148,6 +150,7 @@ class RegistrationTextField1 extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       enabled: enable,
+      //lableText: lableText,
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],
@@ -156,6 +159,9 @@ class RegistrationTextField1 extends StatelessWidget {
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+          labelText: lableText,
+          labelStyle:
+              TextStyle(color: AppTheme.userText, fontSize: AddSize.font16),
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding:

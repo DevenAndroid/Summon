@@ -486,8 +486,8 @@ class _VendorOrderListState extends State<VendorOrderList> {
                     ),
                     Container(
                       decoration: const BoxDecoration(
-                        // color: AppTheme.backgroundcolor,
-                      ),
+                          // color: AppTheme.backgroundcolor,
+                          ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: AddSize.padding16,
@@ -575,15 +575,6 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                             Get.toNamed(
                                               DeliveryOrderDetails
                                                   .deliveryOrderDetails,
-                                              // arguments: [
-                                              //   vendorOrderListController
-                                              //       .model
-                                              //       .value
-                                              //       .data!
-                                              //       .orderList![index]
-                                              //       .id
-                                              //       .toString()
-                                              // ]
                                             );
                                           },
                                           child: Column(
