@@ -102,10 +102,12 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             length: 12,
                             hint: "Aadhar card number",
                             keyboardType: TextInputType.number,
-                            validator: MultiValidator([
-                              RequiredValidator(
-                                  errorText: 'Aadhar number is required'),
-                            ]),
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 12) {
+                                return 'Please enter 12 digit aadhar card number';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: AddSize.size12,
@@ -114,10 +116,12 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             controller: panNoController,
                             hint: "Pan card number",
                             length: 10,
-                            validator: MultiValidator([
-                              RequiredValidator(
-                                  errorText: 'Pan number is required'),
-                            ]),
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 10) {
+                                return 'Please enter 10 digit licence card number';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: AddSize.size12,
@@ -137,10 +141,12 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             controller: licenceNumber,
                             hint: "Licence number",
                             length: 14,
-                            validator: MultiValidator([
-                              RequiredValidator(
-                                  errorText: 'Licence number is required'),
-                            ]),
+                            validator: (value) {
+                              if (value!.isEmpty || value.length < 14) {
+                                return 'Please enter 14 digit licence card number';
+                              }
+                              return null;
+                            },
                           ),
                           SizedBox(
                             height: AddSize.size12,

@@ -32,8 +32,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     var options = {
       'key': 'rzp_live_1HJot1eILYIf7B',
       'amount': _isValue == true
-          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) *
-              100)
+          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) * 100)
           : (Get.arguments[0] * 100),
       'name': 'Demo',
       'description': 'Payment',
@@ -95,10 +94,11 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return Scaffold(
       appBar: backAppBar(title: "Select Payment Method", context: context),
       body: Obx(() {
-        if(controller.isDataLoading.value && controller.model.value.data != null){
-          if(controller.model.value.data!.earnedBalance >= Get.arguments[0]){
-            _isValue == true;
-            print(_isValue);
+        if (controller.isDataLoading.value &&
+            controller.model.value.data != null) {
+          if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
+            _isValue = true;
+            print("AAAAAAAAAAAAAA-----${_isValue}");
           }
         }
         return controller.isDataLoading.value
@@ -320,29 +320,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  if (selectedValue.value == "cod") {
-                    checkOut(
-                            payment_type: selectedValue.value, context: context)
-                        .then((value) {
-                      if (value.status == true) {
-                        myCartController.getAddToCartList();
-                        Get.offAllNamed(ThankYouScreen.thankYouScreen,
-                            arguments: [
-                              value.data!.orderType,
-                              value.data!.orderId,
-                              value.data!.placedAt,
-                              value.data!.itemTotal,
-                              value.data!.tax,
-                              value.data!.deliveryCharges,
-                              value.data!.packingFee,
-                              value.data!.grandTotal,
-                              value.data!.orderId
-                            ]);
-                      }
-                    });
-                  } else if (_isValue == true) {
-                    if (controller.model.value.data!.earnedBalance >=
-                        Get.arguments[0]) {
+                  if (_isValue == true) {
+                    if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
                       checkOut(payment_type: "online", context: context)
                           .then((value) async {
                         if (value.status == true) {
@@ -376,7 +355,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           });
                         }
                       });
-                    } else {
+                    }
+                    else {
                       checkOut(payment_type: "online", context: context)
                           .then((value) {
                         if (value.status == true) {
@@ -387,7 +367,29 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         }
                       });
                     }
-                  } else {
+                  }
+                  else if (selectedValue.value == "cod") {
+                    checkOut(
+                            payment_type: selectedValue.value, context: context)
+                        .then((value) {
+                      if (value.status == true) {
+                        myCartController.getAddToCartList();
+                        Get.offAllNamed(ThankYouScreen.thankYouScreen,
+                            arguments: [
+                              value.data!.orderType,
+                              value.data!.orderId,
+                              value.data!.placedAt,
+                              value.data!.itemTotal,
+                              value.data!.tax,
+                              value.data!.deliveryCharges,
+                              value.data!.packingFee,
+                              value.data!.grandTotal,
+                              value.data!.orderId
+                            ]);
+                      }
+                    });
+                  }
+                  else {
                     checkOut(payment_type: "online", context: context)
                         .then((value) {
                       if (value.status == true) {

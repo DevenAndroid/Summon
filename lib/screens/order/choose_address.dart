@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -30,18 +31,19 @@ class ChooseAddress extends StatefulWidget {
 }
 
 class _ChooseAddressState extends State<ChooseAddress> {
+  final _formKey = GlobalKey<FormState>();
   final addressController = Get.put(MyAddressController());
   Rx<AddressData> addressModel = AddressData().obs;
   final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
   final RxBool _isValue = false.obs;
   RxBool customTip = false.obs;
-  RxString selectedChip = "".obs;
+  RxString selectedChip = "Home".obs;
   final TextEditingController searchController = TextEditingController();
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
 
   String? _currentAddress;
-  String? _address;
+  String? _address = "";
   Position? _currentPosition;
 
   Future<bool> _handleLocationPermission() async {
@@ -116,7 +118,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
         TextEditingController(text: (addressModel.street ?? ""));
     final TextEditingController recipientController = TextEditingController();
     otherController.text = addressModel.addressType ?? "";
-    selectedChip.value = addressModel.addressType ?? "";
+    selectedChip.value = addressModel.addressType ?? "Home";
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -134,7 +136,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: SingleChildScrollView(
-                  child: Column(
+                  child: Form(
+              key: _formKey,child:Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       GestureDetector(
@@ -212,6 +215,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 controller: flatNoController,
                                 hint: "Flat, House no, Floor, Tower",
                                 label: "Flat, House no, Floor, Tower",
+                                validator: MultiValidator([
+                              RequiredValidator(errorText: 'Flat, House no, Floor, Tower'),
+                            ]),
                               ),
                               SizedBox(
                                 height: AddSize.size20,
@@ -220,6 +226,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 controller: streetController,
                                 hint: "Street, Society, Landmark",
                                 label: "Street, Society, Landmark",
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'Street, Society, Landmark'),
+                                ]),
                               ),
                               SizedBox(
                                 height: AddSize.size20,
@@ -228,13 +237,17 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 controller: recipientController,
                                 hint: "Recipient’s name",
                                 label: "Recipient’s name",
+                                validator: MultiValidator([
+                                  RequiredValidator(errorText: 'Recipient’s name'),
+                                ]),
                               ),
                               SizedBox(
                                 height: AddSize.size20,
                               ),
                               ElevatedButton(
                                   onPressed: () {
-                                    addressModel.street != null &&
+                                    if (_formKey.currentState!.validate()) {
+                                      addressModel.street != null &&
                                             addressModel.flatNo != null &&
                                             addressModel.landmark != null
                                         ? editAddress(
@@ -281,6 +294,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                               selectedChip.value = "";
                                             }
                                           });
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize:
@@ -313,6 +327,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                     ],
                   ),
                 ),
+                )
               );
             }),
           );
@@ -333,7 +348,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
   GoogleMapController? mapController1; //contrller for Google map
   CameraPosition? cameraPosition;
-  LatLng startLocation = const LatLng(27.6602292, 85.308027);
   String location = "Search Location";
   final Set<Marker> markers = {};
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -351,8 +365,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
     final Uint8List markerIcon =
         await getBytesFromAsset(AppAssets.locationMarker, 400);
     markers.clear();
-    markers.add(
-        Marker(
+    markers.add(Marker(
         markerId: MarkerId(lastMapPosition.toString()),
         position: lastMapPosition,
         infoWindow: const InfoWindow(
@@ -558,6 +571,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               onPressed: () {
                                 setState(() {
                                   _isValue.value = !_isValue.value;
+                                  selectedChip.value = "Home";
                                 });
                                 showChangeAddressSheet(addressModel.value);
                                 // Get.toNamed(MyRouter.chooseAddressScreen);

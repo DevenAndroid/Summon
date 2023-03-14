@@ -98,15 +98,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (controller.isDataLoading.value &&
-            controller.model.value.data != null) {
-          controller.nameController.text =
-              controller.model.value.data!.name.toString();
-          controller.emailController.text =
-              controller.model.value.data!.email.toString();
-          controller.mobileController.text =
-              controller.model.value.data!.phone.toString();
-        }
         return controller.isDataLoading.value &&
                 controller.model.value.data != null
             ? SingleChildScrollView(
