@@ -24,7 +24,7 @@ Future<VendorAddAccountDetailsModel> vendorAddBankDetailsRepo(String bank,
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
   print(map);
   try {
     final response = await http.post(Uri.parse(ApiUrl.vendorAddBankDetailsUrl),

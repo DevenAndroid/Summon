@@ -48,7 +48,7 @@ class _AdminResponseScreenState extends State<AdminResponseScreen> {
                   height: AddSize.size30,
                 ),
                 Text(
-                  "Wait For Admin Response Your registration In Under Review",
+                  "Wait For Admin Response Your Account Under Review",
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.headline5!.copyWith(
                       fontWeight: FontWeight.w500,

@@ -18,6 +18,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/cart_related_product_controller.dart';
 import '../controller/location_controller.dart';
 import '../model/My_Cart_Model.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
@@ -34,6 +35,7 @@ class MyCartScreen extends StatefulWidget {
 
 class _MyCartScreenState extends State<MyCartScreen> {
   final controller = Get.put(MyCartDataListController());
+  final relatedCartController = Get.put(CartRelatedProductController());
   final locationController = Get.put(LocationController());
   final TextEditingController tipController = TextEditingController();
   final TextEditingController variantIdController = TextEditingController();
@@ -41,83 +43,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
   RxString selectedCAt = "".obs;
   RxBool customTip = false.obs;
   RxString selectedChip = "".obs;
-
-  final Completer<GoogleMapController> googleMapController = Completer();
-  GoogleMapController? mapController;
-
-  String? _currentAddress;
-  String? _address;
-  Position? _currentPosition;
-
-  Future<bool> _handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services')));
-      return false;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
-        return false;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.')));
-      return false;
-    }
-    return true;
-  }
-
-  Future<void> _getCurrentPosition() async {
-    final hasPermission = await _handleLocationPermission();
-
-    if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(
-                  _currentPosition!.latitude, _currentPosition!.longitude),
-              zoom: 15)));
-    }).catchError((e) {
-      debugPrint(e.toString());
-    });
-  }
-
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-        _address =
-            '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e);
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _getCurrentPosition();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -291,8 +216,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         InkWell(
                                                                           onTap:
                                                                               () {
-                                                                            if (controller.model.value.data!.cartItems![index].cartItemQty ==
-                                                                                1) {
+                                                                            if (controller.model.value.data!.cartItems![index].cartItemQty == controller.model.value.data!.cartItems![index].minQty) {
                                                                               removeCartItemRepo(controller.model.value.data!.cartItems![index].id.toString(), context).then((value) {
                                                                                 if (value.status == true) {
                                                                                   showToast(value.message);
@@ -333,6 +257,9 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         InkWell(
                                                                           onTap:
                                                                               () {
+                                                                                controller.model.value
+                                                                                    .data!.cartItems![index].maxQty.toString() != controller.model.value
+                                                                                    .data!.cartItems![index].cartItemQty.toString() ?
                                                                             updateCartRepo(controller.model.value.data!.cartItems![index].id.toString(), int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1, context).then((value) {
                                                                               showToast(value.message);
                                                                               if (value.status == true) {
@@ -340,7 +267,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                                 controller.getAddToCartList();
                                                                               }
                                                                               setState(() {});
-                                                                            });
+                                                                            }):showToast("You can't add more then ${controller.model.value.data!.cartItems![index].maxQty} item");
                                                                           },
                                                                           child:
                                                                               const Icon(
@@ -441,13 +368,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                   color: const Color(0xff423E5E),
                                   fontSize: AddSize.font10 * 1.7,
                                   fontWeight: FontWeight.w600)),
-                          SizedBox(
+                          relatedCartController.isDataLoading.value ? SizedBox(
                             height: height * .35,
                             child: Obx(() {
                               return ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: controller
-                                      .relatedProductModel.value.data!.length,
+                                  itemCount: relatedCartController.relatedProductModel.value.data!.length,
                                   shrinkWrap: true,
                                   padding: EdgeInsets.only(top: height * .02),
                                   physics: const BouncingScrollPhysics(),
@@ -456,7 +382,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         width, height, index, context);
                                   });
                             }),
-                          ),
+                          ):SizedBox(),
                           SizedBox(
                             height: height * .01,
                           ),
@@ -1065,7 +991,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             height: height * .12,
                             width: width * .35,
                             child: CachedNetworkImage(
-                              imageUrl: controller
+                              imageUrl: relatedCartController
                                   .relatedProductModel.value.data![index].image
                                   .toString(),
                               errorWidget: (_, __, ___) => const SizedBox(),
@@ -1078,7 +1004,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  controller.relatedProductModel.value
+                                  relatedCartController.relatedProductModel.value
                                       .data![index].name
                                       .toString(),
                                   style: TextStyle(
@@ -1094,7 +1020,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "₹${controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].price.toString()}",
+                                    "₹${relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].price.toString()}",
                                     style: TextStyle(
                                         fontSize: AddSize.font14,
                                         color: AppTheme.primaryColor,
@@ -1114,11 +1040,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                               .map(
                                                   (e) => e.variantId.toString())
                                               .toList()
-                                              .contains(controller
+                                              .contains(relatedCartController
                                                   .relatedProductModel
                                                   .value
                                                   .data![index]
-                                                  .varints![controller
+                                                  .varints![relatedCartController
                                                       .relatedProductModel
                                                       .value
                                                       .data![index]
@@ -1163,18 +1089,18 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         .firstWhere(
                                                                             (element) =>
                                                                                 element.variantId.toString() ==
-                                                                                controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id
+                                                                                    relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id
                                                                                     .toString(),
                                                                             orElse: () =>
                                                                                 CartItems())
                                                                         .cartItemQty ??
                                                                     "0")
                                                                 .toString() ==
-                                                            controller
+                                                            relatedCartController
                                                                 .relatedProductModel
                                                                 .value
                                                                 .data![index]
-                                                                .varints![controller
+                                                                .varints![relatedCartController
                                                                     .relatedProductModel
                                                                     .value
                                                                     .data![
@@ -1189,7 +1115,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                               .value
                                                                               .data!
                                                                               .cartItems!
-                                                                              .firstWhere((element) => element.variantId.toString() == controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems())
+                                                                              .firstWhere((element) => element.variantId.toString() == relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems())
                                                                               .id ??
                                                                           "0")
                                                                       .toString(),
@@ -1208,12 +1134,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                           });
                                                         } else {
                                                           addToCartRepo(
-                                                                  controller
+                                                              relatedCartController
                                                                       .relatedProductModel
                                                                       .value
                                                                       .data![
                                                                           index]
-                                                                      .varints![controller
+                                                                      .varints![relatedCartController
                                                                           .relatedProductModel
                                                                           .value
                                                                           .data![
@@ -1222,14 +1148,14 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                           .value]
                                                                       .id
                                                                       .toString(),
-                                                                  controller
+                                                              relatedCartController
                                                                       .relatedProductModel
                                                                       .value
                                                                       .data![
                                                                           index]
                                                                       .id
                                                                       .toString(),
-                                                                  int.parse((controller.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ??
+                                                                  int.parse((controller.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ??
                                                                               "0")
                                                                           .toString()) -
                                                                       1,
@@ -1263,7 +1189,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                     .firstWhere(
                                                                         (element) =>
                                                                             element.variantId.toString() ==
-                                                                            controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id
+                                                                                relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id
                                                                                 .toString(),
                                                                         orElse: () =>
                                                                             CartItems())
@@ -1282,12 +1208,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                     }),
                                                     InkWell(
                                                       onTap: () {
-                                                        controller
+                                                        relatedCartController
                                                                     .relatedProductModel
                                                                     .value
                                                                     .data![
                                                                         index]
-                                                                    .varints![controller
+                                                                    .varints![relatedCartController
                                                                         .relatedProductModel
                                                                         .value
                                                                         .data![
@@ -1300,22 +1226,22 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                         .value
                                                                         .data!
                                                                         .cartItems!
-                                                                        .firstWhere((element) => element.variantId.toString() == controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(),
+                                                                        .firstWhere((element) => element.variantId.toString() == relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id.toString(),
                                                                             orElse: () =>
                                                                                 CartItems())
                                                                         .cartItemQty ??
                                                                     "")
                                                             ? addToCartRepo(
-                                                                    controller
+                                                            relatedCartController
                                                                         .relatedProductModel
                                                                         .value
                                                                         .data![
                                                                             index]
-                                                                        .varints![controller.relatedProductModel.value.data![index].varientIndex!.value]
+                                                                        .varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value]
                                                                         .id
                                                                         .toString(),
-                                                                    controller.relatedProductModel.value.data![index].id.toString(),
-                                                                    int.parse((controller.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1,
+                                                            relatedCartController.relatedProductModel.value.data![index].id.toString(),
+                                                                    int.parse((controller.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString()) + 1,
                                                                     context)
                                                                 .then((value) {
                                                                 showToast(value
@@ -1330,7 +1256,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                       .message);
                                                                 }
                                                               })
-                                                            : showToast("You can't add more then ${controller.relatedProductModel.value.data![index].varints![controller.relatedProductModel.value.data![index].varientIndex!.value].maxQty.toString()}");
+                                                            : showToast("You can't add more then ${relatedCartController.relatedProductModel.value.data![index].varints![relatedCartController.relatedProductModel.value.data![index].varientIndex!.value].maxQty.toString()}");
                                                       },
                                                       child: const Icon(
                                                         Icons.add,
@@ -1362,31 +1288,31 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                     AppTheme.addColor,
                                               ),
                                               onPressed: () {
-                                                int vIndex = controller
+                                                int vIndex = relatedCartController
                                                     .relatedProductModel
                                                     .value
                                                     .data![index]
                                                     .varientIndex!
                                                     .value;
                                                 addToCartRepo(
-                                                        controller
+                                                    relatedCartController
                                                             .relatedProductModel
                                                             .value
                                                             .data![index]
                                                             .varints![vIndex]
                                                             .id
                                                             .toString(),
-                                                        controller
+                                                    relatedCartController
                                                             .relatedProductModel
                                                             .value
                                                             .data![index]
                                                             .id
                                                             .toString(),
-                                                        controller
+                                                    relatedCartController
                                                             .relatedProductModel
                                                             .value
                                                             .data![index]
-                                                            .varints![controller
+                                                            .varints![relatedCartController
                                                                 .relatedProductModel
                                                                 .value
                                                                 .data![index]
@@ -1527,20 +1453,20 @@ class _MyCartScreenState extends State<MyCartScreen> {
               border: InputBorder.none,
               enabled: true,
             ),
-            value: controller
+            value: relatedCartController
                 .relatedProductModel.value.data![index].varientIndex!.value,
             items: List.generate(
-                controller
+                relatedCartController
                     .relatedProductModel.value.data![index].varints!.length,
                 (index1) => DropdownMenuItem(
                       value: index1,
                       child: Text(
-                        "${controller.relatedProductModel.value.data![index].varints![index1].variantQty}${controller.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
+                        "${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQty}${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
                         style: const TextStyle(fontSize: 16),
                       ),
                     )),
             onChanged: (newValue) {
-              controller.relatedProductModel.value.data![index].varientIndex!
+              relatedCartController.relatedProductModel.value.data![index].varientIndex!
                   .value = newValue!;
               setState(() {});
             }),

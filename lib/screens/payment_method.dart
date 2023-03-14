@@ -29,6 +29,16 @@ class _PaymentMethodState extends State<PaymentMethod> {
   final Razorpay _razorpay = Razorpay();
 
   void processPayment() {
+    var options = {
+      'key': 'rzp_live_1HJot1eILYIf7B',
+      'amount': _isValue == true
+          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) *
+              100)
+          : (Get.arguments[0] * 100),
+      'name': 'Demo',
+      'description': 'Payment',
+      'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
+    };
     _razorpay.open(options);
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -42,24 +52,23 @@ class _PaymentMethodState extends State<PaymentMethod> {
             payment_id: response.paymentId,
             razorpay_signature: "Signature",
             wallet_deduction: controller.model.value.data!.earnedBalance,
-            online_deduction: Get.arguments[0] - controller.model.value.data!.earnedBalance)
+            online_deduction:
+                Get.arguments[0] - controller.model.value.data!.earnedBalance)
         .then((value) {
       showToast(value.message).toString();
       if (value.status == true) {
         myCartController.getAddToCartList();
-        Get.offAllNamed(ThankYouScreen.thankYouScreen,
-            arguments: [
-              value.data!.orderType,
-              value.data!.orderId,
-              value.data!.placedAt,
-              value.data!.itemTotal,
-              value.data!.tax,
-              value.data!.deliveryCharges,
-              value.data!.packingFee,
-              value.data!.grandTotal,
-              value.data!.orderId
-            ]
-        );
+        Get.offAllNamed(ThankYouScreen.thankYouScreen, arguments: [
+          value.data!.orderType,
+          value.data!.orderId,
+          value.data!.placedAt,
+          value.data!.itemTotal,
+          value.data!.tax,
+          value.data!.deliveryCharges,
+          value.data!.packingFee,
+          value.data!.grandTotal,
+          value.data!.orderId
+        ]);
       }
     });
   }
@@ -72,21 +81,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
     // Do something when an external wallet was selected
   }
 
-
   @override
   void dispose() {
     // TODO: implement dispose
     _razorpay.clear();
     super.dispose();
   }
-
-  var options = {
-    'key': 'rzp_live_1HJot1eILYIf7B',
-    'amount': 100,
-    'name': 'Demo',
-    'description': 'Payment',
-    'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'}
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +95,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
     return Scaffold(
       appBar: backAppBar(title: "Select Payment Method", context: context),
       body: Obx(() {
+        if(controller.isDataLoading.value && controller.model.value.data != null){
+          if(controller.model.value.data!.earnedBalance >= Get.arguments[0]){
+            _isValue == true;
+            print(_isValue);
+          }
+        }
         return controller.isDataLoading.value
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -170,113 +176,133 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               ],
                             ),
                           )),
-                      GestureDetector(
-                        onTap: () {
-                          selectedValue.value = "online";
-                          if (kDebugMode) {
-                            print(selectedValue.value);
-                          }
-                        },
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            elevation: 0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(children: [
-                                    Image(
-                                      image: const AssetImage(
-                                          AppAssets.mastercardIcon),
-                                      height: height * .04,
-                                      width: width * .10,
-                                    ),
-                                    SizedBox(
-                                      width: width * .04,
-                                    ),
-                                    Text(
-                                      "Card",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                              height: 1.5,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppTheme.blackcolor,
-                                              fontSize: 16),
-                                    ),
-                                  ]),
-                                  Obx(() {
-                                    return Radio<String>(
-                                      value: "online",
-                                      groupValue: selectedValue.value,
-                                      onChanged: (value) {
-                                        selectedValue.value = value!;
-                                        print(selectedValue.value);
-                                      },
-                                    );
-                                  }),
-                                ],
-                              ),
-                            )),
-                      ),
-                      controller.model.value.data!.cod == true
-                          ? GestureDetector(
-                              onTap: () {
-                                selectedValue.value = "cod";
-                              },
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Image(
-                                            image: const AssetImage(
-                                                AppAssets.cashIcon),
-                                            height: height * .03,
-                                            width: width * .08,
-                                          ),
-                                          SizedBox(
-                                            width: width * .04,
-                                          ),
-                                          Text(
-                                            "Cash on delivery",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    height: 1.5,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: AppTheme.blackcolor,
-                                                    fontSize: 16),
-                                          ),
-                                        ]),
-                                        Obx(() {
-                                          return Radio<String>(
-                                            value: "cod",
-                                            groupValue: selectedValue.value,
-                                            onChanged: (value) {
-                                              selectedValue.value = value!;
-                                              print(selectedValue.value);
-                                            },
-                                          );
-                                        }),
-                                      ],
-                                    ),
-                                  )),
+                      controller.model.value.data!.earnedBalance <=
+                              Get.arguments[0]
+                          ? Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    selectedValue.value = "online";
+                                    if (kDebugMode) {
+                                      print(selectedValue.value);
+                                    }
+                                  },
+                                  child: Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      elevation: 0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15, vertical: 15),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(children: [
+                                              Image(
+                                                image: const AssetImage(
+                                                    AppAssets.mastercardIcon),
+                                                height: height * .04,
+                                                width: width * .10,
+                                              ),
+                                              SizedBox(
+                                                width: width * .04,
+                                              ),
+                                              Text(
+                                                "Card",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                        height: 1.5,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color:
+                                                            AppTheme.blackcolor,
+                                                        fontSize: 16),
+                                              ),
+                                            ]),
+                                            Obx(() {
+                                              return Radio<String>(
+                                                value: "online",
+                                                groupValue: selectedValue.value,
+                                                onChanged: (value) {
+                                                  selectedValue.value = value!;
+                                                  print(selectedValue.value);
+                                                },
+                                              );
+                                            }),
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                controller.model.value.data!.cod == true
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          selectedValue.value = "cod";
+                                        },
+                                        child: Card(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            elevation: 0,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 15),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Row(children: [
+                                                    Image(
+                                                      image: const AssetImage(
+                                                          AppAssets.cashIcon),
+                                                      height: height * .03,
+                                                      width: width * .08,
+                                                    ),
+                                                    SizedBox(
+                                                      width: width * .04,
+                                                    ),
+                                                    Text(
+                                                      "Cash on delivery",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline5!
+                                                          .copyWith(
+                                                              height: 1.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: AppTheme
+                                                                  .blackcolor,
+                                                              fontSize: 16),
+                                                    ),
+                                                  ]),
+                                                  Obx(() {
+                                                    return Radio<String>(
+                                                      value: "cod",
+                                                      groupValue:
+                                                          selectedValue.value,
+                                                      onChanged: (value) {
+                                                        selectedValue.value =
+                                                            value!;
+                                                        print(selectedValue
+                                                            .value);
+                                                      },
+                                                    );
+                                                  }),
+                                                ],
+                                              ),
+                                            )),
+                                      )
+                                    : const SizedBox(),
+                              ],
                             )
-                          : const SizedBox(),
+                          : SizedBox()
                     ],
                   ),
                 ))
@@ -314,45 +340,43 @@ class _PaymentMethodState extends State<PaymentMethod> {
                             ]);
                       }
                     });
-                  }
-                  else if (_isValue == true) {
-                    if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
+                  } else if (_isValue == true) {
+                    if (controller.model.value.data!.earnedBalance >=
+                        Get.arguments[0]) {
                       checkOut(payment_type: "online", context: context)
                           .then((value) async {
                         if (value.status == true) {
                           myCartController.getAddToCartList();
                           print(value.data!.orderId);
                           print("aaaaaaaa");
-                         await paymentOrder(
-                              context: context,
-                              order_id: value.data!.orderId,
-                              payment_id: "",
-                              razorpay_signature: "",
-                              wallet_deduction: Get.arguments[0],
-                              online_deduction: "")
+                          await paymentOrder(
+                                  context: context,
+                                  order_id: value.data!.orderId,
+                                  payment_id: "",
+                                  razorpay_signature: "",
+                                  wallet_deduction: Get.arguments[0],
+                                  online_deduction: "")
                               .then((value) {
                             showToast(value.message).toString();
                             if (value.status == true) {
                               myCartController.getAddToCartList();
                               Get.offAllNamed(ThankYouScreen.thankYouScreen,
-                                arguments: [
-                                  value.data!.orderType,
-                                  value.data!.orderId,
-                                  value.data!.placedAt,
-                                  value.data!.itemTotal,
-                                  value.data!.tax,
-                                  value.data!.deliveryCharges,
-                                  value.data!.packingFee,
-                                  value.data!.grandTotal,
-                                  value.data!.orderId
-                                ]
-                              );
+                                  arguments: [
+                                    value.data!.orderType,
+                                    value.data!.orderId,
+                                    value.data!.placedAt,
+                                    value.data!.itemTotal,
+                                    value.data!.tax,
+                                    value.data!.deliveryCharges,
+                                    value.data!.packingFee,
+                                    value.data!.grandTotal,
+                                    value.data!.orderId
+                                  ]);
                             }
                           });
                         }
                       });
-                    }
-                    else {
+                    } else {
                       checkOut(payment_type: "online", context: context)
                           .then((value) {
                         if (value.status == true) {
@@ -363,8 +387,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         }
                       });
                     }
-                  }
-                  else {
+                  } else {
                     checkOut(payment_type: "online", context: context)
                         .then((value) {
                       if (value.status == true) {

@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../controller/profile_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 
@@ -74,7 +76,26 @@ List<Status> status = [
     value: "Delivered",
   ),
 ];
+class Status1 {
+  dynamic key;
+  dynamic value;
+  Status1({this.key, this.value});
+}
 
+List<Status1> status1 = [
+  Status1(
+    key: "PC",
+    value: "Pickup",
+  ),
+  Status1(
+    key: "D",
+    value: "Delivered",
+  ),
+  Status1(
+    key: "R",
+    value: "Rejected",
+  ),
+];
 class WalletModel {
   dynamic key;
   dynamic value;
@@ -136,5 +157,89 @@ List<SelectQtyType> qtyType = [
   SelectQtyType(
     key: "piece",
     value: "piece",
+  ),
+];
+
+
+class Area {
+  dynamic key;
+  dynamic value;
+  Area({this.key, this.value});
+}
+List<Area> area = [
+  Area(
+    key: "500",
+    value: "500 Meter",
+  ),
+  Area(
+    key: "1",
+    value: "1 km",
+  ),
+  Area(
+    key: "2",
+    value: "2 km",
+  ),
+  Area(
+    key: "3",
+    value: "3 km",
+  ),
+  Area(
+    key: "4",
+    value: "4 km",
+  ),
+  Area(
+    key: "5",
+    value: "5 km",
+  ),
+  Area(
+    key: "6",
+    value: "6 km",
+  ),
+  Area(
+    key: "7",
+    value: "7 km",
+  ),
+  Area(
+    key: "8",
+    value: "8 km",
+  ),
+  Area(
+    key: "9",
+    value: "9 km",
+  ),
+  Area(
+    key: "10",
+    value: "10 km",
+  ),
+  Area(
+    key: "15",
+    value: "15 km",
+  ),
+  Area(
+    key: "20",
+    value: "20 km",
+  ),
+  Area(
+    key: "25",
+    value: "25 km",
+  ),
+  Area(
+    key: "30",
+    value: "30 km",
+  ),Area(
+    key: "35",
+    value: "35 km",
+  ),
+  Area(
+    key: "40",
+    value: "40 km",
+  ),
+  Area(
+    key: "45",
+    value: "45 km",
+  ),
+  Area(
+    key: "50",
+    value: "50 km",
   ),
 ];

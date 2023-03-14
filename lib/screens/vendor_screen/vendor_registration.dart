@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/repositories/vendor_registration_repo.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
@@ -202,11 +203,11 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             value: selectedCAt.value == ""
                                 ? null
                                 : selectedCAt.value,
-                            items: dropDownList.map((value) {
+                            items: area.map((value) {
                               return DropdownMenuItem(
-                                value: value,
+                                value: value.key.toString(),
                                 child: Text(
-                                  "${value}KM",
+                                  value.value.toString(),
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               );

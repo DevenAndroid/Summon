@@ -20,7 +20,7 @@ Future<AssignedOrderList> assignedOrderListRepo({
   };
   try {
     final response =
-    await http.get(Uri.parse("${ApiUrl.assignedOrderListUrl}?status=$status"), headers: headers);
+    await http.get(Uri.parse("${ApiUrl.assignedOrderListUrl}?keyword=$status"), headers: headers);
      log("${ApiUrl.assignedOrderListUrl}?status=$status");
     if (response.statusCode == 200) {
       log("AssignedOrder List Data...${response.body}");

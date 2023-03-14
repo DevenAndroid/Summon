@@ -68,6 +68,8 @@ class CartItems {
   String? variantQtyType;
   dynamic variantPrice;
   dynamic cartItemQty;
+  dynamic minQty;
+  dynamic maxQty;
   dynamic totalPrice;
   String? image;
 
@@ -80,6 +82,8 @@ class CartItems {
         this.variantQtyType,
         this.variantPrice,
         this.cartItemQty,
+        this.minQty,
+        this.maxQty,
         this.totalPrice,
         this.image});
 
@@ -92,6 +96,8 @@ class CartItems {
     variantQtyType = json['variant_qty_type'];
     variantPrice = json['variant_price'];
     cartItemQty = json['cart_item_qty'];
+    minQty = json['min_qty'];
+    maxQty = json['max_qty'];
     totalPrice = json['total_price'];
     image = json['image'];
   }
@@ -106,6 +112,8 @@ class CartItems {
     data['variant_qty_type'] = variantQtyType;
     data['variant_price'] = variantPrice;
     data['cart_item_qty'] = cartItemQty;
+    data['min_qty'] = minQty;
+    data['max_qty'] = maxQty;
     data['total_price'] = totalPrice;
     data['image'] = image;
     return data;
