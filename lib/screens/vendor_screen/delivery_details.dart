@@ -443,11 +443,24 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
+                                                      "Flat no ${vendorOrderListController.model.value.data!.address!.flatNo.toString()}",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline5!
+                                                          .copyWith(
+                                                              height: 1.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: AddSize
+                                                                  .font16),
+                                                    ),
+                                                    Text(
                                                       vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
-                                                          .user!
+                                                          .address!
                                                           .location
                                                           .toString(),
                                                       style: Theme.of(context)
@@ -489,7 +502,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                       ),
                     ),
                     SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: AddSize.padding16,
@@ -816,11 +829,11 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 onPressed: () {
                   vendorRejectVariantRepo(
                           order_variant_id: vendorOrderListController
-                              .model.value.data!.orderId
+                              .model.value.data!.orderItems![0].variantId
                               .toString())
                       .then((value) {
                     if (value.status == true) {
-                      rejectButton = true;
+                      // rejectButton = true;
                       showToast(value.message);
                       vendorOrderListController.getMyOrderDetails();
                     }
@@ -846,7 +859,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
             : Text(
                 "REJECTED",
                 style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: Color(0xffF04148),
+                    color: const Color(0xffF04148),
                     fontWeight: FontWeight.w500,
                     fontSize: AddSize.font16),
               )

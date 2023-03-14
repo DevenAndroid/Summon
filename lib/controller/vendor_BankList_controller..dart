@@ -7,9 +7,9 @@ class VendorBankListController extends GetxController {
   RxBool isDataLoading = false.obs;
   Rx<VendorBankListModel> bankListModel = VendorBankListModel().obs;
 
-  getVendorBankListDetails() {
+  Future getVendorBankListDetails() async {
     isDataLoading = false.obs;
-    vendorBankListRepo().then((value) {
+    await vendorBankListRepo().then((value) {
       isDataLoading = true.obs;
       bankListModel.value = value;
     });
