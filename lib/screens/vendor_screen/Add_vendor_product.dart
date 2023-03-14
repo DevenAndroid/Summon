@@ -776,8 +776,11 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Enter the Min Qty";
-                      } else if (maxQty.text.length < minQty.text.length) {
-                        return "Max Qty should be greater than Min Qty";
+                      } else if (int.parse(minQty.text) < 1) {
+                        return "Enter at least one Qty";
+                      } else if (int.parse(minQty.text) >
+                          int.parse(maxQty.text)) {
+                        return "Min Qty should be less than Max Qty";
                       }
                       return null;
                     }
@@ -800,7 +803,10 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Enter the Max Qty";
-                      } else if (maxQty.text.length < minQty.text.length) {
+                      } else if (int.parse(maxQty.text) > 1) {
+                        return "Max Qty should be greater than Min Qty";
+                      } else if (int.parse(maxQty.text) <
+                          int.parse(minQty.text)) {
                         return "Max Qty should be greater than Min Qty";
                       }
                       return null;
