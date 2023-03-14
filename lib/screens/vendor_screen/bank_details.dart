@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:fresh2_arrive/model/VendorBankLIst_Model.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
@@ -33,9 +34,22 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    vendorBankListController.getVendorBankListDetails();
-    vendorBankDetailsController.getVendorBankDetails().then((value) {
-      setState(() {});
+    vendorBankListController.getVendorBankListDetails().then((value) {
+      vendorBankDetailsController.getVendorBankDetails().then((value) {
+        selectedCAt.value = (vendorBankListController
+                    .bankListModel.value.data!.banks!
+                    .firstWhere(
+                        (element) =>
+                            element.name.toString() ==
+                            vendorBankDetailsController
+                                .bankDetailsModel.value.data!.bank!,
+                        orElse: () => Banks())
+                    .id ??
+                "")
+            .toString();
+        setState(() {});
+        print(vendorBankDetailsController.bankDetailsModel.value.data!.bank);
+      });
     });
   }
 
@@ -44,6 +58,25 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
     return Scaffold(
       appBar: backAppBar(title: "Bank Details", context: context),
       body: Obx(() {
+        if (vendorBankDetailsController.isDataLoading.value &&
+            vendorBankDetailsController.bankDetailsModel.value.data != null) {
+          vendorBankDetailsController.bankAccountNumber.text =
+              vendorBankDetailsController.bankDetailsModel.value.data!.accountNo
+                  .toString();
+
+          vendorBankDetailsController.accountHolderName.text =
+              vendorBankDetailsController
+                  .bankDetailsModel.value.data!.accountName
+                  .toString();
+
+          vendorBankDetailsController.iFSCCode.text =
+              vendorBankDetailsController.bankDetailsModel.value.data!.ifscCode
+                  .toString();
+          // selectedCAt.value = vendorBankListController
+          //     .value.data!.bank
+          //     .toString();
+        }
+
         return vendorBankDetailsController.isDataLoading.value
             ? SingleChildScrollView(
                 child: Padding(

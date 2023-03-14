@@ -187,36 +187,51 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            InkWell(
-                onTap: () {
-                  if (setStoreTimeController.model.value.data![index].status ==
-                      true) {
-                    displayOpenTimeDialog(index);
-                  }
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AddSize.padding10,
-                      vertical: AddSize.padding10),
-                  child: Row(
-                    children: [
-                      Text(
-                        setStoreTimeController
-                            .model.value.data![index].startTime
-                            .toString(),
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppTheme.lightblack,
-                            fontSize: AddSize.font14),
+            Expanded(
+              child: InkWell(
+                  onTap: () {
+                    if (setStoreTimeController
+                            .model.value.data![index].status ==
+                        true) {
+                      displayOpenTimeDialog(index);
+                    }
+                  },
+                  child: Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          //horizontal: AddSize.padding10,
+                          vertical: AddSize.padding10),
+                      child: Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                setStoreTimeController
+                                    .model.value.data![index].startTime
+                                    .toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6!
+                                    .copyWith(
+                                        fontWeight: FontWeight.w400,
+                                        color: AppTheme.lightblack,
+                                        fontSize: AddSize.font14),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: AppTheme.lightblack,
+                            )
+                          ],
+                        ),
                       ),
-                      const Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: AppTheme.lightblack,
-                      )
-                    ],
-                  ),
-                )),
-            const Spacer(),
+                    ),
+                  )),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            //const Spacer(),
             Text(
               "To",
               style: Theme.of(context).textTheme.headline6!.copyWith(
@@ -224,32 +239,46 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                   color: AppTheme.lightblack,
                   fontSize: AddSize.font14),
             ),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                if (setStoreTimeController.model.value.data![index].status ==
-                    true) {
-                  displayCloseTimeDialog(index);
-                }
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: AddSize.padding10, vertical: AddSize.padding10),
-                child: Row(
-                  children: [
-                    Text(
-                      setStoreTimeController.model.value.data![index].endTime
-                          .toString(),
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontWeight: FontWeight.w400,
+            const SizedBox(
+              width: 8,
+            ),
+            //const Spacer(),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  if (setStoreTimeController.model.value.data![index].status ==
+                      true) {
+                    displayCloseTimeDialog(index);
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      // horizontal: AddSize.padding10,
+                      vertical: AddSize.padding10),
+                  child: Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            setStoreTimeController
+                                .model.value.data![index].endTime
+                                .toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppTheme.lightblack,
+                                    fontSize: AddSize.font14),
+                          ),
+                        ),
+                        const Icon(
+                          Icons.keyboard_arrow_down_outlined,
                           color: AppTheme.lightblack,
-                          fontSize: AddSize.font14),
+                        )
+                      ],
                     ),
-                    const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: AppTheme.lightblack,
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
