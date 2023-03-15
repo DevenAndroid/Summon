@@ -168,9 +168,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   .editModel.value.data!.product!.name ??
                               "")
                           .toString();
+                  print("product name isssss....{productNameController.text}");
                   editProductController.skuController.text =
                       (editProductController
                                   .editModel.value.data!.product!.sKU ??
+                              "")
+                          .toString();
+                  editProductController.marketPriceController.text =
+                      (editProductController
+                                  .editModel.value.data!.product!.marketPrice ??
                               "")
                           .toString();
                   editProductController.qtyController.text =
@@ -309,6 +315,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                                 .listModelData[index]
                                                 .maxQty
                                                 .value,
+                                            marketPrice1: editProductController
+                                                .listModelData[index]
+                                                .marketPrice!
+                                                .value,
                                             index: index);
                                       });
                                 })
@@ -339,7 +349,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                               price: "".obs,
                                               minQty: "".obs,
                                               maxQty: "".obs,
-                                              qtyType: "".obs));
+                                              qtyType: "".obs,
+                                              marketPrice: "".obs));
                                       setState(() {});
                                     },
                                     child: Icon(
@@ -389,6 +400,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                           editProductController
                                               .listModelData.length;
                                       i++) {
+                                    map["variants[$i][market_price]"] =
+                                        editProductController
+                                            .listModelData[i].marketPrice!.value
+                                            .toString();
                                     map["variants[$i][variant_qty]"] =
                                         editProductController
                                             .listModelData[i].qty.value
@@ -458,16 +473,40 @@ class _EditProductScreenState extends State<EditProductScreen> {
     required String price1,
     required String minQty1,
     required String maxQty1,
+    required String marketPrice1,
     required int index,
   }) {
     final TextEditingController qty = TextEditingController(text: qty1);
     final TextEditingController price = TextEditingController(text: price1);
     final TextEditingController minQty = TextEditingController(text: minQty1);
     final TextEditingController maxQty = TextEditingController(text: maxQty1);
+    final TextEditingController marketPrice =
+        TextEditingController(text: marketPrice1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
+          Row(
+            children: [
+              Expanded(
+                child: RegistrationTextField1(
+                  hint: "Market Price",
+                  onChanged: (value) {
+                    editProductController
+                        .listModelData[index].marketPrice!.value = value;
+                  },
+                  controller: marketPrice,
+                  validator: MultiValidator([
+                    RequiredValidator(
+                        errorText: "Please enter the market price")
+                  ]),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: AddSize.size10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

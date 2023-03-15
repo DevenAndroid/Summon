@@ -79,29 +79,30 @@ AppBar buildAppBar(
     actions: [
       if (controller.currentIndex.value != 0)
         IconButton(
-          icon: Padding(
-              padding: const EdgeInsets.only(right: 12.0),
-              child: Badge(
-                badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                badgeContent: Obx(() {
-                  return Text(
-                    notificationController.isDataLoading.value
-                        ? notificationController.model.value.data!.count
-                            .toString()
-                        : "0",
-                    style: TextStyle(
-                        color: Colors.white, fontSize: AddSize.font12),
-                  );
-                }),
-                child: const ImageIcon(
-                  AssetImage(AppAssets.notification),
-                  size: 22,
-                ),
-              )),
-          //     Image.asset(
-          //   AppAssets.notification,
-          //   height: 22,
-          // ),
+          icon:
+              // Padding(
+              //     padding: const EdgeInsets.only(right: 12.0),
+              //     child: Badge(
+              //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+              //       badgeContent: Obx(() {
+              //         return Text(
+              //           notificationController.isDataLoading.value
+              //               ? notificationController.model.value.data!.count
+              //                   .toString()
+              //               : "0",
+              //           style: TextStyle(
+              //               color: Colors.white, fontSize: AddSize.font12),
+              //         );
+              //       }),
+              //       child: const ImageIcon(
+              //         AssetImage(AppAssets.notification),
+              //         size: 22,
+              //       ),
+              //     )),
+              Image.asset(
+            AppAssets.notification,
+            height: 22,
+          ),
           onPressed: () {
             Get.toNamed(NotificationScreen.notificationScreen);
           },

@@ -15,6 +15,7 @@ class VendorAddProductController extends GetxController {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController minQtyController = TextEditingController();
   final TextEditingController maxQtyController = TextEditingController();
+  final TextEditingController marketPriceController = TextEditingController();
   RxString productId = "".obs;
   RxString qtyType = "".obs;
   RxBool isDataLoading = false.obs;

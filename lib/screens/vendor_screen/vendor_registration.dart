@@ -154,12 +154,12 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           ),
                           RegistrationTextField(
                             controller: adharNoController,
-                            hint: "Aadhar card number",
+                            hint: "Aadhaar card number",
                             length: 12,
                             keyboardType: TextInputType.number,
                             validator: (value) {
                               if (value!.isEmpty || value.length < 12) {
-                                return 'Please enter 12 digit aadhar card number';
+                                return 'Please enter 12 digit Aadhaar card number';
                               }
                               return null;
                             },

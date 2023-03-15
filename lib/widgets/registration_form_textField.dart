@@ -110,30 +110,32 @@ class RegistrationTextField1 extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final length;
   final String? lableText;
+  final int? errorMaxLines;
 
-  const RegistrationTextField1({
-    Key? key,
-    this.suffixIcon,
-    this.prefixIcon,
-    this.hint,
-    this.keyboardType,
-    this.textInputAction,
-    this.controller,
-    this.bgColor,
-    this.validator,
-    this.suffix,
-    this.autofillHints,
-    this.prefix,
-    this.minLines = 1,
-    this.maxLines = 1,
-    this.obscureText = false,
-    this.readOnly = false,
-    this.onTap,
-    this.enable,
-    this.length,
-    this.onChanged,
-    this.lableText,
-  }) : super(key: key);
+  const RegistrationTextField1(
+      {Key? key,
+      this.suffixIcon,
+      this.prefixIcon,
+      this.hint,
+      this.keyboardType,
+      this.textInputAction,
+      this.controller,
+      this.bgColor,
+      this.validator,
+      this.suffix,
+      this.autofillHints,
+      this.prefix,
+      this.minLines = 1,
+      this.maxLines = 1,
+      this.obscureText = false,
+      this.readOnly = false,
+      this.onTap,
+      this.enable,
+      this.length,
+      this.onChanged,
+      this.lableText,
+      this.errorMaxLines})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,11 +152,13 @@ class RegistrationTextField1 extends StatelessWidget {
       minLines: minLines,
       maxLines: maxLines,
       enabled: enable,
+      //errorMaxLines: errorMaxLines,
       //lableText: lableText,
       inputFormatters: [
         LengthLimitingTextInputFormatter(length),
       ],
       decoration: InputDecoration(
+          errorMaxLines: errorMaxLines,
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:

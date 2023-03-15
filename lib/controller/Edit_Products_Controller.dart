@@ -22,6 +22,7 @@ class EditProductsController extends GetxController {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController minQtyController = TextEditingController();
   final TextEditingController maxQtyController = TextEditingController();
+  final TextEditingController marketPriceController = TextEditingController();
 
   getEditProductData() async {
     isDataLoading.value = false;
@@ -31,6 +32,7 @@ class EditProductsController extends GetxController {
       listModelData.clear();
       for (var element in editModel.value.data!.productsVariant!) {
         listModelData.add(ListModel(
+            marketPrice: element.marketPrice.toString().obs,
             qty: element.variantQty.toString().obs,
             price: element.price.toString().obs,
             minQty: element.minQty.toString().obs,

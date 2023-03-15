@@ -142,35 +142,34 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       ),
                       actions: [
                         IconButton(
-                          icon:
-                          // Image.asset(
-                          //   AppAssets.notification,
-                          //   height: 22,
-                          // ),
-                          Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 12.0),
-                              child:
-                              Badge(
-                                badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                                badgeContent: Obx(() {
-                                  return Text(
-                                    notificationController
-                                        .isDataLoading.value
-                                        ? notificationController
-                                        .model.value.data!.count
-                                        .toString()
-                                        : "0",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: AddSize.font12),
-                                  );
-                                }),
-                                child: const ImageIcon(
-                                  AssetImage(AppAssets.notification),
-                                  size: 22,
-                                ),
-                              )),
+                          icon: Image.asset(
+                            AppAssets.notification,
+                            height: 22,
+                          ),
+                          // Padding(
+                          //     padding: const EdgeInsets.only(
+                          //         right: 12.0),
+                          //     child:
+                          //     Badge(
+                          //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                          //       badgeContent: Obx(() {
+                          //         return Text(
+                          //           notificationController
+                          //               .isDataLoading.value
+                          //               ? notificationController
+                          //               .model.value.data!.count
+                          //               .toString()
+                          //               : "0",
+                          //           style: TextStyle(
+                          //               color: Colors.white,
+                          //               fontSize: AddSize.font12),
+                          //         );
+                          //       }),
+                          //       child: const ImageIcon(
+                          //         AssetImage(AppAssets.notification),
+                          //         size: 22,
+                          //       ),
+                          //     )),
                           onPressed: () {
                             Get.toNamed(NotificationScreen.notificationScreen);
                           },
@@ -248,36 +247,35 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                              BottomNavigationBarItem(
-                                  icon:
+                              const BottomNavigationBarItem(
+                                  icon: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 08,
+                                    ),
+                                    child: ImageIcon(
+                                      AssetImage(AppAssets.cartImage),
+                                      size: 18,
+                                    ),
+                                  ),
                                   // Padding(
-                                  //   padding: EdgeInsets.symmetric(
-                                  //     vertical: 08,
-                                  //   ),
-                                  //   child: ImageIcon(
-                                  //     AssetImage(AppAssets.cartImage),
-                                  //     size: 18,
-                                  //   ),
-                                  // ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 12.0),
-                                      child: Badge(
-                                        badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                                        badgeContent: Obx(() {
-                                          return Text(
-                                            myCartController.sum.value
-                                                .toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: AddSize.font12),
-                                          );
-                                        }),
-                                        child: const ImageIcon(
-                                          AssetImage(AppAssets.cartImage),
-                                          size: 20,
-                                        ),
-                                      )),
+                                  //     padding: const EdgeInsets.only(
+                                  //         right: 12.0),
+                                  //     child: Badge(
+                                  //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                  //       badgeContent: Obx(() {
+                                  //         return Text(
+                                  //           myCartController.sum.value
+                                  //               .toString(),
+                                  //           style: TextStyle(
+                                  //               color: Colors.white,
+                                  //               fontSize: AddSize.font12),
+                                  //         );
+                                  //       }),
+                                  //       child: const ImageIcon(
+                                  //         AssetImage(AppAssets.cartImage),
+                                  //         size: 20,
+                                  //       ),
+                                  //     )),
                                   // icon: Padding(
                                   //   padding: EdgeInsets.all(8.0),
                                   //   child: ImageIcon(
