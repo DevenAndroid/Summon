@@ -363,6 +363,11 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                     .toString();
 
                                 for (var i = 0; i < listModelData.length; i++) {
+                                  map["variants[$i][market_price]"] =
+                                      listModelData[i]
+                                          .marketPrice!
+                                          .value
+                                          .toString();
                                   map["variants[$i][variant_qty]"] =
                                       listModelData[i].qty.value.toString();
                                   map["variants[$i][variant_qty_type]"] =
@@ -436,7 +441,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 price: "".obs,
                 minQty: "".obs,
                 maxQty: "".obs,
-                qtyType: "".obs));
+                qtyType: "".obs,
+                marketPrice: "".obs));
             vendorAddProductController.productNameController.text =
                 (vendorAddProductController
                             .vendorAddProductModel.value.data!.name ??
@@ -472,6 +478,11 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             .vendorAddProductModel.value.data!.maxQty ??
                         "")
                     .toString();
+            vendorAddProductController.marketPriceController.text =
+                (vendorAddProductController
+                            .vendorAddProductModel.value.data!.marketPrice ??
+                        "")
+                    .toString();
 
             listModelData[0].price.value = (vendorAddProductController
                         .vendorAddProductModel.value.data!.regularPrice ??
@@ -491,6 +502,10 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 .toString();
             listModelData[0].maxQty.value = (vendorAddProductController
                         .vendorAddProductModel.value.data!.maxQty ??
+                    "")
+                .toString();
+            listModelData[0].marketPrice!.value = (vendorAddProductController
+                        .vendorAddProductModel.value.data!.marketPrice ??
                     "")
                 .toString();
             vendorAddProductController.initialSelect = true;
@@ -601,6 +616,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             price1: listModelData[index].price.value,
                             minQty1: listModelData[index].minQty.value,
                             maxQty1: listModelData[index].maxQty.value,
+                            marketPrice1:
+                                listModelData[index].marketPrice!.value,
                             index: index),
                       );
                     });
@@ -631,7 +648,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             price: "".obs,
                             minQty: "".obs,
                             maxQty: "".obs,
-                            qtyType: "".obs));
+                            qtyType: "".obs,
+                            marketPrice: "".obs));
                         setState(() {});
                       },
                       child: Icon(
@@ -655,16 +673,41 @@ class _AddVendorProductState extends State<AddVendorProduct> {
     required String price1,
     required String minQty1,
     required String maxQty1,
+    required String marketPrice1,
     required int index,
   }) {
     final TextEditingController qty = TextEditingController(text: qty1);
     final TextEditingController price = TextEditingController(text: price1);
     final TextEditingController minQty = TextEditingController(text: minQty1);
     final TextEditingController maxQty = TextEditingController(text: maxQty1);
+    final TextEditingController marketPrice =
+        TextEditingController(text: marketPrice1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
         children: [
+          Row(
+            children: [
+              Expanded(
+                child: RegistrationTextField1(
+                  hint: "Market Price",
+                  lableText: "Market Price",
+                  onChanged: (value) {
+                    listModelData[index].marketPrice!.value = value;
+                  },
+                  controller: marketPrice,
+                  validator: MultiValidator(
+                      [RequiredValidator(errorText: "Please enter price")]),
+                ),
+              ),
+              SizedBox(
+                height: AddSize.size10,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: AddSize.size20,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -769,6 +812,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 child: RegistrationTextField1(
                     lableText: "Min QTY",
                     hint: "Min",
+                    errorMaxLines: 2,
                     onChanged: (value) {
                       listModelData[index].minQty.value = value;
                     },
@@ -796,6 +840,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 child: RegistrationTextField1(
                     lableText: "Max QTY",
                     hint: "Max",
+                    errorMaxLines: 2,
                     onChanged: (value) {
                       listModelData[index].maxQty.value = value;
                     },
@@ -803,8 +848,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Enter the Max Qty";
-                      } else if (int.parse(maxQty.text) > 1) {
-                        return "Max Qty should be greater than Min Qty";
+                      } else if (int.parse(maxQty.text) < 1) {
+                        return "Max Qty should be one";
                       } else if (int.parse(maxQty.text) <
                           int.parse(minQty.text)) {
                         return "Max Qty should be greater than Min Qty";

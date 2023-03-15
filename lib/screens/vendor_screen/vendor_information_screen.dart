@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/resources/new_helper.dart';
-import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
+import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
@@ -243,11 +242,11 @@ class _VendorInformationState extends State<VendorInformation> {
                                             .model.value.data!.deliveryRange
                                             .toString()
                                         : selectedCAt.value,
-                                    items: dropDownList.map((value) {
+                                    items: area.map((value) {
                                       return DropdownMenuItem(
-                                        value: value,
+                                        value: value.key.toString(),
                                         child: Text(
-                                          "$value KM",
+                                          value.value.toString(),
                                           style: const TextStyle(fontSize: 14),
                                         ),
                                       );
@@ -256,12 +255,12 @@ class _VendorInformationState extends State<VendorInformation> {
                                       selectedCAt.value = newValue.toString();
                                       showValidation.value == false;
                                     },
-                                    validator: (String? value) {
-                                      if (value?.isEmpty ?? true) {
-                                        return 'Please select area';
-                                      }
-                                      return null;
-                                    },
+                                    // validator: (String? value) {
+                                    //   if (value?.isEmpty ?? true) {
+                                    //     return 'Please select area';
+                                    //   }
+                                    //   return null;
+                                    // },
                                   );
                                 }),
                                 SizedBox(
