@@ -46,7 +46,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Hi, ${ profileController.isDataLoading.value? (profileController.model.value.data!.name ?? "")
+                Text("Hi, ${profileController.isDataLoading.value? (profileController.model.value.data!.name ?? "")
                 .toString(): ""}",
                   style: Theme.of(context).textTheme.headline6!.copyWith(
                       fontWeight: FontWeight.w500, fontSize: AddSize.font16),
@@ -140,7 +140,8 @@ class _VenderDashboardState extends State<VenderDashboard> {
                           width: 10,
                           clipBehavior: Clip.antiAlias,
                           decoration: BoxDecoration(
-                            color: AppTheme.userActive,
+                            color: profileController.isDataLoading.value ? profileController.model.value.data!.isVendorOnline == true ?
+                            AppTheme.userActive : Colors.red : null,
                             border: Border.all(
                                 color: AppTheme.backgroundcolor, width: 1),
                             borderRadius: BorderRadius.circular(50),

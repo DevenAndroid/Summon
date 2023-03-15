@@ -20,6 +20,7 @@ class ProfileController extends GetxController {
   }
 
   getData() async {
+    isDataLoading.value = false;
     userProfileData().then((value) {
       isDataLoading.value = true;
       model.value = value;

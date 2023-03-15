@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -182,7 +184,14 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                           .data!
                                                           .orderItems![index]
                                                           .status
-                                                          .toString()),
+                                                          .toString(),
+                                                      variantId: vendorOrderListController
+                                                      .model
+                                                      .value
+                                                      .data!
+                                                      .orderItems![index]
+                                                      .id
+                                                      .toString()),
                                                   SizedBox(
                                                     height: height * .005,
                                                   ),
@@ -764,7 +773,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     });
   }
 
-  orderList({required name,required price,required qty,required itemQty,required status1}) {
+  orderList({required name,required price,required qty,required itemQty,required status1,required variantId}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -784,7 +793,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 ),
               ),
               Text(
-                price,
+                "₹" + price,
                 style: TextStyle(
                     fontSize: AddSize.font16,
                     color: AppTheme.primaryColor,
@@ -827,13 +836,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
         status1 != "R"
             ? ElevatedButton(
                 onPressed: () {
-                  vendorRejectVariantRepo(
-                          order_variant_id: vendorOrderListController
-                              .model.value.data!.orderItems![0].variantId
-                              .toString())
+                  vendorRejectVariantRepo(order_variant_id: variantId)
                       .then((value) {
                     if (value.status == true) {
-                      // rejectButton = true;
+                      log(variantId);
                       showToast(value.message);
                       vendorOrderListController.getMyOrderDetails();
                     }
@@ -898,7 +904,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 color: AppTheme.blackcolor,
                 fontSize: AddSize.font16,
                 fontWeight: FontWeight.w500)),
-        Text(price,
+        Text("₹" + price,
             style: TextStyle(
                 color: Colors.grey,
                 fontSize: AddSize.font14,

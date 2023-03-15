@@ -44,6 +44,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
       // backgroundColor: const Color(0xffFFFFFF),
       appBar: backAppBar(title: "Search Product", context: context),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: EdgeInsets.symmetric(
