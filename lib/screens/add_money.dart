@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -20,7 +22,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   final myWalletController = Get.put(MyWalletController());
   final TextEditingController addMoneyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final List<String> moneyList = ["+₹500", "+₹800", "+₹1000", "+₹1200"];
+  final List<String> moneyList = ["500", "800", "1000", "1200"];
   final Razorpay _razorpay = Razorpay();
 
 
@@ -39,9 +41,14 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    log("aaaaaaa------");
     addMoneyRepo(amount: addMoneyController.text, razorpaySignature: response.signature??"SIGNATURE", paymentId: response.paymentId, context: context)
         .then((value){
       showToast(value.message).toString();
+      if(value.status == true){
+        myWalletController.getWalletData();
+        Get.back();
+      }
     });
     // Do something when payment succeeds
   }
@@ -119,9 +126,6 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         processPayment();
-                                        myWalletController.getWalletData();
-                                        Get.back();
-                                        // controller.onItemTap(2);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -165,7 +169,7 @@ class _AddMoneyScreenState extends State<AddMoneyScreen> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("$title",
+      label: Text("+₹$title",
           style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,

@@ -65,6 +65,7 @@ dependencies:
   share_plus:
   client_information:
   razorpay_flutter:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:

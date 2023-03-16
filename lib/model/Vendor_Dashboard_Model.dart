@@ -23,14 +23,16 @@ class VendorDashboardModel {
 }
 
 class Data {
-  String? grossSales;
-  String? grossSalesPercent;
-  String? earning;
-  String? earningPercent;
-  String? soldItems;
-  String? soldItemsPercent;
-  String? orderReceived;
-  String? orderReceivedPercent;
+  dynamic grossSales;
+  dynamic grossSalesPercent;
+  dynamic earning;
+  dynamic earningPercent;
+  dynamic soldItems;
+  dynamic soldItemsPercent;
+  dynamic orderReceived;
+  dynamic orderReceivedPercent;
+  dynamic startTime;
+  dynamic endTime;
   bool? store;
   bool? selfDelivery;
   List<OrderList>? orderList;
@@ -44,6 +46,8 @@ class Data {
       this.soldItemsPercent,
       this.orderReceived,
       this.orderReceivedPercent,
+      this.startTime,
+      this.endTime,
       this.store,
       this.selfDelivery,
       this.orderList});
@@ -56,6 +60,9 @@ class Data {
     soldItems = json['sold_items'];
     soldItemsPercent = json['sold_items_percent'];
     orderReceived = json['order_received'];
+    orderReceivedPercent = json['order_received_percent'];
+    startTime = json['start_time'];
+    endTime = json['end_time'];
     orderReceivedPercent = json['order_received_percent'];
     store = json['store'];
     selfDelivery = json['self_delivery'];
@@ -76,6 +83,8 @@ class Data {
     data['sold_items'] = this.soldItems;
     data['sold_items_percent'] = this.soldItemsPercent;
     data['order_received'] = this.orderReceived;
+    data['start_time'] = this.startTime;
+    data['end_time'] = this.endTime;
     data['order_received_percent'] = this.orderReceivedPercent;
     data['store'] = this.store;
     data['self_delivery'] = this.selfDelivery;

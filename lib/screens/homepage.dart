@@ -263,6 +263,7 @@ class HomePageState extends State<HomePage> {
                                           const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 4,
                                               crossAxisSpacing: 10.0,
+                                              mainAxisExtent: 80,
                                               mainAxisSpacing: 10.0),
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
@@ -334,6 +335,7 @@ class HomePageState extends State<HomePage> {
                                                             .name
                                                             .toString(),
                                                         maxLines: 1,
+                                                        overflow: TextOverflow.ellipsis,
                                                         style: const TextStyle(
                                                             color: AppTheme
                                                                 .subText,

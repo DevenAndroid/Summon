@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +24,7 @@ Future<CartRelatedProductModel> addToCartRelatedRepo() async {
 
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
-      print("Cart Related Product Repo...${response.body}");
+      log("Cart Related Product Repo...${response.body}");
       return CartRelatedProductModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);

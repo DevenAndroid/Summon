@@ -33,6 +33,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.da
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/admin_response_screen.dart';
+import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
 import '../screens/my_cart_screen.dart';
 import '../screens/notification_screen.dart';
@@ -130,6 +131,9 @@ class MyRouter {
     GetPage(
         name: DeliveryOrderDetails.deliveryOrderDetails,
         page: () => const DeliveryOrderDetails()),
+    GetPage(
+        name: DeliveryAddress.deliveryAddressScreen,
+        page: () => const DeliveryAddress()),
     GetPage(
         name: SetTimeScreen.setTimeScreen, page: () => const SetTimeScreen()),
     GetPage(

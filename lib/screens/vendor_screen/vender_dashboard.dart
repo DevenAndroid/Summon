@@ -65,7 +65,9 @@ class _VenderDashboardState extends State<VenderDashboard> {
                     GestureDetector(
                         onTap: () {},
                         child: Text(
-                          "10am to 9pm",
+                            "${vendorDashboardController.isDataLoading.value? (vendorDashboardController.model.value.data!.startTime ?? "")
+                            .toString(): ""} to ${vendorDashboardController.isDataLoading.value? (vendorDashboardController.model.value.data!.endTime ?? "")
+                                .toString(): ""}",
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -602,6 +604,8 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                       ],
                                     ),
                                     const Divider(),
+                                    vendorDashboardController
+                                        .model.value.data!.orderList!.isNotEmpty ?
                                     ListView.builder(
                                       physics: const BouncingScrollPhysics(),
                                       shrinkWrap: true,
@@ -702,7 +706,14 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                           ],
                                         );
                                       },
-                                    )
+                                    ): Text("Order not Available", style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                        height: 1.5,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: AddSize.font14,
+                                        color:AppTheme.blackcolor))
                                   ],
                                 ),
                               ),
