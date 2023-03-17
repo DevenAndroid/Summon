@@ -15,6 +15,7 @@ import 'package:fresh2_arrive/screens/edit_profile.dart';
 import 'package:fresh2_arrive/screens/help_center.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
@@ -57,6 +58,7 @@ class MyRouter {
         name: OnBoardingScreen.onBoardingScreen,
         page: () => const OnBoardingScreen()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
+    GetPage(name: MyProfileScreen.myProfileScreen, page: () => const MyProfileScreen()),
     GetPage(
         name: AdminResponse.adminResponse, page: () => const AdminResponse()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),

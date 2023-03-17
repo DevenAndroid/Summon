@@ -33,6 +33,7 @@ class Data {
   dynamic orderReceivedPercent;
   dynamic startTime;
   dynamic endTime;
+  dynamic storeStatus;
   bool? store;
   bool? selfDelivery;
   List<OrderList>? orderList;
@@ -48,6 +49,7 @@ class Data {
       this.orderReceivedPercent,
       this.startTime,
       this.endTime,
+      this.storeStatus,
       this.store,
       this.selfDelivery,
       this.orderList});
@@ -64,6 +66,7 @@ class Data {
     startTime = json['start_time'];
     endTime = json['end_time'];
     orderReceivedPercent = json['order_received_percent'];
+    storeStatus = json['store_status'];
     store = json['store'];
     selfDelivery = json['self_delivery'];
     if (json['order_list'] != null) {
@@ -86,6 +89,7 @@ class Data {
     data['start_time'] = this.startTime;
     data['end_time'] = this.endTime;
     data['order_received_percent'] = this.orderReceivedPercent;
+    data['store_status'] = this.storeStatus;
     data['store'] = this.store;
     data['self_delivery'] = this.selfDelivery;
     if (this.orderList != null) {

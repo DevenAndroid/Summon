@@ -372,8 +372,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     checkOut(
                             payment_type: selectedValue.value, context: context)
                         .then((value) {
+                      myCartController.getAddToCartList();
                       if (value.status == true) {
-                        myCartController.getAddToCartList();
                         Get.offAllNamed(ThankYouScreen.thankYouScreen,
                             arguments: [
                               value.data!.orderType,

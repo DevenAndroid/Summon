@@ -23,7 +23,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
 
   final TextEditingController addMoneyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final List<String> moneyList = ["+₹500", "+₹800", "+₹1000", "+₹1200"];
+  final List<String> moneyList = ["500", "800", "1000", "1200"];
 
   final walletStatus = "";
 
@@ -401,7 +401,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("${title}",
+      label: Text("+₹${title}",
           style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,

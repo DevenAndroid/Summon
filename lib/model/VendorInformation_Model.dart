@@ -8,13 +8,13 @@ class VendorInformationModel {
   VendorInformationModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -32,6 +32,7 @@ class Data {
   String? panCardImage;
   String? aadharFrontImage;
   String? aadharBackImage;
+  String? storeName;
   String? remark;
   bool? status;
 
@@ -45,6 +46,7 @@ class Data {
       this.panCardImage,
       this.aadharFrontImage,
       this.aadharBackImage,
+      this.storeName,
       this.remark,
       this.status});
 
@@ -58,23 +60,25 @@ class Data {
     panCardImage = json['pan_card_image'];
     aadharFrontImage = json['aadhar_front_image'];
     aadharBackImage = json['aadhar_back_image'];
+    storeName = json['store_name'];
     remark = json['remark'];
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['storeImage'] = this.storeImage;
-    data['aadharNo'] = this.aadharNo;
-    data['panNo'] = this.panNo;
-    data['delivery_range'] = this.deliveryRange;
-    data['bank_statement'] = this.bankStatement;
-    data['pan_card_image'] = this.panCardImage;
-    data['aadhar_front_image'] = this.aadharFrontImage;
-    data['aadhar_back_image'] = this.aadharBackImage;
-    data['remark'] = this.remark;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['storeImage'] = storeImage;
+    data['aadharNo'] = aadharNo;
+    data['panNo'] = panNo;
+    data['delivery_range'] = deliveryRange;
+    data['bank_statement'] = bankStatement;
+    data['pan_card_image'] = panCardImage;
+    data['aadhar_front_image'] = aadharFrontImage;
+    data['aadhar_back_image'] = aadharBackImage;
+    data['store_name'] = storeName;
+    data['remark'] = remark;
+    data['status'] = status;
     return data;
   }
 }

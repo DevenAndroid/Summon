@@ -165,9 +165,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                 fontWeight: FontWeight.w500),
                             textAlign: TextAlign.start,
                           ),
-                          value: selectedTime == ""
-                          ? null
-                          : selectedTime,
+                          value: selectedTime == "" ? null : selectedTime,
                           items: status1.map((value) {
                             return DropdownMenuItem(
                               value: value.key.toString(),
@@ -197,332 +195,280 @@ class _AssignedOrderState extends State<AssignedOrder> {
                 ),
                 Obx(() {
                   return assignedController.isDataLoading.value
-                      ? ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount:
-                              assignedController.model.value.data!.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: (){
-                                orderController.id.value = assignedController.model.value.data![index].orderId.toString();
-                                Get.toNamed(DriverDeliveryOrderDetails
-                                    .driverDeliveryOrderDetails);
-                              },
-                              child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding10,
-                                  ),
-                                  margin: EdgeInsets.only(top: AddSize.padding10),
-                                  decoration: BoxDecoration(
-                                      color: AppTheme.backgroundcolor,
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                      ? assignedController.model.value.data!.isNotEmpty
+                          ? ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              itemCount:
+                                  assignedController.model.value.data!.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    orderController.id.value =
+                                        assignedController
+                                            .model.value.data![index].orderId
+                                            .toString();
+                                    Get.toNamed(DriverDeliveryOrderDetails
+                                        .driverDeliveryOrderDetails);
+                                  },
+                                  child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding10,
+                                      ),
+                                      margin: EdgeInsets.only(
+                                          top: AddSize.padding10),
+                                      decoration: BoxDecoration(
+                                          color: AppTheme.backgroundcolor,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(
                                         children: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                // Get.toNamed(MyRouter.editProfileScreen);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                minimumSize: Size(AddSize.size50,
-                                                    AddSize.size25),
-                                                primary: AppTheme.primaryColor,
-                                                elevation: 0,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(6)),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    // Get.toNamed(MyRouter.editProfileScreen);
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    minimumSize: Size(
+                                                        AddSize.size50,
+                                                        AddSize.size25),
+                                                    primary:
+                                                        AppTheme.primaryColor,
+                                                    elevation: 0,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        6)),
+                                                  ),
+                                                  child: Text(
+                                                    assignedController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .paymentMethod
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            color: AppTheme
+                                                                .backgroundcolor,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                AddSize.font12),
+                                                  )),
+                                              SizedBox(
+                                                width: AddSize.size10,
                                               ),
-                                              child: Text(
-                                                assignedController.model.value
-                                                    .data![index].paymentMethod
-                                                    .toString(),
+                                              Text(
+                                                "\$${assignedController.model.value.data![index].orderTotal.toString()}",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
                                                     .copyWith(
                                                         color: AppTheme
-                                                            .backgroundcolor,
+                                                            .primaryColor,
                                                         fontWeight:
                                                             FontWeight.w500,
-                                                        fontSize: AddSize.font12),
-                                              )),
-                                          SizedBox(
-                                            width: AddSize.size10,
+                                                        fontSize:
+                                                            AddSize.font14),
+                                              )
+                                            ],
                                           ),
-                                          Text(
-                                            "\$${assignedController.model.value.data![index].orderTotal.toString()}",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    color: AppTheme.primaryColor,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: AddSize.font14),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.date_range,
-                                            color: AppTheme.primaryColor,
-                                          ),
-                                          SizedBox(
-                                            width: AddSize.size15,
-                                          ),
-                                          Column(
+                                          Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                "Date:",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        color:
-                                                            AppTheme.blackcolor,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: AddSize.font14),
+                                              const Icon(
+                                                Icons.date_range,
+                                                color: AppTheme.primaryColor,
                                               ),
-                                              Text(
-                                                assignedController
-                                                    .model.value.data![index].date
-                                                    .toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        color:
-                                                            AppTheme.lightblack,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: AddSize.font14),
+                                              SizedBox(
+                                                width: AddSize.size15,
                                               ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Date:",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            color: AppTheme
+                                                                .blackcolor,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                AddSize.font14),
+                                                  ),
+                                                  Text(
+                                                    assignedController.model
+                                                        .value.data![index].date
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            color: AppTheme
+                                                                .lightblack,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize:
+                                                                AddSize.font14),
+                                                  ),
+                                                ],
+                                              )
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: AddSize.size10,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.list_alt_sharp,
-                                            color: AppTheme.primaryColor,
                                           ),
                                           SizedBox(
-                                            width: AddSize.size15,
+                                            height: AddSize.size10,
                                           ),
-                                          Column(
+                                          Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                "Order ID:",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        color:
-                                                            AppTheme.blackcolor,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: AddSize.font14),
+                                              const Icon(
+                                                Icons.list_alt_sharp,
+                                                color: AppTheme.primaryColor,
                                               ),
-                                              Text(
-                                                "#${assignedController.model.value.data![index].orderId.toString()}",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        color:
-                                                            AppTheme.lightblack,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: AddSize.font14),
+                                              SizedBox(
+                                                width: AddSize.size15,
                                               ),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Order ID:",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            color: AppTheme
+                                                                .blackcolor,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                AddSize.font14),
+                                                  ),
+                                                  Text(
+                                                    "#${assignedController.model.value.data![index].orderId.toString()}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            color: AppTheme
+                                                                .lightblack,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize:
+                                                                AddSize.font14),
+                                                  ),
+                                                ],
+                                              )
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: AddSize.size10,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Icon(
-                                            Icons.location_on_outlined,
-                                            color: AppTheme.primaryColor,
                                           ),
                                           SizedBox(
-                                            width: AddSize.size15,
+                                            height: AddSize.size10,
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Location:",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5!
-                                                      .copyWith(
-                                                          color:
-                                                              AppTheme.blackcolor,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          fontSize:
-                                                              AddSize.font14),
-                                                ),
-                                                Row(
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const Icon(
+                                                Icons.location_on_outlined,
+                                                color: AppTheme.primaryColor,
+                                              ),
+                                              SizedBox(
+                                                width: AddSize.size15,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                                      MainAxisAlignment.start,
                                                   children: [
-                                                    Expanded(
-                                                        child: Text(
-                                                      assignedController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .location!
-                                                              .location
-                                                              .toString() +
-                                                          assignedController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .location!
-                                                              .flatNo
-                                                              .toString() +
-                                                          assignedController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .location!
-                                                              .street
-                                                              .toString(),
+                                                    Text(
+                                                      "Location:",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline5!
                                                           .copyWith(
                                                               color: AppTheme
-                                                                  .lightblack,
+                                                                  .blackcolor,
                                                               fontWeight:
-                                                                  FontWeight.w400,
-                                                              fontSize:
-                                                                  AddSize.font14),
-                                                    )),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  height: AddSize.size10,
-                                                ),
-                                                Obx(() {
-                                                  return assignedController
-                                                              .model
-                                                              .value
-                                                              .data![index]
-                                                              .orderStatus ==
-                                                          "Pickup"
-                                                      ? ElevatedButton(
-                                                          onPressed: () {
-                                                            driverUpdateOrder(
-                                                                    orderId: assignedController
-                                                                        .model
-                                                                        .value
-                                                                        .data![
-                                                                            index]
-                                                                        .orderId,
-                                                                    status:
-                                                                        "delivered",
-                                                                    context:
-                                                                        context)
-                                                                .then((value) {
-                                                              if (value.status ==
-                                                                  true) {
-                                                                showToast("${value.message}"
-                                                                        .toString());
-                                                                assignedController.getData();
-                                                                Get.toNamed(
-                                                                    VerifyOtpDeliveryScreen
-                                                                        .verifyOtpDeliveryScreen,
-                                                                    arguments: [
-                                                                      assignedController
-                                                                          .model
-                                                                          .value
-                                                                          .data![
-                                                                              index]
-                                                                          .orderId
-                                                                    ]);
-                                                              } else {
-                                                                showToast(value
-                                                                    .message
-                                                                    .toString());
-                                                              }
-                                                            });
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        AddSize
-                                                                            .padding22),
-                                                            minimumSize: Size(
-                                                                AddSize.size100,
-                                                                AddSize.size20 *
-                                                                    1.8),
-                                                            primary: AppTheme
-                                                                .userActive,
-                                                            elevation: 0,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            6)),
-                                                          ),
-                                                          child: Text(
-                                                            "Deliver"
-                                                                .toUpperCase(),
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline5!
-                                                                .copyWith(
-                                                                    color: AppTheme
-                                                                        .backgroundcolor,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize: AddSize
-                                                                        .font14),
-                                                          ))
-                                                      : assignedController
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: AddSize
+                                                                  .font14),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                            child: Text(
+                                                          assignedController
+                                                                  .model
+                                                                  .value
+                                                                  .data![index]
+                                                                  .location!
+                                                                  .location
+                                                                  .toString() +
+                                                              assignedController
+                                                                  .model
+                                                                  .value
+                                                                  .data![index]
+                                                                  .location!
+                                                                  .flatNo
+                                                                  .toString() +
+                                                              assignedController
+                                                                  .model
+                                                                  .value
+                                                                  .data![index]
+                                                                  .location!
+                                                                  .street
+                                                                  .toString(),
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .headline5!
+                                                              .copyWith(
+                                                                  color: AppTheme
+                                                                      .lightblack,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: AddSize
+                                                                      .font14),
+                                                        )),
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: AddSize.size10,
+                                                    ),
+                                                    Obx(() {
+                                                      return assignedController
                                                                   .model
                                                                   .value
                                                                   .data![index]
                                                                   .orderStatus ==
-                                                              "Accepted"
+                                                              "Pickup"
                                                           ? ElevatedButton(
                                                               onPressed: () {
                                                                 driverUpdateOrder(
@@ -533,15 +479,33 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                                 index]
                                                                             .orderId,
                                                                         status:
-                                                                            "pickup",
+                                                                            "delivered",
                                                                         context:
                                                                             context)
                                                                     .then(
                                                                         (value) {
-                                                                          showToast("${value.message}"
-                                                                              .toString());
-                                                                  if (value.status == true) {
-                                                                   assignedController.getData();
+                                                                  if (value
+                                                                          .status ==
+                                                                      true) {
+                                                                    showToast(
+                                                                        "${value.message}"
+                                                                            .toString());
+                                                                    assignedController
+                                                                        .getData();
+                                                                    Get.toNamed(
+                                                                        VerifyOtpDeliveryScreen
+                                                                            .verifyOtpDeliveryScreen,
+                                                                        arguments: [
+                                                                          assignedController
+                                                                              .model
+                                                                              .value
+                                                                              .data![index]
+                                                                              .orderId
+                                                                        ]);
+                                                                  } else {
+                                                                    showToast(value
+                                                                        .message
+                                                                        .toString());
                                                                   }
                                                                 });
                                                               },
@@ -551,8 +515,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                 padding: EdgeInsets
                                                                     .symmetric(
                                                                         horizontal:
-                                                                            AddSize
-                                                                                .padding22),
+                                                                            AddSize.padding22),
                                                                 minimumSize: Size(
                                                                     AddSize
                                                                         .size100,
@@ -563,12 +526,11 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                 elevation: 0,
                                                                 shape: RoundedRectangleBorder(
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                6)),
+                                                                        BorderRadius.circular(
+                                                                            6)),
                                                               ),
                                                               child: Text(
-                                                                "Pickup"
+                                                                "Deliver"
                                                                     .toUpperCase(),
                                                                 style: Theme.of(
                                                                         context)
@@ -581,72 +543,145 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                             FontWeight
                                                                                 .w500,
                                                                         fontSize:
-                                                                            AddSize
-                                                                                .font14),
+                                                                            AddSize.font14),
                                                               ))
-                                                          : ElevatedButton(
-                                                              onPressed: () {
-                                                                null;
-                                                              },
-                                                              style:
-                                                                  ElevatedButton
+                                                          : assignedController
+                                                                      .model
+                                                                      .value
+                                                                      .data![
+                                                                          index]
+                                                                      .orderStatus ==
+                                                                  "Accepted"
+                                                              ? ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    driverUpdateOrder(
+                                                                            orderId:
+                                                                                assignedController.model.value.data![index].orderId,
+                                                                            status: "pickup",
+                                                                            context: context)
+                                                                        .then((value) {
+                                                                      showToast(
+                                                                          "${value.message}"
+                                                                              .toString());
+                                                                      if (value
+                                                                              .status ==
+                                                                          true) {
+                                                                        assignedController
+                                                                            .getData();
+                                                                      }
+                                                                    });
+                                                                  },
+                                                                  style: ElevatedButton
                                                                       .styleFrom(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
+                                                                    padding: EdgeInsets.symmetric(
                                                                         horizontal:
-                                                                            AddSize
-                                                                                .padding22),
-                                                                minimumSize: Size(
-                                                                    AddSize
-                                                                        .size100,
-                                                                    AddSize.size20 *
-                                                                        1.8),
-                                                                primary: AppTheme
-                                                                    .userActive,
-                                                                elevation: 0,
-                                                                shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                6)),
-                                                              ),
-                                                              child: Text(
-                                                                "Delivered"
-                                                                    .toUpperCase(),
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline5!
-                                                                    .copyWith(
-                                                                        color: AppTheme
-                                                                            .backgroundcolor,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w500,
-                                                                        fontSize:
-                                                                            AddSize
-                                                                                .font14),
-                                                              ));
-                                                }),
-                                                SizedBox(
-                                                  height: AddSize.size10,
-                                                )
-                                              ],
-                                            ),
-                                          )
+                                                                            AddSize.padding22),
+                                                                    minimumSize: Size(
+                                                                        AddSize
+                                                                            .size100,
+                                                                        AddSize.size20 *
+                                                                            1.8),
+                                                                    primary:
+                                                                        AppTheme
+                                                                            .userActive,
+                                                                    elevation:
+                                                                        0,
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(6)),
+                                                                  ),
+                                                                  child: Text(
+                                                                    "Pickup"
+                                                                        .toUpperCase(),
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .headline5!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppTheme.backgroundcolor,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            fontSize: AddSize.font14),
+                                                                  ))
+                                                              : ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    null;
+                                                                  },
+                                                                  style: ElevatedButton
+                                                                      .styleFrom(
+                                                                    padding: EdgeInsets.symmetric(
+                                                                        horizontal:
+                                                                            AddSize.padding22),
+                                                                    minimumSize: Size(
+                                                                        AddSize
+                                                                            .size100,
+                                                                        AddSize.size20 *
+                                                                            1.8),
+                                                                    primary:
+                                                                        AppTheme
+                                                                            .userActive,
+                                                                    elevation:
+                                                                        0,
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(6)),
+                                                                  ),
+                                                                  child: Text(
+                                                                    "Delivered"
+                                                                        .toUpperCase(),
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .headline5!
+                                                                        .copyWith(
+                                                                            color:
+                                                                                AppTheme.backgroundcolor,
+                                                                            fontWeight: FontWeight.w500,
+                                                                            fontSize: AddSize.font14),
+                                                                  ));
+                                                    }),
+                                                    SizedBox(
+                                                      height: AddSize.size10,
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: AddSize.size10,
+                                          ),
                                         ],
-                                      ),
-                                      SizedBox(
-                                        height: AddSize.size10,
-                                      ),
-                                    ],
-                                  )),
-                            );
-                          },
-                        )
-                      : Center(
+                                      )),
+                                );
+                              },
+                            )
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding20 * 5,
+                                  vertical: AddSize.padding20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Order not Available",
+                                      textAlign: TextAlign.center,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              height: 1.5,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: AddSize.font14,
+                                              color: AppTheme.blackcolor)),
+                                ],
+                              ),
+                            )
+                      : const Center(
                           child: Padding(
-                          padding: const EdgeInsets.only(top: 200),
+                          padding: EdgeInsets.only(top: 200),
                           child: CircularProgressIndicator(),
                         ));
                 }),

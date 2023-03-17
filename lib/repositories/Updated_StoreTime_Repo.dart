@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/SetStoreTimeModel.dart';
@@ -16,9 +18,22 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
   Map<String, dynamic> map1 = {};
   Map<String, dynamic> map2 = {};
   Map<String, dynamic> map3 = {};
+
+  String getFormatedString(String value){
+
+    DateTime? time;
+    try {
+      time = DateFormat("hh:mm a").parse(value);
+    } catch(e){
+      time = DateFormat("hh:mm").parse(value);
+    }
+    return "${TimeOfDay.fromDateTime(time).hour}:${TimeOfDay.fromDateTime(time).minute}";
+  }
+
   for (var i = 0; i < data.length; i++) {
-    map1['$i'] = data[i].startTime.toString();
-    map2['$i'] = data[i].endTime.toString();
+
+    map1['$i'] = getFormatedString(data[i].startTime.toString());
+    map2['$i'] = getFormatedString(data[i].endTime.toString());
     map3['$i'] = data[i].status! ? 1 : 0;
   }
   map["start_time"] = map1;

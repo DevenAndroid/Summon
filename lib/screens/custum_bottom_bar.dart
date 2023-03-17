@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/AllCategories.dart';
 import 'package:fresh2_arrive/screens/app_bar.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
+import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
@@ -180,8 +181,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: GestureDetector(
                             onTap: () async {
-                              Get.back();
-                              controller.onItemTap(4);
+                              Get.toNamed(MyProfileScreen.myProfileScreen);
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.white,
@@ -311,11 +311,11 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   icon: Padding(
                                     padding: EdgeInsets.symmetric(vertical: 08),
                                     child: ImageIcon(
-                                      AssetImage(AppAssets.profile),
+                                      AssetImage(AppAssets.drawer_order),
                                       size: 18,
                                     ),
                                   ),
-                                  label: 'Profile'),
+                                  label: 'Order'),
                             ],
                             type: BottomNavigationBarType.fixed,
                             currentIndex: controller.currentIndex.value,
@@ -359,7 +359,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       MyCartScreen(),
                       HomePage(),
                       StoreListScreen(),
-                      MyProfileScreen(),
+                      MyOrderScreen(),
                     ],
                   );
                 }),

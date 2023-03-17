@@ -64,7 +64,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
 
     TimeOfDay? result = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.fromDateTime(time),
+         initialTime: TimeOfDay.fromDateTime(time),
         // initialTime: TimeOfDay.fromDateTime(
         //     DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime)),
         builder: (context, child) {

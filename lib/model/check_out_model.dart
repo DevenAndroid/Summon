@@ -36,7 +36,7 @@ class Data {
   dynamic grandTotal;
   dynamic  user;
   dynamic  vendor;
-  Null? driver;
+  dynamic driver;
   Address? address;
   String? orderType;
   String? deliveryStatus;

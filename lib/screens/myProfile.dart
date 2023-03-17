@@ -13,7 +13,7 @@ import '../widgets/editprofile_textfield.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({Key? key}) : super(key: key);
-
+  static var myProfileScreen = "/myProfileScreen";
   @override
   State<MyProfileScreen> createState() => _MyProfileScreenState();
 }
@@ -91,27 +91,31 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    controller.getData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.getData();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: backAppBar(
+        title: "My Profile",
+        context: context,
+      ),
       body: Obx(() {
         return controller.isDataLoading.value &&
                 controller.model.value.data != null
             ? SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   child: Form(
                     key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
                         Stack(
                           children: [
                             Card(

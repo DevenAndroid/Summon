@@ -475,19 +475,6 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                           onTap: (){
                                             print("ascfhsdjhg");
                                             openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
-                                            // Get.toNamed(DeliveryAddress.deliveryAddressScreen,arguments: [myOrderDetailsController
-                                            //     .model
-                                            //     .value
-                                            //     .data!
-                                            //     .address!
-                                            //     .latitude
-                                            //     .toString(),myOrderDetailsController
-                                            //     .model
-                                            //     .value
-                                            //     .data!
-                                            //     .address!
-                                            //     .longitude
-                                            //     .toString()]);
                                           },
                                           child: Container(
                                             height: AddSize.size45,

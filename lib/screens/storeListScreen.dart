@@ -1,13 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/store_controller.dart';
-import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/near_store_controller.dart';
-import '../repositories/near_store_repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 

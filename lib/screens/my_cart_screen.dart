@@ -182,14 +182,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                 ],
                                                               ),
                                                               Padding(
-                                                                padding: EdgeInsets.only(
-                                                                    right:
-                                                                        width *
-                                                                            .04),
+                                                                padding: EdgeInsets.only(right: width * .04),
                                                                 child:
                                                                     Container(
-                                                                  width: width *
-                                                                      .18,
+                                                                  width: width * .18,
                                                                   decoration: BoxDecoration(
                                                                       color: AppTheme
                                                                           .primaryColor,

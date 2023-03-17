@@ -82,6 +82,7 @@ class HomePageState extends State<HomePage> {
             nearStoreController.loadMore.value = true;
             await nearStoreController.getData(isFirstTime: true);
             profileController.getData();
+            homeController.getData();
           },
           child: SingleChildScrollView(
             controller: scrollController,
@@ -208,6 +209,8 @@ class HomePageState extends State<HomePage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
+                                homeController.model.value
+                                    .data!.bestFreshProduct!.isNotEmpty ?
                                 SizedBox(
                                   height: height * .35,
                                   child: ListView.builder(
@@ -222,7 +225,7 @@ class HomePageState extends State<HomePage> {
                                         return buildProduct(
                                             width, height, index, context);
                                       }),
-                                ),
+                                ):const SizedBox(),
                                 // SizedBox(
                                 //   height: height * .02,
                                 // ),
@@ -361,6 +364,8 @@ class HomePageState extends State<HomePage> {
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600),
                                 ),
+                                homeController.model.value
+                                    .data!.featuredStores!.isNotEmpty ?
                                 SizedBox(
                                   height: height * .33,
                                   child: ListView.builder(
@@ -523,7 +528,7 @@ class HomePageState extends State<HomePage> {
                                           ),
                                         );
                                       }),
-                                ),
+                                ):const SizedBox(),
                               ],
                             )
                           : const Center(child: CircularProgressIndicator());
@@ -682,7 +687,7 @@ class HomePageState extends State<HomePage> {
                                 )
                               ],
                             )
-                          : SizedBox();
+                          : const SizedBox();
                     })
                   ],
                 )),

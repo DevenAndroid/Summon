@@ -651,12 +651,13 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                               )
                             : Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding20 * 5,
+                                    horizontal: AddSize.padding20 * 2.8,
                                     vertical: AddSize.padding20),
                                 child: SizedBox(
                                     height: AddSize.size20,
                                     child: Text(
-                                      "No Request Available",
+                                      "Delivery Request Not Available",
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5!

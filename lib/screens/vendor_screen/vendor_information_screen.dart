@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../../controller/VendorInformation_Controller.dart';
 import '../../resources/app_theme.dart';
+import '../../resources/new_helper.dart';
 import '../../widgets/registration_form_textField.dart';
 
 class VendorInformation extends StatefulWidget {
@@ -61,14 +63,6 @@ class _VendorInformationState extends State<VendorInformation> {
     return Scaffold(
       appBar: backAppBar(title: "Vendor Information", context: context),
       body: Obx(() {
-        if (vendorInformationController.isDataLoading.value &&
-            vendorInformationController.model.value.data != null) {
-          vendorInformationController.adharNoController.text =
-              vendorInformationController.model.value.data!.aadharNo.toString();
-
-          vendorInformationController.panNoController.text =
-              vendorInformationController.model.value.data!.panNo.toString();
-        }
         return vendorInformationController.isDataLoading.value
             ? SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
@@ -90,6 +84,18 @@ class _VendorInformationState extends State<VendorInformation> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                RegistrationTextField(
+                                    controller:
+                                        vendorInformationController.storeName,
+                                    hint: "Store Name",
+                                    length: 12,
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: 'Store name is required')
+                                    ])),
+                                SizedBox(
+                                  height: AddSize.size12,
+                                ),
                                 Obx(() {
                                   return image.value.path == ""
                                       ? Stack(
@@ -116,40 +122,40 @@ class _VendorInformationState extends State<VendorInformation> {
                                                 ),
                                               ),
                                             ),
-                                            // Positioned(
-                                            //   right: AddSize.padding10,
-                                            //   top: AddSize.padding10,
-                                            //   child: GestureDetector(
-                                            //     onTap: () {
-                                            //       NewHelper()
-                                            //           .addFilePicker()
-                                            //           .then((value) {
-                                            //         image.value = value;
-                                            //       });
-                                            //     },
-                                            //     child: Container(
-                                            //       height: AddSize.size30,
-                                            //       width: AddSize.size30,
-                                            //       decoration: BoxDecoration(
-                                            //           border: Border.all(
-                                            //               width: 1,
-                                            //               color: AppTheme
-                                            //                   .backgroundcolor),
-                                            //           color:
-                                            //               AppTheme.primaryColor,
-                                            //           borderRadius:
-                                            //               BorderRadius.circular(
-                                            //                   50)),
-                                            //       child: const Center(
-                                            //           child: Icon(
-                                            //         Icons.edit,
-                                            //         color: AppTheme
-                                            //             .backgroundcolor,
-                                            //         size: 20,
-                                            //       )),
-                                            //     ),
-                                            //   ),
-                                            // ),
+                                            Positioned(
+                                              right: AddSize.padding10,
+                                              top: AddSize.padding10,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  NewHelper()
+                                                      .addFilePicker()
+                                                      .then((value) {
+                                                    image.value = value;
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: AddSize.size30,
+                                                  width: AddSize.size30,
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(
+                                                          width: 1,
+                                                          color: AppTheme
+                                                              .backgroundcolor),
+                                                      color:
+                                                          AppTheme.primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50)),
+                                                  child: const Center(
+                                                      child: Icon(
+                                                    Icons.edit,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                    size: 20,
+                                                  )),
+                                                ),
+                                              ),
+                                            ),
                                           ],
                                         )
                                       : Container(
@@ -247,7 +253,8 @@ class _VendorInformationState extends State<VendorInformation> {
                                         value: value.key.toString(),
                                         child: Text(
                                           value.value.toString(),
-                                          style: const TextStyle(fontSize: 14),
+                                          style: TextStyle(
+                                              fontSize: AddSize.font14),
                                         ),
                                       );
                                     }).toList(),

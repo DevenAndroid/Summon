@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/main_home_controller.dart';
+import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ AppBar buildAppBar(
     "My Cart",
     "",
     "Stores",
-    "My Profile"
+    "Order"
   ];
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
@@ -114,8 +115,7 @@ AppBar buildAppBar(
             padding: const EdgeInsets.only(right: 16.0),
             child: GestureDetector(
               onTap: () async {
-                Get.back();
-                controller.onItemTap(4);
+                Get.toNamed(MyProfileScreen.myProfileScreen);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.white,

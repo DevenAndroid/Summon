@@ -675,15 +675,18 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                         );
                                       },
                                     )
-                                  : const Padding(
-                                      padding: EdgeInsets.only(top: 100),
-                                      child: Center(
-                                          child: Text(
-                                        "No Order Found",
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      )),
+                                  : Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding20 * 3),
+                                      child: Text("Order not Available",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5!
+                                              .copyWith(
+                                                  height: 1.5,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: AddSize.font14,
+                                                  color: AppTheme.blackcolor)),
                                     )
                               : const CircularProgressIndicator()
                         ]),

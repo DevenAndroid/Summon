@@ -10,6 +10,7 @@ import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../controller/home_page_controller.dart';
 import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
@@ -28,6 +29,7 @@ class AddVendorProduct extends StatefulWidget {
 class _AddVendorProductState extends State<AddVendorProduct> {
   final vendorAddProductController = Get.put(VendorAddProductController());
   final vendorProductListController = Get.put(VendorProductListController());
+  final homeController = Get.put(HomePageController());
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
   RxList<ListModel> listModelData = <ListModel>[].obs;
@@ -389,8 +391,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                     .then((value) {
                                   if (value.status == true) {
                                     showToast(value.message);
-                                    vendorProductListController
-                                        .getVendorProductList();
+                                    vendorProductListController.getVendorProductList();
+                                    homeController.getData();
                                     Get.back();
                                   }
                                 });
