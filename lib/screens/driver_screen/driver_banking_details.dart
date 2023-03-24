@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
 import '../../controller/VendorBankDetails_Controller.dart';
 import '../../controller/vendor_BankList_controller..dart';
+import '../../model/VendorBankLIst_Model.dart';
 import '../../repositories/Vendor_AddBankDetails_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
@@ -30,9 +31,22 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
   @override
   void initState() {
     super.initState();
-    driverBankListController.getVendorBankListDetails();
-    driverBankDetailsController.getVendorBankDetails().then((value) {
-      setState(() {});
+    driverBankListController.getVendorBankListDetails().then((value) {
+      driverBankDetailsController.getVendorBankDetails().then((value) {
+        if(driverBankListController.bankListModel.value.data!.banks != null && driverBankListController.bankListModel.value.data != null) {
+          selectedCAt.value =
+              (driverBankListController.bankListModel.value.data!.banks!
+                  .firstWhere((element) => element.name.toString() ==
+                  (driverBankDetailsController.bankDetailsModel.value.data!
+                      .bank??""),
+                  orElse: () => Banks())
+                  .id ??
+                  "")
+                  .toString();
+        }
+        setState(() {});
+        print(driverBankDetailsController.bankDetailsModel.value.data!.bank);
+      });
     });
   }
 
@@ -44,16 +58,16 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
         if (driverBankDetailsController.isDataLoading.value &&
             driverBankDetailsController.bankDetailsModel.value.data != null) {
           driverBankDetailsController.bankAccountNumber.text =
-              driverBankDetailsController.bankDetailsModel.value.data!.accountNo
+              (driverBankDetailsController.bankDetailsModel.value.data!.accountNo ?? "")
                   .toString();
 
           driverBankDetailsController.accountHolderName.text =
-              driverBankDetailsController
-                  .bankDetailsModel.value.data!.accountName
+              (driverBankDetailsController
+                  .bankDetailsModel.value.data!.accountName ?? "")
                   .toString();
 
           driverBankDetailsController.iFSCCode.text =
-              driverBankDetailsController.bankDetailsModel.value.data!.ifscCode
+              (driverBankDetailsController.bankDetailsModel.value.data!.ifscCode ?? "")
                   .toString();
         }
 

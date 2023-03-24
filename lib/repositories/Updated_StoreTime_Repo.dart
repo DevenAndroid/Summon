@@ -27,7 +27,9 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
     } catch(e){
       time = DateFormat("hh:mm").parse(value);
     }
-    return "${TimeOfDay.fromDateTime(time).hour}:${TimeOfDay.fromDateTime(time).minute}";
+    return
+      // DateFormat("hh:mm a").format(time);
+       "${TimeOfDay.fromDateTime(time).hour}:${TimeOfDay.fromDateTime(time).minute}";
   }
 
   for (var i = 0; i < data.length; i++) {

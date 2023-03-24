@@ -152,7 +152,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                           RegistrationTextField(
                             controller: licenceNumber,
                             hint: "Licence number",
-                            length: 14,
+                            length: 16,
                             validator: (value) {
                               if (value!.isEmpty || value.length < 14) {
                                 return 'Please enter 14 digit licence card number';

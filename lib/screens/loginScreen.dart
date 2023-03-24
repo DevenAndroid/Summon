@@ -210,6 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 createLogin(userPoneNo:phoneNumberController.text,
                                         referalCode:referralCodeController.text, context:context, fcmToken: fcmToken!)
                                     .then((value) async {
+                                  showToast(value.message.toString());
                                   if (value.status == true) {
                                     showToast(value.message.toString());
                                     Get.toNamed(OtpScreen.otpScreen,
@@ -217,24 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           phoneNumberController.text,
                                           value.data.toString()
                                         ]);
-                                  } else {
-                                    Get.defaultDialog(
-                                        title: 'Log In',
-                                        titleStyle: const TextStyle(
-                                            color: AppTheme.primaryColor),
-                                        middleTextStyle: const TextStyle(
-                                            color: Colors.white),
-                                        textConfirm: "Okay",
-                                        onConfirm: () {
-                                          Get.back();
-                                        },
-                                        confirmTextColor: Colors.white,
-                                        buttonColor: AppTheme.primaryColor,
-                                        radius: 10,
-                                        content: Text(value.message!));
-                                    // showToast(value.message);
                                   }
-                                  return;
                                 });
                               } else {
                                 showValidation = true;

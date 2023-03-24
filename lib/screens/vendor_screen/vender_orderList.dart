@@ -688,7 +688,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                                   fontSize: AddSize.font14,
                                                   color: AppTheme.blackcolor)),
                                     )
-                              : const CircularProgressIndicator()
+                              : const Center(child: CircularProgressIndicator()),
                         ]),
                       ),
                     ),

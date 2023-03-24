@@ -314,6 +314,8 @@ class _WalletScreenState extends State<WalletScreen> {
 
                             ),
                       ),
+                      myWalletController
+                          .model.value.data!.walletTransactions!.isNotEmpty ?
                       Container(
                         decoration: BoxDecoration(
                             boxShadow: [
@@ -438,7 +440,24 @@ class _WalletScreenState extends State<WalletScreen> {
                                 ),
                               );
                             }),
-                      )
+                      ):
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                            AddSize.padding20 * 3),
+                        child: Text("Data not Available",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5!
+                                .copyWith(
+                                height: 1.5,
+                                fontWeight:
+                                FontWeight.w500,
+                                fontSize:
+                                AddSize.font14,
+                                color: AppTheme
+                                    .blackcolor)),
+                      ),
                     ],
                   ),
                 ))

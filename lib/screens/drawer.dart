@@ -115,6 +115,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           // height: SizeConfig.heightMultiplier * 100,
           // width: SizeConfig.widthMultiplier! * 80,
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               children: <Widget>[
                 Container(
@@ -364,7 +365,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     )
                                   : _drawerTile(
                           active: true,
-                          title: "Admin Response",
+                          title: "Vendor",
                           icon: const ImageIcon(
                             AssetImage(AppAssets.drawer_vendor),
                             size: 22,
@@ -488,7 +489,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     )
                                   : _drawerTile(
                                       active: true,
-                                      title: "Admin Response",
+                                      title: "Driver",
                                       icon: const ImageIcon(
                                         AssetImage(AppAssets.drawer_driver),
                                         size: 22,

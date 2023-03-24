@@ -243,6 +243,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                   ],
                                 ),
                                 const Divider(),
+                                withdrawalListController.model.value.data!.withdrawalList!.isNotEmpty ?
                                 ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
@@ -385,6 +386,19 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                       ],
                                     );
                                   },
+                                ):
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding20 * 3,vertical: AddSize.padding20),
+                                  child: Text("Request not Available",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                          height: 1.5,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: AddSize.font14,
+                                          color: AppTheme.blackcolor)),
                                 )
                               ],
                             ),

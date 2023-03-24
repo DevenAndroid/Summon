@@ -524,12 +524,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       })
                                   : Center(
                                       child: Padding(
-                                          padding: EdgeInsets.only(top: AddSize.size100),
+                                          padding: EdgeInsets.only(top: AddSize.size200),
                                           child: Text(
                                             "Order Not Available",
                                             style: TextStyle(
                                                 fontSize: AddSize.font16,
-                                                color: AppTheme.backgroundcolor,
+                                                color: AppTheme.blackcolor,
                                                 fontWeight: FontWeight.w500),
                                           )))
                               :  Center(

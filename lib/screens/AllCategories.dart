@@ -52,18 +52,18 @@ class _AllCategoriesState extends State<AllCategories> {
                 horizontal: AddSize.padding15),
             child: SingleChildScrollView(
               controller: scrollController,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   SizedBox(height: AddSize.size20,),
                   GridView.builder(
                       shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: categoryController.model.value.data!.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 10.0,
-                          mainAxisExtent: 120,
+                          mainAxisExtent: 140,
                           mainAxisSpacing: 10.0),
                       itemBuilder: (context, index) {
                         var itemdata = categoryController.model.value.data![index];
@@ -100,8 +100,8 @@ class _AllCategoriesState extends State<AllCategories> {
                                       borderRadius: BorderRadius.circular(10),
                                       child: CachedNetworkImage(
                                         imageUrl: itemdata.image.toString(),
-                                        errorWidget: (_, __, ___) => SizedBox(),
-                                        placeholder: (_, __) => SizedBox(),
+                                        errorWidget: (_, __, ___) => const SizedBox(),
+                                        placeholder: (_, __) => const SizedBox(),
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -135,7 +135,7 @@ class _AllCategoriesState extends State<AllCategories> {
             .model.value.data!.cartItems!.isNotEmpty
             ? addCartSection()
             : null
-            : SizedBox(),
+            : const SizedBox(),
       );
     });
   }

@@ -35,27 +35,6 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
   String? _address = "";
-  final List<String> dropDownList = [
-    "500",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "15",
-    "20",
-    "25",
-    "30",
-    "35",
-    "40",
-    "45",
-    "50"
-  ];
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
   bool checkValidation(bool bool1, bool2) {
@@ -102,7 +81,6 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           RegistrationTextField(
                               controller: storeName,
                               hint: "Store Name",
-                              length: 12,
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: 'Store name is required')
@@ -183,6 +161,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           InkWell(
                               onTap: () async {
                                 var place = await PlacesAutocomplete.show(
+                                    hint: "Location",
                                     context: context,
                                     apiKey: googleApikey,
                                     mode: Mode.overlay,
@@ -670,9 +649,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                           file5: image4.value)
                                       .then((value) {
                                     if (value.status == true) {
-                                      showToast(
-                                          "${value.message} Wait For Admin Approval");
-                                      Get.toNamed(ThankYouVendorScreen
+                                      showToast("${value.message} Wait For Admin Approval");
+                                      Get.offAllNamed(ThankYouVendorScreen
                                           .thankYouVendorScreen);
                                     } else {
                                       showToast(value.message);
@@ -682,12 +660,17 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                 showValidation.value = true;
                                 if (_address!.isEmpty) {
                                   scrollNavigation(10);
-                                }else if (storeName.text.trim().isEmpty) {
+                                } else if (storeName.text.trim().isEmpty) {
                                   scrollNavigation(0);
-                                }
-                                else if (adharNoController.text.trim().isEmpty || adharNoController.text.length < 12) {
+                                } else if (adharNoController.text
+                                        .trim()
+                                        .isEmpty ||
+                                    adharNoController.text.length < 12) {
                                   scrollNavigation(50);
-                                } else if (panNoController.text.trim().isEmpty || panNoController.text.length < 10) {
+                                } else if (panNoController.text
+                                        .trim()
+                                        .isEmpty ||
+                                    panNoController.text.length < 10) {
                                   scrollNavigation(50);
                                 }
                               },

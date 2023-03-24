@@ -7,6 +7,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../controller/VendorDashboard_Controller.dart';
 import '../../controller/profile_controller.dart';
 import '../../repositories/storeupdate_status_repo.dart';
@@ -33,10 +34,24 @@ class _VenderDashboardState extends State<VenderDashboard> {
     super.initState();
     vendorDashboardController.getVendorDashboardData();
   }
-
+  DateTime? time;
+  DateTime? time1;
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      if(vendorDashboardController.isDataLoading.value){
+        try {
+          time = DateFormat("hh:mm a").parse(vendorDashboardController.model.value.data!.startTime);
+        } catch(e){
+          time = DateFormat("hh:mm").parse(vendorDashboardController.model.value.data!.startTime);
+        }
+
+        try {
+          time1 = DateFormat("hh:mm a").parse(vendorDashboardController.model.value.data!.endTime);
+        } catch(e){
+          time1 = DateFormat("hh:mm").parse(vendorDashboardController.model.value.data!.endTime);
+        }
+      }
       return Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -66,13 +81,28 @@ class _VenderDashboardState extends State<VenderDashboard> {
                             fontSize: AddSize.font14,
                             color: Colors.grey),
                       ),
+                      vendorDashboardController.isDataLoading.value ? vendorDashboardController.model.value.data!.storeStatus == 1
+                          ?
                       Text(
-                        "${vendorDashboardController.isDataLoading.value ? (vendorDashboardController.model.value.data!.startTime ?? "").toString() : ""} to ${vendorDashboardController.isDataLoading.value ? (vendorDashboardController.model.value.data!.endTime ?? "").toString() : ""}",
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            fontSize: AddSize.font14,
-                            color: AppTheme.primaryColor),
-                      ),
+                              "${vendorDashboardController.isDataLoading.value ? (DateFormat("hh:mm a").format(time!) ?? "").toString() : ""} to ${vendorDashboardController.isDataLoading.value ? (DateFormat("hh:mm a").format(time1!) ?? "").toString() : ""}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: AddSize.font12,
+                                      color: AppTheme.primaryColor),
+                            )
+                          : Text(
+                              "Closed",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: AddSize.font12,
+                                      color: AppTheme.primaryColor),
+                            ):SizedBox(),
                       SizedBox(
                         width: AddSize.size5,
                       ),

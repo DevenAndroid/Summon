@@ -54,19 +54,18 @@ class _HelpCenterState extends State<HelpCenter> {
                                   ]),
                               child: TextField(
                                 maxLines: 1,
-                                controller:
-                                    helpCenterController.searchController,
+                                controller: helpCenterController.searchController,
                                 style: const TextStyle(fontSize: 17),
                                 textAlignVertical: TextAlignVertical.center,
                                 textInputAction: TextInputAction.search,
-                                onChanged: (value) =>
-                                    {helpCenterController.searchController},
+                                onChanged: (value) {
+                                  helpCenterController.getHelpCenterData();
+                                },
                                 decoration: InputDecoration(
                                     filled: true,
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        helpCenterController
-                                            .getHelpCenterData();
+                                        helpCenterController.getHelpCenterData();
                                       },
                                       icon: const Icon(
                                         Icons.search,
@@ -92,6 +91,8 @@ class _HelpCenterState extends State<HelpCenter> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
+                            helpCenterController
+                                .model.value.data!.isNotEmpty?
                             Column(
                                 children: List.generate(
                                     helpCenterController
@@ -185,7 +186,19 @@ class _HelpCenterState extends State<HelpCenter> {
                                               }),
                                             ),
                                           ),
-                                        ))),
+                                        ))):Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding20 * 3,vertical: AddSize.padding20),
+                              child: Text("Data not Available",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AddSize.font14,
+                                      color: AppTheme.blackcolor)),
+                            ),
                           ],
                         );
                       })),

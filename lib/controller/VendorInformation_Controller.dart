@@ -9,6 +9,7 @@ class VendorInformationController extends GetxController {
   final TextEditingController adharNoController = TextEditingController();
   final TextEditingController panNoController = TextEditingController();
   final TextEditingController storeName = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
 
   getVendorInformation() {
     vendorInformationRepo().then((value) {
@@ -18,6 +19,7 @@ class VendorInformationController extends GetxController {
     adharNoController.text = model.value.data!.aadharNo.toString();
     panNoController.text = model.value.data!.panNo.toString();
     storeName.text = model.value.data!.storeName.toString();
+    locationController.text = model.value.data!.location.toString();
       }
     });
   }

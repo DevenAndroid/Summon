@@ -20,6 +20,8 @@ Future<ModelLogIn> createLogin(
   map['device_id'] = pref.getString('deviceId');
   map['device_token'] = fcmToken;
 
+  map['referred_code'] = referalCode;
+
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
 
