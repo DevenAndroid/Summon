@@ -75,11 +75,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-        // backgroundColor: Colors.transparent,
-        appBar: backAppBar(
-          title: "My Orders",
-          context: context,
-        ),
+        backgroundColor: Colors.transparent,
         body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
@@ -213,8 +209,8 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                     },
                                     icon: ImageIcon(
                                       const AssetImage(AppAssets.filterImage),
-                                      color: AppTheme.primaryColor,
-                                      size: AddSize.size18,
+                                      color: Colors.white,
+                                      size: AddSize.size30,
                                     )),
                               )
                             ],
@@ -528,11 +524,11 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       })
                                   : Center(
                                       child: Padding(
-                                          padding: EdgeInsets.only(top: AddSize.size100),
+                                          padding: EdgeInsets.only(top: AddSize.size200),
                                           child: Text(
-                                            "No Order Found",
+                                            "Order Not Available",
                                             style: TextStyle(
-                                                fontSize: AddSize.font14,
+                                                fontSize: AddSize.font16,
                                                 color: AppTheme.blackcolor,
                                                 fontWeight: FontWeight.w500),
                                           )))

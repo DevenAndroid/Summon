@@ -1,8 +1,10 @@
+import 'package:fresh2_arrive/screens/vendor_screen/vender_dashboard.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../controller/SetStoreTIme_Controller.dart';
+import '../../controller/VendorDashboard_Controller.dart';
 import '../../repositories/Updated_StoreTime_Repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
@@ -17,8 +19,16 @@ class SetTimeScreen extends StatefulWidget {
 
 class _SetTimeScreenState extends State<SetTimeScreen> {
   final setStoreTimeController = Get.put(SetStoreTimeControlller());
-
+  final vendorDashboardController = Get.put(VendorDashboardController());
   Future<void> displayOpenTimeDialog(int index) async {
+    DateTime? time;
+    try {
+      time = DateFormat("hh:mm a")
+          .parse(setStoreTimeController.model.value.data![index].startTime);
+    } catch (e) {
+      time = DateFormat("hh:mm")
+          .parse(setStoreTimeController.model.value.data![index].startTime);
+    }
     TimeOfDay? result = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(DateFormat("hh:mm")
@@ -43,10 +53,20 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
   }
 
   Future<void> displayCloseTimeDialog(int index) async {
+    DateTime? time;
+    try {
+      time = DateFormat("hh:mm a")
+          .parse(setStoreTimeController.model.value.data![index].endTime);
+    } catch (e) {
+      time = DateFormat("hh:mm")
+          .parse(setStoreTimeController.model.value.data![index].endTime);
+    }
+
     TimeOfDay? result = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.fromDateTime(DateFormat("hh:mm")
-            .parse(setStoreTimeController.model.value.data![index].endTime)),
+         initialTime: TimeOfDay.fromDateTime(time),
+        // initialTime: TimeOfDay.fromDateTime(
+        //     DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime)),
         builder: (context, child) {
           return MediaQuery(
               data: MediaQuery.of(context).copyWith(
@@ -129,6 +149,8 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                   .then((value) {
                                 if (value.status == true) {
                                   showToast(value.message);
+                                  Get.toNamed(VenderDashboard.vendorDashboard);
+                                  vendorDashboardController.getVendorDashboardData();
                                 }
                               });
                             },
@@ -205,18 +227,24 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                         child: Row(
                           children: [
                             Expanded(
-                              child: Text(
-                                setStoreTimeController
-                                    .model.value.data![index].startTime
-                                    .toString(),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
-                                        fontWeight: FontWeight.w400,
-                                        color: AppTheme.lightblack,
-                                        fontSize: AddSize.font14),
-                              ),
+                              child: Obx(() {
+                                DateTime? time;
+                                try {
+                                  time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].startTime);
+                                } catch(e){
+                                  time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].startTime);
+                                }
+                                return Text(
+                                  DateFormat("hh:mm a").format(time),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: AppTheme.lightblack,
+                                      fontSize: AddSize.font14),
+                                );
+                              }),
                             ),
                             const Icon(
                               Icons.keyboard_arrow_down_outlined,
@@ -259,18 +287,24 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                          child: Text(
-                            setStoreTimeController
-                                .model.value.data![index].endTime
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    color: AppTheme.lightblack,
-                                    fontSize: AddSize.font14),
-                          ),
+                          child: Obx(() {
+                            DateTime? time;
+                            try {
+                              time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime);
+                            } catch(e){
+                              time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].endTime);
+                            }
+                            return Text(
+                              DateFormat("hh:mm a").format(time),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: AppTheme.lightblack,
+                                      fontSize: AddSize.font14),
+                            );
+                          }),
                         ),
                         const Icon(
                           Icons.keyboard_arrow_down_outlined,

@@ -10,6 +10,7 @@ import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../../controller/home_page_controller.dart';
 import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
@@ -28,10 +29,12 @@ class AddVendorProduct extends StatefulWidget {
 class _AddVendorProductState extends State<AddVendorProduct> {
   final vendorAddProductController = Get.put(VendorAddProductController());
   final vendorProductListController = Get.put(VendorProductListController());
+  final homeController = Get.put(HomePageController());
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
   RxList<ListModel> listModelData = <ListModel>[].obs;
   String? selectedType;
+   bool _isValue = false;
   final List<String> quintityType = [
     "kg",
     "grm",
@@ -201,8 +204,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                 filled: true,
                                 suffixIcon: IconButton(
                                   onPressed: () {
-                                    vendorAddProductController
-                                        .getVendorSearchProductList();
+                                    vendorAddProductController.getVendorSearchProductList();
+                                    _isValue = true;
                                   },
                                   icon: Icon(
                                     Icons.search,
@@ -247,6 +250,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                         (BuildContext context, int index) {
                                       return GestureDetector(
                                         onTap: () {
+                                          _isValue = true;
                                           vendorAddProductController
                                                   .productId.value =
                                               vendorAddProductController
@@ -340,80 +344,102 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
+                        _isValue == true
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    print("Hello this is map");
 
-                        ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                print("Hello this is map");
+                                    Map<String, String> map = {};
 
-                                Map<String, String> map = {};
+                                    map['product_id'] =
+                                        vendorAddProductController
+                                            .vendorAddProductModel
+                                            .value
+                                            .data!
+                                            .id
+                                            .toString();
+                                    map['category_id'] =
+                                        vendorAddProductController
+                                            .vendorAddProductModel
+                                            .value
+                                            .data!
+                                            .category!
+                                            .id
+                                            .toString();
+                                    map['imageOld'] = vendorAddProductController
+                                        .vendorAddProductModel.value.data!.image
+                                        .toString();
 
-                                map['product_id'] = vendorAddProductController
-                                    .vendorAddProductModel.value.data!.id
-                                    .toString();
-                                map['category_id'] = vendorAddProductController
-                                    .vendorAddProductModel
-                                    .value
-                                    .data!
-                                    .category!
-                                    .id
-                                    .toString();
-                                map['imageOld'] = vendorAddProductController
-                                    .vendorAddProductModel.value.data!.image
-                                    .toString();
+                                    for (var i = 0;
+                                        i < listModelData.length;
+                                        i++) {
+                                      map["variants[$i][market_price]"] =
+                                          listModelData[i]
+                                              .marketPrice!
+                                              .value
+                                              .toString();
+                                      map["variants[$i][variant_qty]"] =
+                                          listModelData[i].qty.value.toString();
+                                      map["variants[$i][variant_qty_type]"] =
+                                          listModelData[i]
+                                              .qtyType
+                                              .value
+                                              .toString();
+                                      map["variants[$i][min_qty]"] =
+                                          listModelData[i]
+                                              .minQty
+                                              .value
+                                              .toString();
+                                      map["variants[$i][max_qty]"] =
+                                          listModelData[i]
+                                              .maxQty
+                                              .value
+                                              .toString();
+                                      map["variants[$i][price]"] =
+                                          listModelData[i]
+                                              .price
+                                              .value
+                                              .toString();
+                                    }
+                                    // print("Map data...$map");
 
-                                for (var i = 0; i < listModelData.length; i++) {
-                                  map["variants[$i][market_price]"] =
-                                      listModelData[i]
-                                          .marketPrice!
-                                          .value
-                                          .toString();
-                                  map["variants[$i][variant_qty]"] =
-                                      listModelData[i].qty.value.toString();
-                                  map["variants[$i][variant_qty_type]"] =
-                                      listModelData[i].qtyType.value.toString();
-                                  map["variants[$i][min_qty]"] =
-                                      listModelData[i].minQty.value.toString();
-                                  map["variants[$i][max_qty]"] =
-                                      listModelData[i].maxQty.value.toString();
-                                  map["variants[$i][price]"] =
-                                      listModelData[i].price.value.toString();
-                                }
-                                // print("Map data...$map");
-
-                                vendorSaveProductRepo(
-                                        fieldName1: "image",
-                                        mapData: map,
-                                        context: context,
-                                        file1: image.value)
-                                    .then((value) {
-                                  if (value.status == true) {
-                                    showToast(value.message);
-                                    vendorProductListController
-                                        .getVendorProductList();
-                                    Get.back();
+                                    vendorSaveProductRepo(
+                                            fieldName1: "image",
+                                            mapData: map,
+                                            context: context,
+                                            file1: image.value)
+                                        .then((value) {
+                                      if (value.status == true) {
+                                        showToast(value.message);
+                                        vendorProductListController
+                                            .getVendorProductList();
+                                        homeController.getData();
+                                        listModelData.clear();
+                                        Get.back();
+                                      }
+                                    });
                                   }
-                                });
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize:
-                                  Size(double.maxFinite, AddSize.size45),
-                              backgroundColor: AppTheme.primaryColor,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                            child: Text(
-                              "SAVE",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(
-                                      color: AppTheme.backgroundcolor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AddSize.font18),
-                            )),
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize:
+                                      Size(double.maxFinite, AddSize.size45),
+                                  backgroundColor: AppTheme.primaryColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                child: Text(
+                                  "SAVE",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall!
+                                      .copyWith(
+                                          color: AppTheme.backgroundcolor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: AddSize.font18),
+                                ))
+                            : SizedBox(),
                       ],
                     ),
                   ),
@@ -584,8 +610,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               readOnly: true,
               hint: "Product Name",
               controller: vendorAddProductController.productNameController,
-              validator: MultiValidator(
-                  [RequiredValidator(errorText: "Please enter product name")]),
+              // validator: MultiValidator(
+              //     [RequiredValidator(errorText: "Please enter product name")]),
             ),
             SizedBox(
               height: AddSize.size10,
@@ -594,8 +620,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               readOnly: true,
               hint: "SKU",
               controller: vendorAddProductController.skuController,
-              validator: MultiValidator(
-                  [RequiredValidator(errorText: "Please enter SKU")]),
+              // validator: MultiValidator(
+              //     [RequiredValidator(errorText: "Please enter SKU")]),
             ),
             SizedBox(
               height: AddSize.size10,

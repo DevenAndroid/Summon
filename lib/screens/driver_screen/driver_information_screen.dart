@@ -1,14 +1,10 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/resources/new_helper.dart';
-import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
-import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:get/get.dart';
 import '../../controller/driver_information_controller.dart';
-import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/registration_form_textField.dart';
 

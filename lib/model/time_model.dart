@@ -76,6 +76,7 @@ List<Status> status = [
     value: "Delivered",
   ),
 ];
+
 class Status1 {
   dynamic key;
   dynamic value;
@@ -96,6 +97,7 @@ List<Status1> status1 = [
     value: "Rejected",
   ),
 ];
+
 class WalletModel {
   dynamic key;
   dynamic value;
@@ -155,17 +157,17 @@ List<SelectQtyType> qtyType = [
     value: "dozen",
   ),
   SelectQtyType(
-    key: "piece",
-    value: "piece",
+    key: "pieces",
+    value: "pieces",
   ),
 ];
-
 
 class Area {
   dynamic key;
   dynamic value;
   Area({this.key, this.value});
 }
+
 List<Area> area = [
   Area(
     key: "500",
@@ -226,7 +228,8 @@ List<Area> area = [
   Area(
     key: "30",
     value: "30 km",
-  ),Area(
+  ),
+  Area(
     key: "35",
     value: "35 km",
   ),

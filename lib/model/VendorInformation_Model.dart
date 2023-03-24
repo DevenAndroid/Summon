@@ -13,8 +13,8 @@ class VendorInformationModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -24,7 +24,11 @@ class VendorInformationModel {
 
 class Data {
   int? id;
+  String? storeName;
   String? storeImage;
+  String? location;
+  String? latitude;
+  String? longitude;
   String? aadharNo;
   String? panNo;
   String? deliveryRange;
@@ -37,20 +41,28 @@ class Data {
 
   Data(
       {this.id,
-      this.storeImage,
-      this.aadharNo,
-      this.panNo,
-      this.deliveryRange,
-      this.bankStatement,
-      this.panCardImage,
-      this.aadharFrontImage,
-      this.aadharBackImage,
-      this.remark,
-      this.status});
+        this.storeName,
+        this.storeImage,
+        this.location,
+        this.latitude,
+        this.longitude,
+        this.aadharNo,
+        this.panNo,
+        this.deliveryRange,
+        this.bankStatement,
+        this.panCardImage,
+        this.aadharFrontImage,
+        this.aadharBackImage,
+        this.remark,
+        this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    storeName = json['store_name'];
     storeImage = json['storeImage'];
+    location = json['location'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     aadharNo = json['aadharNo'];
     panNo = json['panNo'];
     deliveryRange = json['delivery_range'];
@@ -63,18 +75,22 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['storeImage'] = this.storeImage;
-    data['aadharNo'] = this.aadharNo;
-    data['panNo'] = this.panNo;
-    data['delivery_range'] = this.deliveryRange;
-    data['bank_statement'] = this.bankStatement;
-    data['pan_card_image'] = this.panCardImage;
-    data['aadhar_front_image'] = this.aadharFrontImage;
-    data['aadhar_back_image'] = this.aadharBackImage;
-    data['remark'] = this.remark;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['store_name'] = storeName;
+    data['storeImage'] = storeImage;
+    data['location'] = location;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['aadharNo'] = aadharNo;
+    data['panNo'] = panNo;
+    data['delivery_range'] = deliveryRange;
+    data['bank_statement'] = bankStatement;
+    data['pan_card_image'] = panCardImage;
+    data['aadhar_front_image'] = aadharFrontImage;
+    data['aadhar_back_image'] = aadharBackImage;
+    data['remark'] = remark;
+    data['status'] = status;
     return data;
   }
 }

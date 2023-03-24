@@ -8,6 +8,7 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
 import '../../repositories/Order_Accept.Repo.dart';
@@ -27,7 +28,23 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
   bool value = false;
   TabController? tabController;
   bool rejectButton = false;
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
 
+  _makingPhoneCall(call) async {
+    var url = Uri.parse(call);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -596,12 +613,12 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                           const Divider(),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(children: [
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Driver Number",
@@ -609,120 +626,121 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                           .textTheme
                                                           .headline5!
                                                           .copyWith(
-                                                              color: AppTheme
-                                                                  .lightblack,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: AddSize
-                                                                  .font14),
+                                                          color: AppTheme
+                                                              .lightblack,
+                                                          fontWeight:
+                                                          FontWeight.w400,
+                                                          fontSize:
+                                                          AddSize.font14),
                                                     ),
                                                     Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .driver!
-                                                          .phone
-                                                          .toString(),
+                                                      (vendorOrderListController.model.value.data!.driver!.phone ?? "").toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline5!
                                                           .copyWith(
-                                                              height: 1.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: AddSize
-                                                                  .font16),
+                                                          height: 1.5,
+                                                          fontWeight:
+                                                          FontWeight.w500,
+                                                          fontSize:
+                                                          AddSize.font16),
                                                     ),
                                                   ],
                                                 ),
                                               ]),
-                                              Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration:
-                                                      const ShapeDecoration(
-                                                          color: AppTheme
-                                                              .userActive,
-                                                          shape:
-                                                              CircleBorder()),
-                                                  child: const Center(
-                                                      child: Icon(
-                                                    Icons.phone,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                  ))),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  _makingPhoneCall("tel:+91${vendorOrderListController.model.value.data!.driver!.phone ?? ""}".toString());
+                                                },
+                                                child: Container(
+                                                    height: AddSize.size45,
+                                                    width: AddSize.size45,
+                                                    decoration: const ShapeDecoration(
+                                                        color: AppTheme.primaryColor,
+                                                        shape: CircleBorder()),
+                                                    child: const Center(
+                                                        child: Icon(
+                                                          Icons.phone,
+                                                          color: AppTheme.backgroundcolor,
+                                                        ))),
+                                              ),
                                             ],
                                           ),
                                           const Divider(),
                                           Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
                                                 child: Row(children: [
                                                   Expanded(
                                                     child: Column(
                                                       crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      CrossAxisAlignment.start,
                                                       children: [
                                                         Text(
                                                           "Delivery Address",
-                                                          style: Theme.of(
-                                                                  context)
+                                                          style: Theme.of(context)
                                                               .textTheme
                                                               .headline5!
                                                               .copyWith(
-                                                                  color: AppTheme
-                                                                      .lightblack,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                  fontSize: AddSize
-                                                                      .font14),
+                                                              color: AppTheme
+                                                                  .lightblack,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              fontSize: AddSize
+                                                                  .font14),
                                                         ),
-                                                        Text(
-                                                          vendorOrderListController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .driver!
-                                                              .location
-                                                              .toString(),
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: AddSize
-                                                                      .font16),
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                (vendorOrderListController.model.value.data!.driver!.location ?? "").toString(),
+                                                                maxLines: 2,
+                                                                style: Theme.of(
+                                                                    context)
+                                                                    .textTheme
+                                                                    .headline5!
+                                                                    .copyWith(
+                                                                    height: 1.5,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    fontSize: AddSize
+                                                                        .font16),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
                                                 ]),
                                               ),
-                                              Container(
-                                                height: AddSize.size45,
-                                                width: AddSize.size45,
-                                                decoration:
-                                                    const ShapeDecoration(
-                                                        color: AppTheme
-                                                            .lightYellow,
-                                                        shape: CircleBorder()),
-                                                child: const Center(
-                                                    child: Icon(
-                                                  Icons.location_on,
-                                                  color:
-                                                      AppTheme.backgroundcolor,
-                                                )),
+                                              GestureDetector(
+                                                onTap: (){
+                                                  openMap(double.parse(vendorOrderListController.model.value.data!.address!.latitude.toString()),double.parse(vendorOrderListController.model.value.data!.address!.longitude.toString()));
+                                                },
+                                                child: Container(
+                                                  height: AddSize.size45,
+                                                  width: AddSize.size45,
+                                                  decoration: const ShapeDecoration(
+                                                      color: AppTheme.lightYellow,
+                                                      shape: CircleBorder()),
+                                                  child: const Center(
+                                                      child: Icon(
+                                                        Icons.location_on,
+                                                        color: AppTheme.backgroundcolor,
+                                                      )),
+                                                ),
                                               ),
                                             ],
                                           ),

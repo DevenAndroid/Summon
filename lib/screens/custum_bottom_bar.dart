@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/AllCategories.dart';
 import 'package:fresh2_arrive/screens/app_bar.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
+import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
@@ -142,34 +143,35 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       ),
                       actions: [
                         IconButton(
-                          icon: Image.asset(
-                            AppAssets.notification,
-                            height: 22,
-                          ),
-                          // Padding(
-                          //     padding: const EdgeInsets.only(
-                          //         right: 12.0),
-                          //     child:
-                          //     Badge(
-                          //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                          //       badgeContent: Obx(() {
-                          //         return Text(
-                          //           notificationController
-                          //               .isDataLoading.value
-                          //               ? notificationController
-                          //               .model.value.data!.count
-                          //               .toString()
-                          //               : "0",
-                          //           style: TextStyle(
-                          //               color: Colors.white,
-                          //               fontSize: AddSize.font12),
-                          //         );
-                          //       }),
-                          //       child: const ImageIcon(
-                          //         AssetImage(AppAssets.notification),
-                          //         size: 22,
-                          //       ),
-                          //     )),
+                          icon:
+                          // Image.asset(
+                          //   AppAssets.notification,
+                          //   height: 22,
+                          // ),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 12.0),
+                              child:
+                              Badge(
+                                badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                badgeContent: Obx(() {
+                                  return Text(
+                                    notificationController
+                                        .isDataLoading.value
+                                        ? notificationController
+                                        .model.value.data!.count
+                                        .toString()
+                                        : "0",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: AddSize.font12),
+                                  );
+                                }),
+                                child: const ImageIcon(
+                                  AssetImage(AppAssets.notification),
+                                  size: 22,
+                                ),
+                              )),
                           onPressed: () {
                             Get.toNamed(NotificationScreen.notificationScreen);
                           },
@@ -179,8 +181,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: GestureDetector(
                             onTap: () async {
-                              Get.back();
-                              controller.onItemTap(4);
+                              Get.toNamed(MyProfileScreen.myProfileScreen);
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.white,
@@ -247,35 +248,36 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 ),
                                 label: 'Categories',
                               ),
-                              const BottomNavigationBarItem(
-                                  icon: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 08,
-                                    ),
-                                    child: ImageIcon(
-                                      AssetImage(AppAssets.cartImage),
-                                      size: 18,
-                                    ),
-                                  ),
+                               BottomNavigationBarItem(
+                                  icon:
                                   // Padding(
-                                  //     padding: const EdgeInsets.only(
-                                  //         right: 12.0),
-                                  //     child: Badge(
-                                  //       badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                                  //       badgeContent: Obx(() {
-                                  //         return Text(
-                                  //           myCartController.sum.value
-                                  //               .toString(),
-                                  //           style: TextStyle(
-                                  //               color: Colors.white,
-                                  //               fontSize: AddSize.font12),
-                                  //         );
-                                  //       }),
-                                  //       child: const ImageIcon(
-                                  //         AssetImage(AppAssets.cartImage),
-                                  //         size: 20,
-                                  //       ),
-                                  //     )),
+                                  //   padding: EdgeInsets.symmetric(
+                                  //     vertical: 08,
+                                  //   ),
+                                  //   child: ImageIcon(
+                                  //     AssetImage(AppAssets.cartImage),
+                                  //     size: 18,
+                                  //   ),
+                                  // ),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 12.0),
+                                      child: Badge(
+                                        badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
+                                        badgeContent: Obx(() {
+                                          return Text(
+                                            myCartController.sum.value
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: AddSize.font12),
+                                          );
+                                        }),
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.cartImage),
+                                          size: 20,
+                                        ),
+                                      )),
                                   // icon: Padding(
                                   //   padding: EdgeInsets.all(8.0),
                                   //   child: ImageIcon(
@@ -309,11 +311,11 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   icon: Padding(
                                     padding: EdgeInsets.symmetric(vertical: 08),
                                     child: ImageIcon(
-                                      AssetImage(AppAssets.profile),
+                                      AssetImage(AppAssets.drawer_order),
                                       size: 18,
                                     ),
                                   ),
-                                  label: 'Profile'),
+                                  label: 'Order'),
                             ],
                             type: BottomNavigationBarType.fixed,
                             currentIndex: controller.currentIndex.value,
@@ -357,7 +359,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       MyCartScreen(),
                       HomePage(),
                       StoreListScreen(),
-                      MyProfileScreen(),
+                      MyOrderScreen(),
                     ],
                   );
                 }),

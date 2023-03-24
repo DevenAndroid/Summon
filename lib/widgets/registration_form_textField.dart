@@ -64,13 +64,14 @@ class RegistrationTextField extends StatelessWidget {
         LengthLimitingTextInputFormatter(length),
       ],
       decoration: InputDecoration(
+          errorMaxLines: 2,
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: Colors.grey.shade50,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),

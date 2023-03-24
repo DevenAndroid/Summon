@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class HelpCenter extends StatefulWidget {
 class _HelpCenterState extends State<HelpCenter> {
   final helpCenterController = Get.put(HelpCenterController());
   final RxList<bool> _value = [true, false, false, false, false, false].obs;
-
+  RxInt showSubTitle = (0).obs;
   @override
   void initState() {
     super.initState();
@@ -53,19 +54,18 @@ class _HelpCenterState extends State<HelpCenter> {
                                   ]),
                               child: TextField(
                                 maxLines: 1,
-                                controller:
-                                    helpCenterController.searchController,
+                                controller: helpCenterController.searchController,
                                 style: const TextStyle(fontSize: 17),
                                 textAlignVertical: TextAlignVertical.center,
                                 textInputAction: TextInputAction.search,
-                                onChanged: (value) =>
-                                    {helpCenterController.searchController},
+                                onChanged: (value) {
+                                  helpCenterController.getHelpCenterData();
+                                },
                                 decoration: InputDecoration(
                                     filled: true,
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        helpCenterController
-                                            .getHelpCenterData();
+                                        helpCenterController.getHelpCenterData();
                                       },
                                       icon: const Icon(
                                         Icons.search,
@@ -91,13 +91,16 @@ class _HelpCenterState extends State<HelpCenter> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
+                            helpCenterController
+                                .model.value.data!.isNotEmpty?
                             Column(
                                 children: List.generate(
                                     helpCenterController
                                         .model.value.data!.length,
                                     (index) => Padding(
                                           padding: EdgeInsets.symmetric(
-                                              vertical: AddSize.size5),
+                                              vertical: AddSize.padding20,
+                                              horizontal: AddSize.padding10),
                                           child: Container(
                                             decoration: BoxDecoration(
                                                 color: AppTheme.backgroundcolor,
@@ -112,85 +115,90 @@ class _HelpCenterState extends State<HelpCenter> {
                                                 ]),
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: AddSize.padding20,
-                                                  vertical: AddSize.padding10),
+                                                horizontal: AddSize.padding20,
+                                              ),
                                               child: Obx(() {
                                                 return Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    GestureDetector(
+                                                    ListTile(
                                                       onTap: () {
-                                                        _value[index] =
-                                                            !_value[index];
+                                                        if (showSubTitle
+                                                                .value ==
+                                                            index) {
+                                                          showSubTitle.value =
+                                                              -1;
+                                                        } else {
+                                                          showSubTitle.value =
+                                                              index;
+                                                        }
                                                       },
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            helpCenterController
-                                                                .model
-                                                                .value
-                                                                .data![index]
-                                                                .question
-                                                                .toString(),
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline5!
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    fontSize:
-                                                                        AddSize
-                                                                            .font16),
-                                                          ),
-                                                          GestureDetector(
-                                                            onTap: () {
-                                                              _value[index] =
-                                                                  !_value[
-                                                                      index];
-                                                            },
-                                                            child: Icon(
-                                                              Icons
-                                                                  .keyboard_arrow_down_outlined,
-                                                              size: AddSize
-                                                                  .size20,
-                                                            ),
-                                                          )
-                                                        ],
+                                                      minLeadingWidth: 0,
+                                                      dense: true,
+                                                      contentPadding:
+                                                          EdgeInsets.zero,
+                                                      title: Text(
+                                                        helpCenterController
+                                                            .model
+                                                            .value
+                                                            .data![index]
+                                                            .question
+                                                            .toString(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headline5!
+                                                            .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontSize: AddSize
+                                                                    .font16),
                                                       ),
+                                                      trailing: Icon(
+                                                        showSubTitle
+                                                                    .value ==
+                                                                index
+                                                            ? Icons
+                                                                .keyboard_arrow_up_rounded
+                                                            : Icons
+                                                                .keyboard_arrow_down_outlined,
+                                                        size: AddSize.size25,
+                                                        color: AppTheme.subText,
+                                                      ),
+                                                      subtitle: showSubTitle
+                                                                  .value ==
+                                                              index
+                                                          ? Html(
+                                                              data: helpCenterController
+                                                                  .model
+                                                                  .value
+                                                                  .data![index]
+                                                                  .answer
+                                                                  .toString(),
+                                                            )
+                                                          : null,
                                                     ),
-                                                    _value[index] == true
-                                                        ? Text(
-                                                            helpCenterController
-                                                                .model
-                                                                .value
-                                                                .data![index]
-                                                                .answer
-                                                                .toString(),
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline5!
-                                                                .copyWith(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w300,
-                                                                    fontSize:
-                                                                        AddSize
-                                                                            .font12),
-                                                          )
-                                                        : const SizedBox(),
+                                                    SizedBox(
+                                                        height: AddSize.size10),
                                                   ],
                                                 );
                                               }),
                                             ),
                                           ),
-                                        ))),
+                                        ))):Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding20 * 3,vertical: AddSize.padding20),
+                              child: Text("Data not Available",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: AddSize.font14,
+                                      color: AppTheme.blackcolor)),
+                            ),
                           ],
                         );
                       })),
