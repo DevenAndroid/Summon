@@ -759,11 +759,14 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         SizedBox(
                                           height: height * .01,
                                         ),
-                                        // details("Tax & fee:",
-                                        //     "₹${controller.model.value.data!.cartPaymentSummary!.taxAndFee ?? ""}"),
-                                        // SizedBox(
-                                        //   height: height * .01,
-                                        // ),
+                                        controller.model.value.data!.cartPaymentSummary!.taxAndFee !=0 ?
+                                            Column(children: [
+                                              details("Tax & fee:",
+                                                  "₹${controller.model.value.data!.cartPaymentSummary!.taxAndFee ?? ""}"),
+                                              SizedBox(
+                                                height: height * .01,
+                                              ),
+                                            ],):const SizedBox(),
                                         details(
                                             "Delivery:",
                                             controller

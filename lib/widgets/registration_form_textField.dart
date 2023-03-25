@@ -198,6 +198,7 @@ class RegistrationTextField2 extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final String? hint;
+  final String? lableText;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final bool? readOnly;
@@ -215,6 +216,7 @@ class RegistrationTextField2 extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.hint,
+    this.lableText,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -253,6 +255,7 @@ class RegistrationTextField2 extends StatelessWidget {
       ],
       decoration: InputDecoration(
           hintText: hint,
+          labelText: lableText,
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),

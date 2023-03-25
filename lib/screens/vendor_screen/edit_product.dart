@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../controller/Edit_Products_Controller.dart';
+import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
 import '../../model/VendorEditProduct_model.dart';
 import '../../model/time_model.dart';
@@ -26,6 +27,7 @@ class EditProductScreen extends StatefulWidget {
 
 class _EditProductScreenState extends State<EditProductScreen> {
   final editProductController = Get.put(EditProductsController());
+  final vendorProductListController = Get.put(VendorProductListController());
   Rx<VendorEditProductModel> editModel = VendorEditProductModel().obs;
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
@@ -435,6 +437,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                       .then((value) {
                                     if (value.status == true) {
                                       showToast(value.message);
+                                      vendorProductListController.getVendorProductList();
+                                      Get.back();
                                     }
                                   });
                                 }
@@ -597,6 +601,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               IconButton(
                   onPressed: () {
+                    editProductController.listModelData.length == 1?null:
                     editProductController.listModelData.removeAt(index);
                     setState(() {});
                   },

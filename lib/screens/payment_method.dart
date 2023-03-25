@@ -32,7 +32,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     var options = {
       'key': 'rzp_live_1HJot1eILYIf7B',
       'amount': _isValue == true
-          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) * 100)
+          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) *
+              100)
           : (Get.arguments[0] * 100),
       'name': 'Demo',
       'description': 'Payment',
@@ -288,10 +289,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                       groupValue:
                                                           selectedValue.value,
                                                       onChanged: (value) {
-                                                        selectedValue.value =
-                                                            value!;
-                                                        print(selectedValue
-                                                            .value);
+                                                        if (_isValue == false) {
+                                                          selectedValue.value =
+                                                              value!;
+                                                          print(selectedValue
+                                                              .value);
+                                                        }
                                                       },
                                                     );
                                                   }),
@@ -321,7 +324,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
             ElevatedButton(
                 onPressed: () {
                   if (_isValue == true) {
-                    if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
+                    if (controller.model.value.data!.earnedBalance >=
+                        Get.arguments[0]) {
                       checkOut(payment_type: "online", context: context)
                           .then((value) async {
                         if (value.status == true) {
@@ -355,8 +359,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           });
                         }
                       });
-                    }
-                    else {
+                    } else {
                       checkOut(payment_type: "online", context: context)
                           .then((value) {
                         if (value.status == true) {
@@ -367,8 +370,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         }
                       });
                     }
-                  }
-                  else if (selectedValue.value == "cod") {
+                  } else if (selectedValue.value == "cod") {
                     checkOut(
                             payment_type: selectedValue.value, context: context)
                         .then((value) {
@@ -388,8 +390,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                             ]);
                       }
                     });
-                  }
-                  else {
+                  } else {
                     checkOut(payment_type: "online", context: context)
                         .then((value) {
                       if (value.status == true) {

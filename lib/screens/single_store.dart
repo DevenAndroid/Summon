@@ -37,7 +37,9 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       singleStoreController.getStoreDetails();
+    });
   }
 
   @override

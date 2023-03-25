@@ -6,7 +6,6 @@ import '../repositories/My_Cart_Repo.dart';
 
 class MyCartDataListController extends GetxController {
   Rx<MyCartData> model = MyCartData().obs;
-  Rx<CartRelatedProductModel> relatedProductModel = CartRelatedProductModel().obs;
   RxBool isDataLoaded = false.obs;
   RxBool isRelatedProductDataLoaded = false.obs;
   RxInt sum = 0.obs;

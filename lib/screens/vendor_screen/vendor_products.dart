@@ -378,8 +378,8 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .model
                                                       .value
                                                       .data![index]
-                                                      .product!
-                                                      .qty
+                                                      .variants![0]
+                                                      .variantQty
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -396,12 +396,12 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  vendorProductListController
-                                                      .model
-                                                      .value
-                                                      .data![index]
-                                                      .product!
-                                                      .qtyType
+                                                    vendorProductListController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .variants![0]
+                                                        .variantQtyType
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -422,7 +422,12 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "₹${vendorProductListController.model.value.data![index].product!.regularPrice.toString()}",
+                                                  "₹${vendorProductListController
+                                                .model
+                                                .value
+                                                .data![index]
+                                                .variants![0]
+                                                .price.toString()}",
                                                   //"100",
                                                   style: Theme.of(context)
                                                       .textTheme

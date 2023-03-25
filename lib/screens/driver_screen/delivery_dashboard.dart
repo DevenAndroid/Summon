@@ -491,7 +491,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                           Expanded(
                                                             child: Text(
                                                               // "",
-                                                              "${item.location!.location}, ${item.location!.flatNo}, ${item.location!.street},",
+                                                              "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme

@@ -649,8 +649,10 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                           file5: image4.value)
                                       .then((value) {
                                     if (value.status == true) {
-                                      showToast("${value.message} Wait For Admin Approval");
-                                      Get.offAllNamed(ThankYouVendorScreen
+                                      showToast(
+                                          "${value.message} Wait For Admin Approval");
+                                      log(value.status.toString());
+                                      Get.toNamed(ThankYouVendorScreen
                                           .thankYouVendorScreen);
                                     } else {
                                       showToast(value.message);
