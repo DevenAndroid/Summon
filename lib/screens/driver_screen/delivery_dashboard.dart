@@ -330,7 +330,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                   width: AddSize.size10,
                                                 ),
                                                 Text(
-                                                  "\$${item.orderTotal.toString()}",
+                                                  "₹${item.orderTotal.toString()}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5!

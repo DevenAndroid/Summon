@@ -8,6 +8,7 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/cart_related_product_controller.dart';
 import '../controller/category_controller.dart';
@@ -42,6 +43,7 @@ class HomePageState extends State<HomePage> {
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
   final singleStoreController = Get.put(StoreController());
+  final myOrderController = Get.put(MyOrderController());
   final storeCategoryController = Get.put(StoreByCategoryController());
   final profileController = Get.put(ProfileController());
   final addToCartQtyController = TextEditingController();
@@ -83,6 +85,7 @@ class HomePageState extends State<HomePage> {
             await nearStoreController.getData(isFirstTime: true);
             profileController.getData();
             homeController.getData();
+            myOrderController.getMyOrder();
           },
           child: SingleChildScrollView(
             controller: scrollController,

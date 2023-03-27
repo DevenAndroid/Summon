@@ -8,11 +8,13 @@ import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
+import '../controller/store_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -33,11 +35,13 @@ class CustomNavigationBar extends StatefulWidget {
 }
 
 class CustomNavigationBarState extends State<CustomNavigationBar> {
+  final myOrderController = Get.put(MyOrderController());
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
   final myCartController = Get.put(MyCartDataListController());
   final notificationController = Get.put(NotificationController());
+  final storeController = Get.put(StoreController());
   @override
   void initState() {
     // TODO: implement initState
@@ -236,14 +240,19 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 fontWeight: FontWeight.w400,
                                 color: AppTheme.primaryColor),
                             items: [
-                              const BottomNavigationBarItem(
+                               BottomNavigationBarItem(
                                 icon: Padding(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     vertical: 08,
                                   ),
-                                  child: ImageIcon(
-                                    AssetImage(AppAssets.categoryIcon),
-                                    size: 18,
+                                  child: GestureDetector(
+                                    onTap: (){
+
+                                    },
+                                    child: const ImageIcon(
+                                      AssetImage(AppAssets.categoryIcon),
+                                      size: 18,
+                                    ),
                                   ),
                                 ),
                                 label: 'Categories',
@@ -273,9 +282,14 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                                 fontSize: AddSize.font12),
                                           );
                                         }),
-                                        child: const ImageIcon(
-                                          AssetImage(AppAssets.cartImage),
-                                          size: 20,
+                                        child: GestureDetector(
+                                          onTap: ()async{
+                                           await myCartController.getAddToCartList();
+                                          },
+                                          child: const ImageIcon(
+                                            AssetImage(AppAssets.cartImage),
+                                            size: 20,
+                                          ),
                                         ),
                                       )),
                                   // icon: Padding(
@@ -300,19 +314,29 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: const ImageIcon(
-                                        AssetImage(AppAssets.store),
-                                        size: 20,
+                                      child: GestureDetector(
+                                        onTap: ()async{
+                                         await storeController.getData();
+                                        },
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.store),
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   label: 'Stores'),
-                              const BottomNavigationBarItem(
+                               BottomNavigationBarItem(
                                   icon: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 08),
-                                    child: ImageIcon(
-                                      AssetImage(AppAssets.drawer_order),
-                                      size: 18,
+                                    padding: const EdgeInsets.symmetric(vertical: 08),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await myOrderController.getMyOrder();
+                                      },
+                                      child: const ImageIcon(
+                                        AssetImage(AppAssets.cartImage),
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
                                   label: 'Order'),

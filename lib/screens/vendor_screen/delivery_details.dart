@@ -11,6 +11,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
+import '../../controller/Vendor_Orderlist_Controller.dart';
 import '../../repositories/Order_Accept.Repo.dart';
 import '../../repositories/vendor_reject_variant_repo.dart';
 
@@ -25,6 +26,7 @@ class DeliveryOrderDetails extends StatefulWidget {
 class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     with SingleTickerProviderStateMixin {
   final vendorOrderListController = Get.put(MyOrderDetailsController());
+  final vendorOrderController = Get.put(VendorOrderListController());
   bool value = false;
   TabController? tabController;
   bool rejectButton = false;
@@ -351,12 +353,12 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  vendorOrderListController
+                                                  (vendorOrderListController
                                                       .model
                                                       .value
                                                       .data!
                                                       .user!
-                                                      .name
+                                                      .name ?? "")
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -762,11 +764,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               horizontal: AddSize.padding16, vertical: AddSize.padding16),
           child: ElevatedButton(
               onPressed: () {
-                orderAcceptRepo(vendorOrderListController
-                        .model.value.data!.orderId
-                        .toString())
+                orderAcceptRepo(vendorOrderListController.model.value.data!.orderId.toString())
                     .then((value) {
                   showToast(value.message.toString());
+                  if(value.status == true){
+                    vendorOrderController.vendorOrderListData();
+                    Get.back();
+                  }
                 });
                 // Get.toNamed(MyRouter.editProfileScreen);
               },

@@ -349,17 +349,12 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         _isValue == true
                             ? ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() && listModelData.isNotEmpty) {
                                     print("Hello this is map");
 
                                     Map<String, String> map = {};
 
-                                    map['product_id'] =
-                                        vendorAddProductController
-                                            .vendorAddProductModel
-                                            .value
-                                            .data!
-                                            .id
+                                    map['product_id'] = vendorAddProductController.vendorAddProductModel.value.data!.id
                                             .toString();
                                     map['category_id'] =
                                         vendorAddProductController
@@ -373,39 +368,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                         .vendorAddProductModel.value.data!.image
                                         .toString();
 
-                                    for (var i = 0;
-                                        i < listModelData.length;
-                                        i++) {
-                                      map["variants[$i][market_price]"] =
-                                          listModelData[i]
-                                              .marketPrice!
-                                              .value
-                                              .toString();
-                                      map["variants[$i][variant_qty]"] =
-                                          listModelData[i].qty.value.toString();
-                                      map["variants[$i][variant_qty_type]"] =
-                                          listModelData[i]
-                                              .qtyType
-                                              .value
-                                              .toString();
-                                      map["variants[$i][min_qty]"] =
-                                          listModelData[i]
-                                              .minQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][max_qty]"] =
-                                          listModelData[i]
-                                              .maxQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][price]"] =
-                                          listModelData[i]
-                                              .price
-                                              .value
-                                              .toString();
+                                    for (var i = 0; i < listModelData.length; i++) {
+                                      map["variants[$i][market_price]"] = listModelData[i].marketPrice!.value.toString();
+                                      map["variants[$i][variant_qty]"] = listModelData[i].qty.value.toString();
+                                      map["variants[$i][variant_qty_type]"] = listModelData[i].qtyType.value.toString();
+                                      map["variants[$i][min_qty]"] = listModelData[i].minQty.value.toString();
+                                      map["variants[$i][max_qty]"] = listModelData[i].maxQty.value.toString();
+                                      map["variants[$i][price]"] = listModelData[i].price.value.toString();
                                     }
                                     // print("Map data...$map");
-
                                     vendorSaveProductRepo(
                                             fieldName1: "image",
                                             mapData: map,

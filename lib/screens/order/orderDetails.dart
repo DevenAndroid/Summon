@@ -560,8 +560,8 @@ class _OrderDetailsState extends State<OrderDetails>
                                                       fontSize: AddSize.font14),
                                             ),
                                             Text(
-                                              myOrderDetailsController.model
-                                                  .value.data!.vendor!.name
+                                              (myOrderDetailsController.model
+                                                  .value.data!.vendor!.name??"")
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
