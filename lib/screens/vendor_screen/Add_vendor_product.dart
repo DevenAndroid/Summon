@@ -14,6 +14,7 @@ import '../../controller/home_page_controller.dart';
 import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
+import '../../model/VendorAddProduct_Model.dart';
 import '../../repositories/Vendor_SaveProduct_Repo.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
@@ -163,7 +164,10 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      vendorAddProductController.vendorAddProductModel.value = VendorAddProductModel();
       vendorAddProductController.getVendorSearchProductList();
+      vendorAddProductController.productNameController.clear();
+      vendorAddProductController.skuController.clear();
     });
   }
 
@@ -196,8 +200,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             textAlignVertical: TextAlignVertical.center,
                             textInputAction: TextInputAction.search,
                             onChanged: (value) {
-                              vendorAddProductController
-                                  .getVendorSearchProductList();
+                              vendorAddProductController.getVendorSearchProductList();
                               setState(() {});
                             },
                             decoration: InputDecoration(
@@ -231,8 +234,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
-                        vendorAddProductController
-                                .vendorSearchProductController.text.isNotEmpty
+                        vendorAddProductController.vendorSearchProductController.text.isNotEmpty
                             ? Obx(() {
                                 return Container(
                                   decoration: BoxDecoration(
@@ -347,17 +349,12 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         _isValue == true
                             ? ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() && listModelData.isNotEmpty) {
                                     print("Hello this is map");
 
                                     Map<String, String> map = {};
 
-                                    map['product_id'] =
-                                        vendorAddProductController
-                                            .vendorAddProductModel
-                                            .value
-                                            .data!
-                                            .id
+                                    map['product_id'] = vendorAddProductController.vendorAddProductModel.value.data!.id
                                             .toString();
                                     map['category_id'] =
                                         vendorAddProductController
@@ -371,39 +368,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                         .vendorAddProductModel.value.data!.image
                                         .toString();
 
-                                    for (var i = 0;
-                                        i < listModelData.length;
-                                        i++) {
-                                      map["variants[$i][market_price]"] =
-                                          listModelData[i]
-                                              .marketPrice!
-                                              .value
-                                              .toString();
-                                      map["variants[$i][variant_qty]"] =
-                                          listModelData[i].qty.value.toString();
-                                      map["variants[$i][variant_qty_type]"] =
-                                          listModelData[i]
-                                              .qtyType
-                                              .value
-                                              .toString();
-                                      map["variants[$i][min_qty]"] =
-                                          listModelData[i]
-                                              .minQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][max_qty]"] =
-                                          listModelData[i]
-                                              .maxQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][price]"] =
-                                          listModelData[i]
-                                              .price
-                                              .value
-                                              .toString();
+                                    for (var i = 0; i < listModelData.length; i++) {
+                                      map["variants[$i][market_price]"] = listModelData[i].marketPrice!.value.toString();
+                                      map["variants[$i][variant_qty]"] = listModelData[i].qty.value.toString();
+                                      map["variants[$i][variant_qty_type]"] = listModelData[i].qtyType.value.toString();
+                                      map["variants[$i][min_qty]"] = listModelData[i].minQty.value.toString();
+                                      map["variants[$i][max_qty]"] = listModelData[i].maxQty.value.toString();
+                                      map["variants[$i][price]"] = listModelData[i].price.value.toString();
                                     }
                                     // print("Map data...$map");
-
                                     vendorSaveProductRepo(
                                             fieldName1: "image",
                                             mapData: map,
@@ -458,9 +431,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
       padding: EdgeInsets.symmetric(
           horizontal: AddSize.padding16, vertical: AddSize.padding10),
       child: Obx(() {
-        if (vendorAddProductController.isDataLoading.value &&
-            vendorAddProductController.vendorAddProductModel.value.data !=
-                null) {
+        if (vendorAddProductController.isDataLoading.value && vendorAddProductController.vendorAddProductModel.value.data != null) {
           if (vendorAddProductController.initialSelect == false) {
             listModelData.add(ListModel(
                 qty: "".obs,
@@ -581,15 +552,12 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                   imageUrl: vendorAddProductController
                                               .vendorAddProductModel
                                               .value
-                                              .data !=
-                                          null
+                                              .data != null
                                       ? vendorAddProductController
                                               .vendorAddProductModel
                                               .value
                                               .data!
-                                              .image ??
-                                          "".toString()
-                                      : "",
+                                              .image ?? "".toString() : "",
                                   errorWidget: (_, __, ___) => Icon(
                                     Icons.file_upload_outlined,
                                     size: AddSize.size30,
@@ -706,8 +674,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
     final TextEditingController price = TextEditingController(text: price1);
     final TextEditingController minQty = TextEditingController(text: minQty1);
     final TextEditingController maxQty = TextEditingController(text: maxQty1);
-    final TextEditingController marketPrice =
-        TextEditingController(text: marketPrice1);
+    final TextEditingController marketPrice = TextEditingController(text: marketPrice1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
@@ -726,6 +693,17 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                       [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    listModelData.length == 1 ? null:
+                    listModelData.removeAt(index);
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppTheme.primaryColor,
+                    size: 30,
+                  )),
               SizedBox(
                 height: AddSize.size10,
               ),
@@ -754,6 +732,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             listModelData[index].qty.value = value;
                           },
                           hint: "Qty",
+                          lableText: "Qty",
                           controller: qty,
                           validator: MultiValidator([
                             RequiredValidator(errorText: "Please enter qty")
@@ -809,6 +788,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               Expanded(
                 child: RegistrationTextField1(
                   hint: "Price",
+                  lableText: "Price",
                   onChanged: (value) {
                     listModelData[index].price.value = value;
                   },
@@ -817,16 +797,6 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                       [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    listModelData.removeAt(index);
-                    setState(() {});
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    color: AppTheme.primaryColor,
-                    size: 30,
-                  )),
             ],
           ),
           SizedBox(
@@ -882,14 +852,6 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                       }
                       return null;
                     }
-                    // validator: MultiValidator([
-                    //   //MinLengthValidator(1, errorText: "Enter the valid Max Qty"),
-                    //   LengthRangeValidator(
-                    //       min: 1,
-                    //       max: 1000,
-                    //       errorText: "Enter the Valid Max Qty"),
-                    //   //RequiredValidator(errorText: "Please enter the Max qty")
-                    // ]),
                     ),
               ),
             ],

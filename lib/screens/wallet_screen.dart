@@ -354,7 +354,19 @@ class _WalletScreenState extends State<WalletScreen> {
                                                     .data!
                                                     .walletTransactions![
                                                 index]
-                                                    .status == "Credit" ? AppTheme
+                                                    .status == "Credit" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Earn" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Refund" ? AppTheme
                                                     .appPrimaryGreenColor:AppTheme
                                                     .appPrimaryPinkColor,
                                                 borderRadius:
@@ -366,15 +378,25 @@ class _WalletScreenState extends State<WalletScreen> {
                                                         .data!
                                                         .walletTransactions![
                                                             index]
-                                                        .status == "Credit"
+                                                        .status == "Credit" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Earn" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Refund"
                                                     ? const Icon(
-                                                        Icons
-                                                            .arrow_upward_sharp,
+                                                        Icons.arrow_downward_sharp,
                                                         color: Colors.green,
                                                       )
                                                     : const Icon(
-                                                        Icons
-                                                            .arrow_downward_sharp,
+                                                        Icons.arrow_upward_sharp,
                                                         color: Colors.red,
                                                       )),
                                           ),
@@ -425,7 +447,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                           ),
                                         ]),
                                         Text(
-                                          '₹ ${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
+                                          '₹${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!

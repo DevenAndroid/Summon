@@ -560,8 +560,8 @@ class _OrderDetailsState extends State<OrderDetails>
                                                       fontSize: AddSize.font14),
                                             ),
                                             Text(
-                                              myOrderDetailsController.model
-                                                  .value.data!.vendor!.name
+                                              (myOrderDetailsController.model
+                                                  .value.data!.vendor!.name??"")
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -702,11 +702,11 @@ class _OrderDetailsState extends State<OrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Delivery:", "₹$delivery"),
+                details("Delivery charges:", "₹$delivery"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing fee:", "₹$packing"),
+                details("Packing charges:", "₹$packing"),
                 SizedBox(
                   height: AddSize.size5,
                 ),

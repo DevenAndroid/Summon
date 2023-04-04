@@ -37,27 +37,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         body: SafeArea(
       child: Stack(
         children: [
-          Expanded(
-            child: PageView.builder(
-                itemCount: OnBoardData.length,
-                controller: _pageController,
-                pageSnapping: true,
-                // physics: const BouncingScrollPhysics(),
-                onPageChanged: (index) {
-                  setState(() {
-                    _pageIndex.value = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return OnboardContent(
-                    pageController: _pageController,
-                    indexValue: _pageIndex.value,
-                    image: OnBoardData[index].image.toString(),
-                    title: OnBoardData[index].title.toString(),
-                    description: OnBoardData[index].description.toString(),
-                  );
-                }),
-          ),
+          PageView.builder(
+              itemCount: OnBoardData.length,
+              controller: _pageController,
+              pageSnapping: true,
+              // physics: const BouncingScrollPhysics(),
+              onPageChanged: (index) {
+                setState(() {
+                  _pageIndex.value = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return OnboardContent(
+                  pageController: _pageController,
+                  indexValue: _pageIndex.value,
+                  image: OnBoardData[index].image.toString(),
+                  title: OnBoardData[index].title.toString(),
+                  description: OnBoardData[index].description.toString(),
+                );
+              }),
         ],
       ),
     ));

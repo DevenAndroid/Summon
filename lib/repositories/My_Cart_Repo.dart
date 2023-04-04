@@ -16,7 +16,7 @@ Future<MyCartData> myCartRepo() async {
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
-  try {
+  // try {
     final response =
         await http.get(Uri.parse(ApiUrl.myCartUrl), headers: headers);
 
@@ -26,8 +26,8 @@ Future<MyCartData> myCartRepo() async {
     } else {
       throw Exception(response.body);
     }
-  }
-  catch (e) {
-    throw Exception(e.toString());
-  }
+  // }
+  // catch (e) {
+  //   throw Exception(e.toString());
+  // }
 }

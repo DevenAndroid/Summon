@@ -29,6 +29,7 @@ import 'package:fresh2_arrive/screens/wallet_screen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
@@ -48,6 +49,7 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
+  final myOrderController = Get.put(MyOrderController());
   final RxBool _isValue = false.obs;
   final RxBool _isValue1 = false.obs;
   var vendor = [
@@ -204,7 +206,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: AppTheme.primaryColor,
                           ),
                           onTap: () {
-
+                            myOrderController.getMyOrder();
                             Get.back();
                             controller.onItemTap(4);
                             // }

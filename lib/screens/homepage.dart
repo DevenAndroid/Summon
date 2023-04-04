@@ -8,6 +8,7 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/cart_related_product_controller.dart';
 import '../controller/category_controller.dart';
@@ -42,6 +43,7 @@ class HomePageState extends State<HomePage> {
   final homeController = Get.put(HomePageController());
   final nearStoreController = Get.put(NearStoreController());
   final singleStoreController = Get.put(StoreController());
+  final myOrderController = Get.put(MyOrderController());
   final storeCategoryController = Get.put(StoreByCategoryController());
   final profileController = Get.put(ProfileController());
   final addToCartQtyController = TextEditingController();
@@ -83,6 +85,7 @@ class HomePageState extends State<HomePage> {
             await nearStoreController.getData(isFirstTime: true);
             profileController.getData();
             homeController.getData();
+            myOrderController.getMyOrder();
           },
           child: SingleChildScrollView(
             controller: scrollController,
@@ -310,7 +313,12 @@ class HomePageState extends State<HomePage> {
                                                     SizedBox(
                                                       height: AddSize.size50,
                                                       width: AddSize.size80,
-                                                      child: CachedNetworkImage(
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            10),
+                                                        child:CachedNetworkImage(
                                                         imageUrl: homeController
                                                             .model
                                                             .value
@@ -324,29 +332,27 @@ class HomePageState extends State<HomePage> {
                                                             const SizedBox(),
                                                         placeholder: (_, __) =>
                                                             const SizedBox(),
-                                                        fit: BoxFit.contain,
+                                                        fit: BoxFit.cover,
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        homeController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .latestCategory![
-                                                                index]
-                                                            .name
-                                                            .toString(),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(
-                                                            color: AppTheme
-                                                                .subText,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
+                                                    )),
+                                                    Text(
+                                                      homeController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .latestCategory![
+                                                              index]
+                                                          .name
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          color: AppTheme
+                                                              .subText,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w500),
                                                     )
                                                   ],
                                                 ),

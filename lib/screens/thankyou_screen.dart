@@ -175,7 +175,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Delivery:",
+                            Text("Delivery charges:",
                                 style: TextStyle(
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,
@@ -192,7 +192,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Packing fee:",
+                            Text("Packing charges:",
                                 style: TextStyle(
                                     color: AppTheme.blackcolor,
                                     fontSize: AddSize.font16,

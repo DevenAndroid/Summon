@@ -268,7 +268,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                 width: AddSize.size10,
                                               ),
                                               Text(
-                                                "\$${assignedController.model.value.data![index].orderTotal.toString()}",
+                                                "₹${assignedController.model.value.data![index].orderTotal.toString()}",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!

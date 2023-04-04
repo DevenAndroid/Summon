@@ -22,8 +22,7 @@ class VendorAddProductController extends GetxController {
   RxList<ListModel> listModelData = <ListModel>[].obs;
   Rx<VendorSearchProductModel> model = VendorSearchProductModel().obs;
   Rx<VendorAddProductModel> vendorAddProductModel = VendorAddProductModel().obs;
-  final TextEditingController vendorSearchProductController =
-      TextEditingController();
+  final TextEditingController vendorSearchProductController = TextEditingController();
 // this method working for search the product on ADD product pages
   getVendorSearchProductList() {
     vendorSearchProductListRepo(
