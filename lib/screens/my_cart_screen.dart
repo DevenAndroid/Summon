@@ -731,7 +731,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         SizedBox(
                                           height: height * .01,
                                         ),
-                                        details("Surge:",
+                                        details("Surge charge:",
                                             "₹${controller.model.value.data!.cartPaymentSummary!.surCharge ?? ""}"),
                                         SizedBox(
                                           height: height * .01,
@@ -767,8 +767,24 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                 height: height * .01,
                                               ),
                                             ],):const SizedBox(),
+                                        controller.model.value.data!.cartPaymentSummary!.tax1 !=null ?
+                                        Column(children: [
+                                          details("${controller.model.value.data!.cartPaymentSummary!.tax1!.type ?? ""}:",
+                                              "₹${controller.model.value.data!.cartPaymentSummary!.tax1!.amount ?? ""}"),
+                                          SizedBox(
+                                            height: height * .01,
+                                          ),
+                                        ],):const SizedBox(),
+                                        controller.model.value.data!.cartPaymentSummary!.tax2 !=null ?
+                                        Column(children: [
+                                          details("${controller.model.value.data!.cartPaymentSummary!.tax2!.type ?? ""}:",
+                                              "₹${controller.model.value.data!.cartPaymentSummary!.tax2!.amount ?? ""}"),
+                                          SizedBox(
+                                            height: height * .01,
+                                          ),
+                                        ],):const SizedBox(),
                                         details(
-                                            "Delivery:",
+                                            "Delivery charges:",
                                             controller
                                                         .model
                                                         .value
@@ -781,7 +797,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         SizedBox(
                                           height: height * .01,
                                         ),
-                                        details("Packing fee:",
+                                        details("Packing charges:",
                                             "₹${controller.model.value.data!.cartPaymentSummary!.packingFee ?? ""}"),
                                         SizedBox(
                                           height: height * .02,

@@ -102,7 +102,7 @@ class _AllCategoriesState extends State<AllCategories> {
                                         imageUrl: itemdata.image.toString(),
                                         errorWidget: (_, __, ___) => const SizedBox(),
                                         placeholder: (_, __) => const SizedBox(),
-                                        fit: BoxFit.contain,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

@@ -297,14 +297,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 Obx(() {
                                   return ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: editProductController
-                                          .listModelData.length,
+                                      itemCount: editProductController.listModelData.length,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
                                         return repeatUnit(
-                                            qty1: editProductController
-                                                .listModelData[index].qty.value,
+                                            qty1: editProductController.listModelData[index].qty.value,
                                             price1: editProductController
                                                 .listModelData[index]
                                                 .price
@@ -496,8 +494,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 child: RegistrationTextField1(
                   hint: "Market Price",
                   onChanged: (value) {
-                    editProductController
-                        .listModelData[index].marketPrice!.value = value;
+                    editProductController.listModelData[index].marketPrice!.value = value;
                   },
                   controller: marketPrice,
                   validator: MultiValidator([

@@ -218,41 +218,37 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                       displayOpenTimeDialog(index);
                     }
                   },
-                  child: Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          //horizontal: AddSize.padding10,
-                          vertical: AddSize.padding10),
-                      child: Expanded(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Obx(() {
-                                DateTime? time;
-                                try {
-                                  time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].startTime);
-                                } catch(e){
-                                  time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].startTime);
-                                }
-                                return Text(
-                                  DateFormat("hh:mm a").format(time),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline6!
-                                      .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppTheme.lightblack,
-                                      fontSize: AddSize.font14),
-                                );
-                              }),
-                            ),
-                            const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: AppTheme.lightblack,
-                            )
-                          ],
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        //horizontal: AddSize.padding10,
+                        vertical: AddSize.padding10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Obx(() {
+                            DateTime? time;
+                            try {
+                              time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].startTime);
+                            } catch(e){
+                              time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].startTime);
+                            }
+                            return Text(
+                              DateFormat("hh:mm a").format(time),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: AppTheme.lightblack,
+                                  fontSize: AddSize.font14),
+                            );
+                          }),
                         ),
-                      ),
+                        const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: AppTheme.lightblack,
+                        )
+                      ],
                     ),
                   )),
             ),
@@ -283,35 +279,33 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                   padding: EdgeInsets.symmetric(
                       // horizontal: AddSize.padding10,
                       vertical: AddSize.padding10),
-                  child: Expanded(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Obx(() {
-                            DateTime? time;
-                            try {
-                              time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime);
-                            } catch(e){
-                              time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].endTime);
-                            }
-                            return Text(
-                              DateFormat("hh:mm a").format(time),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w400,
-                                      color: AppTheme.lightblack,
-                                      fontSize: AddSize.font14),
-                            );
-                          }),
-                        ),
-                        const Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: AppTheme.lightblack,
-                        )
-                      ],
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Obx(() {
+                          DateTime? time;
+                          try {
+                            time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime);
+                          } catch(e){
+                            time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].endTime);
+                          }
+                          return Text(
+                            DateFormat("hh:mm a").format(time),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppTheme.lightblack,
+                                    fontSize: AddSize.font14),
+                          );
+                        }),
+                      ),
+                      const Icon(
+                        Icons.keyboard_arrow_down_outlined,
+                        color: AppTheme.lightblack,
+                      )
+                    ],
                   ),
                 ),
               ),

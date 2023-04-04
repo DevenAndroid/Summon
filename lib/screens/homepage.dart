@@ -313,7 +313,12 @@ class HomePageState extends State<HomePage> {
                                                     SizedBox(
                                                       height: AddSize.size50,
                                                       width: AddSize.size80,
-                                                      child: CachedNetworkImage(
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            10),
+                                                        child:CachedNetworkImage(
                                                         imageUrl: homeController
                                                             .model
                                                             .value
@@ -327,29 +332,27 @@ class HomePageState extends State<HomePage> {
                                                             const SizedBox(),
                                                         placeholder: (_, __) =>
                                                             const SizedBox(),
-                                                        fit: BoxFit.contain,
+                                                        fit: BoxFit.cover,
                                                       ),
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        homeController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .latestCategory![
-                                                                index]
-                                                            .name
-                                                            .toString(),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow.ellipsis,
-                                                        style: const TextStyle(
-                                                            color: AppTheme
-                                                                .subText,
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
+                                                    )),
+                                                    Text(
+                                                      homeController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .latestCategory![
+                                                              index]
+                                                          .name
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: const TextStyle(
+                                                          color: AppTheme
+                                                              .subText,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight
+                                                                  .w500),
                                                     )
                                                   ],
                                                 ),

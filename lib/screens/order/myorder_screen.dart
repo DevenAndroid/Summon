@@ -348,135 +348,133 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                         vertical:
                                                             AddSize.padding10,
                                                       ),
-                                                      child: Expanded(
-                                                        child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                height: AddSize
-                                                                    .size80,
-                                                                width: AddSize
-                                                                    .size80,
-                                                                decoration:  BoxDecoration(
-                                                                  border: Border.all(color:Colors.grey.shade300,width: 2),
-                                                                    color: const Color(0xffEAEAEA),
-                                                                    shape: BoxShape
-                                                                        .circle),
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(14),
-                                                                  child:
-                                                                      CachedNetworkImage(
-                                                                    imageUrl: myOrderController
-                                                                        .model
-                                                                        .value
-                                                                        .data![
-                                                                            index]
-                                                                        .image
-                                                                        .toString(),
-                                                                    errorWidget: (_,
-                                                                            __,
-                                                                            ___) =>
-                                                                        const SizedBox(),
-                                                                    placeholder:
-                                                                        (_, __) =>
-                                                                            const SizedBox(),
-                                                                    fit: BoxFit
-                                                                        .cover,
+                                                      child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              height: AddSize
+                                                                  .size80,
+                                                              width: AddSize
+                                                                  .size80,
+                                                              decoration:  BoxDecoration(
+                                                                border: Border.all(color:Colors.grey.shade300,width: 2),
+                                                                  color: const Color(0xffEAEAEA),
+                                                                  shape: BoxShape
+                                                                      .circle),
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .all(14),
+                                                                child:
+                                                                    CachedNetworkImage(
+                                                                  imageUrl: myOrderController
+                                                                      .model
+                                                                      .value
+                                                                      .data![
+                                                                          index]
+                                                                      .image
+                                                                      .toString(),
+                                                                  errorWidget: (_,
+                                                                          __,
+                                                                          ___) =>
+                                                                      const SizedBox(),
+                                                                  placeholder:
+                                                                      (_, __) =>
+                                                                          const SizedBox(),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width: AddSize
+                                                                  .width15,
+                                                            ),
+                                                            Expanded(
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: AddSize
+                                                                        .size20,
                                                                   ),
-                                                                ),
+                                                                  Text(
+                                                                    'Order ID : ${myOrderController.model.value.data![index].orderId.toString()}',
+                                                                    style: TextStyle(
+                                                                        color: const Color(
+                                                                            0xff293044),
+                                                                        fontSize: AddSize
+                                                                            .font16,
+                                                                        fontWeight:
+                                                                            FontWeight.w500),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: AddSize
+                                                                        .size5,
+                                                                  ),
+                                                                  Text(
+                                                                    'Total Amount - ₹${myOrderController.model.value.data![index].grandTotal.toString()}',
+                                                                    style: const TextStyle(
+                                                                        color: Color(
+                                                                            0xff727786),
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.w500),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: AddSize
+                                                                        .size5,
+                                                                  ),
+                                                                  Text(
+                                                                    ' ${myOrderController.model.value.data![index].itemCount.toString()} Items',
+                                                                    style: const TextStyle(
+                                                                        color: Color(
+                                                                            0xff727786),
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: AddSize
+                                                                        .size5,
+                                                                  ),
+                                                                  Text(
+                                                                    'Placed at: ${myOrderController.model.value.data![index].placedAt.toString()}',
+                                                                    style: const TextStyle(
+                                                                        color: Color(
+                                                                            0xff727786),
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontWeight:
+                                                                            FontWeight.w400),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: AddSize
+                                                                        .size5,
+                                                                  ),
+                                                                ],
                                                               ),
-                                                              SizedBox(
-                                                                width: AddSize
-                                                                    .width15,
-                                                              ),
-                                                              Expanded(
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size20,
-                                                                    ),
-                                                                    Text(
-                                                                      'Order ID : ${myOrderController.model.value.data![index].orderId.toString()}',
-                                                                      style: TextStyle(
-                                                                          color: const Color(
-                                                                              0xff293044),
-                                                                          fontSize: AddSize
-                                                                              .font16,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .start,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
-                                                                    Text(
-                                                                      'Total Amount - ₹${myOrderController.model.value.data![index].grandTotal.toString()}',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                      textAlign:
-                                                                          TextAlign
-                                                                              .start,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
-                                                                    Text(
-                                                                      ' ${myOrderController.model.value.data![index].itemCount.toString()} Items',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
-                                                                    Text(
-                                                                      'Placed at: ${myOrderController.model.value.data![index].placedAt.toString()}',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                               Icon(Icons.arrow_forward_ios,size: AddSize.size15)
-                                                            ]),
-                                                      ),
+                                                            ),
+                                                             Icon(Icons.arrow_forward_ios,size: AddSize.size15)
+                                                          ]),
                                                     ),
                                                     Positioned(
                                                         top: 5,

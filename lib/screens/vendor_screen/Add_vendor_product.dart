@@ -674,8 +674,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
     final TextEditingController price = TextEditingController(text: price1);
     final TextEditingController minQty = TextEditingController(text: minQty1);
     final TextEditingController maxQty = TextEditingController(text: maxQty1);
-    final TextEditingController marketPrice =
-        TextEditingController(text: marketPrice1);
+    final TextEditingController marketPrice = TextEditingController(text: marketPrice1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(

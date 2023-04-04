@@ -498,7 +498,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                         if ((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() ==
                                                                                             singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.
                                                                                         latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].minQty.toString()) {
-                                                                                          removeCartItemRepo((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).id ?? "0").toString(), context).then((value) {
+                                                                                          removeCartItemRepo((myCartController.model.value.data!.cartItems!.firstWhere((element) => element.variantId.toString() == singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).id ?? "").toString(), context).then((value) {
                                                                                             if (value.status == true) {
                                                                                               showToast(value.message);
                                                                                               myCartController.getAddToCartList();
@@ -653,7 +653,6 @@ class _StoreScreenState extends State<StoreScreen> {
       );
     });
   }
-
   buildDropdownButtonFormField(int index) {
     return Obx(() {
       return DropdownButtonFormField<int>(

@@ -710,11 +710,11 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Delivery:", "₹$delivery"),
+                details("Delivery charges:", "₹$delivery"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing fee:", "₹$packing"),
+                details("Packing charges:", "₹$packing"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
