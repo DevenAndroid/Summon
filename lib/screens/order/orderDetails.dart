@@ -561,7 +561,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                             ),
                                             Text(
                                               (myOrderDetailsController.model
-                                                  .value.data!.vendor!.name??"")
+                                                  .value.data!.user!.name??"")
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -710,6 +710,28 @@ class _OrderDetailsState extends State<OrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
+                myOrderDetailsController
+                    .model.value.data!.tax1 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax1!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax1!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size5,
+                  ),
+                ],):const SizedBox(),
+                myOrderDetailsController
+                    .model.value.data!.tax2 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax2!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax2!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size10,
+                  ),
+                ],):const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

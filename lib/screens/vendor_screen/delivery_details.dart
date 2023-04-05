@@ -31,7 +31,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
   TabController? tabController;
   bool rejectButton = false;
   Future<void> openMap(double latitude, double longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
@@ -47,6 +48,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
       throw 'Could not launch $url';
     }
   }
+
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -169,48 +171,49 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               return Column(
                                                 children: [
                                                   orderList(
-                                                      name:vendorOrderListController
+                                                      name: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .productName
                                                           .toString(),
-                                                      price:vendorOrderListController
+                                                      price: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .price
                                                           .toString(),
-                                                      itemQty:vendorOrderListController
+                                                      itemQty: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .itemQty
                                                           .toString(),
-                                                      qty:vendorOrderListController
+                                                      qty: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .qty
                                                           .toString(),
-                                                      status1:vendorOrderListController
+                                                      status1: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .status
                                                           .toString(),
-                                                      variantId: vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .orderItems![index]
-                                                      .id
-                                                      .toString()),
+                                                      variantId:
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .orderItems![index]
+                                                              .id
+                                                              .toString()),
                                                   SizedBox(
                                                     height: height * .005,
                                                   ),
@@ -354,11 +357,12 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                 ),
                                                 Text(
                                                   (vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .user!
-                                                      .name ?? "")
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .user!
+                                                              .name ??
+                                                          "")
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -411,12 +415,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .user!
-                                                      .phone
+                                                  (vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .user!
+                                                              .phone ??
+                                                          "")
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -431,17 +436,27 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               ],
                                             ),
                                           ]),
-                                          Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: AppTheme.primaryColor,
-                                                  shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                Icons.phone,
-                                                color: AppTheme.backgroundcolor,
-                                              ))),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _makingPhoneCall(
+                                                  "tel:+91${vendorOrderListController.model.value.data!.user!.phone ?? ""}"
+                                                      .toString());
+                                            },
+                                            child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration:
+                                                    const ShapeDecoration(
+                                                        color: AppTheme
+                                                            .primaryColor,
+                                                        shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                  Icons.phone,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                ))),
+                                          ),
                                         ],
                                       ),
                                       const Divider(),
@@ -471,25 +486,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
-                                                      "Flat no ${vendorOrderListController.model.value.data!.address!.flatNo.toString()}",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline5!
-                                                          .copyWith(
-                                                              height: 1.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: AddSize
-                                                                  .font16),
-                                                    ),
-                                                    Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .address!
-                                                          .location
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .user!
+                                                                  .location ??
+                                                              "")
                                                           .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -507,17 +510,39 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               ),
                                             ]),
                                           ),
-                                          Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: const ShapeDecoration(
-                                                color: AppTheme.lightYellow,
-                                                shape: CircleBorder()),
-                                            child: const Center(
-                                                child: Icon(
-                                              Icons.location_on,
-                                              color: AppTheme.backgroundcolor,
-                                            )),
+                                          GestureDetector(
+                                            onTap: () {
+                                              print("okay");
+                                              openMap(
+                                                  double.parse(
+                                                      vendorOrderListController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .user!
+                                                          .latitude
+                                                          .toString()),
+                                                  double.parse(
+                                                      vendorOrderListController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .user!
+                                                          .longitude
+                                                          .toString()));
+                                            },
+                                            child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: AppTheme.lightYellow,
+                                                  shape: CircleBorder()),
+                                              child: const Center(
+                                                  child: Icon(
+                                                Icons.location_on,
+                                                color: AppTheme.backgroundcolor,
+                                              )),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -575,12 +600,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .driver!
-                                                          .name
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .driver!
+                                                                  .name ??
+                                                              "")
                                                           .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -615,12 +641,12 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                           const Divider(),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(children: [
                                                 Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Driver Number",
@@ -628,90 +654,117 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                           .textTheme
                                                           .headline5!
                                                           .copyWith(
-                                                          color: AppTheme
-                                                              .lightblack,
-                                                          fontWeight:
-                                                          FontWeight.w400,
-                                                          fontSize:
-                                                          AddSize.font14),
+                                                              color: AppTheme
+                                                                  .lightblack,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: AddSize
+                                                                  .font14),
                                                     ),
                                                     Text(
-                                                      (vendorOrderListController.model.value.data!.driver!.phone ?? "").toString(),
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .driver!
+                                                                  .phone ??
+                                                              "")
+                                                          .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline5!
                                                           .copyWith(
-                                                          height: 1.5,
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          fontSize:
-                                                          AddSize.font16),
+                                                              height: 1.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: AddSize
+                                                                  .font16),
                                                     ),
                                                   ],
                                                 ),
                                               ]),
                                               GestureDetector(
-                                                onTap: (){
-                                                  _makingPhoneCall("tel:+91${vendorOrderListController.model.value.data!.driver!.phone ?? ""}".toString());
+                                                onTap: () {
+                                                  _makingPhoneCall(
+                                                      "tel:+91${vendorOrderListController.model.value.data!.driver!.phone ?? ""}"
+                                                          .toString());
                                                 },
                                                 child: Container(
                                                     height: AddSize.size45,
                                                     width: AddSize.size45,
-                                                    decoration: const ShapeDecoration(
-                                                        color: AppTheme.primaryColor,
-                                                        shape: CircleBorder()),
+                                                    decoration:
+                                                        const ShapeDecoration(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            shape:
+                                                                CircleBorder()),
                                                     child: const Center(
                                                         child: Icon(
-                                                          Icons.phone,
-                                                          color: AppTheme.backgroundcolor,
-                                                        ))),
+                                                      Icons.phone,
+                                                      color: AppTheme
+                                                          .backgroundcolor,
+                                                    ))),
                                               ),
                                             ],
                                           ),
                                           const Divider(),
                                           Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
                                                 child: Row(children: [
                                                   Expanded(
                                                     child: Column(
                                                       crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                           "Delivery Address",
-                                                          style: Theme.of(context)
+                                                          style: Theme.of(
+                                                                  context)
                                                               .textTheme
                                                               .headline5!
                                                               .copyWith(
-                                                              color: AppTheme
-                                                                  .lightblack,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w400,
-                                                              fontSize: AddSize
-                                                                  .font14),
+                                                                  color: AppTheme
+                                                                      .lightblack,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: AddSize
+                                                                      .font14),
                                                         ),
                                                         Row(
                                                           children: [
                                                             Expanded(
                                                               child: Text(
-                                                                (vendorOrderListController.model.value.data!.driver!.location ?? "").toString(),
+                                                                (vendorOrderListController
+                                                                            .model
+                                                                            .value
+                                                                            .data!
+                                                                            .driver!
+                                                                            .location ??
+                                                                        "")
+                                                                    .toString(),
                                                                 maxLines: 2,
                                                                 style: Theme.of(
-                                                                    context)
+                                                                        context)
                                                                     .textTheme
                                                                     .headline5!
                                                                     .copyWith(
-                                                                    height: 1.5,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    fontSize: AddSize
-                                                                        .font16),
+                                                                        height:
+                                                                            1.5,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        fontSize:
+                                                                            AddSize.font16),
                                                               ),
                                                             ),
                                                             const SizedBox(
@@ -728,20 +781,41 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                 ]),
                                               ),
                                               GestureDetector(
-                                                onTap: (){
-                                                  openMap(double.parse(vendorOrderListController.model.value.data!.address!.latitude.toString()),double.parse(vendorOrderListController.model.value.data!.address!.longitude.toString()));
+                                                onTap: () {
+                                                  print("okay");
+                                                  openMap(
+                                                      double.parse(
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .address!
+                                                              .latitude
+                                                              .toString()),
+                                                      double.parse(
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .address!
+                                                              .longitude
+                                                              .toString()));
                                                 },
                                                 child: Container(
                                                   height: AddSize.size45,
                                                   width: AddSize.size45,
-                                                  decoration: const ShapeDecoration(
-                                                      color: AppTheme.lightYellow,
-                                                      shape: CircleBorder()),
+                                                  decoration:
+                                                      const ShapeDecoration(
+                                                          color: AppTheme
+                                                              .lightYellow,
+                                                          shape:
+                                                              CircleBorder()),
                                                   child: const Center(
                                                       child: Icon(
-                                                        Icons.location_on,
-                                                        color: AppTheme.backgroundcolor,
-                                                      )),
+                                                    Icons.location_on,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                  )),
                                                 ),
                                               ),
                                             ],
@@ -764,10 +838,12 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               horizontal: AddSize.padding16, vertical: AddSize.padding16),
           child: ElevatedButton(
               onPressed: () {
-                orderAcceptRepo(vendorOrderListController.model.value.data!.orderId.toString())
+                orderAcceptRepo(vendorOrderListController
+                        .model.value.data!.orderId
+                        .toString())
                     .then((value) {
                   showToast(value.message.toString());
-                  if(value.status == true){
+                  if (value.status == true) {
                     vendorOrderController.vendorOrderListData();
                     Get.back();
                   }
@@ -795,7 +871,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     });
   }
 
-  orderList({required name,required price,required qty,required itemQty,required status1,required variantId}) {
+  orderList(
+      {required name,
+      required price,
+      required qty,
+      required itemQty,
+      required status1,
+      required variantId}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(

@@ -489,7 +489,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                 .spaceBetween,
                                                         children: [
                                                           Expanded(
-                                                            child: Text(
+                                                            child: item.location != null ?Text(
                                                               // "",
                                                               "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
                                                               style: Theme.of(
@@ -505,7 +505,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                       fontSize:
                                                                           AddSize
                                                                               .font14),
-                                                            ),
+                                                            ):Text(""),
                                                           ),
                                                           Container(
                                                             height:

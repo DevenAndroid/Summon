@@ -1,32 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/near_store_model.dart';
+import 'package:fresh2_arrive/model/single_category_model.dart';
+import 'package:fresh2_arrive/repositories/single_category_product.dart';
 import 'package:get/get.dart';
 import '../model/Store_Details_model.dart';
 import '../repositories/Store_Details_Repo.dart';
 import '../repositories/near_store_repository.dart';
 
-class StoreController extends GetxController {
+class SingleCategoryController extends GetxController {
   RxBool isPaginationLoading = true.obs;
   RxBool isDataLoading = false.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
   RxInt pagination = 10.obs;
   RxString storeId = "".obs;
-  Rx<NearStoreModel> model = NearStoreModel().obs;
-  Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
+  RxString categoryId = "".obs;
+  Rx<SingleCategoryModel> singleCategoryModel = SingleCategoryModel().obs;
 
   Future<dynamic> getData({isFirstTime = false, context}) async {
     if(isFirstTime){
       page.value = 1;
     }
-    if (isPaginationLoading.value && loadMore.value) {
+    if ((isPaginationLoading.value && loadMore.value) || isFirstTime) {
       isPaginationLoading.value = false;
       isDataLoading.value = false;
-      await loadWithPagination(
-              page: page.value, pagination: pagination.value, context: context)
+      await singleCategoryProductRepo(
+          page: page.value, pagination: pagination.value, context: context, id: categoryId.value, vendor_id: storeId.value)
           .then((value) {
         if (isFirstTime) {
-          model.value = value;
+          singleCategoryModel.value = value;
         }
         isPaginationLoading.value = true;
         isDataLoading.value = true;
@@ -34,20 +36,12 @@ class StoreController extends GetxController {
           isDataLoading.value = true;
           page.value++;
           if (!isFirstTime) {
-            model.value.data!.addAll(value.data!);
+            singleCategoryModel.value.data!.addAll(value.data!);
           }
           loadMore.value = value.link!.next ?? false;
         }
       });
     }
-  }
-
-  getStoreDetails() {
-    isDataLoading.value = false;
-    storeDetailsRepo(storeId.value).then((value) {
-      storeDetailsModel.value = value;
-      isDataLoading.value = true;
-    });
   }
 
   @override

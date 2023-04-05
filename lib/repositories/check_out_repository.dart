@@ -12,7 +12,7 @@ import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
 Future<CheckOutDataModel> checkOut(
-    {required payment_type,required BuildContext context}) async {
+    {required payment_type,required context}) async {
   var map = <String, dynamic>{};
   map['payment_type'] = payment_type;
   OverlayEntry loader = Helpers.overlayLoader(context);

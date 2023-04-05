@@ -1,10 +1,13 @@
+import 'package:fresh2_arrive/model/check_out_model.dart';
 import 'package:fresh2_arrive/model/coupon_mpdel.dart';
+import 'package:fresh2_arrive/repositories/check_out_repository.dart';
 import 'package:fresh2_arrive/repositories/coupons_repository.dart';
 import 'package:get/get.dart';
 
-class CouponController extends GetxController {
+class CheckOutController extends GetxController {
   RxBool isDataLoading = false.obs;
-  Rx<CouponModel> model = CouponModel().obs;
+  Rx<CheckOutDataModel> model = CheckOutDataModel().obs;
+  RxString type = "".obs;
 
   @override
   void onInit() {
@@ -14,7 +17,7 @@ class CouponController extends GetxController {
 
   getData() async {
     isDataLoading.value = false;
-    couponData(Get.context).then((value) {
+    checkOut(payment_type: type.obs,context: Get.context).then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

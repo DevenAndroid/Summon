@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,67 @@ class _MyCartScreenState extends State<MyCartScreen> {
   RxBool customTip = false.obs;
   RxString selectedChip = "".obs;
   final _formKey = GlobalKey<FormState>();
+
+
+  showUploadWindow(String charge) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AddSize.padding16,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: AddSize.size20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("For order above ₹200",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: AddSize.font16)),
+                        Text("₹0",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: AddSize.font16)),
+                      ],
+                    ),
+                    SizedBox(
+                      height: AddSize.size10,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: AddSize.size10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("For order below ₹200",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: AddSize.font16)),
+                        Text("₹$charge",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: AddSize.font16)),
+                      ],
+                    ),
+                    SizedBox(
+                      height: AddSize.size20,
+                    ),
+                  ],
+                )),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -759,14 +821,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         SizedBox(
                                           height: height * .01,
                                         ),
-                                        controller.model.value.data!.cartPaymentSummary!.taxAndFee !=0 ?
-                                            Column(children: [
-                                              details("Tax & fee:",
-                                                  "₹${controller.model.value.data!.cartPaymentSummary!.taxAndFee ?? ""}"),
-                                              SizedBox(
-                                                height: height * .01,
-                                              ),
-                                            ],):const SizedBox(),
                                         controller.model.value.data!.cartPaymentSummary!.tax1 !=null ?
                                         Column(children: [
                                           details("${controller.model.value.data!.cartPaymentSummary!.tax1!.type ?? ""}:",
@@ -783,17 +837,46 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             height: height * .01,
                                           ),
                                         ],):const SizedBox(),
-                                        details(
-                                            "Delivery charges:",
-                                            controller
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .cartPaymentSummary!
-                                                        .deliveryCharge ==
-                                                    "-"
-                                                ? "Free"
-                                                : "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge}"),
+                                  GestureDetector(
+                                    onTap: (){
+                                      showUploadWindow(controller.model.value.data!.cartPaymentSummary!.deliveryCharge.toString());
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text("Delivery charges:",
+                                                style: TextStyle(
+                                                    color: AppTheme.blackcolor,
+                                                    fontSize: AddSize.font16,
+                                                    fontWeight: FontWeight.w500)),
+                                            Transform.rotate(
+                                                angle: pi,
+                                                child: Icon(
+                                                  Icons.error_outline,
+                                                  color: AppTheme.primaryColor,
+                                                  size: AddSize.size20,
+                                                )),
+                                          ],
+                                        ),
+
+                                        Text(controller.model
+                                            .value
+                                            .data!
+                                            .cartPaymentSummary!
+                                            .deliveryCharge ==
+                                            "-"
+                                            ? "Free"
+                                            : "₹${controller.model.value.data!.cartPaymentSummary!.deliveryCharge}",
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: AddSize.font14,
+                                                fontWeight: FontWeight.w500))
+                                      ],
+                                    ),
+                                  ),
+
                                         SizedBox(
                                           height: height * .01,
                                         ),
@@ -928,13 +1011,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                             .cartPaymentSummary!
                                                             .total
                                                       ]);
-                                                  log(controller
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .cartPaymentSummary!
-                                                      .total
-                                                      .toString());
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                     padding: const EdgeInsets.all(
