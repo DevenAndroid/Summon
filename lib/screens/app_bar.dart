@@ -129,7 +129,12 @@ AppBar buildAppBar(
                       borderRadius: BorderRadius.circular(50),
                       // color: Colors.brown
                     ),
-                    child: CachedNetworkImage(
+                    child:(profileController.isDataLoading.value
+                        ? (profileController.model.value.data!
+                        .profileImage ??
+                        "")
+                        .toString()
+                        : "").isNotEmpty ? CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: profileController.isDataLoading.value
                           ? (profileController.model.value.data!.profileImage ??
@@ -140,7 +145,7 @@ AppBar buildAppBar(
                       width: 30,
                       errorWidget: (_, __, ___) => const SizedBox(),
                       placeholder: (_, __) => const SizedBox(),
-                    )),
+                    ):null),
               ),
             ),
           );

@@ -200,7 +200,12 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     // color: Colors.brown
                                   ),
                                   child: Obx(() {
-                                    return CachedNetworkImage(
+                                    return(profileController.isDataLoading.value
+                                        ? (profileController.model.value.data!
+                                        .profileImage ??
+                                        "")
+                                        .toString()
+                                        : "").isNotEmpty ? CachedNetworkImage(
                                       fit: BoxFit.cover,
                                       imageUrl:
                                           profileController.isDataLoading.value
@@ -212,7 +217,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       errorWidget: (_, __, ___) =>
                                           const SizedBox(),
                                       placeholder: (_, __) => const SizedBox(),
-                                    );
+                                    ):SizedBox.shrink();
                                   })),
                             ),
                           ),

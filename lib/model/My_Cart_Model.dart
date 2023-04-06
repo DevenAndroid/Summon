@@ -420,8 +420,8 @@ class CartPaymentSummary {
 }
 
 class Tax1 {
-  String? type;
-  double? amount;
+  dynamic type;
+  dynamic amount;
 
   Tax1({this.type, this.amount});
 
@@ -440,8 +440,8 @@ class Tax1 {
 
 
 class Tax2 {
-  String? type;
-  double? amount;
+  dynamic type;
+  dynamic amount;
 
   Tax2({this.type, this.amount});
 

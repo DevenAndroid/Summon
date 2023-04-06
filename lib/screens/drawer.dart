@@ -59,7 +59,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Store open time',
     'Vendor Information',
     'Bank Details',
-    'Earning'
+    'Withdraw'
   ];
   var vendorRoutes = [
     VenderDashboard.vendorDashboard,
@@ -145,7 +145,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   shape: CircleBorder(),
                                   color: Colors.white,
                                 ),
-                                child: CachedNetworkImage(
+                                child: (profileController.isDataLoading.value
+                                    ? (profileController.model.value.data!
+                                    .profileImage ??
+                                    "")
+                                    .toString()
+                                    : "").isNotEmpty ?
+                                CachedNetworkImage(
                                   imageUrl:
                                       profileController.isDataLoading.value
                                           ? (profileController.model.value.data!
@@ -158,7 +164,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   errorWidget: (_, __, ___) => const SizedBox(),
                                   placeholder: (_, __) => const SizedBox(),
                                   fit: BoxFit.cover,
-                                ))),
+                                ):null)),
                       ),
                       SizedBox(
                         height: screenSize.height * 0.02,

@@ -45,6 +45,7 @@ class _StoreScreenState extends State<StoreScreen> {
           .then((value) => setState(() {}));
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -546,8 +547,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                                                             index].varints![singleCategoryController
                                                                                                 .singleCategoryModel
                                                                                                 .value
-                                                                                                .data![
-                                                                                            index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString() == singleCategoryController
+                                                                                                .data![index].varientIndex!.value].id.toString(), orElse: () => CartItems()).cartItemQty ?? "0").toString() == singleCategoryController
                                                                                             .singleCategoryModel
                                                                                             .value
                                                                                             .data![
