@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -6,8 +8,10 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
+import '../../controller/Vendor_Orderlist_Controller.dart';
 import '../../repositories/Order_Accept.Repo.dart';
 import '../../repositories/vendor_reject_variant_repo.dart';
 
@@ -22,9 +26,28 @@ class DeliveryOrderDetails extends StatefulWidget {
 class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     with SingleTickerProviderStateMixin {
   final vendorOrderListController = Get.put(MyOrderDetailsController());
+  final vendorOrderController = Get.put(VendorOrderListController());
   bool value = false;
   TabController? tabController;
   bool rejectButton = false;
+  Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+
+  _makingPhoneCall(call) async {
+    var url = Uri.parse(call);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   void initState() {
@@ -148,41 +171,49 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               return Column(
                                                 children: [
                                                   orderList(
-                                                      name:vendorOrderListController
+                                                      name: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .productName
                                                           .toString(),
-                                                      price:vendorOrderListController
+                                                      price: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .price
                                                           .toString(),
-                                                      itemQty:vendorOrderListController
+                                                      itemQty: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .itemQty
                                                           .toString(),
-                                                      qty:vendorOrderListController
+                                                      qty: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .qty
                                                           .toString(),
-                                                      status1:vendorOrderListController
+                                                      status1: vendorOrderListController
                                                           .model
                                                           .value
                                                           .data!
                                                           .orderItems![index]
                                                           .status
-                                                          .toString()),
+                                                          .toString(),
+                                                      variantId:
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .orderItems![index]
+                                                              .id
+                                                              .toString()),
                                                   SizedBox(
                                                     height: height * .005,
                                                   ),
@@ -325,12 +356,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .user!
-                                                      .name
+                                                  (vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .user!
+                                                              .name ??
+                                                          "")
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -383,12 +415,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                               AddSize.font14),
                                                 ),
                                                 Text(
-                                                  vendorOrderListController
-                                                      .model
-                                                      .value
-                                                      .data!
-                                                      .user!
-                                                      .phone
+                                                  (vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .user!
+                                                              .phone ??
+                                                          "")
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -403,17 +436,27 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               ],
                                             ),
                                           ]),
-                                          Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: AppTheme.primaryColor,
-                                                  shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                Icons.phone,
-                                                color: AppTheme.backgroundcolor,
-                                              ))),
+                                          GestureDetector(
+                                            onTap: () {
+                                              _makingPhoneCall(
+                                                  "tel:+91${vendorOrderListController.model.value.data!.user!.phone ?? ""}"
+                                                      .toString());
+                                            },
+                                            child: Container(
+                                                height: AddSize.size45,
+                                                width: AddSize.size45,
+                                                decoration:
+                                                    const ShapeDecoration(
+                                                        color: AppTheme
+                                                            .primaryColor,
+                                                        shape: CircleBorder()),
+                                                child: const Center(
+                                                    child: Icon(
+                                                  Icons.phone,
+                                                  color:
+                                                      AppTheme.backgroundcolor,
+                                                ))),
+                                          ),
                                         ],
                                       ),
                                       const Divider(),
@@ -443,25 +486,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
-                                                      "Flat no ${vendorOrderListController.model.value.data!.address!.flatNo.toString()}",
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline5!
-                                                          .copyWith(
-                                                              height: 1.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: AddSize
-                                                                  .font16),
-                                                    ),
-                                                    Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .address!
-                                                          .location
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .user!
+                                                                  .location ??
+                                                              "")
                                                           .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -479,17 +510,39 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                               ),
                                             ]),
                                           ),
-                                          Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: const ShapeDecoration(
-                                                color: AppTheme.lightYellow,
-                                                shape: CircleBorder()),
-                                            child: const Center(
-                                                child: Icon(
-                                              Icons.location_on,
-                                              color: AppTheme.backgroundcolor,
-                                            )),
+                                          GestureDetector(
+                                            onTap: () {
+                                              print("okay");
+                                              openMap(
+                                                  double.parse(
+                                                      vendorOrderListController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .user!
+                                                          .latitude
+                                                          .toString()),
+                                                  double.parse(
+                                                      vendorOrderListController
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .user!
+                                                          .longitude
+                                                          .toString()));
+                                            },
+                                            child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: AppTheme.lightYellow,
+                                                  shape: CircleBorder()),
+                                              child: const Center(
+                                                  child: Icon(
+                                                Icons.location_on,
+                                                color: AppTheme.backgroundcolor,
+                                              )),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -547,12 +600,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .driver!
-                                                          .name
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .driver!
+                                                                  .name ??
+                                                              "")
                                                           .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -609,12 +663,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   .font14),
                                                     ),
                                                     Text(
-                                                      vendorOrderListController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .driver!
-                                                          .phone
+                                                      (vendorOrderListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .driver!
+                                                                  .phone ??
+                                                              "")
                                                           .toString(),
                                                       style: Theme.of(context)
                                                           .textTheme
@@ -630,21 +685,28 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                   ],
                                                 ),
                                               ]),
-                                              Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration:
-                                                      const ShapeDecoration(
-                                                          color: AppTheme
-                                                              .userActive,
-                                                          shape:
-                                                              CircleBorder()),
-                                                  child: const Center(
-                                                      child: Icon(
-                                                    Icons.phone,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                  ))),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  _makingPhoneCall(
+                                                      "tel:+91${vendorOrderListController.model.value.data!.driver!.phone ?? ""}"
+                                                          .toString());
+                                                },
+                                                child: Container(
+                                                    height: AddSize.size45,
+                                                    width: AddSize.size45,
+                                                    decoration:
+                                                        const ShapeDecoration(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            shape:
+                                                                CircleBorder()),
+                                                    child: const Center(
+                                                        child: Icon(
+                                                      Icons.phone,
+                                                      color: AppTheme
+                                                          .backgroundcolor,
+                                                    ))),
+                                              ),
                                             ],
                                           ),
                                           const Divider(),
@@ -675,45 +737,86 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                   fontSize: AddSize
                                                                       .font14),
                                                         ),
-                                                        Text(
-                                                          vendorOrderListController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .driver!
-                                                              .location
-                                                              .toString(),
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: AddSize
-                                                                      .font16),
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Text(
+                                                                (vendorOrderListController
+                                                                            .model
+                                                                            .value
+                                                                            .data!
+                                                                            .driver!
+                                                                            .location ??
+                                                                        "")
+                                                                    .toString(),
+                                                                maxLines: 2,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .headline5!
+                                                                    .copyWith(
+                                                                        height:
+                                                                            1.5,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        fontSize:
+                                                                            AddSize.font16),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
                                                 ]),
                                               ),
-                                              Container(
-                                                height: AddSize.size45,
-                                                width: AddSize.size45,
-                                                decoration:
-                                                    const ShapeDecoration(
-                                                        color: AppTheme
-                                                            .lightYellow,
-                                                        shape: CircleBorder()),
-                                                child: const Center(
-                                                    child: Icon(
-                                                  Icons.location_on,
-                                                  color:
-                                                      AppTheme.backgroundcolor,
-                                                )),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  print("okay");
+                                                  openMap(
+                                                      double.parse(
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .address!
+                                                              .latitude
+                                                              .toString()),
+                                                      double.parse(
+                                                          vendorOrderListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .address!
+                                                              .longitude
+                                                              .toString()));
+                                                },
+                                                child: Container(
+                                                  height: AddSize.size45,
+                                                  width: AddSize.size45,
+                                                  decoration:
+                                                      const ShapeDecoration(
+                                                          color: AppTheme
+                                                              .lightYellow,
+                                                          shape:
+                                                              CircleBorder()),
+                                                  child: const Center(
+                                                      child: Icon(
+                                                    Icons.location_on,
+                                                    color: AppTheme
+                                                        .backgroundcolor,
+                                                  )),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -740,6 +843,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                         .toString())
                     .then((value) {
                   showToast(value.message.toString());
+                  if (value.status == true) {
+                    vendorOrderController.vendorOrderListData();
+                    Get.back();
+                  }
                 });
                 // Get.toNamed(MyRouter.editProfileScreen);
               },
@@ -764,7 +871,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
     });
   }
 
-  orderList({required name,required price,required qty,required itemQty,required status1}) {
+  orderList(
+      {required name,
+      required price,
+      required qty,
+      required itemQty,
+      required status1,
+      required variantId}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -784,7 +897,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 ),
               ),
               Text(
-                price,
+                "₹" + price,
                 style: TextStyle(
                     fontSize: AddSize.font16,
                     color: AppTheme.primaryColor,
@@ -827,13 +940,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
         status1 != "R"
             ? ElevatedButton(
                 onPressed: () {
-                  vendorRejectVariantRepo(
-                          order_variant_id: vendorOrderListController
-                              .model.value.data!.orderItems![0].variantId
-                              .toString())
+                  vendorRejectVariantRepo(order_variant_id: variantId)
                       .then((value) {
                     if (value.status == true) {
-                      // rejectButton = true;
+                      log(variantId);
                       showToast(value.message);
                       vendorOrderListController.getMyOrderDetails();
                     }
@@ -898,7 +1008,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 color: AppTheme.blackcolor,
                 fontSize: AddSize.font16,
                 fontWeight: FontWeight.w500)),
-        Text(price,
+        Text("₹" + price,
             style: TextStyle(
                 color: Colors.grey,
                 fontSize: AddSize.font14,

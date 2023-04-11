@@ -24,7 +24,13 @@ class VendorInformationModel {
 
 class Data {
   int? id;
+  String? storeName;
+  String? phone;
   String? storeImage;
+  String? address;
+  String? location;
+  String? latitude;
+  String? longitude;
   String? aadharNo;
   String? panNo;
   String? deliveryRange;
@@ -37,20 +43,32 @@ class Data {
 
   Data(
       {this.id,
-      this.storeImage,
-      this.aadharNo,
-      this.panNo,
-      this.deliveryRange,
-      this.bankStatement,
-      this.panCardImage,
-      this.aadharFrontImage,
-      this.aadharBackImage,
-      this.remark,
-      this.status});
+        this.storeName,
+        this.phone,
+        this.storeImage,
+        this.address,
+        this.location,
+        this.latitude,
+        this.longitude,
+        this.aadharNo,
+        this.panNo,
+        this.deliveryRange,
+        this.bankStatement,
+        this.panCardImage,
+        this.aadharFrontImage,
+        this.aadharBackImage,
+        this.remark,
+        this.status});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    storeName = json['store_name'];
+    phone = json['phone'];
     storeImage = json['storeImage'];
+    address = json['address'];
+    location = json['location'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
     aadharNo = json['aadharNo'];
     panNo = json['panNo'];
     deliveryRange = json['delivery_range'];
@@ -65,7 +83,13 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['store_name'] = this.storeName;
+    data['phone'] = this.phone;
     data['storeImage'] = this.storeImage;
+    data['address'] = this.address;
+    data['location'] = this.location;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     data['aadharNo'] = this.aadharNo;
     data['panNo'] = this.panNo;
     data['delivery_range'] = this.deliveryRange;

@@ -8,7 +8,7 @@ class CategoryController extends GetxController {
   RxBool isPaginationLoading = true.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
-  RxInt pagination = 30.obs;
+  RxInt pagination = 15.obs;
   RxString storeId = "".obs;
 
   Future<dynamic> getData({isFirstTime = false, context}) async {

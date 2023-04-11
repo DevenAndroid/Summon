@@ -11,6 +11,7 @@ import 'package:fresh2_arrive/screens/driver_screen/driver_information_screen.da
 import 'package:fresh2_arrive/screens/driver_screen/driver_registration.dart';
 import 'package:fresh2_arrive/screens/help_center.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
@@ -28,6 +29,7 @@ import 'package:fresh2_arrive/screens/wallet_screen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
@@ -47,6 +49,7 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
+  final myOrderController = Get.put(MyOrderController());
   final RxBool _isValue = false.obs;
   final RxBool _isValue1 = false.obs;
   var vendor = [
@@ -56,7 +59,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Store open time',
     'Vendor Information',
     'Bank Details',
-    'Earning'
+    'Withdraw'
   ];
   var vendorRoutes = [
     VenderDashboard.vendorDashboard,
@@ -72,7 +75,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Dashboard',
     'Assigned Order',
     'Bank Details',
-    'Earning',
+    'Withdraw',
     'Driver Information',
   ];
   var driverRoutes = [
@@ -114,6 +117,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           // height: SizeConfig.heightMultiplier * 100,
           // width: SizeConfig.widthMultiplier! * 80,
           child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Column(
               children: <Widget>[
                 Container(
@@ -141,7 +145,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   shape: CircleBorder(),
                                   color: Colors.white,
                                 ),
-                                child: CachedNetworkImage(
+                                child:
+                                CachedNetworkImage(
                                   imageUrl:
                                       profileController.isDataLoading.value
                                           ? (profileController.model.value.data!
@@ -202,14 +207,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: AppTheme.primaryColor,
                           ),
                           onTap: () {
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // if (pref.getString('user') != null) {
-                            //   Get.back();
-                            //   widget.onItemTapped(4);
-                            // } else {
-                            //   Get.back();
-                            Get.toNamed(MyOrderScreen.myOrderScreen);
+                            myOrderController.getMyOrder();
+                            Get.back();
+                            controller.onItemTap(4);
                             // }
                           }),
                       const Divider(
@@ -224,17 +224,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             color: AppTheme.primaryColor,
                           ),
                           onTap: () async {
-                            // SharedPreferences pref =
-                            //     await SharedPreferences.getInstance();
-                            // if (pref.getString('user') != null) {
-                            //   Get.back();
-                            //   // Get.toNamed(
-                            //   //   MyRouter.myOrdersScreen,
-                            //   // );
-                            // } else {
-                            Get.back();
-                            controller.onItemTap(4);
-                            // }
+                            Get.toNamed(MyProfileScreen.myProfileScreen);
                           }),
                       const Divider(
                         height: 1,
@@ -378,7 +368,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     )
                                   : _drawerTile(
                           active: true,
-                          title: "Admin Response",
+                          title: "Vendor",
                           icon: const ImageIcon(
                             AssetImage(AppAssets.drawer_vendor),
                             size: 22,
@@ -502,7 +492,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     )
                                   : _drawerTile(
                                       active: true,
-                                      title: "Admin Response",
+                                      title: "Driver",
                                       icon: const ImageIcon(
                                         AssetImage(AppAssets.drawer_driver),
                                         size: 22,

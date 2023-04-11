@@ -58,8 +58,8 @@ class Data {
 }
 
 class List1 {
-  String? date;
-  int? orderId;
+  dynamic date;
+  dynamic orderId;
   String? paymentMethod;
   dynamic orderTotal;
   Location? location;

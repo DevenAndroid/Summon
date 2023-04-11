@@ -29,24 +29,27 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   // final TextEditingController iFSCCode = TextEditingController();
   RxString selectedCAt = "".obs;
   final _formKey = GlobalKey<FormState>();
-  final List<String> dropDownList = ["HDFC Bank", "SBI Bank", "PNB Bank"];
 
   @override
   void initState() {
     super.initState();
     vendorBankListController.getVendorBankListDetails().then((value) {
       vendorBankDetailsController.getVendorBankDetails().then((value) {
-        selectedCAt.value = (vendorBankListController
-                    .bankListModel.value.data!.banks!
-                    .firstWhere(
-                        (element) =>
-                            element.name.toString() ==
-                            vendorBankDetailsController
-                                .bankDetailsModel.value.data!.bank!,
-                        orElse: () => Banks())
-                    .id ??
-                "")
-            .toString();
+        if (vendorBankListController.bankListModel.value.data!.banks != null &&
+            vendorBankDetailsController.bankDetailsModel.value.data != null) {
+          selectedCAt.value = (vendorBankListController
+                      .bankListModel.value.data!.banks!
+                      .firstWhere(
+                          (element) =>
+                              element.name.toString() ==
+                              (vendorBankDetailsController
+                                      .bankDetailsModel.value.data!.bank ??
+                                  ""),
+                          orElse: () => Banks())
+                      .id ??
+                  "")
+              .toString();
+        }
         setState(() {});
         print(vendorBankDetailsController.bankDetailsModel.value.data!.bank);
       });
@@ -61,16 +64,21 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
         if (vendorBankDetailsController.isDataLoading.value &&
             vendorBankDetailsController.bankDetailsModel.value.data != null) {
           vendorBankDetailsController.bankAccountNumber.text =
-              vendorBankDetailsController.bankDetailsModel.value.data!.accountNo
+              (vendorBankDetailsController
+                          .bankDetailsModel.value.data!.accountNo ??
+                      "")
                   .toString();
 
           vendorBankDetailsController.accountHolderName.text =
-              vendorBankDetailsController
-                  .bankDetailsModel.value.data!.accountName
+              (vendorBankDetailsController
+                          .bankDetailsModel.value.data!.accountName ??
+                      "")
                   .toString();
 
           vendorBankDetailsController.iFSCCode.text =
-              vendorBankDetailsController.bankDetailsModel.value.data!.ifscCode
+              (vendorBankDetailsController
+                          .bankDetailsModel.value.data!.ifscCode ??
+                      "")
                   .toString();
           // selectedCAt.value = vendorBankListController
           //     .value.data!.bank

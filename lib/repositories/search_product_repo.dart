@@ -1,32 +1,34 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/MyWallet_model..dart';
+import '../model/Home_Search_Model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
-import '../resources/helper.dart';
 
-Future<MyWalletModel> myWalletRepo({required user_type,context}) async {
+Future<HomeSerachModel> homeSearchRepo(String keyword) async {
+  var map = <String, dynamic>{};
+  if (keyword != "") {
+    map['keyword'] = keyword;
+  }
+  log(map.toString());
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
+
   try {
-    final response = await http.get(
-        Uri.parse("${ApiUrl.myWalletUrl}?user_type=$user_type"),
-        headers: headers);
-    print("My Wallet Repository...${response.body}");
-    log("${ApiUrl.myWalletUrl}?user_type=$user_type");
+    final response = await http.get(Uri.parse("${ApiUrl.homeSearchUrl}?keyword=$keyword"),headers: headers);
+    log(response.body.toString());
     if (response.statusCode == 200) {
-      print("My Wallet Repository...${response.body}");
-      return MyWalletModel.fromJson(jsonDecode(response.body));
+      //Helpers.hideShimmer(loader);
+      log("Homepage Search Data...${response.body}");
+      return HomeSerachModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

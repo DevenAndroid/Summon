@@ -20,8 +20,10 @@ Future<ModelLogIn> createLogin(
   map['device_id'] = pref.getString('deviceId');
   map['device_token'] = fcmToken;
 
+  map['referred_code'] = referalCode;
+
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  Overlay.of(context)!.insert(loader);
 
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',

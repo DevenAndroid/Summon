@@ -52,18 +52,18 @@ class _AllCategoriesState extends State<AllCategories> {
                 horizontal: AddSize.padding15),
             child: SingleChildScrollView(
               controller: scrollController,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   SizedBox(height: AddSize.size20,),
                   GridView.builder(
                       shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: categoryController.model.value.data!.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 10.0,
-                          //  mainAxisExtent: 150,
+                          mainAxisExtent: 140,
                           mainAxisSpacing: 10.0),
                       itemBuilder: (context, index) {
                         var itemdata = categoryController.model.value.data![index];
@@ -91,6 +91,7 @@ class _AllCategoriesState extends State<AllCategories> {
                                   borderRadius: BorderRadius.circular(10)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   SizedBox(
                                     height: AddSize.size50 * 1.2,
@@ -99,15 +100,17 @@ class _AllCategoriesState extends State<AllCategories> {
                                       borderRadius: BorderRadius.circular(10),
                                       child: CachedNetworkImage(
                                         imageUrl: itemdata.image.toString(),
-                                        errorWidget: (_, __, ___) => SizedBox(),
-                                        placeholder: (_, __) => SizedBox(),
-                                        fit: BoxFit.contain,
+                                        errorWidget: (_, __, ___) => const SizedBox(),
+                                        placeholder: (_, __) => const SizedBox(),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
                                   Text(
                                     itemdata.name.toString().capitalizeFirst!,
-                                    maxLines: 1,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: AppTheme.subText,
                                         fontSize: AddSize.font14,
@@ -132,7 +135,7 @@ class _AllCategoriesState extends State<AllCategories> {
             .model.value.data!.cartItems!.isNotEmpty
             ? addCartSection()
             : null
-            : SizedBox(),
+            : const SizedBox(),
       );
     });
   }

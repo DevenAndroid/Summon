@@ -21,7 +21,7 @@ class NearStoreController extends GetxController {
     }
     if (isPaginationLoading.value && loadMore.value) {
       isPaginationLoading.value = false;
-      await loadWithPagination(
+      await loadWithPagination1(
               page: page.value, pagination: pagination.value, context: context)
           .then((value) {
         if (isFirstTime) {

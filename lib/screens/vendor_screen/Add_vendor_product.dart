@@ -264,6 +264,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                               .vendorSearchProductController
                                               .clear();
                                           image.value = File("");
+                                          FocusManager.instance.primaryFocus!.unfocus();
                                           setState(() {});
                                         },
                                         child: Row(
@@ -534,9 +535,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             height: AddSize.size100,
                             child: GestureDetector(
                               onTap: () {
-                                NewHelper().addFilePicker().then((value) {
-                                  image.value = value;
-                                });
+                                // NewHelper().addFilePicker().then((value) {
+                                //   image.value = value;
+                                // });
                               },
                               child: Image.file(image.value),
                             ))

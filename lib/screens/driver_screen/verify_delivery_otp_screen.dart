@@ -43,7 +43,9 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
   @override
   void initState() {
     super.initState();
-    setTimer();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setTimer();
+    });
   }
 
   @override

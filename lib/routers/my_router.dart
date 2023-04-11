@@ -15,6 +15,7 @@ import 'package:fresh2_arrive/screens/edit_profile.dart';
 import 'package:fresh2_arrive/screens/help_center.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
@@ -33,6 +34,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.da
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/admin_response_screen.dart';
+import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
 import '../screens/my_cart_screen.dart';
 import '../screens/notification_screen.dart';
@@ -52,10 +54,9 @@ class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
     GetPage(name: '/', page: () => const SplashScreen()),
-    GetPage(
-        name: OnBoardingScreen.onBoardingScreen,
-        page: () => const OnBoardingScreen()),
+    GetPage(name: OnBoardingScreen.onBoardingScreen, page: () => const OnBoardingScreen()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
+    GetPage(name: MyProfileScreen.myProfileScreen, page: () => const MyProfileScreen()),
     GetPage(
         name: AdminResponse.adminResponse, page: () => const AdminResponse()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
@@ -130,6 +131,9 @@ class MyRouter {
     GetPage(
         name: DeliveryOrderDetails.deliveryOrderDetails,
         page: () => const DeliveryOrderDetails()),
+    GetPage(
+        name: DeliveryAddress.deliveryAddressScreen,
+        page: () => const DeliveryAddress()),
     GetPage(
         name: SetTimeScreen.setTimeScreen, page: () => const SetTimeScreen()),
     GetPage(

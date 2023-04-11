@@ -29,7 +29,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
   final RxBool _store = false.obs;
   final controller = Get.put(MainHomeController());
   final deliveryOrderListController = Get.put(DeliveryOrderListController());
-  final orderController = Get.put(MyOrderDetailsController());
+  // final orderController = Get.put(MyOrderDetailsController());
   final assignedController = Get.put(AssignedOrderController());
   @override
   Widget build(BuildContext context) {
@@ -271,10 +271,10 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                       .model.value.data!.list![index];
                                   return GestureDetector(
                                     onTap: () {
-                                      orderController.id.value =
-                                          item.orderId.toString();
-                                      Get.toNamed(DriverDeliveryOrderDetails
-                                          .driverDeliveryOrderDetails);
+                                      // orderController.id.value =
+                                      //     item.orderId.toString();
+                                      // Get.toNamed(DriverDeliveryOrderDetails
+                                      //     .driverDeliveryOrderDetails);
                                     },
                                     child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -330,7 +330,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                   width: AddSize.size10,
                                                 ),
                                                 Text(
-                                                  "\$${item.orderTotal.toString()}",
+                                                  "₹${item.orderTotal.toString()}",
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5!
@@ -489,9 +489,9 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                 .spaceBetween,
                                                         children: [
                                                           Expanded(
-                                                            child: Text(
+                                                            child: item.location != null ?Text(
                                                               // "",
-                                                              "${item.location!.location}, ${item.location!.flatNo}, ${item.location!.street},",
+                                                              "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
@@ -505,7 +505,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                       fontSize:
                                                                           AddSize
                                                                               .font14),
-                                                            ),
+                                                            ):Text(""),
                                                           ),
                                                           Container(
                                                             height:
@@ -651,12 +651,13 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                               )
                             : Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding20 * 5,
+                                    horizontal: AddSize.padding20 * 2.8,
                                     vertical: AddSize.padding20),
                                 child: SizedBox(
                                     height: AddSize.size20,
                                     child: Text(
-                                      "No Request Available",
+                                      "Delivery Request Not Available",
+                                      textAlign: TextAlign.center,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5!

@@ -77,7 +77,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                 color: AppTheme.blackcolor),
                                       ),
                                       Text(
-                                        "₹ ${withdrawalListController.model.value.data!.earnedBalance.toString()}",
+                                        "₹ ${withdrawalListController.model.value.data!.earnedBalance.toString()}.00",
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -243,68 +243,48 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                   ],
                                 ),
                                 const Divider(),
-                                ListView.builder(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: withdrawalListController
-                                      .model.value.data!.withdrawalList!.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Column(
-                                      children: [
-                                        SizedBox(
-                                          height: AddSize.size5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "₹ ${withdrawalListController.model.value.data!.withdrawalList![index].amount.toString()}.00",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5!
-                                                  .copyWith(
-                                                      height: 1.5,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: AddSize.font14),
-                                            ),
-                                            Text(
-                                              withdrawalListController
-                                                  .model
-                                                  .value
-                                                  .data!
-                                                  .withdrawalList![index]
-                                                  .date
-                                                  .toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headline5!
-                                                  .copyWith(
-                                                      height: 1.5,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: AddSize.font12,
-                                                      color:
-                                                          Colors.grey.shade500),
-                                            ),
-                                            withdrawalListController
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .withdrawalList![index]
-                                                        .status ==
-                                                    "P"
-                                                ? Text(
+                                withdrawalListController.model.value.data!
+                                        .withdrawalList!.isNotEmpty
+                                    ? ListView.builder(
+                                        physics: const BouncingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: withdrawalListController
+                                            .model
+                                            .value
+                                            .data!
+                                            .withdrawalList!
+                                            .length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Column(
+                                            children: [
+                                              SizedBox(
+                                                height: AddSize.size5,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "₹ ${withdrawalListController.model.value.data!.withdrawalList![index].amount.toString()}.00",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                            height: 1.5,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize:
+                                                                AddSize.font14),
+                                                  ),
+                                                  Text(
                                                     withdrawalListController
                                                         .model
                                                         .value
                                                         .data!
                                                         .withdrawalList![index]
-                                                        .status!
-                                                        .replaceAll(
-                                                            "P", "Pending")
+                                                        .date
                                                         .toString(),
                                                     style: Theme.of(context)
                                                         .textTheme
@@ -314,78 +294,133 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             fontSize:
-                                                                AddSize.font14,
-                                                            color: const Color(
-                                                                0xffFFB26B)),
-                                                  )
-                                                : withdrawalListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .withdrawalList![
-                                                                index]
-                                                            .status ==
-                                                        "A"
-                                                    ? Text(
-                                                        withdrawalListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .withdrawalList![
-                                                                index]
-                                                            .status!
-                                                            .replaceAll(
-                                                                "A", "Approve")
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize:
-                                                                    AddSize
-                                                                        .font14,
-                                                                color: Colors
-                                                                    .green),
-                                                      )
-                                                    : Text(
-                                                        withdrawalListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .withdrawalList![
-                                                                index]
-                                                            .status!
-                                                            .replaceAll(
-                                                                "R", "Reject")
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize:
-                                                                    AddSize
-                                                                        .font14,
-                                                                color: const Color(
-                                                                    0xffFF557E)),
-                                                      ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: AddSize.size5,
-                                        ),
-                                        const Divider(),
-                                      ],
-                                    );
-                                  },
-                                )
+                                                                AddSize.font12,
+                                                            color: Colors
+                                                                .grey.shade500),
+                                                  ),
+                                                  withdrawalListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .withdrawalList![
+                                                                  index]
+                                                              .status ==
+                                                          "P"
+                                                      ? Text(
+                                                          withdrawalListController
+                                                              .model
+                                                              .value
+                                                              .data!
+                                                              .withdrawalList![
+                                                                  index]
+                                                              .status!
+                                                              .replaceAll("P",
+                                                                  "Pending")
+                                                              .toString(),
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .headline5!
+                                                              .copyWith(
+                                                                  height: 1.5,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize:
+                                                                      AddSize
+                                                                          .font14,
+                                                                  color: const Color(
+                                                                      0xffFFB26B)),
+                                                        )
+                                                      : withdrawalListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .withdrawalList![
+                                                                      index]
+                                                                  .status ==
+                                                              "A"
+                                                          ? Text(
+                                                              withdrawalListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .withdrawalList![
+                                                                      index]
+                                                                  .status!
+                                                                  .replaceAll(
+                                                                      "A",
+                                                                      "Approve")
+                                                                  .toString(),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .headline5!
+                                                                  .copyWith(
+                                                                      height:
+                                                                          1.5,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          AddSize
+                                                                              .font14,
+                                                                      color: Colors
+                                                                          .green),
+                                                            )
+                                                          : Text(
+                                                              withdrawalListController
+                                                                  .model
+                                                                  .value
+                                                                  .data!
+                                                                  .withdrawalList![
+                                                                      index]
+                                                                  .status!
+                                                                  .replaceAll(
+                                                                      "R",
+                                                                      "Reject")
+                                                                  .toString(),
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .headline5!
+                                                                  .copyWith(
+                                                                      height:
+                                                                          1.5,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontSize:
+                                                                          AddSize
+                                                                              .font14,
+                                                                      color: const Color(
+                                                                          0xffFF557E)),
+                                                            ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                height: AddSize.size5,
+                                              ),
+                                              const Divider(),
+                                            ],
+                                          );
+                                        },
+                                      )
+                                    : Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: AddSize.padding20 * 3,
+                                            vertical: AddSize.padding20),
+                                        child: Text("Request not Available",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                    height: 1.5,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: AddSize.font14,
+                                                    color:
+                                                        AppTheme.blackcolor)),
+                                      )
                               ],
                             ),
                           ),

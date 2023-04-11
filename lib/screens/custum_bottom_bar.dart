@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/AllCategories.dart';
 import 'package:fresh2_arrive/screens/app_bar.dart';
 import 'package:fresh2_arrive/screens/homepage.dart';
+import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
 import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
+import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
+import '../controller/store_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -32,16 +35,19 @@ class CustomNavigationBar extends StatefulWidget {
 }
 
 class CustomNavigationBarState extends State<CustomNavigationBar> {
+  final myOrderController = Get.put(MyOrderController());
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
   final myCartController = Get.put(MyCartDataListController());
   final notificationController = Get.put(NotificationController());
+  final storeController = Get.put(StoreController());
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
+    myCartController.getAddToCartList();
   }
 
   @override
@@ -91,6 +97,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           ),
                           onTap: () {
                             controller.scaffoldKey.currentState!.openDrawer();
+                            profileController.getData();
                           },
                         ),
                       ),
@@ -142,7 +149,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       ),
                       actions: [
                         IconButton(
-                          icon: Image.asset(
+                          icon:
+                          Image.asset(
                             AppAssets.notification,
                             height: 22,
                           ),
@@ -179,8 +187,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: GestureDetector(
                             onTap: () async {
-                              Get.back();
-                              controller.onItemTap(4);
+                              Get.toNamed(MyProfileScreen.myProfileScreen);
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.white,
@@ -195,7 +202,12 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     // color: Colors.brown
                                   ),
                                   child: Obx(() {
-                                    return CachedNetworkImage(
+                                    return(profileController.isDataLoading.value
+                                        ? (profileController.model.value.data!
+                                        .profileImage ??
+                                        "")
+                                        .toString()
+                                        : "").isNotEmpty ? CachedNetworkImage(
                                       fit: BoxFit.cover,
                                       imageUrl:
                                           profileController.isDataLoading.value
@@ -207,7 +219,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       errorWidget: (_, __, ___) =>
                                           const SizedBox(),
                                       placeholder: (_, __) => const SizedBox(),
-                                    );
+                                    ):SizedBox.shrink();
                                   })),
                             ),
                           ),
@@ -235,20 +247,26 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                 fontWeight: FontWeight.w400,
                                 color: AppTheme.primaryColor),
                             items: [
-                              const BottomNavigationBarItem(
+                               BottomNavigationBarItem(
                                 icon: Padding(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                     vertical: 08,
                                   ),
-                                  child: ImageIcon(
-                                    AssetImage(AppAssets.categoryIcon),
-                                    size: 18,
+                                  child: GestureDetector(
+                                    onTap: (){
+
+                                    },
+                                    child: const ImageIcon(
+                                      AssetImage(AppAssets.categoryIcon),
+                                      size: 18,
+                                    ),
                                   ),
                                 ),
                                 label: 'Categories',
                               ),
-                              const BottomNavigationBarItem(
-                                  icon: Padding(
+                               BottomNavigationBarItem(
+                                  icon:
+                                  Padding(
                                     padding: EdgeInsets.symmetric(
                                       vertical: 08,
                                     ),
@@ -271,9 +289,14 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   //               fontSize: AddSize.font12),
                                   //         );
                                   //       }),
-                                  //       child: const ImageIcon(
-                                  //         AssetImage(AppAssets.cartImage),
-                                  //         size: 20,
+                                  //       child: GestureDetector(
+                                  //         onTap: ()async{
+                                  //          await myCartController.getAddToCartList();
+                                  //         },
+                                  //         child: const ImageIcon(
+                                  //           AssetImage(AppAssets.cartImage),
+                                  //           size: 20,
+                                  //         ),
                                   //       ),
                                   //     )),
                                   // icon: Padding(
@@ -298,22 +321,32 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {},
-                                      child: const ImageIcon(
-                                        AssetImage(AppAssets.store),
-                                        size: 20,
+                                      child: GestureDetector(
+                                        onTap: ()async{
+                                         await storeController.getData();
+                                        },
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.store),
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                   label: 'Stores'),
-                              const BottomNavigationBarItem(
+                               BottomNavigationBarItem(
                                   icon: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 08),
-                                    child: ImageIcon(
-                                      AssetImage(AppAssets.profile),
-                                      size: 18,
+                                    padding: const EdgeInsets.symmetric(vertical: 08),
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await myOrderController.getMyOrder();
+                                      },
+                                      child: const ImageIcon(
+                                        AssetImage(AppAssets.cartImage),
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
-                                  label: 'Profile'),
+                                  label: 'Order'),
                             ],
                             type: BottomNavigationBarType.fixed,
                             currentIndex: controller.currentIndex.value,
@@ -357,7 +390,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       MyCartScreen(),
                       HomePage(),
                       StoreListScreen(),
-                      MyProfileScreen(),
+                      MyOrderScreen(),
                     ],
                   );
                 }),

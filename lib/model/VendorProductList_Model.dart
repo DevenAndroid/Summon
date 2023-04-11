@@ -189,7 +189,7 @@ class TaxClass {
 
   int? id;
   String? title;
-  int? taxPercent;
+  dynamic taxPercent;
   bool? status;
 
   factory TaxClass.fromJson(Map<String, dynamic> json) => TaxClass(
@@ -221,14 +221,14 @@ class Variant {
   });
 
   int? id;
-  int? vendorProductId;
-  int? marketPrice;
-  int? price;
-  String? variantQty;
-  String? variantQtyType;
-  int? minQty;
-  int? maxQty;
-  String? discountOff;
+  dynamic vendorProductId;
+  dynamic marketPrice;
+  dynamic price;
+  dynamic variantQty;
+  dynamic variantQtyType;
+  dynamic minQty;
+  dynamic maxQty;
+  dynamic discountOff;
 
   factory Variant.fromJson(Map<String, dynamic> json) => Variant(
         id: json["id"],

@@ -64,13 +64,14 @@ class RegistrationTextField extends StatelessWidget {
         LengthLimitingTextInputFormatter(length),
       ],
       decoration: InputDecoration(
+          errorMaxLines: 2,
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,
           fillColor: Colors.grey.shade50,
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -197,6 +198,7 @@ class RegistrationTextField2 extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final String? hint;
+  final String? lableText;
   final Iterable<String>? autofillHints;
   final TextEditingController? controller;
   final bool? readOnly;
@@ -214,6 +216,7 @@ class RegistrationTextField2 extends StatelessWidget {
     this.suffixIcon,
     this.prefixIcon,
     this.hint,
+    this.lableText,
     this.keyboardType,
     this.textInputAction,
     this.controller,
@@ -252,6 +255,7 @@ class RegistrationTextField2 extends StatelessWidget {
       ],
       decoration: InputDecoration(
           hintText: hint,
+          labelText: lableText,
           focusColor: AppTheme.primaryColor,
           hintStyle:
               TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),

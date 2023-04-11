@@ -10,6 +10,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/check_out_controller.dart';
 import '../repositories/check_out_repository.dart';
 
 class PaymentMethod extends StatefulWidget {
@@ -32,7 +33,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
     var options = {
       'key': 'rzp_live_1HJot1eILYIf7B',
       'amount': _isValue == true
-          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) * 100)
+          ? ((Get.arguments[0] - controller.model.value.data!.earnedBalance) *
+              100)
           : (Get.arguments[0] * 100),
       'name': 'Demo',
       'description': 'Payment',
@@ -51,23 +53,27 @@ class _PaymentMethodState extends State<PaymentMethod> {
             payment_id: response.paymentId,
             razorpay_signature: "Signature",
             wallet_deduction: controller.model.value.data!.earnedBalance,
-            online_deduction:
-                Get.arguments[0] - controller.model.value.data!.earnedBalance)
+            online_deduction: Get.arguments[0] - controller.model.value.data!.earnedBalance)
         .then((value) {
       showToast(value.message).toString();
       if (value.status == true) {
         myCartController.getAddToCartList();
-        Get.offAllNamed(ThankYouScreen.thankYouScreen, arguments: [
-          value.data!.orderType,
-          value.data!.orderId,
-          value.data!.placedAt,
-          value.data!.itemTotal,
-          value.data!.tax,
-          value.data!.deliveryCharges,
-          value.data!.packingFee,
-          value.data!.grandTotal,
-          value.data!.orderId
-        ]);
+        Get.offAllNamed(ThankYouScreen.thankYouScreen,
+            arguments: [
+              value.data!.orderType,
+              value.data!.orderId,
+              value.data!.placedAt,
+              value.data!.itemTotal,
+              value.data!.tax !=0 ? value.data!.tax:"",
+              value.data!.deliveryCharges,
+              value.data!.packingFee,
+              value.data!.grandTotal,
+              value.data!.orderId,
+              value.data!.tax1 != null ? value.data?.tax1!.type:"",
+              value.data!.tax1 != null ? value.data?.tax1!.amount:"",
+              value.data!.tax2 != null ? value.data?.tax2!.type:"",
+              value.data!.tax2 != null ? value.data?.tax2!.amount:"",
+            ]);
       }
     });
   }
@@ -288,10 +294,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                                       groupValue:
                                                           selectedValue.value,
                                                       onChanged: (value) {
-                                                        selectedValue.value =
-                                                            value!;
-                                                        print(selectedValue
-                                                            .value);
+                                                        if (_isValue == false) {
+                                                          selectedValue.value =
+                                                              value!;
+                                                          print(selectedValue
+                                                              .value);
+                                                        }
                                                       },
                                                     );
                                                   }),
@@ -321,7 +329,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
             ElevatedButton(
                 onPressed: () {
                   if (_isValue == true) {
-                    if (controller.model.value.data!.earnedBalance >= Get.arguments[0]) {
+                    if (controller.model.value.data!.earnedBalance >=
+                        Get.arguments[0]) {
                       checkOut(payment_type: "online", context: context)
                           .then((value) async {
                         if (value.status == true) {
@@ -345,18 +354,21 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                     value.data!.orderId,
                                     value.data!.placedAt,
                                     value.data!.itemTotal,
-                                    value.data!.tax,
+                                    value.data!.tax !=0 ? value.data!.tax:"",
                                     value.data!.deliveryCharges,
                                     value.data!.packingFee,
                                     value.data!.grandTotal,
-                                    value.data!.orderId
+                                    value.data!.orderId,
+                                    value.data!.tax1 != null ? value.data?.tax1!.type:"",
+                                    value.data!.tax1 != null ? value.data?.tax1!.amount:"",
+                                    value.data!.tax2 != null ? value.data?.tax2!.type:"",
+                                    value.data!.tax2 != null ? value.data?.tax2!.amount:"",
                                   ]);
                             }
                           });
                         }
                       });
-                    }
-                    else {
+                    } else {
                       checkOut(payment_type: "online", context: context)
                           .then((value) {
                         if (value.status == true) {
@@ -367,29 +379,31 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         }
                       });
                     }
-                  }
-                  else if (selectedValue.value == "cod") {
+                  } else if (selectedValue.value == "cod") {
                     checkOut(
                             payment_type: selectedValue.value, context: context)
                         .then((value) {
+                      myCartController.getAddToCartList();
                       if (value.status == true) {
-                        myCartController.getAddToCartList();
                         Get.offAllNamed(ThankYouScreen.thankYouScreen,
                             arguments: [
                               value.data!.orderType,
                               value.data!.orderId,
                               value.data!.placedAt,
                               value.data!.itemTotal,
-                              value.data!.tax,
+                              value.data!.tax !=0 ? value.data!.tax:"",
                               value.data!.deliveryCharges,
                               value.data!.packingFee,
                               value.data!.grandTotal,
-                              value.data!.orderId
+                              value.data!.orderId,
+                              value.data!.tax1 != null ? value.data?.tax1!.type:"",
+                              value.data!.tax1 != null ? value.data?.tax1!.amount:"",
+                              value.data!.tax2 != null ? value.data?.tax2!.type:"",
+                              value.data!.tax2 != null ? value.data?.tax2!.amount:"",
                             ]);
                       }
                     });
-                  }
-                  else {
+                  } else {
                     checkOut(payment_type: "online", context: context)
                         .then((value) {
                       if (value.status == true) {

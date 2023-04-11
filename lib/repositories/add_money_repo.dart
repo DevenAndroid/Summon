@@ -17,7 +17,7 @@ Future<AddMoneyModel> addMoneyRepo(
   map['razorpay_signature'] = razorpaySignature;
   map['amount'] = amount;
   map['response'] = "success";
-  log(map.toString());
+  log("ANJALI$map");
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));

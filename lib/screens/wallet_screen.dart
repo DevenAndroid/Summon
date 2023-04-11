@@ -176,87 +176,146 @@ class _WalletScreenState extends State<WalletScreen> {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children:
-                                profileController.model.value.data!.asVendorVerified == true && profileController.model.value.data!.asDriverVerified == true ?
-                                List.generate(walletModel.length, (index) {
-                              return GestureDetector(
+                            [
+
+                              GestureDetector(
                                   child: listdata(
-                                      walletModel[index].image,
-                                      walletModel[index].value.toString(),
-                                    walletModel[index].color),
+                                      walletModel[0].image,
+                                      walletModel[0].value.toString(),
+                                      walletModel[0].color),
                                   onTap: () {
-                                    log("user type${walletModel[index].key}");
-                                    myWalletController.userType.value = walletModel[index].key;
+                                    log("user type${walletModel[0].key}");
+                                    myWalletController.userType.value = walletModel[0].key;
                                     if(myWalletController.userType.value=="A"){
                                       myWalletController.userType.value = "";
                                     }
-                                    print("user type${walletModel[index].key}");
+                                    print("user type....${walletModel[0].key}");
                                     myWalletController.getWalletData();
                                     setState(() {});
-                                  });
-                            }):profileController.model.value.data!.asVendorVerified == true?
-                                List.generate(walletModel.where((element) => element.value !="Vendor").length, (index) {
-                                  return GestureDetector(
-                                      child: listdata(
-                                          walletModel.where((element) => element.value !="Vendor").toList()[index].image,
-                                          walletModel.where((element) => element.value !="Vendor").toList()[index].value.toString(),
-                                          walletModel.where((element) => element.value !="Vendor").toList()[index].color),
-                                      onTap: () {
-                                        log("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
-                                        myWalletController.userType.value = walletModel.where((element) => element.value !="Vendor").toList()[index].key;
-                                        if(myWalletController.userType.value=="A"){
-                                          myWalletController.userType.value = "";
-                                        }
-                                        print("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
-                                        myWalletController.getWalletData();
-                                        setState(() {});
-                                      });
-                                })
-                                    :profileController.model.value.data!.asDriverVerified == true?
-                                List.generate(walletModel.where((element) => element.value !="Driver").length, (index) {
-                                  return GestureDetector(
-                                      child: listdata(
-                                          walletModel.where((element) => element.value !="Driver").toList()[index].image,
-                                          walletModel.where((element) => element.value !="Driver").toList()[index].value.toString(),
-                                          walletModel.where((element) => element.value !="Driver").toList()[index].color),
-                                      onTap: () {
-                                        log("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
-                                        myWalletController.userType.value = walletModel.where((element) => element.value !="Driver").toList()[index].key;
-                                        if(myWalletController.userType.value=="A"){
-                                          myWalletController.userType.value = "";
-                                        }
-                                        print("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
-                                        myWalletController.getWalletData();
-                                        setState(() {});
-                                      });
-                                }) :
-                                List.generate(walletModel.where((element) => element.value =="All" ||element.value =="Customer").length, (index) {
-                                  return GestureDetector(
-                                      child: listdata(
-                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].image,
-                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].value.toString(),
-                                          walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].color),
-                                      onTap: () {
-                                        log("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
-                                        myWalletController.userType.value = walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key;
-                                        if(myWalletController.userType.value=="A"){
-                                          myWalletController.userType.value = "";
-                                        }
-                                        print("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
-                                        myWalletController.getWalletData();
-                                        setState(() {});
-                                      });
-                                })
+                                  }),
+                              if(profileController.model.value.data!.asVendorVerified == true)
+                              GestureDetector(
+                                  child: listdata(
+                                      walletModel[1].image,
+                                      walletModel[1].value.toString(),
+                                      walletModel[1].color),
+                                  onTap: () {
+                                    log("user type${walletModel[1].key}");
+                                    myWalletController.userType.value = walletModel[1].key;
+                                    if(myWalletController.userType.value=="V"){
+                                      myWalletController.userType.value = "";
+                                    }
+                                    print("user type....${walletModel[1].key}");
+                                    myWalletController.getWalletData();
+                                    setState(() {});
+                                  }),
+                              if(profileController.model.value.data!.asDriverVerified == true)
+                              GestureDetector(
+                                  child: listdata(
+                                      walletModel[2].image,
+                                      walletModel[2].value.toString(),
+                                      walletModel[2].color),
+                                  onTap: () {
+                                    log("user type${walletModel[2].key}");
+                                    myWalletController.userType.value = walletModel[2].key;
+                                    if(myWalletController.userType.value=="A"){
+                                      myWalletController.userType.value = "";
+                                    }
+                                    print("user type${walletModel[2].key}");
+                                    myWalletController.getWalletData();
+                                    setState(() {});
+                                  }),
+                              GestureDetector(
+                                  child: listdata(
+                                      walletModel[3].image,
+                                      walletModel[3].value.toString(),
+                                      walletModel[3].color),
+                                  onTap: () {
+                                    log("user type${walletModel[3].key}");
+                                    myWalletController.userType.value = walletModel[3].key;
+                                    if(myWalletController.userType.value=="C"){
+                                      myWalletController.userType.value = "";
+                                    }
+                                    print("user type${walletModel[3].key}");
+                                    myWalletController.getWalletData();
+                                    setState(() {});
+                                  }),
+                            ]
+                            //     profileController.model.value.data!.asVendorVerified == true && profileController.model.value.data!.asDriverVerified == true ?
+                            //     List.generate(walletModel.length, (index) {
+                            //   return GestureDetector(
+                            //       child: listdata(
+                            //           walletModel[index].image,
+                            //           walletModel[index].value.toString(),
+                            //         walletModel[index].color),
+                            //       onTap: () {
+                            //         log("user type${walletModel[index].key}");
+                            //         myWalletController.userType.value = walletModel[index].key;
+                            //         if(myWalletController.userType.value=="A"){
+                            //           myWalletController.userType.value = "";
+                            //         }
+                            //         print("user type${walletModel[index].key}");
+                            //         myWalletController.getWalletData();
+                            //         setState(() {});
+                            //       });
+                            // }):profileController.model.value.data!.asVendorVerified == true?
+                            //     List.generate(walletModel.where((element) => element.value !="Vendor").length, (index) {
+                            //       return GestureDetector(
+                            //           child: listdata(
+                            //               walletModel.where((element) => element.value !="Vendor").toList()[index].image,
+                            //               walletModel.where((element) => element.value !="Vendor").toList()[index].value.toString(),
+                            //               walletModel.where((element) => element.value !="Vendor").toList()[index].color),
+                            //           onTap: () {
+                            //             log("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
+                            //             myWalletController.userType.value = walletModel.where((element) => element.value !="Vendor").toList()[index].key;
+                            //             if(myWalletController.userType.value=="A"){
+                            //               myWalletController.userType.value = "";
+                            //             }
+                            //             print("user type${walletModel.where((element) => element.value !="Vendor").toList()[index].key}");
+                            //             myWalletController.getWalletData();
+                            //             setState(() {});
+                            //           });
+                            //     })
+                            //         :profileController.model.value.data!.asDriverVerified == true?
+                            //     List.generate(walletModel.where((element) => element.value !="Driver").length, (index) {
+                            //       return GestureDetector(
+                            //           child: listdata(
+                            //               walletModel.where((element) => element.value !="Driver").toList()[index].image,
+                            //               walletModel.where((element) => element.value !="Driver").toList()[index].value.toString(),
+                            //               walletModel.where((element) => element.value !="Driver").toList()[index].color),
+                            //           onTap: () {
+                            //             log("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
+                            //             myWalletController.userType.value = walletModel.where((element) => element.value !="Driver").toList()[index].key;
+                            //             if(myWalletController.userType.value=="A"){
+                            //               myWalletController.userType.value = "";
+                            //             }
+                            //             print("user type${walletModel.where((element) => element.value !="Driver").toList()[index].key}");
+                            //             myWalletController.getWalletData();
+                            //             setState(() {});
+                            //           });
+                            //     }) :
+                            //     List.generate(walletModel.where((element) => element.value =="All" ||element.value =="Customer").length, (index) {
+                            //       return GestureDetector(
+                            //           child: listdata(
+                            //               walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].image,
+                            //               walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].value.toString(),
+                            //               walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].color),
+                            //           onTap: () {
+                            //             log("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
+                            //             myWalletController.userType.value = walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key;
+                            //             if(myWalletController.userType.value=="A"){
+                            //               myWalletController.userType.value = "";
+                            //             }
+                            //             print("user type${walletModel.where((element) => element.value =="All" ||element.value =="Customer").toList()[index].key}");
+                            //             myWalletController.getWalletData();
+                            //             setState(() {});
+                            //           });
+                            //     })
 
-                            // listdata(AppAssets.allIcon, "All",
-                            //     AppTheme.appPrimaryPinkColor),
-                            // listdata(AppAssets.store, "Vendor",
-                            //     AppTheme.appPrimaryGreenColor),
-                            // listdata(AppAssets.driverIcon, "Driver",
-                            //     AppTheme.appPrimaryYellowColor),
-                            // listdata(AppAssets.personIcon, "Customer",
-                            //     AppTheme.appPrimaryOrangeColor),
                             ),
                       ),
+                      myWalletController
+                          .model.value.data!.walletTransactions!.isNotEmpty ?
                       Container(
                         decoration: BoxDecoration(
                             boxShadow: [
@@ -295,7 +354,19 @@ class _WalletScreenState extends State<WalletScreen> {
                                                     .data!
                                                     .walletTransactions![
                                                 index]
-                                                    .status == "Credit" ? AppTheme
+                                                    .status == "Credit" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Earn" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Refund" ? AppTheme
                                                     .appPrimaryGreenColor:AppTheme
                                                     .appPrimaryPinkColor,
                                                 borderRadius:
@@ -307,15 +378,25 @@ class _WalletScreenState extends State<WalletScreen> {
                                                         .data!
                                                         .walletTransactions![
                                                             index]
-                                                        .status == "Credit"
+                                                        .status == "Credit" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Earn" || myWalletController
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .walletTransactions![
+                                                index]
+                                                    .status == "Refund"
                                                     ? const Icon(
-                                                        Icons
-                                                            .arrow_upward_sharp,
+                                                        Icons.arrow_downward_sharp,
                                                         color: Colors.green,
                                                       )
                                                     : const Icon(
-                                                        Icons
-                                                            .arrow_downward_sharp,
+                                                        Icons.arrow_upward_sharp,
                                                         color: Colors.red,
                                                       )),
                                           ),
@@ -366,7 +447,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                           ),
                                         ]),
                                         Text(
-                                          '₹ ${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
+                                          '₹${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!
@@ -381,7 +462,24 @@ class _WalletScreenState extends State<WalletScreen> {
                                 ),
                               );
                             }),
-                      )
+                      ):
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal:
+                            AddSize.padding20 * 3),
+                        child: Text("Data not Available",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline5!
+                                .copyWith(
+                                height: 1.5,
+                                fontWeight:
+                                FontWeight.w500,
+                                fontSize:
+                                AddSize.font14,
+                                color: AppTheme
+                                    .blackcolor)),
+                      ),
                     ],
                   ),
                 ))

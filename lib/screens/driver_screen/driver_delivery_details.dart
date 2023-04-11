@@ -1,11 +1,13 @@
+import 'dart:developer';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
-
 import '../../controller/MyOrder_Details_Controller.dart';
+import 'delivery_address.dart';
 
 class DriverDeliveryOrderDetails extends StatefulWidget {
   const DriverDeliveryOrderDetails({Key? key}) : super(key: key);
@@ -20,12 +22,28 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
   final myOrderDetailsController = Get.put(MyOrderDetailsController());
   bool value = false;
   TabController? tabController;
-
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     super.initState();
     myOrderDetailsController.getMyOrderDetails();
+  }
+   Future<void> openMap(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'Could not open the map.';
+    }
+  }
+
+  _makingPhoneCall(call) async {
+    var url = Uri.parse(call);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -382,17 +400,22 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                             ],
                                           ),
                                         ]),
-                                        Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: const ShapeDecoration(
-                                                color: AppTheme.primaryColor,
-                                                shape: CircleBorder()),
-                                            child: const Center(
-                                                child: Icon(
-                                                  Icons.phone,
-                                                  color: AppTheme.backgroundcolor,
-                                                ))),
+                                        GestureDetector(
+                                          onTap: (){
+                                            _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.driver!.phone ?? ""}".toString());
+                                          },
+                                          child: Container(
+                                              height: AddSize.size45,
+                                              width: AddSize.size45,
+                                              decoration: const ShapeDecoration(
+                                                  color: AppTheme.primaryColor,
+                                                  shape: CircleBorder()),
+                                              child: const Center(
+                                                  child: Icon(
+                                                    Icons.phone,
+                                                    color: AppTheme.backgroundcolor,
+                                                  ))),
+                                        ),
                                       ],
                                     ),
                                     const Divider(),
@@ -405,11 +428,13 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                             Expanded(
                                               child: Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                                CrossAxisAlignment
+                                                    .start,
                                                 children: [
                                                   Text(
                                                     "Delivery Address",
-                                                    style: Theme.of(context)
+                                                    style: Theme.of(
+                                                        context)
                                                         .textTheme
                                                         .headline5!
                                                         .copyWith(
@@ -421,46 +446,51 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         fontSize: AddSize
                                                             .font14),
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        (myOrderDetailsController.model.value.data!.driver!.location ?? "").toString(),
-                                                        style: Theme.of(
-                                                            context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                            height: 1.5,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                            fontSize: AddSize
-                                                                .font16),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5,
+                                                  Text(
+                                                    (myOrderDetailsController
+                                                        .model
+                                                        .value
+                                                        .data!
+                                                        .address!
+                                                        .location ?? "")
+                                                        .toString(),
+                                                    style: Theme.of(
+                                                        context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                        height: 1.5,
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500,
+                                                        fontSize: AddSize
+                                                            .font16),
                                                   ),
                                                 ],
                                               ),
                                             ),
                                           ]),
                                         ),
-                                        Container(
-                                          height: AddSize.size45,
-                                          width: AddSize.size45,
-                                          decoration: const ShapeDecoration(
-                                              color: AppTheme.lightYellow,
-                                              shape: CircleBorder()),
-                                          child: const Center(
-                                              child: Icon(
-                                                Icons.location_on,
-                                                color: AppTheme.backgroundcolor,
-                                              )),
+                                        InkWell(
+                                          onTap: (){
+                                            print("ascfhsdjhg");
+                                            openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                          },
+                                          child: Container(
+                                            height: AddSize.size45,
+                                            width: AddSize.size45,
+                                            decoration:
+                                            const ShapeDecoration(
+                                                color: AppTheme
+                                                    .lightYellow,
+                                                shape: CircleBorder()),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.location_on,
+                                                  color:
+                                                  AppTheme.backgroundcolor,
+                                                )),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -676,18 +706,46 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Tax & fee:", "₹$tax"),
+                details("Delivery charges:", "₹$delivery"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Delivery:", "₹$delivery"),
+                details("Packing charges:", "₹$packing"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing fee:", "₹$packing"),
-                SizedBox(
-                  height: AddSize.size5,
-                ),
+                myOrderDetailsController
+                    .model.value.data!.tax !=0 ?
+                Column(children: [
+                  details("Tax & fee:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size5,
+                  ),
+                ],):const SizedBox(),
+                myOrderDetailsController
+                    .model.value.data!.tax1 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax1!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax1!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size5,
+                  ),
+                ],):const SizedBox(),
+                myOrderDetailsController
+                    .model.value.data!.tax2 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax2!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax2!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size10,
+                  ),
+                ],):const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/verify_otp_model.dart';
 
 class ApiUrl {
@@ -18,9 +16,9 @@ class ApiUrl {
   static const removeTipUrl = "${baseUrl}remove-tip";
   static const userProfileUrl = "${baseUrl}user-profile";
   static const updateProfileUrl = "${baseUrl}update-profile";
-  static const storeUrl = "${baseUrl}store";
   static const homeUrl = "${baseUrl}home";
   static const nearStores = "${baseUrl}stores";
+  static const storesUrl = "${baseUrl}near-stores";
   static const myCartUrl = "${baseUrl}my-cart";
   static const addCartUrl = "${baseUrl}add-cart";
   static const updateCartUrl = "${baseUrl}update-cart";
@@ -38,6 +36,7 @@ class ApiUrl {
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
   static const vendorRegister = "${baseUrl}vendor-register";
+  static const vendorInformationEditUrl = "${baseUrl}vendor-information-edit";
   static const myWalletUrl = "${baseUrl}wallet";
   static const paymentOptionUrl = "${baseUrl}payment-option";
   static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
@@ -80,6 +79,7 @@ class ApiUrl {
   static const vendorBankListUrl = "${baseUrl}banks-list";
   static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";
   static const helpCenterUrl = "${baseUrl}faq-list";
+  static const singleCategoryUrl = "${baseUrl}single-category";
 }
 
 getHeaders() async {

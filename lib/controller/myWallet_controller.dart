@@ -5,7 +5,7 @@ import '../model/MyWallet_model..dart';
 
 class MyWalletController extends GetxController {
   RxBool isDataLoading = false.obs;
-  Rx<MyWallletModel> model = MyWallletModel().obs;
+  Rx<MyWalletModel> model = MyWalletModel().obs;
   RxString userType = "".obs;
 
   getWalletData() {

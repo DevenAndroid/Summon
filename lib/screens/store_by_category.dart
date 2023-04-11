@@ -4,6 +4,7 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/single_store_controller.dart';
 import '../controller/store_by_category_controller.dart';
 import '../controller/store_controller.dart';
 import '../resources/app_theme.dart';
@@ -19,6 +20,7 @@ class StoreByCategoryListScreen extends StatefulWidget {
 
 class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
   final scrollController = ScrollController();
+  final singleStoreController = Get.put(SingleStoreController());
   final nearStoreController = Get.put(StoreByCategoryController());
   final myCartController = Get.put(MyCartDataListController());
   final storeController = Get.put(StoreController());
@@ -94,7 +96,7 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
                                           onTap: () {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
-                                            storeController.storeId.value =
+                                            singleStoreController.storeId.value =
                                                 nearStoreController
                                                     .model.value.data![index].id
                                                     .toString();

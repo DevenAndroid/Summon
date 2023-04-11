@@ -251,6 +251,8 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
+                        vendorProductListController
+                            .model.value.data!.isNotEmpty ?
                         ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -376,8 +378,8 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .model
                                                       .value
                                                       .data![index]
-                                                      .product!
-                                                      .qty
+                                                      .variants![0]
+                                                      .variantQty
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -394,12 +396,12 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  vendorProductListController
-                                                      .model
-                                                      .value
-                                                      .data![index]
-                                                      .product!
-                                                      .qtyType
+                                                    vendorProductListController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .variants![0]
+                                                        .variantQtyType
                                                       .toString(),
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -420,7 +422,12 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  "₹${vendorProductListController.model.value.data![index].product!.regularPrice.toString()}",
+                                                  "₹${vendorProductListController
+                                                .model
+                                                .value
+                                                .data![index]
+                                                .variants![0]
+                                                .price.toString()}",
                                                   //"100",
                                                   style: Theme.of(context)
                                                       .textTheme
@@ -504,7 +511,17 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                               ),
                             );
                           },
-                        )
+                        ):
+                        Center(
+                            child: Padding(
+                                padding: EdgeInsets.only(top: AddSize.size200),
+                                child: Text(
+                                  "Product Not Available",
+                                  style: TextStyle(
+                                      fontSize: AddSize.font16,
+                                      color: AppTheme.blackcolor,
+                                      fontWeight: FontWeight.w500),
+                                )))
                       ],
                     ),
                   ))

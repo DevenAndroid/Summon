@@ -1,5 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/repositories/vendor_registration_repo.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
@@ -7,6 +10,9 @@ import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/registration_form_textField.dart';
@@ -21,33 +27,15 @@ class VendorRegistrationForm extends StatefulWidget {
 class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   final TextEditingController adharNoController = TextEditingController();
   final TextEditingController panNoController = TextEditingController();
+  final TextEditingController storeName = TextEditingController();
+  final TextEditingController storeAddressController = TextEditingController();
   Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
   Rx<File> image3 = File("").obs;
   Rx<File> image4 = File("").obs;
   RxString selectedCAt = "".obs;
-  final List<String> dropDownList = [
-    "500",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "15",
-    "20",
-    "25",
-    "30",
-    "35",
-    "40",
-    "45",
-    "50"
-  ];
+  String? _address = "";
   final _formKey = GlobalKey<FormState>();
   RxBool showValidation = false.obs;
   bool checkValidation(bool bool1, bool2) {
@@ -58,12 +46,21 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
     }
   }
 
+  String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
+  ScrollController _scrollController = ScrollController();
+
+  scrollNavigation(double offset) {
+    _scrollController.animateTo(offset,
+        duration: Duration(seconds: 1), curve: Curves.easeOutSine);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: backAppBar(title: "Vendor Registration", context: context),
       body: Obx(() {
         return SingleChildScrollView(
+          controller: _scrollController,
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -82,6 +79,16 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          RegistrationTextField(
+                              controller: storeName,
+                              hint: "Store Name",
+                              validator: MultiValidator([
+                                RequiredValidator(
+                                    errorText: 'Store name is required')
+                              ])),
+                          SizedBox(
+                            height: AddSize.size12,
+                          ),
                           Obx(() {
                             return Container(
                                 padding: EdgeInsets.symmetric(
@@ -152,6 +159,98 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           SizedBox(
                             height: AddSize.size12,
                           ),
+                          InkWell(
+                              onTap: () async {
+                                var place = await PlacesAutocomplete.show(
+                                    hint: "Location",
+                                    context: context,
+                                    apiKey: googleApikey,
+                                    mode: Mode.overlay,
+                                    types: [],
+                                    strictbounds: false,
+                                    onError: (err) {
+                                      log("error.....   ${err.errorMessage}");
+                                    });
+                                if (place != null) {
+                                  setState(() {
+                                    _address = (place.description ?? "Location")
+                                        .toString();
+                                  });
+                                  final plist = GoogleMapsPlaces(
+                                    apiKey: googleApikey,
+                                    apiHeaders: await const GoogleApiHeaders()
+                                        .getHeaders(),
+                                  );
+                                  print(plist);
+                                  String placeid = place.placeId ?? "0";
+                                  final detail =
+                                      await plist.getDetailsByPlaceId(placeid);
+                                  final geometry = detail.result.geometry!;
+                                  final lat = geometry.location.lat;
+                                  final lang = geometry.location.lng;
+                                  setState(() {
+                                    _address = (place.description ?? "Location")
+                                        .toString();
+                                  });
+                                }
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: !checkValidation(
+                                                      showValidation.value,
+                                                      _address == "")
+                                                  ? Colors.grey.shade300
+                                                  : Colors.red),
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                          color: Colors.grey.shade50),
+                                      // width: MediaQuery.of(context).size.width - 40,
+                                      child: ListTile(
+                                        leading: Image.asset(
+                                          AppAssets.drawer_location,
+                                          width: AddSize.size15,
+                                        ),
+                                        title: Text(
+                                          _address ?? "Location".toString(),
+                                          style: TextStyle(
+                                              fontSize: AddSize.font14),
+                                        ),
+                                        trailing: const Icon(Icons.search),
+                                        dense: true,
+                                      )),
+                                  checkValidation(
+                                          showValidation.value, _address == "")
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              top: AddSize.size5),
+                                          child: Text(
+                                            "      Location is required",
+                                            style: TextStyle(
+                                                color: Colors.red.shade700,
+                                                fontSize: AddSize.font12),
+                                          ),
+                                        )
+                                      : SizedBox()
+                                ],
+                              )),
+                          SizedBox(
+                            height: AddSize.size12,
+                          ),
+                          RegistrationTextField(
+                              controller: storeAddressController,
+                              hint: "Store Address",
+                              maxLines: 3,
+                              validator: MultiValidator([
+                                RequiredValidator(
+                                    errorText: 'Store address is required')
+                              ])),
+                          SizedBox(
+                            height: AddSize.size12,
+                          ),
                           RegistrationTextField(
                             controller: adharNoController,
                             hint: "Aadhaar card number",
@@ -181,6 +280,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           SizedBox(
                             height: AddSize.size12,
                           ),
+
                           DropdownButtonFormField(
                             decoration: InputDecoration(
                               fillColor: Colors.grey.shade50,
@@ -532,6 +632,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate() &&
+                                    _address!.isNotEmpty &&
                                     image.value.path != "" &&
                                     image1.value.path != "" &&
                                     image2.value.path != "" &&
@@ -542,7 +643,10 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                         adharNoController.text.trim(),
                                     'pan_card_number':
                                         panNoController.text.trim(),
-                                    'delivery_range': selectedCAt.value
+                                    'delivery_range': selectedCAt.value.trim(),
+                                    'store_name': storeName.text,
+                                    'address': storeAddressController.text,
+                                    'location': _address!
                                   };
                                   vendorRegistrationRepo(
                                           context: context,
@@ -561,6 +665,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     if (value.status == true) {
                                       showToast(
                                           "${value.message} Wait For Admin Approval");
+                                      log(value.status.toString());
                                       Get.toNamed(ThankYouVendorScreen
                                           .thankYouVendorScreen);
                                     } else {
@@ -569,6 +674,21 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                   });
                                 }
                                 showValidation.value = true;
+                                if (_address!.isEmpty) {
+                                  scrollNavigation(10);
+                                } else if (storeName.text.trim().isEmpty) {
+                                  scrollNavigation(0);
+                                } else if (adharNoController.text
+                                        .trim()
+                                        .isEmpty ||
+                                    adharNoController.text.length < 12) {
+                                  scrollNavigation(50);
+                                } else if (panNoController.text
+                                        .trim()
+                                        .isEmpty ||
+                                    panNoController.text.length < 10) {
+                                  scrollNavigation(50);
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.maxFinite, 60),

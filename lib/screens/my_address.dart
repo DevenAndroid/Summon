@@ -178,13 +178,8 @@ class _MyAddressState extends State<MyAddress> {
                                           // height: height * .23,
                                           child: InkWell(
                                             onTap: () {
-                                              chooseOrderAddress(
-                                                      addressId:
-                                                          addressController
-                                                              .myAddressModel
-                                                              .value
-                                                              .data![index]
-                                                              .id
+                                              controller.model.value.data!.cartItems!.isNotEmpty ?
+                                              chooseOrderAddress(addressId: addressController.myAddressModel.value.data![index].id
                                                               .toString(),
                                                       context: context)
                                                   .then((value) {
@@ -194,11 +189,9 @@ class _MyAddressState extends State<MyAddress> {
                                                   Get.back();
                                                   Get.back();
                                                   Get.back();
-                                                  Get.back();
-                                                  Get.back();
                                                   mainController.onItemTap(1);
                                                 }
-                                              });
+                                              }):null;
                                             },
                                             child: Card(
                                                 elevation: 0,
