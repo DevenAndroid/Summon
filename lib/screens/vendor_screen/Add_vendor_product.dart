@@ -585,16 +585,16 @@ class _AddVendorProductState extends State<AddVendorProduct> {
             SizedBox(
               height: AddSize.size10,
             ),
-            RegistrationTextField(
-              readOnly: true,
-              hint: "SKU",
-              controller: vendorAddProductController.skuController,
-              // validator: MultiValidator(
-              //     [RequiredValidator(errorText: "Please enter SKU")]),
-            ),
-            SizedBox(
-              height: AddSize.size10,
-            ),
+            // RegistrationTextField(
+            //   readOnly: true,
+            //   hint: "SKU",
+            //   controller: vendorAddProductController.skuController,
+            //   // validator: MultiValidator(
+            //   //     [RequiredValidator(errorText: "Please enter SKU")]),
+            // ),
+            // SizedBox(
+            //   height: AddSize.size10,
+            // ),
             Obx(() {
               if (vendorAddProductController.isDataLoading.value &&
                   vendorAddProductController.vendorAddProductModel.value.data !=

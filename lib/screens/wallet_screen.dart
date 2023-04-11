@@ -189,7 +189,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                     if(myWalletController.userType.value=="A"){
                                       myWalletController.userType.value = "";
                                     }
-                                    print("user type${walletModel[0].key}");
+                                    print("user type....${walletModel[0].key}");
                                     myWalletController.getWalletData();
                                     setState(() {});
                                   }),
@@ -202,10 +202,10 @@ class _WalletScreenState extends State<WalletScreen> {
                                   onTap: () {
                                     log("user type${walletModel[1].key}");
                                     myWalletController.userType.value = walletModel[1].key;
-                                    if(myWalletController.userType.value=="A"){
+                                    if(myWalletController.userType.value=="V"){
                                       myWalletController.userType.value = "";
                                     }
-                                    print("user type${walletModel[1].key}");
+                                    print("user type....${walletModel[1].key}");
                                     myWalletController.getWalletData();
                                     setState(() {});
                                   }),
@@ -233,7 +233,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                   onTap: () {
                                     log("user type${walletModel[3].key}");
                                     myWalletController.userType.value = walletModel[3].key;
-                                    if(myWalletController.userType.value=="A"){
+                                    if(myWalletController.userType.value=="C"){
                                       myWalletController.userType.value = "";
                                     }
                                     print("user type${walletModel[3].key}");

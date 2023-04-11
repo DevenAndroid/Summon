@@ -211,6 +211,18 @@ class _VendorInformationState extends State<VendorInformation> {
                                 SizedBox(
                                   height: AddSize.size12,
                                 ),
+                                RegistrationTextField(
+                                  readOnly: true,
+                                    controller:
+                                    vendorInformationController.addressController,
+                                    hint: "Store Address",
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: 'Store name is required')
+                                    ])),
+                                SizedBox(
+                                  height: AddSize.size12,
+                                ),
                                 InkWell(
                                     onTap: () async {
                                       var place = await PlacesAutocomplete.show(

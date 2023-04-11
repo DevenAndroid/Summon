@@ -25,7 +25,9 @@ class VendorInformationModel {
 class Data {
   int? id;
   String? storeName;
+  String? phone;
   String? storeImage;
+  String? address;
   String? location;
   String? latitude;
   String? longitude;
@@ -42,7 +44,9 @@ class Data {
   Data(
       {this.id,
         this.storeName,
+        this.phone,
         this.storeImage,
+        this.address,
         this.location,
         this.latitude,
         this.longitude,
@@ -59,7 +63,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     storeName = json['store_name'];
+    phone = json['phone'];
     storeImage = json['storeImage'];
+    address = json['address'];
     location = json['location'];
     latitude = json['latitude'];
     longitude = json['longitude'];
@@ -75,22 +81,24 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['store_name'] = storeName;
-    data['storeImage'] = storeImage;
-    data['location'] = location;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
-    data['aadharNo'] = aadharNo;
-    data['panNo'] = panNo;
-    data['delivery_range'] = deliveryRange;
-    data['bank_statement'] = bankStatement;
-    data['pan_card_image'] = panCardImage;
-    data['aadhar_front_image'] = aadharFrontImage;
-    data['aadhar_back_image'] = aadharBackImage;
-    data['remark'] = remark;
-    data['status'] = status;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['store_name'] = this.storeName;
+    data['phone'] = this.phone;
+    data['storeImage'] = this.storeImage;
+    data['address'] = this.address;
+    data['location'] = this.location;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['aadharNo'] = this.aadharNo;
+    data['panNo'] = this.panNo;
+    data['delivery_range'] = this.deliveryRange;
+    data['bank_statement'] = this.bankStatement;
+    data['pan_card_image'] = this.panCardImage;
+    data['aadhar_front_image'] = this.aadharFrontImage;
+    data['aadhar_back_image'] = this.aadharBackImage;
+    data['remark'] = this.remark;
+    data['status'] = this.status;
     return data;
   }
 }

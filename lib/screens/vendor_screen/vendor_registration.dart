@@ -28,6 +28,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   final TextEditingController adharNoController = TextEditingController();
   final TextEditingController panNoController = TextEditingController();
   final TextEditingController storeName = TextEditingController();
+  final TextEditingController storeAddressController = TextEditingController();
   Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
@@ -240,6 +241,17 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             height: AddSize.size12,
                           ),
                           RegistrationTextField(
+                              controller: storeAddressController,
+                              hint: "Store Address",
+                              maxLines: 3,
+                              validator: MultiValidator([
+                                RequiredValidator(
+                                    errorText: 'Store address is required')
+                              ])),
+                          SizedBox(
+                            height: AddSize.size12,
+                          ),
+                          RegistrationTextField(
                             controller: adharNoController,
                             hint: "Aadhaar card number",
                             length: 12,
@@ -268,6 +280,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           SizedBox(
                             height: AddSize.size12,
                           ),
+
                           DropdownButtonFormField(
                             decoration: InputDecoration(
                               fillColor: Colors.grey.shade50,
@@ -632,6 +645,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                         panNoController.text.trim(),
                                     'delivery_range': selectedCAt.value.trim(),
                                     'store_name': storeName.text,
+                                    'address': storeAddressController.text,
                                     'location': _address!
                                   };
                                   vendorRegistrationRepo(

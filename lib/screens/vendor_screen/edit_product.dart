@@ -282,18 +282,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 SizedBox(
                                   height: AddSize.size10,
                                 ),
-                                RegistrationTextField(
-                                  hint: "SKU",
-                                  controller:
-                                      editProductController.skuController,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: "Please enter SKU")
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: AddSize.size10,
-                                ),
+                                // RegistrationTextField(
+                                //   hint: "SKU",
+                                //   controller:
+                                //       editProductController.skuController,
+                                //   validator: MultiValidator([
+                                //     RequiredValidator(
+                                //         errorText: "Please enter SKU")
+                                //   ]),
+                                // ),
+                                // SizedBox(
+                                //   height: AddSize.size10,
+                                // ),
                                 Obx(() {
                                   return ListView.builder(
                                       shrinkWrap: true,

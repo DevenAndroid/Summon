@@ -355,7 +355,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                             borderSide: BorderSide(
                                                 color: AppTheme.primaryColor, width: 3.0),
                                             borderRadius: BorderRadius.circular(12.0)),
-                                        hintText: 'Search for a drug',
+                                        hintText: 'Search product',
                                         hintStyle: TextStyle(
                                             fontSize: AddSize.font14,
                                             color: const Color(0xffB9B6B6),
