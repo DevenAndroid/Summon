@@ -477,6 +477,9 @@ class _OrderDetailsState extends State<OrderDetails>
                               subTotal: myOrderDetailsController
                                   .model.value.data!.itemTotal
                                   .toString(),
+                              tax: myOrderDetailsController
+                                  .model.value.data!.itemTotal
+                                  .toString(),
                               delivery: myOrderDetailsController
                                   .model.value.data!.deliveryCharges
                                   .toString(),
@@ -568,6 +571,9 @@ class _OrderDetailsState extends State<OrderDetails>
                                 subTotal: myOrderDetailsController
                                     .model.value.data!.itemTotal
                                     .toString(),
+                                tax: myOrderDetailsController
+                                    .model.value.data!.tax
+                                    .toString(),
                                 delivery: myOrderDetailsController
                                     .model.value.data!.deliveryCharges
                                     .toString(),
@@ -655,6 +661,7 @@ class _OrderDetailsState extends State<OrderDetails>
 
   paymentDetails({
     required subTotal,
+    required tax,
     required delivery,
     required packing,
     required total,
@@ -671,6 +678,10 @@ class _OrderDetailsState extends State<OrderDetails>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 details("Subtotal:", "₹$subTotal"),
+                SizedBox(
+                  height: AddSize.size5,
+                ),
+                details("Tax and fee:", "₹$tax"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
