@@ -20,7 +20,7 @@ class StoreByCategoryController extends GetxController {
     }
     if (isPaginationLoading.value && loadMore.value) {
       isPaginationLoading.value = false;
-      await loadWithPagination1(
+      await loadWithPagination2(
               page: page.value,
               pagination: pagination.value,
               id: storeId.value,
@@ -44,6 +44,5 @@ class StoreByCategoryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // getData(isFirstTime: true);
   }
 }

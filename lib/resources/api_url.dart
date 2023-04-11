@@ -79,6 +79,7 @@ class ApiUrl {
   static const vendorBankListUrl = "${baseUrl}banks-list";
   static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";
   static const helpCenterUrl = "${baseUrl}faq-list";
+  static const singleCategoryUrl = "${baseUrl}single-category";
 }
 
 getHeaders() async {

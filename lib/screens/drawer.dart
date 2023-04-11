@@ -59,7 +59,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Store open time',
     'Vendor Information',
     'Bank Details',
-    'Earning'
+    'Withdraw'
   ];
   var vendorRoutes = [
     VenderDashboard.vendorDashboard,
@@ -75,7 +75,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
     'Dashboard',
     'Assigned Order',
     'Bank Details',
-    'Earning',
+    'Withdraw',
     'Driver Information',
   ];
   var driverRoutes = [
@@ -145,7 +145,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   shape: CircleBorder(),
                                   color: Colors.white,
                                 ),
-                                child: CachedNetworkImage(
+                                child:
+                                CachedNetworkImage(
                                   imageUrl:
                                       profileController.isDataLoading.value
                                           ? (profileController.model.value.data!

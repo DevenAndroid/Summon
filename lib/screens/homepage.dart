@@ -15,6 +15,7 @@ import '../controller/category_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
+import '../controller/single_store_controller.dart';
 import '../controller/store_by_category_controller.dart';
 import '../controller/store_controller.dart';
 import '../model/My_Cart_Model.dart';
@@ -47,6 +48,7 @@ class HomePageState extends State<HomePage> {
   final storeCategoryController = Get.put(StoreByCategoryController());
   final profileController = Get.put(ProfileController());
   final addToCartQtyController = TextEditingController();
+  final storeController = Get.put(SingleStoreController());
   RxString selectedCAt = "".obs;
   RxString price = "".obs;
   RxDouble sliderIndex = (0.0).obs;
@@ -395,7 +397,7 @@ class HomePageState extends State<HomePage> {
                                               onTap: () {
                                                 Get.toNamed(StoreScreen
                                                     .singleStoreScreen);
-                                                singleStoreController
+                                                storeController
                                                         .storeId.value =
                                                     homeController
                                                         .model
@@ -579,7 +581,7 @@ class HomePageState extends State<HomePage> {
                                           onTap: () {
                                             Get.toNamed(
                                                 StoreScreen.singleStoreScreen);
-                                            singleStoreController
+                                            storeController
                                                     .storeId.value =
                                                 nearStoreController
                                                     .model.value.data![index].id
@@ -1142,7 +1144,7 @@ class HomePageState extends State<HomePage> {
                 (index1) => DropdownMenuItem(
                       value: index1,
                       child: Text(
-                        "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty}${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
+                        "${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQty} " " ${homeController.model.value.data!.bestFreshProduct![index].varints![index1].variantQtyType}",
                         style: const TextStyle(fontSize: 16),
                       ),
                     )),

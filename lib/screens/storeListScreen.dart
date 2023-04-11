@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/store_controller.dart';
@@ -6,6 +8,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/near_store_controller.dart';
+import '../controller/single_store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 
@@ -19,6 +22,8 @@ class StoreListScreen extends StatefulWidget {
 class _StoreListScreenState extends State<StoreListScreen> {
   final scrollController = ScrollController();
   final storeController = Get.put(StoreController());
+  final singleStoreController = Get.put(SingleStoreController());
+
 
   void _scrollListener() {
     if (scrollController.position.pixels ==
@@ -105,11 +110,14 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                   onTap: () {
                                                     Get.toNamed(StoreScreen
                                                         .singleStoreScreen);
-                                                    storeController
+                                                    singleStoreController
                                                             .storeId.value =
                                                         storeController.model
                                                             .value.data![index].id
                                                             .toString();
+                                                    setState(() {
+
+                                                    });
                                                   },
                                                   child: Container(
                                                       margin:

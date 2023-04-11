@@ -12,7 +12,7 @@ import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
 Future<CheckOutDataModel> checkOut(
-    {required payment_type,required BuildContext context}) async {
+    {payment_type,required context}) async {
   var map = <String, dynamic>{};
   map['payment_type'] = payment_type;
   OverlayEntry loader = Helpers.overlayLoader(context);
@@ -28,7 +28,7 @@ Future<CheckOutDataModel> checkOut(
   log(map.toString());
   http.Response response = await http.post(Uri.parse(ApiUrl.checkOutUrl),headers: headers,body:jsonEncode(map));
   log(response.body.toString());
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 || response.statusCode==400) {
     Helpers.hideLoader(loader);
     return CheckOutDataModel.fromJson(json.decode(response.body));
   } else {

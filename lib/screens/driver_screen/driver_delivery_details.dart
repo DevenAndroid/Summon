@@ -447,12 +447,12 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                             .font14),
                                                   ),
                                                   Text(
-                                                    myOrderDetailsController
+                                                    (myOrderDetailsController
                                                         .model
                                                         .value
                                                         .data!
                                                         .address!
-                                                        .location
+                                                        .location ?? "")
                                                         .toString(),
                                                     style: Theme.of(
                                                         context)
@@ -706,10 +706,6 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Tax & fee:", "₹$tax"),
-                SizedBox(
-                  height: AddSize.size5,
-                ),
                 details("Delivery charges:", "₹$delivery"),
                 SizedBox(
                   height: AddSize.size5,
@@ -718,6 +714,38 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
+                myOrderDetailsController
+                    .model.value.data!.tax !=0 ?
+                Column(children: [
+                  details("Tax & fee:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size5,
+                  ),
+                ],):const SizedBox(),
+                myOrderDetailsController
+                    .model.value.data!.tax1 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax1!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax1!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size5,
+                  ),
+                ],):const SizedBox(),
+                myOrderDetailsController
+                    .model.value.data!.tax2 !=null ?
+                Column(children: [
+                  details("${myOrderDetailsController
+                      .model.value.data!.tax2!.type ?? ""}:",
+                      "₹${myOrderDetailsController
+                          .model.value.data!.tax2!.amount ?? ""}"),
+                  SizedBox(
+                    height: AddSize.size10,
+                  ),
+                ],):const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
