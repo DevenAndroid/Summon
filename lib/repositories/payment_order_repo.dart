@@ -40,7 +40,7 @@ Future<CheckOutDataModel> paymentOrder(
       headers: headers,
       body: jsonEncode(map));
   log(response.body.toString());
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 || response.statusCode==400) {
     Helpers.hideLoader(loader);
     return CheckOutDataModel.fromJson(json.decode(response.body));
   } else {

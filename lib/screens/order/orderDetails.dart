@@ -561,7 +561,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                             ),
                                             Text(
                                               (myOrderDetailsController.model
-                                                  .value.data!.user!.name??"")
+                                                  .value.data!.vendor!.name??"")
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -711,7 +711,8 @@ class _OrderDetailsState extends State<OrderDetails>
                   height: AddSize.size5,
                 ),
                 myOrderDetailsController
-                    .model.value.data!.tax1 !=null ?
+                    .model.value.data!.tax1 !=null && myOrderDetailsController
+                    .model.value.data!.tax1!.type != ""?
                 Column(children: [
                   details("${myOrderDetailsController
                       .model.value.data!.tax1!.type ?? ""}:",
@@ -722,7 +723,8 @@ class _OrderDetailsState extends State<OrderDetails>
                   ),
                 ],):const SizedBox(),
                 myOrderDetailsController
-                    .model.value.data!.tax2 !=null ?
+                    .model.value.data!.tax2 !=null && myOrderDetailsController
+                    .model.value.data!.tax2!.type != ""?
                 Column(children: [
                   details("${myOrderDetailsController
                       .model.value.data!.tax2!.type ?? ""}:",

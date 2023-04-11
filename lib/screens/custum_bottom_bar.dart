@@ -47,6 +47,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
+    myCartController.getAddToCartList();
   }
 
   @override
@@ -96,6 +97,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                           ),
                           onTap: () {
                             controller.scaffoldKey.currentState!.openDrawer();
+                            profileController.getData();
                           },
                         ),
                       ),

@@ -821,7 +821,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                         SizedBox(
                                           height: height * .01,
                                         ),
-                                        controller.model.value.data!.cartPaymentSummary!.tax1 !=null ?
+                                        controller.model.value.data!.cartPaymentSummary!.tax1 !=null  &&  controller.model.value.data!.cartPaymentSummary!.tax1!.type != ""?
                                         Column(children: [
                                           details("${controller.model.value.data!.cartPaymentSummary!.tax1!.type ?? ""}:",
                                               "₹${controller.model.value.data!.cartPaymentSummary!.tax1!.amount ?? ""}"),
@@ -829,7 +829,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             height: height * .01,
                                           ),
                                         ],):const SizedBox(),
-                                        controller.model.value.data!.cartPaymentSummary!.tax2 !=null ?
+                                        controller.model.value.data!.cartPaymentSummary!.tax2 !=null  &&  controller.model.value.data!.cartPaymentSummary!.tax2!.type != ""?
                                         Column(children: [
                                           details("${controller.model.value.data!.cartPaymentSummary!.tax2!.type ?? ""}:",
                                               "₹${controller.model.value.data!.cartPaymentSummary!.tax2!.amount ?? ""}"),
@@ -1600,7 +1600,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 (index1) => DropdownMenuItem(
                       value: index1,
                       child: Text(
-                        "${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQty}${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
+                        "${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQty} " " ${relatedCartController.relatedProductModel.value.data![index].varints![index1].variantQtyType}",
                         style: const TextStyle(fontSize: 16),
                       ),
                     )),

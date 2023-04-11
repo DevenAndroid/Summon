@@ -24,7 +24,6 @@ class PaymentMethod extends StatefulWidget {
 class _PaymentMethodState extends State<PaymentMethod> {
   final controller = Get.put(PaymentOptionController());
   final myCartController = Get.put(MyCartDataListController());
-  final checkController = Get.put(CheckOutController());
   bool _isValue = false;
   RxString selectedValue = "cod".obs;
   RxString orderId = "".obs;
@@ -54,8 +53,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
             payment_id: response.paymentId,
             razorpay_signature: "Signature",
             wallet_deduction: controller.model.value.data!.earnedBalance,
-            online_deduction:
-                Get.arguments[0] - controller.model.value.data!.earnedBalance)
+            online_deduction: Get.arguments[0] - controller.model.value.data!.earnedBalance)
         .then((value) {
       showToast(value.message).toString();
       if (value.status == true) {

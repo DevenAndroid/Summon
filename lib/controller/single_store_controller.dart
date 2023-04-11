@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/near_store_model.dart';
 import 'package:get/get.dart';
@@ -10,22 +12,32 @@ class SingleStoreController extends GetxController {
   RxBool isDataLoading = false.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
-  RxInt pagination = 10.obs;
+  RxInt pagination = 20.obs;
   RxString storeId = "".obs;
+  TextEditingController searchController = TextEditingController();
   Rx<NearStoreModel> model = NearStoreModel().obs;
   Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
-Future<dynamic> getStoreDetails({isFirstTime = false, context}) async {
-  if (isFirstTime) {
+Future<dynamic> getStoreDetails({bool? isFirstTime = false, context}) async {
+  if (isFirstTime!) {
     page.value = 1;
+    isPaginationLoading.value = true;
+    isDataLoading.value = true;
+    if(storeDetailsModel.value.data != null){
+      storeDetailsModel.value = StoreDetailsModel();
+    }
+    // storeDetailsModel.value.data!.latestProducts!.clear();
   }
-  if (isPaginationLoading.value && loadMore.value) {
+  if ((isPaginationLoading.value && loadMore.value) || isFirstTime) {
+    log("Anjali");
     isPaginationLoading.value = false;
     isDataLoading.value = false;
     await storeDetailsRepo1(
         page: page.value,
         pagination: pagination.value,
         context: context,
-        id: storeId.value)
+        id: storeId.value,
+        search: searchController.text
+    )
         .then((value) {
       if (isFirstTime) {
         storeDetailsModel.value = value;
@@ -44,4 +56,10 @@ Future<dynamic> getStoreDetails({isFirstTime = false, context}) async {
     });
   }
 }
+  @override
+  void onInit() {
+    super.onInit();
+    getStoreDetails(isFirstTime: true);
+  }
 }
+
