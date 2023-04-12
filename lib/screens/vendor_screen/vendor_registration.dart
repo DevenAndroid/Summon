@@ -106,8 +106,10 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                           : Colors.red,
                                     )),
                                 child: image.value.path == ""
-                                    ? Column(
+                                    ?
+                                Column(
                                         children: [
+
                                           Text(
                                             "Upload store image",
                                             style: Theme.of(context)
@@ -151,10 +153,51 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                           ),
                                         ],
                                       )
-                                    : SizedBox(
+
+                                    : Stack(
+                                  children: [
+                                    SizedBox(
                                         width: double.maxFinite,
                                         height: AddSize.size100,
-                                        child: Image.file(image.value)));
+                                        child: Image.file(image.value)),
+
+                                    Positioned(
+                                      right: AddSize.padding10,
+                                      top: AddSize.padding10,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          NewHelper()
+                                              .addFilePicker()
+                                              .then((value) {
+                                            image.value = value;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: AddSize.size30,
+                                          width: AddSize.size30,
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: AppTheme
+                                                      .backgroundcolor),
+                                              color:
+                                              AppTheme.primaryColor,
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  50)),
+                                          child: const Center(
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: AppTheme
+                                                    .backgroundcolor,
+                                                size: 20,
+                                              )),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                            );
                           }),
                           SizedBox(
                             height: AddSize.size12,

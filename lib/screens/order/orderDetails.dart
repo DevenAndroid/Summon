@@ -538,11 +538,13 @@ class _OrderDetailsState extends State<OrderDetails>
                                   padding: EdgeInsets.symmetric(
                                       horizontal: AddSize.padding15,
                                       vertical: AddSize.padding15),
-                                  child: Row(
+                                  child:
+                                  Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(children: [
+                                      Row(
+                                          children: [
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -561,7 +563,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                             ),
                                             Text(
                                               (myOrderDetailsController.model
-                                                  .value.data!.vendor!.name??"")
+                                                  .value.data!.vendor!.storeName??"")
                                                   .toString(),
                                               style: Theme.of(context)
                                                   .textTheme
@@ -571,6 +573,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                                           FontWeight.w500,
                                                       fontSize: AddSize.font16),
                                             ),
+
                                           ],
                                         ),
                                       ]),
@@ -592,6 +595,140 @@ class _OrderDetailsState extends State<OrderDetails>
                                   ),
                                 ),
                               ),
+                              Card(
+                                elevation: 0,
+                                color: AppTheme.backgroundcolor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding15,
+                                      vertical: AddSize.padding15),
+                                  child:
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Store Phone",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                      fontSize: AddSize.font14),
+                                                ),
+                                                Text(
+                                                  (myOrderDetailsController.model
+                                                      .value.data!.vendor!.phone??"")
+                                                      .toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: AddSize.font16),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ]),
+                                      Container(
+                                        height: AddSize.size45,
+                                        width: AddSize.size45,
+                                        decoration: const ShapeDecoration(
+                                            color: AppTheme.primaryColor,
+                                            shape: CircleBorder()),
+                                        child: Center(
+                                            child: Image(
+                                              image: const AssetImage(
+                                                  AppAssets.phoneImg),
+                                              height: AddSize.size20,
+                                              width: AddSize.size20,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                elevation: 0,
+                                color: AppTheme.backgroundcolor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding15,
+                                      vertical: AddSize.padding15),
+                                  child:
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Store Address",
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                      color:
+                                                      AppTheme.lightblack,
+                                                      fontWeight:
+                                                      FontWeight.w400,
+                                                      fontSize: AddSize.font14),
+                                                ),
+                                                Text(
+                                                  (myOrderDetailsController.model
+                                                      .value.data!.vendor!.address??"")
+                                                      .toString(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5!
+                                                      .copyWith(
+                                                      fontWeight:
+                                                      FontWeight.w500,
+                                                      fontSize: AddSize.font16),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ]),
+                                      Container(
+                                        height: AddSize.size45,
+                                        width: AddSize.size45,
+                                        decoration: const ShapeDecoration(
+                                            color: AppTheme.primaryColor,
+                                            shape: CircleBorder()),
+                                        child: Center(
+                                            child: Image(
+                                              image: const AssetImage(
+                                                  AppAssets.locationImg),
+                                              height: AddSize.size20,
+                                              width: AddSize.size20,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+
                               paymentDetails(
                                 subTotal: myOrderDetailsController
                                     .model.value.data!.itemTotal

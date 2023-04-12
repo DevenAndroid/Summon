@@ -20,7 +20,7 @@ Future<MyWalletModel> myWalletRepo({required user_type,context}) async {
   };
   try {
     final response = await http.get(
-        Uri.parse("${ApiUrl.myWalletUrl}?user_type=$user_type"),
+        Uri.parse("${ApiUrl.myWalletUrl}?user_type=$user_type?"),
         headers: headers);
     print("My Wallet Repository...${response.body}");
     log("${ApiUrl.myWalletUrl}?user_type=$user_type");
