@@ -561,7 +561,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                       ),
                                       Text(
                                         myOrderDetailsController.model
-                                            .value.data!.vendor!.name
+                                            .value.data!.vendor!.storeName
                                             .toString(),
                                         style: Theme.of(context)
                                             .textTheme
