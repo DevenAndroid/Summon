@@ -6,14 +6,14 @@ class ListModel {
   RxString price = "".obs;
   RxString minQty = "".obs;
   RxString maxQty = "".obs;
-  RxString? varientId = "".obs;
+  RxString varientId = "".obs;
   RxString? marketPrice = "".obs;
 
   ListModel({
     required this.qty,
     required this.price,
     required this.minQty,
-    this.varientId,
+    required this.varientId,
     required this.maxQty,
     required this.qtyType,
     required this.marketPrice,

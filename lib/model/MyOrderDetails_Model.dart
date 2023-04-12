@@ -1158,33 +1158,33 @@ class Data {
   Vendor? vendor;
   dynamic driver;
   Address? address;
-  String? orderType;
-  String? deliveryStatus;
+  dynamic orderType;
+  dynamic deliveryStatus;
   List<OrderItems>? orderItems;
-  String? placedAt;
+  dynamic placedAt;
 
   Data(
       {this.orderId,
-        this.itemTotal,
-        this.surcharge,
-        this.tax,
-        this.tax1,
-        this.tax2,
-        this.deliveryCharges,
-        this.packingFee,
-        this.tipAmount,
-        this.couponDiscount,
-        this.commissionDriver,
-        this.commissionAdmin,
-        this.grandTotal,
-        this.user,
-        this.vendor,
-        this.driver,
-        this.address,
-        this.orderType,
-        this.deliveryStatus,
-        this.orderItems,
-        this.placedAt});
+      this.itemTotal,
+      this.surcharge,
+      this.tax,
+      this.tax1,
+      this.tax2,
+      this.deliveryCharges,
+      this.packingFee,
+      this.tipAmount,
+      this.couponDiscount,
+      this.commissionDriver,
+      this.commissionAdmin,
+      this.grandTotal,
+      this.user,
+      this.vendor,
+      this.driver,
+      this.address,
+      this.orderType,
+      this.deliveryStatus,
+      this.orderItems,
+      this.placedAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
@@ -1202,10 +1202,11 @@ class Data {
     grandTotal = json['grand_total'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     vendor =
-    json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
-    driver = json['driver'];
+        json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
+    driver =
+        json['driver'] != null ? new Vendor.fromJson(json['driver']) : null;
     address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
+        json['address'] != null ? new Address.fromJson(json['address']) : null;
     orderType = json['order_type'];
     deliveryStatus = json['delivery_status'];
     if (json['order_items'] != null) {
@@ -1465,17 +1466,17 @@ class Address {
 
   Address(
       {this.id,
-        this.userId,
-        this.latitude,
-        this.longitude,
-        this.location,
-        this.flatNo,
-        this.street,
-        this.landmark,
-        this.addressType,
-        this.createdAt,
-        this.updatedAt,
-        this.deletedAt});
+      this.userId,
+      this.latitude,
+      this.longitude,
+      this.location,
+      this.flatNo,
+      this.street,
+      this.landmark,
+      this.addressType,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1520,17 +1521,16 @@ class OrderItems {
   int? qty;
   int? totalPrice;
   String? status;
-
   OrderItems(
       {this.id,
-        this.productId,
-        this.productName,
-        this.variantId,
-        this.price,
-        this.itemQty,
-        this.qty,
-        this.totalPrice,
-        this.status});
+      this.productId,
+      this.productName,
+      this.variantId,
+      this.price,
+      this.itemQty,
+      this.qty,
+      this.totalPrice,
+      this.status});
 
   OrderItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];

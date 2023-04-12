@@ -276,8 +276,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                   //   ),
                                   // ),
                                   Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 12.0),
+                                      padding:  EdgeInsets.symmetric(
+                                          vertical: 8.0),
                                       child: Badge(
                                         badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
                                         badgeContent: Obx(() {

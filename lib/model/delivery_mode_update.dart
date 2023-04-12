@@ -26,8 +26,8 @@ class Data {
   int? id;
   int? isDriver;
   int? isVendor;
-  int? walletBalance;
-  int? earnedBalance;
+  dynamic walletBalance;
+  dynamic earnedBalance;
   dynamic name;
   String? phone;
   dynamic email;
@@ -51,8 +51,8 @@ class Data {
   dynamic emailVerifiedAt;
   int? status;
   int? isProfileComplete;
-  String? createdAt;
-  String? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
   dynamic deletedAt;
 
   Data(
