@@ -21,10 +21,23 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   final myWalletController = Get.put(MyWalletController());
   final profileController = Get.put(ProfileController());
+
+  final scrollController = ScrollController();
+
+  void _scrollListener() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      myWalletController.getWalletData().then((value) => setState(() {}));
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    myWalletController.getWalletData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      myWalletController.getWalletData(isFirstTime: true);
+      scrollController.addListener(_scrollListener);
+    });
   }
 
   @override
@@ -34,6 +47,7 @@ class _WalletScreenState extends State<WalletScreen> {
         appBar: backAppBar(title: "My Wallet", context: context),
         body: myWalletController.isDataLoading.value
             ? SingleChildScrollView(
+                controller: scrollController,
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -175,9 +189,7 @@ class _WalletScreenState extends State<WalletScreen> {
                         height: AddSize.size125,
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children:
-                            [
-
+                            children: [
                               GestureDetector(
                                   child: listdata(
                                       walletModel[0].image,
@@ -185,46 +197,60 @@ class _WalletScreenState extends State<WalletScreen> {
                                       walletModel[0].color),
                                   onTap: () {
                                     log("user type${walletModel[0].key}");
-                                    myWalletController.userType.value = walletModel[0].key;
-                                    if(myWalletController.userType.value=="A"){
+                                    myWalletController.userType.value =
+                                        walletModel[0].key;
+                                    if (myWalletController.userType.value ==
+                                        "A") {
                                       myWalletController.userType.value = "";
                                     }
                                     print("user type....${walletModel[0].key}");
-                                    myWalletController.getWalletData();
+                                    myWalletController.getWalletData(
+                                        isFirstTime: true);
                                     setState(() {});
                                   }),
-                              if(profileController.model.value.data!.asVendorVerified == true)
-                              GestureDetector(
-                                  child: listdata(
-                                      walletModel[1].image,
-                                      walletModel[1].value.toString(),
-                                      walletModel[1].color),
-                                  onTap: () {
-                                    log("user type${walletModel[1].key}");
-                                    myWalletController.userType.value = walletModel[1].key;
-                                    if(myWalletController.userType.value=="V"){
-                                      myWalletController.userType.value = "";
-                                    }
-                                    print("user type....${walletModel[1].key}");
-                                    myWalletController.getWalletData();
-                                    setState(() {});
-                                  }),
-                              if(profileController.model.value.data!.asDriverVerified == true)
-                              GestureDetector(
-                                  child: listdata(
-                                      walletModel[2].image,
-                                      walletModel[2].value.toString(),
-                                      walletModel[2].color),
-                                  onTap: () {
-                                    log("user type${walletModel[2].key}");
-                                    myWalletController.userType.value = walletModel[2].key;
-                                    if(myWalletController.userType.value=="A"){
-                                      myWalletController.userType.value = "";
-                                    }
-                                    print("user type${walletModel[2].key}");
-                                    myWalletController.getWalletData();
-                                    setState(() {});
-                                  }),
+                              if (profileController
+                                      .model.value.data!.asVendorVerified ==
+                                  true)
+                                GestureDetector(
+                                    child: listdata(
+                                        walletModel[1].image,
+                                        walletModel[1].value.toString(),
+                                        walletModel[1].color),
+                                    onTap: () {
+                                      log("user type${walletModel[1].key}");
+                                      myWalletController.userType.value =
+                                          walletModel[1].key;
+                                      if (myWalletController.userType.value ==
+                                          "V") {
+                                        myWalletController.userType.value = "V";
+                                      }
+                                      print(
+                                          "user type....${walletModel[1].key}");
+                                      myWalletController.getWalletData(
+                                          isFirstTime: true);
+                                      setState(() {});
+                                    }),
+                              if (profileController
+                                      .model.value.data!.asDriverVerified ==
+                                  true)
+                                GestureDetector(
+                                    child: listdata(
+                                        walletModel[2].image,
+                                        walletModel[2].value.toString(),
+                                        walletModel[2].color),
+                                    onTap: () {
+                                      log("user type${walletModel[2].key}");
+                                      myWalletController.userType.value =
+                                          walletModel[2].key;
+                                      if (myWalletController.userType.value ==
+                                          "D") {
+                                        myWalletController.userType.value = "D";
+                                      }
+                                      print("user type${walletModel[2].key}");
+                                      myWalletController.getWalletData(
+                                          isFirstTime: true);
+                                      setState(() {});
+                                    }),
                               GestureDetector(
                                   child: listdata(
                                       walletModel[3].image,
@@ -232,12 +258,15 @@ class _WalletScreenState extends State<WalletScreen> {
                                       walletModel[3].color),
                                   onTap: () {
                                     log("user type${walletModel[3].key}");
-                                    myWalletController.userType.value = walletModel[3].key;
-                                    if(myWalletController.userType.value=="C"){
-                                      myWalletController.userType.value = "";
+                                    myWalletController.userType.value =
+                                        walletModel[3].key;
+                                    if (myWalletController.userType.value ==
+                                        "C") {
+                                      myWalletController.userType.value = "C";
                                     }
                                     print("user type${walletModel[3].key}");
-                                    myWalletController.getWalletData();
+                                    myWalletController.getWalletData(
+                                        isFirstTime: true);
                                     setState(() {});
                                   }),
                             ]
@@ -315,171 +344,53 @@ class _WalletScreenState extends State<WalletScreen> {
                             ),
                       ),
                       myWalletController
-                          .model.value.data!.walletTransactions!.isNotEmpty ?
-                      Container(
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.shade300,
-                                  offset: const Offset(2, 2),
-                                  blurRadius: 15)
-                            ],
-                            borderRadius: BorderRadius.circular(10),
-                            color: AppTheme.backgroundcolor),
-                        child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: myWalletController
-                                .model.value.data!.walletTransactions!.length,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding16,
-                                    vertical: AddSize.padding12),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(children: [
-                                          Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: BoxDecoration(
-                                                color: myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![
-                                                index]
-                                                    .status == "Credit" || myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![
-                                                index]
-                                                    .status == "Earn" || myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![
-                                                index]
-                                                    .status == "Refund" ? AppTheme
-                                                    .appPrimaryGreenColor:AppTheme
-                                                    .appPrimaryPinkColor,
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            child: Center(
-                                                child: myWalletController
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .walletTransactions![
-                                                            index]
-                                                        .status == "Credit" || myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![
-                                                index]
-                                                    .status == "Earn" || myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![
-                                                index]
-                                                    .status == "Refund"
-                                                    ? const Icon(
-                                                        Icons.arrow_downward_sharp,
-                                                        color: Colors.green,
-                                                      )
-                                                    : const Icon(
-                                                        Icons.arrow_upward_sharp,
-                                                        color: Colors.red,
-                                                      )),
-                                          ),
-                                          SizedBox(
-                                            width: AddSize.size12,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![index]
-                                                    .transactionDate
-                                                    .toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        height: 1.5,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontSize:
-                                                            AddSize.font12),
-                                              ),
-                                              Text(
-                                                myWalletController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .walletTransactions![index]
-                                                    .remark
-                                                    .toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                        height: 1.5,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize:
-                                                            AddSize.font14),
-                                              ),
-                                            ],
-                                          ),
-                                        ]),
-                                        Text(
-                                          '₹${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline5!
-                                              .copyWith(
-                                                  height: 1.5,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: AddSize.font14),
-                                        ),
-                                      ],
-                                    ),
+                              .model.value.data!.walletTransactions!.isNotEmpty
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.shade300,
+                                        offset: const Offset(2, 2),
+                                        blurRadius: 15)
                                   ],
-                                ),
-                              );
-                            }),
-                      ):
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal:
-                            AddSize.padding20 * 3),
-                        child: Text("Data not Available",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                height: 1.5,
-                                fontWeight:
-                                FontWeight.w500,
-                                fontSize:
-                                AddSize.font14,
-                                color: AppTheme
-                                    .blackcolor)),
-                      ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppTheme.backgroundcolor),
+                              child: ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: myWalletController.isPaginationLoading.value ? myWalletController.model.value
+                                      .data!.walletTransactions!.length:myWalletController.model.value
+                                      .data!.walletTransactions!.length+1,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                        if(myWalletController.isPaginationLoading.value)
+                                        {
+                                          return walletTransactions(index, context);
+                                        }else{
+                                          if(index <myWalletController.model.value
+                                              .data!.walletTransactions!
+                                              .length){
+                                            return walletTransactions(index, context);
+                                          }
+                                          else{
+                                            return Center(child:CircularProgressIndicator(),);
+                                          }
+                                        }
+                                      }))
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding20 * 3),
+                              child: Text("Data not Available",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          height: 1.5,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: AddSize.font14,
+                                          color: AppTheme.blackcolor)),
+                            ),
                     ],
                   ),
                 ))
@@ -507,6 +418,92 @@ class _WalletScreenState extends State<WalletScreen> {
         ),
       );
     });
+  }
+
+  Padding walletTransactions(int index, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: AddSize.padding16, vertical: AddSize.padding12),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(children: [
+                Container(
+                  height: AddSize.size45,
+                  width: AddSize.size45,
+                  decoration: BoxDecoration(
+                      color: myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Credit" ||
+                              myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Earn" ||
+                              myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Refund"
+                          ? AppTheme.appPrimaryGreenColor
+                          : AppTheme.appPrimaryPinkColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                      child: myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Credit" ||
+                              myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Earn" ||
+                              myWalletController.model.value.data!
+                                      .walletTransactions![index].status ==
+                                  "Refund"
+                          ? const Icon(
+                              Icons.arrow_downward_sharp,
+                              color: Colors.green,
+                            )
+                          : const Icon(
+                              Icons.arrow_upward_sharp,
+                              color: Colors.red,
+                            )),
+                ),
+                SizedBox(
+                  width: AddSize.size12,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      myWalletController.model.value.data!
+                          .walletTransactions![index].transactionDate
+                          .toString(),
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.w300,
+                          fontSize: AddSize.font12),
+                    ),
+                    Text(
+                      myWalletController
+                          .model.value.data!.walletTransactions![index].remark
+                          .toString(),
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.w500,
+                          fontSize: AddSize.font14),
+                    ),
+                  ],
+                ),
+              ]),
+              Text(
+                '₹${myWalletController.model.value.data!.walletTransactions![index].amount.toString()}',
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                    height: 1.5,
+                    fontWeight: FontWeight.w500,
+                    fontSize: AddSize.font14),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   listdata(image, title, color) {

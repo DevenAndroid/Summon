@@ -706,9 +706,9 @@ class Vendor {
   dynamic otp;
   dynamic otpCreatedAt;
   dynamic otpVerified;
-  String? profileImage;
-  String? latitude;
-  String? longitude;
+  dynamic profileImage;
+  dynamic latitude;
+  dynamic longitude;
   dynamic location;
   dynamic defaultAddress;
   dynamic referalCode;
@@ -723,8 +723,8 @@ class Vendor {
   dynamic asVendorVerified;
   dynamic featuredStore;
   dynamic emailVerifiedAt;
-  int? status;
-  int? isProfileComplete;
+  dynamic status;
+  dynamic isProfileComplete;
   dynamic createdAt;
   dynamic updatedAt;
   dynamic deletedAt;
@@ -903,13 +903,13 @@ class Address {
 class OrderItems {
   dynamic id;
   dynamic productId;
-  String? productName;
+  dynamic productName;
   dynamic variantId;
   dynamic price;
   dynamic itemQty;
   dynamic qty;
   dynamic totalPrice;
-  String? status;
+  dynamic status;
 
   OrderItems(
       {this.id,

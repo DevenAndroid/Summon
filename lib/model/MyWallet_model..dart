@@ -220,10 +220,10 @@ class WalletTransactions {
 }
 
 class Meta {
-  int? totalPage;
-  int? currentPage;
-  int? totalItem;
-  int? perPage;
+  dynamic totalPage;
+  dynamic currentPage;
+  dynamic totalItem;
+  dynamic perPage;
 
   Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
 

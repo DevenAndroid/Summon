@@ -32,7 +32,6 @@ Future<CheckOutDataModel> checkOut(
     Helpers.hideLoader(loader);
     return CheckOutDataModel.fromJson(json.decode(response.body));
   } else {
-    Helpers.createSnackBar(context, "Something went worng");
     Helpers.hideLoader(loader);
     throw Exception(response.body);
   }

@@ -346,6 +346,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                       editProductController.listModelData.add(
                                           ListModel(
                                               qty: "".obs,
+                                              varientId: "".obs,
                                               price: "".obs,
                                               minQty: "".obs,
                                               maxQty: "".obs,
@@ -387,12 +388,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   map['imageOld'] = editProductController
                                       .editModel.value.data!.image
                                       .toString();
+                                  print("Map data...$map");
                                   map['product_variant_id'] =
                                       editProductController.listModelData
-                                          .where((element) =>
-                                              element.varientId!.value != "")
+                                          .where((element) => element.varientId.value != "")
                                           .toList()
-                                          .map((e) => e.varientId!.value)
+                                          .map((e) => e.varientId.value)
                                           .join(",");
                                   print("Map data...$map");
                                   for (var i = 0;
@@ -493,6 +494,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               Expanded(
                 child: RegistrationTextField1(
                   hint: "Market Price",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     editProductController.listModelData[index].marketPrice!.value = value;
                   },
@@ -529,6 +531,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 .listModelData[index].qty.value = value;
                           },
                           hint: "Qty",
+                          keyboardType: TextInputType.number,
                           controller: qty,
                           validator: MultiValidator([
                             RequiredValidator(errorText: "Please enter qty")
@@ -586,7 +589,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               Expanded(
                 child: RegistrationTextField1(
+                  errorMaxLines: 2,
                   hint: "Price",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     editProductController.listModelData[index].price.value =
                         value;
@@ -616,7 +621,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Min",
+                  errorMaxLines: 2,
+                  hint: "Min Qty",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     editProductController.listModelData[index].minQty.value =
                         value;
@@ -632,7 +639,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
               ),
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Max",
+                  hint: "Max Qty",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     editProductController.listModelData[index].maxQty.value =
                         value;

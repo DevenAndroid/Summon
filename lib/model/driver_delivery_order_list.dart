@@ -23,8 +23,8 @@ class DriverDeliveryOrderList {
 }
 
 class Data {
-  int? deliveredOrders;
-  int? pendingOrders;
+  dynamic deliveredOrders;
+  dynamic pendingOrders;
   dynamic username;
   dynamic deliveryMode;
   List<List1>? list;
@@ -97,15 +97,15 @@ class List1 {
 class Location {
   int? id;
   int? userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
-  String? createdAt;
-  String? updatedAt;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic flatNo;
+  dynamic street;
+  dynamic landmark;
+  dynamic addressType;
+  dynamic createdAt;
+  dynamic updatedAt;
   dynamic deletedAt;
 
   Location(

@@ -30,13 +30,13 @@ class MyAddressModel {
 class AddressData {
   int? id;
   int? userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic flatNo;
+  dynamic street;
+  dynamic landmark;
+  dynamic addressType;
 
   AddressData(
       {this.id,

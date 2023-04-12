@@ -35,7 +35,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   final _formKey = GlobalKey<FormState>();
   RxList<ListModel> listModelData = <ListModel>[].obs;
   String? selectedType;
-   bool _isValue = false;
+  bool _isValue = false;
   final List<String> quintityType = [
     "kg",
     "grm",
@@ -164,7 +164,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      vendorAddProductController.vendorAddProductModel.value = VendorAddProductModel();
+      vendorAddProductController.vendorAddProductModel.value =
+          VendorAddProductModel();
       vendorAddProductController.getVendorSearchProductList();
       vendorAddProductController.productNameController.clear();
       vendorAddProductController.skuController.clear();
@@ -200,14 +201,16 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             textAlignVertical: TextAlignVertical.center,
                             textInputAction: TextInputAction.search,
                             onChanged: (value) {
-                              vendorAddProductController.getVendorSearchProductList();
+                              vendorAddProductController
+                                  .getVendorSearchProductList();
                               setState(() {});
                             },
                             decoration: InputDecoration(
                                 filled: true,
                                 suffixIcon: IconButton(
                                   onPressed: () {
-                                    vendorAddProductController.getVendorSearchProductList();
+                                    vendorAddProductController
+                                        .getVendorSearchProductList();
                                     _isValue = true;
                                   },
                                   icon: Icon(
@@ -234,7 +237,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         SizedBox(
                           height: AddSize.size10,
                         ),
-                        vendorAddProductController.vendorSearchProductController.text.isNotEmpty
+                        vendorAddProductController
+                                .vendorSearchProductController.text.isNotEmpty
                             ? Obx(() {
                                 return Container(
                                   decoration: BoxDecoration(
@@ -264,7 +268,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                               .vendorSearchProductController
                                               .clear();
                                           image.value = File("");
-                                          FocusManager.instance.primaryFocus!.unfocus();
+                                          FocusManager.instance.primaryFocus!
+                                              .unfocus();
                                           setState(() {});
                                         },
                                         child: Row(
@@ -350,12 +355,18 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         _isValue == true
                             ? ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate() && listModelData.isNotEmpty) {
+                                  if (_formKey.currentState!.validate() &&
+                                      listModelData.isNotEmpty) {
                                     print("Hello this is map");
 
                                     Map<String, String> map = {};
 
-                                    map['product_id'] = vendorAddProductController.vendorAddProductModel.value.data!.id
+                                    map['product_id'] =
+                                        vendorAddProductController
+                                            .vendorAddProductModel
+                                            .value
+                                            .data!
+                                            .id
                                             .toString();
                                     map['category_id'] =
                                         vendorAddProductController
@@ -369,13 +380,36 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                         .vendorAddProductModel.value.data!.image
                                         .toString();
 
-                                    for (var i = 0; i < listModelData.length; i++) {
-                                      map["variants[$i][market_price]"] = listModelData[i].marketPrice!.value.toString();
-                                      map["variants[$i][variant_qty]"] = listModelData[i].qty.value.toString();
-                                      map["variants[$i][variant_qty_type]"] = listModelData[i].qtyType.value.toString();
-                                      map["variants[$i][min_qty]"] = listModelData[i].minQty.value.toString();
-                                      map["variants[$i][max_qty]"] = listModelData[i].maxQty.value.toString();
-                                      map["variants[$i][price]"] = listModelData[i].price.value.toString();
+                                    for (var i = 0;
+                                        i < listModelData.length;
+                                        i++) {
+                                      map["variants[$i][market_price]"] =
+                                          listModelData[i]
+                                              .marketPrice!
+                                              .value
+                                              .toString();
+                                      map["variants[$i][variant_qty]"] =
+                                          listModelData[i].qty.value.toString();
+                                      map["variants[$i][variant_qty_type]"] =
+                                          listModelData[i]
+                                              .qtyType
+                                              .value
+                                              .toString();
+                                      map["variants[$i][min_qty]"] =
+                                          listModelData[i]
+                                              .minQty
+                                              .value
+                                              .toString();
+                                      map["variants[$i][max_qty]"] =
+                                          listModelData[i]
+                                              .maxQty
+                                              .value
+                                              .toString();
+                                      map["variants[$i][price]"] =
+                                          listModelData[i]
+                                              .price
+                                              .value
+                                              .toString();
                                     }
                                     // print("Map data...$map");
                                     vendorSaveProductRepo(
@@ -432,7 +466,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
       padding: EdgeInsets.symmetric(
           horizontal: AddSize.padding16, vertical: AddSize.padding10),
       child: Obx(() {
-        if (vendorAddProductController.isDataLoading.value && vendorAddProductController.vendorAddProductModel.value.data != null) {
+        if (vendorAddProductController.isDataLoading.value &&
+            vendorAddProductController.vendorAddProductModel.value.data !=
+                null) {
           if (vendorAddProductController.initialSelect == false) {
             listModelData.add(ListModel(
                 qty: "".obs,
@@ -440,6 +476,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 minQty: "".obs,
                 maxQty: "".obs,
                 qtyType: "".obs,
+                varientId: "".obs,
                 marketPrice: "".obs));
             vendorAddProductController.productNameController.text =
                 (vendorAddProductController
@@ -553,12 +590,15 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                                   imageUrl: vendorAddProductController
                                               .vendorAddProductModel
                                               .value
-                                              .data != null
+                                              .data !=
+                                          null
                                       ? vendorAddProductController
                                               .vendorAddProductModel
                                               .value
                                               .data!
-                                              .image ?? "".toString() : "",
+                                              .image ??
+                                          "".toString()
+                                      : "",
                                   errorWidget: (_, __, ___) => Icon(
                                     Icons.file_upload_outlined,
                                     size: AddSize.size30,
@@ -641,6 +681,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         listModelData.add(ListModel(
                             qty: "".obs,
                             price: "".obs,
+                            varientId: "".obs,
                             minQty: "".obs,
                             maxQty: "".obs,
                             qtyType: "".obs,
@@ -675,7 +716,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
     final TextEditingController price = TextEditingController(text: price1);
     final TextEditingController minQty = TextEditingController(text: minQty1);
     final TextEditingController maxQty = TextEditingController(text: maxQty1);
-    final TextEditingController marketPrice = TextEditingController(text: marketPrice1);
+    final TextEditingController marketPrice =
+        TextEditingController(text: marketPrice1);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(
@@ -686,6 +728,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 child: RegistrationTextField1(
                   hint: "Market Price",
                   lableText: "Market Price",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     listModelData[index].marketPrice!.value = value;
                   },
@@ -696,8 +739,9 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               ),
               IconButton(
                   onPressed: () {
-                    listModelData.length == 1 ? null:
-                    listModelData.removeAt(index);
+                    listModelData.length == 1
+                        ? null
+                        : listModelData.removeAt(index);
                     setState(() {});
                   },
                   icon: const Icon(
@@ -734,6 +778,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                           },
                           hint: "Qty",
                           lableText: "Qty",
+                          keyboardType: TextInputType.number,
                           controller: qty,
                           validator: MultiValidator([
                             RequiredValidator(errorText: "Please enter qty")
@@ -790,6 +835,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                 child: RegistrationTextField1(
                   hint: "Price",
                   lableText: "Price",
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     listModelData[index].price.value = value;
                   },
@@ -808,7 +854,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               Expanded(
                 child: RegistrationTextField1(
                     lableText: "Min QTY",
-                    hint: "Min",
+                    hint: "Min Qty",
+                    keyboardType: TextInputType.number,
                     errorMaxLines: 2,
                     onChanged: (value) {
                       listModelData[index].minQty.value = value;
@@ -836,7 +883,8 @@ class _AddVendorProductState extends State<AddVendorProduct> {
               Expanded(
                 child: RegistrationTextField1(
                     lableText: "Max QTY",
-                    hint: "Max",
+                    hint: "Max Qty",
+                    keyboardType: TextInputType.number,
                     errorMaxLines: 2,
                     onChanged: (value) {
                       listModelData[index].maxQty.value = value;
@@ -852,8 +900,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                         return "Max Qty should be greater than Min Qty";
                       }
                       return null;
-                    }
-                    ),
+                    }),
               ),
             ],
           ),

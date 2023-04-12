@@ -254,6 +254,7 @@ class RegistrationTextField2 extends StatelessWidget {
         LengthLimitingTextInputFormatter(length),
       ],
       decoration: InputDecoration(
+        errorMaxLines: 2,
           hintText: hint,
           labelText: lableText,
           focusColor: AppTheme.primaryColor,
