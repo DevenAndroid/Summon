@@ -138,9 +138,9 @@ class MyWalletModel {
 }
 
 class Data {
-  int? totalAmount;
-  int? withdrawalbleAmount;
-  int? unutilisedAmount;
+ dynamic totalAmount;
+ dynamic withdrawalbleAmount;
+ dynamic unutilisedAmount;
   List<WalletTransactions>? walletTransactions;
 
   Data(
@@ -175,14 +175,14 @@ class Data {
 }
 
 class WalletTransactions {
-  int? id;
-  int? userId;
-  int? previousBalance;
-  int? currentBalance;
-  int? amount;
-  String? status;
-  String? remark;
-  String? transactionDate;
+  dynamic id;
+  dynamic userId;
+  dynamic previousBalance;
+  dynamic currentBalance;
+  dynamic amount;
+  dynamic status;
+  dynamic remark;
+  dynamic transactionDate;
 
   WalletTransactions(
       {this.id,
