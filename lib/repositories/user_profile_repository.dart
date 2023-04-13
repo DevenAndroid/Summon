@@ -18,7 +18,7 @@ Future<ProfileModel> userProfileData() async {
   print(user.authToken);
   http.Response response =
       await http.get(Uri.parse(ApiUrl.userProfileUrl), headers: headers);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     print("<<<<<<<UserProfileData from repository=======>${response.body}");
     return ProfileModel.fromJson(json.decode(response.body));
   } else {

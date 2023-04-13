@@ -27,7 +27,7 @@ Future<WithdrawalRequestModel> withdrawalRequestRepo(amount, context) async {
     final response = await http.post(Uri.parse(ApiUrl.withdrawalRequestUrl),
         body: jsonEncode(map), headers: headers);
     log("withdrawal Request Repo...${response.body}");
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideLoader(loader);
       log("withdrawal Request Repo...${response.body}");
       return WithdrawalRequestModel.fromJson(jsonDecode(response.body));

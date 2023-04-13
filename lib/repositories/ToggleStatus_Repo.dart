@@ -24,7 +24,7 @@ Future<ModelStatus> toggleStatusRepo({required id}) async {
   log("Toggle Status Repository...${response.body}");
   print("${ApiUrl.toggleStatusUrl}/$id");
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     log("Toggle Status Repository...${response.body}");
     return ModelStatus.fromJson(jsonDecode(response.body));
   } else {

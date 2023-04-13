@@ -30,7 +30,7 @@ Future<ModelCommonResponse> removeCartItemRepo(
         body: jsonEncode(map), headers: headers);
     Helpers.hideLoader(loader);
     print("Remove Cart Data...${response.body}");
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideLoader(loader);
       print("Remove Cart Data...${response.body}");
       return ModelCommonResponse.fromJson(jsonDecode(response.body));

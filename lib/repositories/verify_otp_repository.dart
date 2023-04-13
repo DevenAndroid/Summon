@@ -22,7 +22,7 @@ Future<ModelVerifyOtp> verifyOtp(
   http.Response response = await http.post(Uri.parse(ApiUrl.otpApi),
       body: jsonEncode(map), headers: headers);
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     print("<<<<<<<otpData from repository=======>${response.body}");
     return ModelVerifyOtp.fromJson(json.decode(response.body));
   } else {

@@ -33,7 +33,7 @@ Future<AddMoneyModel> addMoneyRepo(
         body: jsonEncode(map), headers: headers);
     Helpers.hideLoader(loader);
     log("money Data...${response.body}");
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideShimmer(loader);
       log("money Data...${response.body}");
       return AddMoneyModel.fromJson(jsonDecode(response.body));

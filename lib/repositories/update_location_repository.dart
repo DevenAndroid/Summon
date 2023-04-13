@@ -28,7 +28,7 @@ Future<ModelCommonResponse> updateLocation(
   http.Response response = await http.post(Uri.parse(ApiUrl.updateLocationUrl),
       body: jsonEncode(map), headers: headers);
   log(response.body.toString());
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {
     throw Exception(response.body);

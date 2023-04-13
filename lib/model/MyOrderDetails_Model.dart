@@ -1156,7 +1156,7 @@ class Data {
   dynamic grandTotal;
   User? user;
   Vendor? vendor;
-  dynamic driver;
+  Driver? driver;
   Address? address;
   dynamic orderType;
   dynamic deliveryStatus;
@@ -1204,7 +1204,7 @@ class Data {
     vendor =
         json['vendor'] != null ? new Vendor.fromJson(json['vendor']) : null;
     driver =
-        json['driver'] != null ? new Vendor.fromJson(json['driver']) : null;
+        json['driver'] != null ? new Driver.fromJson(json['driver']) : null;
     address =
         json['address'] != null ? new Address.fromJson(json['address']) : null;
     orderType = json['order_type'];
@@ -1243,7 +1243,9 @@ class Data {
     if (this.vendor != null) {
       data['vendor'] = this.vendor!.toJson();
     }
-    data['driver'] = this.driver;
+    if (this.vendor != null) {
+      data['driver'] = this.vendor!.toJson();
+    }
     if (this.address != null) {
       data['address'] = this.address!.toJson();
     }
@@ -1258,8 +1260,8 @@ class Data {
 }
 
 class Tax1 {
-  String? type;
-  double? amount;
+  dynamic type;
+  dynamic amount;
 
   Tax1({this.type, this.amount});
 
@@ -1280,19 +1282,19 @@ class User {
   int? id;
   bool? isDriver;
   bool? isVendor;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? name;
-  String? email;
-  String? phone;
-  String? walletBalance;
-  String? earnedBalance;
-  String? profileImage;
-  String? referalCode;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  int? deliveryRange;
+  dynamic deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -1369,23 +1371,116 @@ class User {
   }
 }
 
+class Driver {
+  int? id;
+  bool? isDriver;
+  bool? isVendor;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic walletBalance;
+  dynamic earnedBalance;
+  dynamic profileImage;
+  dynamic referalCode;
+  bool? isDriverOnline;
+  bool? isVendorOnline;
+  dynamic deliveryRange;
+  bool? selfDelivery;
+  bool? asDriverVerified;
+  bool? asVendorVerified;
+  bool? isProfileComplete;
+
+  Driver(
+      {this.id,
+        this.isDriver,
+        this.isVendor,
+        this.latitude,
+        this.longitude,
+        this.location,
+        this.name,
+        this.email,
+        this.phone,
+        this.walletBalance,
+        this.earnedBalance,
+        this.profileImage,
+        this.referalCode,
+        this.isDriverOnline,
+        this.isVendorOnline,
+        this.deliveryRange,
+        this.selfDelivery,
+        this.asDriverVerified,
+        this.asVendorVerified,
+        this.isProfileComplete});
+
+  Driver.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    isDriver = json['is_driver'];
+    isVendor = json['is_vendor'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    location = json['location'];
+    name = json['name'];
+    email = json['email'];
+    phone = json['phone'];
+    walletBalance = json['wallet_balance'];
+    earnedBalance = json['earned_balance'];
+    profileImage = json['profile_image'];
+    referalCode = json['referal_code'];
+    isDriverOnline = json['is_driver_online'];
+    isVendorOnline = json['is_vendor_online'];
+    deliveryRange = json['delivery_range'];
+    selfDelivery = json['self_delivery'];
+    asDriverVerified = json['as_driver_verified'];
+    asVendorVerified = json['as_vendor_verified'];
+    isProfileComplete = json['is_profile_complete'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['is_driver'] = this.isDriver;
+    data['is_vendor'] = this.isVendor;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['location'] = this.location;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['wallet_balance'] = this.walletBalance;
+    data['earned_balance'] = this.earnedBalance;
+    data['profile_image'] = this.profileImage;
+    data['referal_code'] = this.referalCode;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['delivery_range'] = this.deliveryRange;
+    data['self_delivery'] = this.selfDelivery;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['is_profile_complete'] = this.isProfileComplete;
+    return data;
+  }
+}
+
 class Vendor {
   int? id;
-  String? storeName;
-  String? phone;
-  String? storeImage;
-  String? address;
-  String? location;
-  String? latitude;
-  String? longitude;
-  String? aadharNo;
-  String? panNo;
-  String? deliveryRange;
-  String? bankStatement;
-  String? panCardImage;
-  String? aadharFrontImage;
-  String? aadharBackImage;
-  String? remark;
+  dynamic storeName;
+  dynamic phone;
+  dynamic storeImage;
+  dynamic address;
+  dynamic location;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic aadharNo;
+  dynamic panNo;
+  dynamic deliveryRange;
+  dynamic bankStatement;
+  dynamic panCardImage;
+  dynamic aadharFrontImage;
+  dynamic aadharBackImage;
+  dynamic remark;
   bool? status;
 
   Vendor(
@@ -1453,16 +1548,16 @@ class Vendor {
 class Address {
   int? id;
   int? userId;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? flatNo;
-  String? street;
-  String? landmark;
-  String? addressType;
-  String? createdAt;
-  String? updatedAt;
-  Null? deletedAt;
+  dynamic  latitude;
+  dynamic  longitude;
+  dynamic  location;
+  dynamic  flatNo;
+  dynamic  street;
+  dynamic  landmark;
+  dynamic  addressType;
+  dynamic  createdAt;
+  dynamic  updatedAt;
+  dynamic deletedAt;
 
   Address(
       {this.id,
@@ -1514,13 +1609,13 @@ class Address {
 class OrderItems {
   int? id;
   int? productId;
-  String? productName;
-  int? variantId;
-  int? price;
-  String? itemQty;
-  int? qty;
-  int? totalPrice;
-  String? status;
+  dynamic productName;
+  dynamic variantId;
+  dynamic price;
+  dynamic itemQty;
+  dynamic qty;
+  dynamic totalPrice;
+  dynamic status;
   OrderItems(
       {this.id,
       this.productId,

@@ -26,7 +26,7 @@ class MyWalletController extends GetxController {
   RxBool isDataLoading = false.obs;
   RxBool loadMore = true.obs;
   RxInt page = 1.obs;
-  RxInt pagination = 20.obs;
+  RxInt pagination = 40.obs;
   RxString userType = "".obs;
   Rx<MyWalletModel> model = MyWalletModel().obs;
   Future<dynamic> getWalletData({bool? isFirstTime = false, context}) async {

@@ -218,7 +218,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                     hint: "Store Address",
                                     validator: MultiValidator([
                                       RequiredValidator(
-                                          errorText: 'Store name is required')
+                                          errorText: 'Store address is required')
                                     ])),
                                 SizedBox(
                                   height: AddSize.size12,
@@ -592,27 +592,29 @@ class _VendorInformationState extends State<VendorInformation> {
                                 ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        Map<String, String> mapData = {
+                                          'store_name':
+                                          vendorInformationController
+                                              .storeName.text
+                                              .trim(),
+                                          'location':
+                                          vendorInformationController
+                                              .locationController.text
+                                              .trim()
+                                        };
                                         vendorInformationEditRepo(
-                                                storeName:
-                                                    vendorInformationController
-                                                        .storeName.text,
-                                                location:
-                                                    vendorInformationController
-                                                        .locationController
-                                                        .text,
-                                                context: context)
+                                            context: context,
+                                            mapData: mapData,
+                                            fieldName1: "store_image",
+                                            file1:image.value)
                                             .then((value) {
-                                          showToast(value.message.toString());
+                                          showToast(value.message);
                                           if (value.status == true) {
-                                            homeController.getData();
-                                            storeController.getData();
+                                            vendorInformationController.getVendorInformation();
+                                          } else {
+                                            showToast(value.message);
                                           }
                                         });
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                                        Get.back();
-                                        controller.onItemTap(2);
                                       } else {
                                         showValidation.value = true;
                                         if (vendorInformationController

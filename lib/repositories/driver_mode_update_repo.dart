@@ -20,7 +20,7 @@ Future<DeliveryModeUpdateModel> deliveryModeUpdateRepo() async {
   http.Response response =
   await http.get(Uri.parse(ApiUrl.driverDeliveryModeUpdateUrl), headers: headers);
   log("<<<<<<<driverDeliveryModeUpdate from repository=======>${response.body}");
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     log("<<<<<<<driverDeliveryModeUpdate from repository=======>${response.body}");
     return DeliveryModeUpdateModel.fromJson(json.decode(response.body));
   } else {
