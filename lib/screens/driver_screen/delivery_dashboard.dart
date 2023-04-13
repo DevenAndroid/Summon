@@ -1,14 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
-import 'package:fresh2_arrive/screens/driver_screen/delivered_successfully.dart';
-import 'package:fresh2_arrive/screens/driver_screen/driver_delivery_details.dart';
 import 'package:fresh2_arrive/screens/driver_screen/order_decline_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import '../../controller/MyOrder_Details_Controller.dart';
 import '../../controller/assigned_order_list_controller.dart';
 import '../../controller/delivery_order_list_controller.dart';
 import '../../controller/main_home_controller.dart';
@@ -470,7 +466,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                         MainAxisAlignment.start,
                                                     children: [
                                                       Text(
-                                                        "Location:",
+                                                        "Customer Address:",
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .headline5!
@@ -507,24 +503,46 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                               .font14),
                                                             ):Text(""),
                                                           ),
-                                                          Container(
-                                                            height:
-                                                                AddSize.size40,
-                                                            width:
-                                                                AddSize.size40,
-                                                            decoration: const ShapeDecoration(
-                                                                color: AppTheme
-                                                                    .newprimaryColor,
-                                                                shape:
-                                                                    CircleBorder()),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .gps_fixed_outlined,
-                                                              color: AppTheme
-                                                                  .primaryColor,
-                                                              size: AddSize
-                                                                  .size20,
-                                                            ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(height: AddSize.size10,),
+                                                      Text(
+                                                        "Store Address:",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headline5!
+                                                            .copyWith(
+                                                            color: AppTheme
+                                                                .blackcolor,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            fontSize: AddSize
+                                                                .font14),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          Expanded(
+                                                            child: item.location != null ?Text(
+                                                              // "",
+                                                              "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
+                                                              style: Theme.of(
+                                                                  context)
+                                                                  .textTheme
+                                                                  .headline5!
+                                                                  .copyWith(
+                                                                  color: AppTheme
+                                                                      .lightblack,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                                  fontSize:
+                                                                  AddSize
+                                                                      .font14),
+                                                            ):Text(""),
                                                           ),
                                                         ],
                                                       ),

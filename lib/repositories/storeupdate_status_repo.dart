@@ -17,19 +17,19 @@ Future<ModelStatus> storeUpdateStatusRepo() async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
 
-  // try {
+   try {
   final response =
       await http.get(Uri.parse(ApiUrl.storeUpdateStatusUrl), headers: headers);
   log("Store update Status Repository...${response.body}");
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     log("Store update Status Repository...${response.body}");
     return ModelStatus.fromJson(jsonDecode(response.body));
   } else {
     return ModelStatus.fromJson(jsonDecode(response.body));
   }
-  // }
-  // catch (e) {
-  //   throw Exception(e.toString());
-  // }
+  }
+  catch (e) {
+    throw Exception(e.toString());
+  }
 }

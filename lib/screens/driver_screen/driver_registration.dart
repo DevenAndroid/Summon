@@ -28,7 +28,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   final TextEditingController dateOfBirth = TextEditingController();
   final TextEditingController vehicleNumber = TextEditingController();
   final TextEditingController licenceNumber = TextEditingController();
-  Rx<File> image = File("").obs;
+  // Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
   Rx<File> image3 = File("").obs;
@@ -176,60 +176,112 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                           ),
                           Obx(() {
                             return Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding16,
-                                    vertical: AddSize.padding16),
-                                width: AddSize.screenWidth,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: !checkValidation(
-                                              showValidation.value,
-                                              image1.value.path == "")
-                                          ? Colors.grey.shade300
-                                          : Colors.red,
-                                    )),
-                                child: image1.value.path == ""
-                                    ? Column(
-                                        children: [
-                                          const Text("Upload"),
-                                          SizedBox(height: AddSize.size10),
-                                          GestureDetector(
-                                            onTap: () {
-                                              NewHelper()
-                                                  .addFilePicker()
-                                                  .then((value) {
-                                                image1.value = value;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey.shade100,
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  border: Border.all(
-                                                      color: Colors
-                                                          .grey.shade300)),
-                                              child: Center(
-                                                  child: Image(
-                                                      height: AddSize.size25,
-                                                      width: AddSize.size25,
-                                                      color:
-                                                          Colors.grey.shade500,
-                                                      image: const AssetImage(
-                                                          AppAssets
-                                                              .camaraImage))),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox(
-                                        width: double.maxFinite,
-                                        height: AddSize.size100,
-                                        child: Image.file(image1.value)));
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding16,
+                                  vertical: AddSize.padding16),
+                              width: AddSize.screenWidth,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade50,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: !checkValidation(
+                                        showValidation.value,
+                                        image1.value.path == "")
+                                        ? Colors.grey.shade300
+                                        : Colors.red,
+                                  )),
+                              child: image1.value.path == ""
+                                  ?
+                              Column(
+                                children: [
+                                  Text(
+                                    "Upload",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      NewHelper()
+                                          .addFilePicker()
+                                          .then((value) {
+                                        image1.value = value;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: AddSize.size45,
+                                      width: AddSize.size45,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade50,
+                                          borderRadius:
+                                          BorderRadius.circular(30),
+                                          border: Border.all(
+                                              color: Colors
+                                                  .grey.shade300)),
+                                      child: Center(
+                                          child: Image(
+                                              height: AddSize.size25,
+                                              width: AddSize.size25,
+                                              color:
+                                              Colors.grey.shade500,
+                                              image: const AssetImage(
+                                                  AppAssets
+                                                      .camaraImage))),
+                                    ),
+                                  ),
+                                ],
+                              )
+
+                                  : Stack(
+                                children: [
+                                  SizedBox(
+                                      width: double.maxFinite,
+                                      height: AddSize.size100,
+                                      child: Image.file(image1.value)),
+
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        NewHelper()
+                                            .addFilePicker()
+                                            .then((value) {
+                                          image1.value = value;
+                                        });
+                                      },
+                                      child: Container(
+                                        height: AddSize.size30,
+                                        width: AddSize.size30,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 1,
+                                                color: AppTheme
+                                                    .backgroundcolor),
+                                            color:
+                                            AppTheme.primaryColor,
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                50)),
+                                        child: const Center(
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: AppTheme
+                                                  .backgroundcolor,
+                                              size: 20,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           }),
                           SizedBox(
                             height: AddSize.padding12,
@@ -250,127 +302,221 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             children: [
                               Obx(() {
                                 return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth * .38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                                  showValidation.value,
-                                                  image5.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image5.value.path == ""
-                                        ? Column(
-                                            children: [
-                                              const Text("Front"),
-                                              SizedBox(
-                                                height: AddSize.size10,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  NewHelper()
-                                                      .addFilePicker()
-                                                      .then((value) {
-                                                    image5.value = value;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.grey.shade100,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                          color: Colors
-                                                              .grey.shade300)),
-                                                  child: Center(
-                                                      child: Image(
-                                                          height:
-                                                              AddSize.size25,
-                                                          width: AddSize.size25,
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          image: const AssetImage(
-                                                              AppAssets
-                                                                  .camaraImage))),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image5.value)));
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding16,
+                                      vertical: AddSize.padding16),
+                                  width: AddSize.screenWidth * .38,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: !checkValidation(
+                                            showValidation.value,
+                                            image5.value.path == "")
+                                            ? Colors.grey.shade300
+                                            : Colors.red,
+                                      )),
+                                  child: image5.value.path == ""
+                                      ?
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Front",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: AddSize.size10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          NewHelper()
+                                              .addFilePicker()
+                                              .then((value) {
+                                            image5.value = value;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300)),
+                                          child: Center(
+                                              child: Image(
+                                                  height: AddSize.size25,
+                                                  width: AddSize.size25,
+                                                  color:
+                                                  Colors.grey.shade500,
+                                                  image: const AssetImage(
+                                                      AppAssets
+                                                          .camaraImage))),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+
+                                      : Stack(
+                                    children: [
+                                      SizedBox(
+                                          width: double.maxFinite,
+                                          height: AddSize.size100,
+                                          child: Image.file(image5.value)),
+
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            NewHelper()
+                                                .addFilePicker()
+                                                .then((value) {
+                                              image5.value = value;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: AddSize.size30,
+                                            width: AddSize.size30,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: AppTheme
+                                                        .backgroundcolor),
+                                                color:
+                                                AppTheme.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    50)),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                  size: 20,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }),
                               Obx(() {
                                 return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth * 0.38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                                  showValidation.value,
-                                                  image6.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image6.value.path == ""
-                                        ? Column(
-                                            children: [
-                                              const Text("Back"),
-                                              SizedBox(
-                                                height: AddSize.size10,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  NewHelper()
-                                                      .addFilePicker()
-                                                      .then((value) {
-                                                    image6.value = value;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.grey.shade100,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                          color: Colors
-                                                              .grey.shade300)),
-                                                  child: Center(
-                                                      child: Image(
-                                                          height:
-                                                              AddSize.size25,
-                                                          width: AddSize.size25,
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          image: const AssetImage(
-                                                              AppAssets
-                                                                  .camaraImage))),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image6.value)));
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding16,
+                                      vertical: AddSize.padding16),
+                                  width: AddSize.screenWidth * .38,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: !checkValidation(
+                                            showValidation.value,
+                                            image6.value.path == "")
+                                            ? Colors.grey.shade300
+                                            : Colors.red,
+                                      )),
+                                  child: image6.value.path == ""
+                                      ?
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Back",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: AddSize.size10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          NewHelper()
+                                              .addFilePicker()
+                                              .then((value) {
+                                            image6.value = value;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300)),
+                                          child: Center(
+                                              child: Image(
+                                                  height: AddSize.size25,
+                                                  width: AddSize.size25,
+                                                  color:
+                                                  Colors.grey.shade500,
+                                                  image: const AssetImage(
+                                                      AppAssets
+                                                          .camaraImage))),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+
+                                      : Stack(
+                                    children: [
+                                      SizedBox(
+                                          width: double.maxFinite,
+                                          height: AddSize.size100,
+                                          child: Image.file(image6.value)),
+
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            NewHelper()
+                                                .addFilePicker()
+                                                .then((value) {
+                                              image6.value = value;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: AddSize.size30,
+                                            width: AddSize.size30,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: AppTheme
+                                                        .backgroundcolor),
+                                                color:
+                                                AppTheme.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    50)),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                  size: 20,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }),
                             ],
                           ),
@@ -390,62 +536,112 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                           ),
                           Obx(() {
                             return Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding16,
-                                    vertical: AddSize.padding16),
-                                width: AddSize.screenWidth,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: !checkValidation(
-                                              showValidation.value,
-                                              image2.value.path == "")
-                                          ? Colors.grey.shade300
-                                          : Colors.red,
-                                    )),
-                                child: image2.value.path == ""
-                                    ? Column(
-                                        children: [
-                                          const Text("Front"),
-                                          SizedBox(
-                                            height: AddSize.size10,
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              NewHelper()
-                                                  .addFilePicker()
-                                                  .then((value) {
-                                                image2.value = value;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey.shade100,
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  border: Border.all(
-                                                      color: Colors
-                                                          .grey.shade300)),
-                                              child: Center(
-                                                  child: Image(
-                                                      height: AddSize.size25,
-                                                      width: AddSize.size25,
-                                                      color:
-                                                          Colors.grey.shade500,
-                                                      image: const AssetImage(
-                                                          AppAssets
-                                                              .camaraImage))),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : SizedBox(
-                                        width: double.maxFinite,
-                                        height: AddSize.size100,
-                                        child: Image.file(image2.value)));
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding16,
+                                  vertical: AddSize.padding16),
+                              width: AddSize.screenWidth,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade50,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: !checkValidation(
+                                        showValidation.value,
+                                        image2.value.path == "")
+                                        ? Colors.grey.shade300
+                                        : Colors.red,
+                                  )),
+                              child: image2.value.path == ""
+                                  ?
+                              Column(
+                                children: [
+                                  Text(
+                                    "Front",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      NewHelper()
+                                          .addFilePicker()
+                                          .then((value) {
+                                        image2.value = value;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: AddSize.size45,
+                                      width: AddSize.size45,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade50,
+                                          borderRadius:
+                                          BorderRadius.circular(30),
+                                          border: Border.all(
+                                              color: Colors
+                                                  .grey.shade300)),
+                                      child: Center(
+                                          child: Image(
+                                              height: AddSize.size25,
+                                              width: AddSize.size25,
+                                              color:
+                                              Colors.grey.shade500,
+                                              image: const AssetImage(
+                                                  AppAssets
+                                                      .camaraImage))),
+                                    ),
+                                  ),
+                                ],
+                              )
+
+                                  : Stack(
+                                children: [
+                                  SizedBox(
+                                      width: double.maxFinite,
+                                      height: AddSize.size100,
+                                      child: Image.file(image2.value)),
+
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        NewHelper()
+                                            .addFilePicker()
+                                            .then((value) {
+                                          image2.value = value;
+                                        });
+                                      },
+                                      child: Container(
+                                        height: AddSize.size30,
+                                        width: AddSize.size30,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 1,
+                                                color: AppTheme
+                                                    .backgroundcolor),
+                                            color:
+                                            AppTheme.primaryColor,
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                50)),
+                                        child: const Center(
+                                            child: Icon(
+                                              Icons.edit,
+                                              color: AppTheme
+                                                  .backgroundcolor,
+                                              size: 20,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
                           }),
                           SizedBox(
                             height: AddSize.padding12,
@@ -466,127 +662,221 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             children: [
                               Obx(() {
                                 return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth * .38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                                  showValidation.value,
-                                                  image3.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image3.value.path == ""
-                                        ? Column(
-                                            children: [
-                                              const Text("Front"),
-                                              SizedBox(
-                                                height: AddSize.size10,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  NewHelper()
-                                                      .addFilePicker()
-                                                      .then((value) {
-                                                    image3.value = value;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.grey.shade100,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                          color: Colors
-                                                              .grey.shade300)),
-                                                  child: Center(
-                                                      child: Image(
-                                                          height:
-                                                              AddSize.size25,
-                                                          width: AddSize.size25,
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          image: const AssetImage(
-                                                              AppAssets
-                                                                  .camaraImage))),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image3.value)));
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding16,
+                                      vertical: AddSize.padding16),
+                                  width: AddSize.screenWidth * .38,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: !checkValidation(
+                                            showValidation.value,
+                                            image3.value.path == "")
+                                            ? Colors.grey.shade300
+                                            : Colors.red,
+                                      )),
+                                  child: image3.value.path == ""
+                                      ?
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Front",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: AddSize.size10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          NewHelper()
+                                              .addFilePicker()
+                                              .then((value) {
+                                            image3.value = value;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300)),
+                                          child: Center(
+                                              child: Image(
+                                                  height: AddSize.size25,
+                                                  width: AddSize.size25,
+                                                  color:
+                                                  Colors.grey.shade500,
+                                                  image: const AssetImage(
+                                                      AppAssets
+                                                          .camaraImage))),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+
+                                      : Stack(
+                                    children: [
+                                      SizedBox(
+                                          width: double.maxFinite,
+                                          height: AddSize.size100,
+                                          child: Image.file(image3.value)),
+
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            NewHelper()
+                                                .addFilePicker()
+                                                .then((value) {
+                                              image3.value = value;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: AddSize.size30,
+                                            width: AddSize.size30,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: AppTheme
+                                                        .backgroundcolor),
+                                                color:
+                                                AppTheme.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    50)),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                  size: 20,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }),
                               Obx(() {
                                 return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth * 0.38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                                  showValidation.value,
-                                                  image4.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image4.value.path == ""
-                                        ? Column(
-                                            children: [
-                                              const Text("Back"),
-                                              SizedBox(
-                                                height: AddSize.size10,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  NewHelper()
-                                                      .addFilePicker()
-                                                      .then((value) {
-                                                    image4.value = value;
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          Colors.grey.shade100,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              30),
-                                                      border: Border.all(
-                                                          color: Colors
-                                                              .grey.shade300)),
-                                                  child: Center(
-                                                      child: Image(
-                                                          height:
-                                                              AddSize.size25,
-                                                          width: AddSize.size25,
-                                                          color: Colors
-                                                              .grey.shade500,
-                                                          image: const AssetImage(
-                                                              AppAssets
-                                                                  .camaraImage))),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        : SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image4.value)));
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding16,
+                                      vertical: AddSize.padding16),
+                                  width: AddSize.screenWidth *.38,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade50,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: !checkValidation(
+                                            showValidation.value,
+                                            image4.value.path == "")
+                                            ? Colors.grey.shade300
+                                            : Colors.red,
+                                      )),
+                                  child: image4.value.path == ""
+                                      ?
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Back",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6!
+                                            .copyWith(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      SizedBox(
+                                        height: AddSize.size10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          NewHelper()
+                                              .addFilePicker()
+                                              .then((value) {
+                                            image4.value = value;
+                                          });
+                                        },
+                                        child: Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300)),
+                                          child: Center(
+                                              child: Image(
+                                                  height: AddSize.size25,
+                                                  width: AddSize.size25,
+                                                  color:
+                                                  Colors.grey.shade500,
+                                                  image: const AssetImage(
+                                                      AppAssets
+                                                          .camaraImage))),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+
+                                      : Stack(
+                                    children: [
+                                      SizedBox(
+                                          width: double.maxFinite,
+                                          height: AddSize.size100,
+                                          child: Image.file(image4.value)),
+
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            NewHelper()
+                                                .addFilePicker()
+                                                .then((value) {
+                                              image4.value = value;
+                                            });
+                                          },
+                                          child: Container(
+                                            height: AddSize.size30,
+                                            width: AddSize.size30,
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 1,
+                                                    color: AppTheme
+                                                        .backgroundcolor),
+                                                color:
+                                                AppTheme.primaryColor,
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    50)),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.edit,
+                                                  color: AppTheme
+                                                      .backgroundcolor,
+                                                  size: 20,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
                               }),
                             ],
                           ),

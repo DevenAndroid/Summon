@@ -30,7 +30,7 @@ Future<AssignedOrderList> driverUpdateOrder(
   http.Response response = await http.post(Uri.parse(ApiUrl.driverOrderStatusUpdateUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return AssignedOrderList.fromJson(json.decode(response.body));
   } else {

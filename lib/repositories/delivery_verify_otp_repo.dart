@@ -30,7 +30,7 @@ Future<ModelCommonResponse> deliveryOtpVerify(
   http.Response response = await http.post(Uri.parse(ApiUrl.deliveryVerifyOtpUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 || response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {
@@ -58,7 +58,7 @@ Future<ModelCommonResponse> resendDeliveryOtpVerify(
   http.Response response = await http.post(Uri.parse(ApiUrl.resendDeliveryOtpUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 || response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {

@@ -321,22 +321,38 @@ class _StoreScreenState extends State<StoreScreen> {
                                     style: TextStyle(fontSize: AddSize.font16),
                                     textAlignVertical: TextAlignVertical.center,
                                     textInputAction: TextInputAction.search,
-                                    // onChanged: (value) => {
-                                    //   // searchListData(searchController.text).then((value) {
-                                    //   //   searchControllerList.searchList.value = value;
-                                    //   // }),
-                                    //   setState(() {})
-                                    // },
+                                    onChanged: (value) => {
+                                      // searchListData(searchController.text).then((value) {
+                                      //   searchControllerList.searchList.value = value;
+                                      // }),
+                                      setState(() {})
+                                    },
                                     onSubmitted: (value){
                                       storeController.getStoreDetails(isFirstTime: true);
                                     },
                                     decoration: InputDecoration(
                                         filled: true,
-                                        suffixIcon: GestureDetector(
-                                          onTap: (){
-                                            storeController.getStoreDetails(isFirstTime: true);
-                                          },
-                                            child: Icon(Icons.search,color: AppTheme.primaryColor,)),
+                                        suffixIcon: Padding(
+                                          padding: const EdgeInsets.only(right: 8.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: (){
+                                                  storeController.getStoreDetails(isFirstTime: true);
+                                                },
+                                                  child: Icon(Icons.search,color: AppTheme.primaryColor,)),
+                                              storeController.searchController.text.isNotEmpty?
+                                              GestureDetector(
+                                                  onTap: (){
+                                                    storeController.searchController.clear();
+                                                    storeController.getStoreDetails(isFirstTime: true);
+                                                  },
+                                                  child: Icon(Icons.clear,color: AppTheme.primaryColor,)):SizedBox(),
+                                            ],
+                                          ),
+                                        ),
                                         fillColor: Colors.white,
                                         contentPadding: EdgeInsets.symmetric(
                                             horizontal: AddSize.padding20,
@@ -928,8 +944,7 @@ class _StoreScreenState extends State<StoreScreen> {
   }
 
   Container products(double width, double height, int index, BuildContext context) {
-    return Container(
-                                        decoration: BoxDecoration(
+    return Container(decoration: BoxDecoration(
                                             borderRadius:
                                             BorderRadius.circular(10)),
                                         // height: height * .23,

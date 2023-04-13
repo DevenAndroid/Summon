@@ -241,7 +241,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                               tabs: const [
                                 Tab(
                                   child: Text(
-                                    "Driver  Detail",
+                                    "Customer Detail",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16,
@@ -316,7 +316,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                 .start,
                                             children: [
                                               Text(
-                                                "Diver Name",
+                                                "Customer Name",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -330,7 +330,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                         .font14),
                                               ),
                                               Text(
-                                                (myOrderDetailsController.model.value.data!.driver!.name ?? "").toString(),
+                                                (myOrderDetailsController.model.value.data!.user!.name ?? "").toString(),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -373,7 +373,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                             CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Driver Number",
+                                                "Customer Number",
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -386,7 +386,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     AddSize.font14),
                                               ),
                                               Text(
-                                                (myOrderDetailsController.model.value.data!.driver!.phone ?? "").toString(),
+                                                (myOrderDetailsController.model.value.data!.user!.phone ?? "").toString(),
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -402,7 +402,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         ]),
                                         GestureDetector(
                                           onTap: (){
-                                            _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.driver!.phone ?? ""}".toString());
+                                            _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.user!.phone ?? ""}".toString());
                                           },
                                           child: Container(
                                               height: AddSize.size45,
@@ -432,7 +432,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     .start,
                                                 children: [
                                                   Text(
-                                                    "Delivery Address",
+                                                    "Customer Address",
                                                     style: Theme.of(
                                                         context)
                                                         .textTheme
@@ -474,7 +474,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         InkWell(
                                           onTap: (){
                                             print("ascfhsdjhg");
-                                            openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                            openMap(double.parse(myOrderDetailsController.model.value.data!.user!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.user!.longitude.toString()));
                                           },
                                           child: Container(
                                             height: AddSize.size45,
@@ -587,6 +587,153 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                         height: AddSize.size20,
                                         width: AddSize.size20,
                                       )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 0,
+                          color: AppTheme.backgroundcolor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AddSize.padding15,
+                                vertical: AddSize.padding15),
+                            child:
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Store Phone",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                color:
+                                                AppTheme.lightblack,
+                                                fontWeight:
+                                                FontWeight.w400,
+                                                fontSize: AddSize.font14),
+                                          ),
+                                          Text(
+                                            (myOrderDetailsController.model
+                                                .value.data!.vendor!.phone??"")
+                                                .toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                fontSize: AddSize.font16),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ]),
+                                GestureDetector(
+                                  onTap: (){
+                                    _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.vendor!.phone ?? ""}".toString());
+                                  },
+                                  child: Container(
+                                      height: AddSize.size45,
+                                      width: AddSize.size45,
+                                      decoration: const ShapeDecoration(
+                                          color: AppTheme.primaryColor,
+                                          shape: CircleBorder()),
+                                      child: const Center(
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: AppTheme.backgroundcolor,
+                                          ))),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 0,
+                          color: AppTheme.backgroundcolor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AddSize.padding15,
+                                vertical: AddSize.padding15),
+                            child:
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(child:Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Store Address",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline5!
+                                                  .copyWith(
+                                                  color:
+                                                  AppTheme.lightblack,
+                                                  fontWeight:
+                                                  FontWeight.w400,
+                                                  fontSize: AddSize.font14),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    (myOrderDetailsController.model
+                                                        .value.data!.vendor!.location??"")
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                        fontSize: AddSize.font16),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ])),
+                                GestureDetector(
+                                  onTap: (){
+                                    openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                  },
+                                  child: Container(
+                                    height: AddSize.size45,
+                                    width: AddSize.size45,
+                                    decoration: const ShapeDecoration(
+                                        color: AppTheme.lightYellow,
+                                        shape: CircleBorder()),
+                                    child: const Center(
+                                        child: Icon(
+                                          Icons.location_on,
+                                          color: AppTheme.backgroundcolor,
+                                        )),
+                                  ),
                                 ),
                               ],
                             ),

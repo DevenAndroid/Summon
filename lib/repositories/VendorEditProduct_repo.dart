@@ -16,18 +16,18 @@ Future<VendorEditProductModel> vendorEditProductRepo({required id}) async {
     HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
   };
   print("URLLLLL.. ${ApiUrl.vendorEditProductUrl}$id");
-  // try {
+   try {
   final response = await http
       .get(Uri.parse("${ApiUrl.vendorEditProductUrl}$id"), headers: headers);
   print("Vendor Edit Product repo Repository...${response.body}");
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     print("Vendor Edit Product repo Repository...${response.body}");
     return VendorEditProductModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);
   }
-  // } catch (e) {
-  //   throw Exception(e.toString());
-  // }
+  } catch (e) {
+    throw Exception(e.toString());
+  }
 }

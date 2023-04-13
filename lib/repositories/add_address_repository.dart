@@ -38,7 +38,7 @@ Future<ModelCommonResponse> addAddress(
   http.Response response = await http.post(Uri.parse(ApiUrl.addAddressUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {
@@ -71,7 +71,7 @@ Future<ModelCommonResponse> editAddress(
   http.Response response = await http.post(Uri.parse(ApiUrl.editAddressUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {
@@ -99,7 +99,7 @@ Future<ModelCommonResponse> removeAddress(
   };
   http.Response response = await http.post(Uri.parse(ApiUrl.removeAddressUrl),headers: headers,body:jsonEncode(map));
   log(response.body.toString());
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {

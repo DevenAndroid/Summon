@@ -52,7 +52,7 @@ Future<ModelCommonResponse> removeCoupons(
   };
   http.Response response = await http.get(Uri.parse(ApiUrl.removeCouponsUrl),headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return ModelCommonResponse.fromJson(json.decode(response.body));
   } else {

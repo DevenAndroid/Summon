@@ -31,7 +31,7 @@ Future<AddToCartData> addToCartRepo(
     final response = await http.post(Uri.parse(ApiUrl.addCartUrl),
         body: jsonEncode(map), headers: headers);
     log("Add To Cart Data...${response.body}");
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideShimmer(loader);
       log("Add To Cart Data...${response.body}");
       return AddToCartData.fromJson(jsonDecode(response.body));
@@ -61,7 +61,7 @@ Future<ModelCommonResponse> updateCartRepo(cartItemId, qty, context) async {
     final response = await http.post(Uri.parse(ApiUrl.updateCartUrl),
         body: jsonEncode(map), headers: headers);
     print("Update Cart Data...${response.body}");
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideShimmer(loader);
       print("Update Cart Data...${response.body}");
       return ModelCommonResponse.fromJson(jsonDecode(response.body));

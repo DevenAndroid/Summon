@@ -30,7 +30,7 @@ Future<VendorAddAccountDetailsModel> vendorAddBankDetailsRepo(String bank,
     final response = await http.post(Uri.parse(ApiUrl.vendorAddBankDetailsUrl),
         body: jsonEncode(map), headers: headers);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideLoader(loader);
       print("Add Bank Details Repository...${response.body}");
 

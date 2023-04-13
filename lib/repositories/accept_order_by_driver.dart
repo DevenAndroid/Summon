@@ -29,7 +29,7 @@ Future<DriverDeliveryOrderList> acceptOrder(
   http.Response response = await http.post(Uri.parse(ApiUrl.assignedOrderUrl),
       body: jsonEncode(map), headers: headers);
   print(response.body);
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     Helpers.hideLoader(loader);
     return DriverDeliveryOrderList.fromJson(json.decode(response.body));
   } else {

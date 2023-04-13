@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/home_page_controller.dart';
+import 'package:fresh2_arrive/controller/store_controller.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -105,6 +106,11 @@ class LocationController extends GetxController {
               nearStoreController.isPaginationLoading.value = true;
               nearStoreController.loadMore.value = true;
               nearStoreController.getData(isFirstTime: true);
+
+              final storeController = Get.put(StoreController());
+              storeController.isPaginationLoading.value = true;
+              storeController.loadMore.value = true;
+              storeController.getData(isFirstTime: true);
             });
         }
       });

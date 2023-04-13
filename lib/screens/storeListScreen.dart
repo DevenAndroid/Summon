@@ -240,7 +240,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                     ),
                             ],
                           )
-                        : const SizedBox();
+                        : Center(child: const CircularProgressIndicator());
                   }),
                   addHeight(30)
                 ],

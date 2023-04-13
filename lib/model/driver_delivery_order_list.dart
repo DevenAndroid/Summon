@@ -60,16 +60,18 @@ class Data {
 class List1 {
   dynamic date;
   dynamic orderId;
-  String? paymentMethod;
+  dynamic paymentMethod;
   dynamic orderTotal;
   Location? location;
-
+  VendorLocation? vendorLocation;
   List1(
       {this.date,
         this.orderId,
         this.paymentMethod,
         this.orderTotal,
-        this.location});
+        this.location,
+        this.vendorLocation
+      });
 
   List1.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -78,6 +80,9 @@ class List1 {
     orderTotal = json['order_total'];
     location = json['location'] != null
         ? Location.fromJson(json['location'])
+        : null;
+    vendorLocation = json['vendor_location'] != null
+        ? VendorLocation.fromJson(json['vendor_location'])
         : null;
   }
 
@@ -89,6 +94,9 @@ class List1 {
     data['order_total'] = orderTotal;
     if (location != null) {
       data['location'] = location!.toJson();
+    }
+    if (vendorLocation != null) {
+      data['vendor_location'] = vendorLocation!.toJson();
     }
     return data;
   }
@@ -151,6 +159,87 @@ class Location {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    return data;
+  }
+}
+
+class VendorLocation {
+  int? id;
+  dynamic storeName;
+  dynamic phone;
+  dynamic storeImage;
+  dynamic address;
+  dynamic location;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic aadharNo;
+  dynamic panNo;
+  dynamic deliveryRange;
+  dynamic bankStatement;
+  dynamic panCardImage;
+  dynamic aadharFrontImage;
+  dynamic aadharBackImage;
+  dynamic remark;
+  bool? status;
+
+  VendorLocation(
+      {this.id,
+        this.storeName,
+        this.phone,
+        this.storeImage,
+        this.address,
+        this.location,
+        this.latitude,
+        this.longitude,
+        this.aadharNo,
+        this.panNo,
+        this.deliveryRange,
+        this.bankStatement,
+        this.panCardImage,
+        this.aadharFrontImage,
+        this.aadharBackImage,
+        this.remark,
+        this.status});
+
+  VendorLocation.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    storeName = json['store_name'];
+    phone = json['phone'];
+    storeImage = json['storeImage'];
+    address = json['address'];
+    location = json['location'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    aadharNo = json['aadharNo'];
+    panNo = json['panNo'];
+    deliveryRange = json['delivery_range'];
+    bankStatement = json['bank_statement'];
+    panCardImage = json['pan_card_image'];
+    aadharFrontImage = json['aadhar_front_image'];
+    aadharBackImage = json['aadhar_back_image'];
+    remark = json['remark'];
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['store_name'] = this.storeName;
+    data['phone'] = this.phone;
+    data['storeImage'] = this.storeImage;
+    data['address'] = this.address;
+    data['location'] = this.location;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['aadharNo'] = this.aadharNo;
+    data['panNo'] = this.panNo;
+    data['delivery_range'] = this.deliveryRange;
+    data['bank_statement'] = this.bankStatement;
+    data['pan_card_image'] = this.panCardImage;
+    data['aadhar_front_image'] = this.aadharFrontImage;
+    data['aadhar_back_image'] = this.aadharBackImage;
+    data['remark'] = this.remark;
+    data['status'] = this.status;
     return data;
   }
 }

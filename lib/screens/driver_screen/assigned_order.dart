@@ -403,7 +403,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                       MainAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      "Location:",
+                                                      "Customer Location:",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headline5!
@@ -457,6 +457,64 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                   fontSize: AddSize
                                                                       .font14),
                                                         )),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: AddSize.size10,),
+                                                    Text(
+                                                      "Store Location:",
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .headline5!
+                                                          .copyWith(
+                                                          color: AppTheme
+                                                              .blackcolor,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500,
+                                                          fontSize: AddSize
+                                                              .font14),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                            child: Text(
+                                                              assignedController
+                                                                  .model
+                                                                  .value
+                                                                  .data![index]
+                                                                  .location!
+                                                                  .location
+                                                                  .toString() +
+                                                                  assignedController
+                                                                      .model
+                                                                      .value
+                                                                      .data![index]
+                                                                      .location!
+                                                                      .flatNo
+                                                                      .toString() +
+                                                                  assignedController
+                                                                      .model
+                                                                      .value
+                                                                      .data![index]
+                                                                      .location!
+                                                                      .street
+                                                                      .toString(),
+                                                              style: Theme.of(
+                                                                  context)
+                                                                  .textTheme
+                                                                  .headline5!
+                                                                  .copyWith(
+                                                                  color: AppTheme
+                                                                      .lightblack,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                                  fontSize: AddSize
+                                                                      .font14),
+                                                            )),
                                                       ],
                                                     ),
                                                     SizedBox(

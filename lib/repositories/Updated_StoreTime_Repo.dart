@@ -59,7 +59,7 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
         body: jsonEncode(map), headers: headers);
     log("Updated Set Store Time Repository...${response.body}");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideLoader(loader);
       log("Updated Set Store Time Repository...${response.body}");
       return UpdatedStoreTimeModel.fromJson(jsonDecode(response.body));

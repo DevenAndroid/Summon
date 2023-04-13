@@ -86,9 +86,9 @@ class Data {
 
 class SliderData {
   int? id;
-  String? title;
-  String? link;
-  String? image;
+  dynamic title;
+  dynamic link;
+  dynamic image;
 
   SliderData({this.id, this.title, this.link, this.image});
 
@@ -111,8 +111,8 @@ class SliderData {
 
 class BestFreshProduct {
   int? id;
-  String? name;
-  String? image;
+  dynamic name;
+  dynamic image;
   List<Varints>? varints;
   RxInt? varientIndex = (0).obs;
 
@@ -145,14 +145,14 @@ class BestFreshProduct {
 
 class Varints {
   int? id;
-  int? vendorProductId;
-  int? marketPrice;
-  int? price;
-  String? variantQty;
-  String? variantQtyType;
-  int? minQty;
-  int? maxQty;
-  String? discountOff;
+  dynamic vendorProductId;
+  dynamic marketPrice;
+  dynamic price;
+  dynamic variantQty;
+  dynamic variantQtyType;
+  dynamic minQty;
+  dynamic maxQty;
+  dynamic discountOff;
 
   Varints(
       {this.id,
@@ -194,10 +194,10 @@ class Varints {
 
 class LatestCategory {
   int? id;
-  String? taxPercent;
-  String? name;
-  String? slug;
-  String? image;
+  dynamic taxPercent;
+  dynamic name;
+  dynamic slug;
+  dynamic image;
 
   LatestCategory({this.id, this.taxPercent, this.name, this.slug, this.image});
 
@@ -222,9 +222,9 @@ class LatestCategory {
 
 class FeaturedStores {
   int? id;
-  String? name;
-  String? distance;
-  String? image;
+  dynamic name;
+  dynamic distance;
+  dynamic image;
 
   FeaturedStores({this.id, this.name, this.distance, this.image});
 

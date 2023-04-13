@@ -17,7 +17,7 @@ Future<ResendOtpModel> resendOtp(
   http.Response response = await http.post(Uri.parse(ApiUrl.resendApi),
       body: jsonEncode(map), headers: headers);
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 ||response.statusCode == 400) {
     print("<<<<<<<ResendData from repository=======>${response.body}");
     return ResendOtpModel.fromJson(json.decode(response.body));
   } else {

@@ -480,7 +480,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                               ),
                                               GestureDetector(
                                                 onTap: (){
-                                                  openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                                  openMap(double.parse(myOrderDetailsController.model.value.data!.driver!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.driver!.longitude.toString()));
                                                 },
                                                 child: Container(
                                                   height: AddSize.size45,
@@ -643,19 +643,21 @@ class _OrderDetailsState extends State<OrderDetails>
                                               ],
                                             ),
                                           ]),
-                                      Container(
-                                        height: AddSize.size45,
-                                        width: AddSize.size45,
-                                        decoration: const ShapeDecoration(
-                                            color: AppTheme.primaryColor,
-                                            shape: CircleBorder()),
-                                        child: Center(
-                                            child: Image(
-                                              image: const AssetImage(
-                                                  AppAssets.phoneImg),
-                                              height: AddSize.size20,
-                                              width: AddSize.size20,
-                                            )),
+                                      GestureDetector(
+                                        onTap: (){
+                                          _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.vendor!.phone ?? ""}".toString());
+                                        },
+                                        child: Container(
+                                            height: AddSize.size45,
+                                            width: AddSize.size45,
+                                            decoration: const ShapeDecoration(
+                                                color: AppTheme.primaryColor,
+                                                shape: CircleBorder()),
+                                            child: const Center(
+                                                child: Icon(
+                                                  Icons.phone,
+                                                  color: AppTheme.backgroundcolor,
+                                                ))),
                                       ),
                                     ],
                                   ),
@@ -675,53 +677,66 @@ class _OrderDetailsState extends State<OrderDetails>
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
+                                      Expanded(child:Row(
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Store Address",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5!
-                                                      .copyWith(
-                                                      color:
-                                                      AppTheme.lightblack,
-                                                      fontWeight:
-                                                      FontWeight.w400,
-                                                      fontSize: AddSize.font14),
-                                                ),
-                                                Text(
-                                                  (myOrderDetailsController.model
-                                                      .value.data!.vendor!.address??"")
-                                                      .toString(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5!
-                                                      .copyWith(
-                                                      fontWeight:
-                                                      FontWeight.w500,
-                                                      fontSize: AddSize.font16),
-                                                ),
-
-                                              ],
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Store Address",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5!
+                                                        .copyWith(
+                                                        color:
+                                                        AppTheme.lightblack,
+                                                        fontWeight:
+                                                        FontWeight.w400,
+                                                        fontSize: AddSize.font14),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          (myOrderDetailsController.model
+                                                              .value.data!.vendor!.location??"")
+                                                              .toString(),
+                                                          style: Theme.of(context)
+                                                              .textTheme
+                                                              .headline5!
+                                                              .copyWith(
+                                                              fontWeight:
+                                                              FontWeight.w500,
+                                                              fontSize: AddSize.font16),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ]),
-                                      Container(
-                                        height: AddSize.size45,
-                                        width: AddSize.size45,
-                                        decoration: const ShapeDecoration(
-                                            color: AppTheme.primaryColor,
-                                            shape: CircleBorder()),
-                                        child: Center(
-                                            child: Image(
-                                              image: const AssetImage(
-                                                  AppAssets.locationImg),
-                                              height: AddSize.size20,
-                                              width: AddSize.size20,
-                                            )),
+                                          ])),
+                                      GestureDetector(
+                                        onTap: (){
+                                          openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                        },
+                                        child: Container(
+                                          height: AddSize.size45,
+                                          width: AddSize.size45,
+                                          decoration: const ShapeDecoration(
+                                              color: AppTheme.lightYellow,
+                                              shape: CircleBorder()),
+                                          child: const Center(
+                                              child: Icon(
+                                                Icons.location_on,
+                                                color: AppTheme.backgroundcolor,
+                                              )),
+                                        ),
                                       ),
                                     ],
                                   ),
