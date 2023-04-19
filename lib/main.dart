@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:get/get.dart';
+import 'package:localization/localization.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocalJsonLocalization.delegate.directories = ['assets/Translation'];
+    //LocalJsonLocalization.delegate.directories = ['lib/i18n'];
     return GetMaterialApp(
+
+      localizationsDelegates: [
+        // delegate from flutter_localization
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        // delegate from localization package.
+        LocalJsonLocalization.delegate,
+      ],
+      supportedLocales: [
+        Locale('ar', 'ARB'),
+      ],
+
       darkTheme: ThemeData.light(),
       defaultTransition: Transition.rightToLeft,
       debugShowCheckedModeBanner: false,

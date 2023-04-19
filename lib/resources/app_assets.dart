@@ -1,5 +1,13 @@
 class AppAssets {
   static const String splash1 = "assets/images/splash1.png";
+  static const String splash0 = "assets/images/splash0.png";
+  static const String ONB1 = "assets/images/ONB1.png";
+  static const String ONB2 = "assets/images/ONB2.png";
+  static const String ONB3 = "assets/images/ONB3.png";
+  static const String BG1 = "assets/images/BG1.png";
+  static const String BG2 = "assets/images/BG2.png";
+  static const String BG3 = "assets/images/BG3.png";
+  static const String arrowIcon = "assets/images/arrowIcon.png";
   static const String phoneImg = "assets/images/phoneIcon.png";
   static const String locationImg = "assets/images/locationImg.png";
   static const String splash2 = "assets/images/splash2.png";

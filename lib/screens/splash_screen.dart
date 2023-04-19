@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/screens/onboardingScreen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/app_assets.dart';
-import 'custum_bottom_bar.dart';
 import 'package:client_information/client_information.dart';
 import 'package:flutter/services.dart';
+
+import 'Onboarding_Screen_page.dart';
+
+
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -22,12 +25,12 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () async {
       _getClientInformation();
       SharedPreferences pref = await SharedPreferences.getInstance();
-      if(pref.getString('user_info') != null){
-        Get.offAllNamed(CustomNavigationBar.customNavigationBar);
-      }
-      else{
-        Get.offAllNamed(OnBoardingScreen.onBoardingScreen);
-      }
+      // if (pref.getString('user_info') != null) {
+      //   Get.offAllNamed(CustomNavigationBar.customNavigationBar);
+      // }
+
+      Get.offAllNamed(OnBoardingScreenPage.onBoarding);
+
     });
   }
 
@@ -46,30 +49,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffFE724C),
       body: Stack(
         children: [
-          Image.asset(
-            AppAssets.splash1,
-            width: screenSize.width,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.cover,
-          ),
+
           Positioned(
-              top: 80,
+              top: 310,
               right: 24,
               left: 24,
               child: Column(
                 children: [
                   Image.asset(
-                    AppAssets.splash2,
+                    AppAssets.splash0,
+                    width: 160,
+                    height: 207,
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .02,
-                  ),
-                  Image.asset(
-                    AppAssets.splash3,
-                  ),
+
                 ],
               )),
         ],

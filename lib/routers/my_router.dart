@@ -33,6 +33,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
+import '../screens/Onboarding_Screen_page.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
@@ -54,7 +55,7 @@ class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
     GetPage(name: '/', page: () => const SplashScreen()),
-    GetPage(name: OnBoardingScreen.onBoardingScreen, page: () => const OnBoardingScreen()),
+    GetPage(name: OnBoardingScreenPage.onBoarding, page: () => const OnBoardingScreenPage()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
     GetPage(name: MyProfileScreen.myProfileScreen, page: () => const MyProfileScreen()),
     GetPage(
