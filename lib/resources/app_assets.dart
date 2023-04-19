@@ -18,7 +18,7 @@ class AppAssets {
   static const String store = "assets/images/store.png";
   static const String cart = "assets/images/cart.png";
   static const String profile = "assets/images/profile.png";
-  static const String back = "assets/images/back.png";
+  static const String back = "assets/images/back2.png";
   static const String singleStrore = "assets/images/singleStrore.png";
   static const String discountIcon = "assets/images/discount_icon.png";
   static const String profileImage = "assets/images/profile_image.png";
@@ -40,7 +40,7 @@ class AppAssets {
   static const String drawer_location = "assets/images/drawer_location.png";
   static const String drawer_logout = "assets/images/drawer_logout.png";
   static const String filterImage = "assets/images/filter.png";
-  static const String orderList = "assets/images/order_list.png";
+  static const String orderList = "assets/images/orderlist2.png";
   static const String referAndEarn = "assets/images/refer_and_earn.png";
   static const String shareIcon1 = "assets/images/share_icon1.png";
   static const String shareIcon = "assets/images/share_icon.png";
@@ -60,7 +60,7 @@ class AppAssets {
   static const String backwhiteicon = "assets/images/backwhiteicon.png";
   static const String bankDetails = "assets/images/bank_details.png";
   static const String driverimage1 = "assets/images/driverimage1.png";
-  static const String driverimage2 = "assets/images/driverimage2.png";
+  static const String driverimage2 = "assets/images/driverimage3.png";
   static const String orderDecline = "assets/images/orderdecline.png";
   static const String cartEmpty = "assets/images/empty.png";
   static const String cartImage = "assets/images/cart_image.png";

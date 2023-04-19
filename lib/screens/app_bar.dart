@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Badge;
 import 'package:fresh2_arrive/controller/main_home_controller.dart';
 import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';

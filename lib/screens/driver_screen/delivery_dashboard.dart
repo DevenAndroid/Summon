@@ -584,7 +584,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                           AddSize.size50,
                                                           AddSize.size20 * 1.8),
                                                       primary:
-                                                          AppTheme.userActive,
+                                                          AppTheme.primaryColor,
                                                       elevation: 0,
                                                       shape:
                                                           RoundedRectangleBorder(

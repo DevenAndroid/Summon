@@ -88,12 +88,19 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                       ),
                                     ],
                                   ),
-                                  Image(
-                                    image:
-                                        const AssetImage(AppAssets.walletIcon),
-                                    height: AddSize.size30,
-                                    width: AddSize.size50,
-                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.primaryColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Icon(Icons.account_balance_wallet_sharp,color: Colors.white,),
+                                  )
+                                  // Image(image:const AssetImage(AppAssets.walletIcon),
+                                  //   height: AddSize.size30,
+                                  //   width: AddSize.size50,
+                                  // ),
                                 ],
                               ),
                             )),
