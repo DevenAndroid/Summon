@@ -16,6 +16,7 @@ class AppAssets {
   static const String onboarding2 = "assets/images/onboarding2.png";
   static const String onboarding3 = "assets/images/onboarding3.png";
   static const String login = "assets/images/login.png";
+  //static const String login = "assets/images/login.png";
   static const String background = "assets/images/backgraound.png";
   static const String profilePic = "assets/images/profilePic.png";
   static const String notification = "assets/images/Vector.png";

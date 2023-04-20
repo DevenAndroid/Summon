@@ -37,6 +37,8 @@ import '../screens/Onboarding_Screen_page.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
+import '../screens/loginScreen1.dart';
+import '../screens/loginScreen2.dart';
 import '../screens/my_cart_screen.dart';
 import '../screens/notification_screen.dart';
 import '../screens/onboardingScreen.dart';
@@ -54,9 +56,11 @@ import '../screens/wallet_screen.dart';
 class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
-    GetPage(name: '/', page: () => const SplashScreen()),
+    GetPage(name: '/', page: () => const LoginScreen2()),
     GetPage(name: OnBoardingScreenPage.onBoarding, page: () => const OnBoardingScreenPage()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
+    GetPage(name: LoginScreen2.loginScreen2, page: () => const LoginScreen2()),
+    GetPage(name: LoginScreen1.loginScreen1, page: () => const LoginScreen1()),
     GetPage(name: MyProfileScreen.myProfileScreen, page: () => const MyProfileScreen()),
     GetPage(
         name: AdminResponse.adminResponse, page: () => const AdminResponse()),
