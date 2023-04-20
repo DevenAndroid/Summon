@@ -169,7 +169,7 @@ AppBar backAppBar(
           fontWeight: FontWeight.w500, fontSize: 20, color: textColor),
     ),
     leading: Padding(
-      padding: EdgeInsets.only(left: AddSize.padding10),
+      padding: EdgeInsets.only(right: AddSize.padding10),
       child: GestureDetector(
           onTap: () {
             Get.back();

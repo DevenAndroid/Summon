@@ -55,7 +55,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: backAppBar(title: "Bank Details", context: context),
+        appBar: backAppBar(title: "Bank Details ", context: context),
         body: Obx(() {
           if (driverBankDetailsController.isDataLoading.value &&
               driverBankDetailsController.bankDetailsModel.value.data != null) {

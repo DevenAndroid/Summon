@@ -57,7 +57,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                 color: AppTheme.blackcolor),
           ),
           leading: Padding(
-            padding: EdgeInsets.only(left: AddSize.padding10),
+            padding: EdgeInsets.only(right: AddSize.padding10),
             child: GestureDetector(
                 onTap: () {
                   Get.back();
