@@ -22,4 +22,5 @@ class AppTheme {
   static const Color appPrimaryGreenColor = Color(0xffE5FCE3);
   static const Color appPrimaryYellowColor = Color(0xffFEFFE2);
   static const Color appPrimaryOrangeColor = Color(0xffFFEEEA);
+  static const Color callPhoneColor = Color(0xFF52AC1A);
 }
