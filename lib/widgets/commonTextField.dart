@@ -71,11 +71,11 @@ class CommonTextFieldWidget extends StatelessWidget {
               const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppTheme.backgroundcolor),
+            borderSide: const BorderSide(color: Color(0xFFC0CCD4)),
             borderRadius: BorderRadius.circular(10.0),
           ),
           enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: AppTheme.backgroundcolor),
+              borderSide: BorderSide(color: Color(0xFFC0CCD4)),
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           border: OutlineInputBorder(
               borderSide:

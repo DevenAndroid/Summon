@@ -58,7 +58,7 @@ showToast(message) {
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.blue,
+      backgroundColor: AppTheme.primaryColor,
       textColor: Colors.white,
       fontSize: 16.0);
 }
@@ -225,7 +225,7 @@ class AddText extends StatelessWidget {
       overflow: textOverflow,
       textAlign: textAlign,
       style: TextStyle(
-          color: color == Colors.black ? AppTheme.userText : color,
+          color: Colors.black,
           fontSize: fontSize == 0 ? AddSize.font14 : fontSize,
           decoration: decoration,
           height: height,

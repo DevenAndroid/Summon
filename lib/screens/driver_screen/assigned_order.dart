@@ -585,7 +585,7 @@ class _AssignedOrderState extends State<AssignedOrder> {
                                                                       AddSize.size20 *
                                                                           1.8),
                                                                   primary: AppTheme
-                                                                      .userActive,
+                                                                      .primaryColor,
                                                                   elevation: 0,
                                                                   shape: RoundedRectangleBorder(
                                                                       borderRadius:
