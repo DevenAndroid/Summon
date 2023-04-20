@@ -175,285 +175,288 @@ class _AddVendorProductState extends State<AddVendorProduct> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Scaffold(
-        appBar: backAppBar(title: "Add Products", context: context),
-        body: vendorAddProductController.isDataLoading.value
-            ? SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AddSize.padding16,
-                      vertical: AddSize.padding10),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.backgroundcolor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: TextField(
-                            maxLines: 1,
-                            controller: vendorAddProductController
-                                .vendorSearchProductController,
-                            style: const TextStyle(fontSize: 17),
-                            textAlignVertical: TextAlignVertical.center,
-                            textInputAction: TextInputAction.search,
-                            onChanged: (value) {
-                              vendorAddProductController
-                                  .getVendorSearchProductList();
-                              setState(() {});
-                            },
-                            decoration: InputDecoration(
-                                filled: true,
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    vendorAddProductController
-                                        .getVendorSearchProductList();
-                                    _isValue = true;
-                                  },
-                                  icon: Icon(
-                                    Icons.search,
-                                    color: AppTheme.lightblack,
-                                    size: AddSize.size25,
-                                  ),
-                                ),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding20,
-                                    vertical: AddSize.padding10),
-                                hintText: 'Search Products',
-                                hintStyle: TextStyle(
-                                    fontSize: AddSize.font14,
-                                    color: AppTheme.blackcolor,
-                                    fontWeight: FontWeight.w400)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: AddSize.size10,
-                        ),
-                        vendorAddProductController
-                                .vendorSearchProductController.text.isNotEmpty
-                            ? Obx(() {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: AppTheme.backgroundcolor),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: AddSize.padding16,
-                                      vertical: AddSize.padding10),
-                                  child: ListView.builder(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: vendorAddProductController
-                                        .model.value.data!.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          _isValue = true;
-                                          vendorAddProductController
-                                                  .productId.value =
-                                              vendorAddProductController
-                                                  .model.value.data![index].id
-                                                  .toString();
-                                          vendorAddProductController
-                                              .getVendorAddProduct();
-                                          vendorAddProductController
-                                              .vendorSearchProductController
-                                              .clear();
-                                          image.value = File("");
-                                          FocusManager.instance.primaryFocus!
-                                              .unfocus();
-                                          setState(() {});
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  height: AddSize.size40,
-                                                  width: AddSize.size40,
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        vendorAddProductController
-                                                            .model
-                                                            .value
-                                                            .data![index]
-                                                            .image
-                                                            .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: AddSize.size10,
-                                                ),
-                                                Text(
-                                                  vendorAddProductController
-                                                      .model
-                                                      .value
-                                                      .data![index]
-                                                      .name
-                                                      .toString(),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          fontSize:
-                                                              AddSize.font14,
-                                                          color: AppTheme
-                                                              .lightblack),
-                                                ),
-                                              ],
-                                            ),
-                                            Text(
-                                              vendorAddProductController
-                                                  .model
-                                                  .value
-                                                  .data![index]
-                                                  .regularPrice
-                                                  .toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge!
-                                                  .copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: AddSize.font14,
-                                                      color:
-                                                          AppTheme.lightblack),
-                                            ),
-                                          ],
-                                        ),
-                                      );
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: backAppBar(title: "Add Products", context: context),
+          body: vendorAddProductController.isDataLoading.value
+              ? SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AddSize.padding16,
+                        vertical: AddSize.padding10),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.backgroundcolor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: TextField(
+                              maxLines: 1,
+                              controller: vendorAddProductController
+                                  .vendorSearchProductController,
+                              style: const TextStyle(fontSize: 17),
+                              textAlignVertical: TextAlignVertical.center,
+                              textInputAction: TextInputAction.search,
+                              onChanged: (value) {
+                                vendorAddProductController
+                                    .getVendorSearchProductList();
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      vendorAddProductController
+                                          .getVendorSearchProductList();
+                                      _isValue = true;
                                     },
+                                    icon: Icon(
+                                      Icons.search,
+                                      color: AppTheme.lightblack,
+                                      size: AddSize.size25,
+                                    ),
                                   ),
-                                );
-                              })
-                            : const SizedBox(),
-                        SizedBox(
-                          height: AddSize.size10,
-                        ),
-                        // if (vendorAddProductController
-                        //     .vendorSearchProductController.text.isNotEmpty)
-                        editProduct(),
-                        SizedBox(
-                          height: AddSize.size10,
-                        ),
-                        _isValue == true
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate() &&
-                                      listModelData.isNotEmpty) {
-                                    print("Hello this is map");
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10))),
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: AddSize.padding20,
+                                      vertical: AddSize.padding10),
+                                  hintText: 'Search Products',
+                                  hintStyle: TextStyle(
+                                      fontSize: AddSize.font14,
+                                      color: AppTheme.blackcolor,
+                                      fontWeight: FontWeight.w400)),
+                            ),
+                          ),
+                          SizedBox(
+                            height: AddSize.size10,
+                          ),
+                          vendorAddProductController
+                                  .vendorSearchProductController.text.isNotEmpty
+                              ? Obx(() {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppTheme.backgroundcolor),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: AddSize.padding16,
+                                        vertical: AddSize.padding10),
+                                    child: ListView.builder(
+                                      physics: const BouncingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: vendorAddProductController
+                                          .model.value.data!.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            _isValue = true;
+                                            vendorAddProductController
+                                                    .productId.value =
+                                                vendorAddProductController
+                                                    .model.value.data![index].id
+                                                    .toString();
+                                            vendorAddProductController
+                                                .getVendorAddProduct();
+                                            vendorAddProductController
+                                                .vendorSearchProductController
+                                                .clear();
+                                            image.value = File("");
+                                            FocusManager.instance.primaryFocus!
+                                                .unfocus();
+                                            setState(() {});
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    height: AddSize.size40,
+                                                    width: AddSize.size40,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          vendorAddProductController
+                                                              .model
+                                                              .value
+                                                              .data![index]
+                                                              .image
+                                                              .toString(),
+                                                      errorWidget: (_, __, ___) =>
+                                                          const SizedBox(),
+                                                      placeholder: (_, __) =>
+                                                          const SizedBox(),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: AddSize.size10,
+                                                  ),
+                                                  Text(
+                                                    vendorAddProductController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .name
+                                                        .toString(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleLarge!
+                                                        .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize:
+                                                                AddSize.font14,
+                                                            color: AppTheme
+                                                                .lightblack),
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                vendorAddProductController
+                                                    .model
+                                                    .value
+                                                    .data![index]
+                                                    .regularPrice
+                                                    .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleLarge!
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: AddSize.font14,
+                                                        color:
+                                                            AppTheme.lightblack),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                })
+                              : const SizedBox(),
+                          SizedBox(
+                            height: AddSize.size10,
+                          ),
+                          // if (vendorAddProductController
+                          //     .vendorSearchProductController.text.isNotEmpty)
+                          editProduct(),
+                          SizedBox(
+                            height: AddSize.size10,
+                          ),
+                          _isValue == true
+                              ? ElevatedButton(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate() &&
+                                        listModelData.isNotEmpty) {
+                                      print("Hello this is map");
 
-                                    Map<String, String> map = {};
+                                      Map<String, String> map = {};
 
-                                    map['product_id'] =
-                                        vendorAddProductController
-                                            .vendorAddProductModel
-                                            .value
-                                            .data!
-                                            .id
-                                            .toString();
-                                    map['category_id'] =
-                                        vendorAddProductController
-                                            .vendorAddProductModel
-                                            .value
-                                            .data!
-                                            .category!
-                                            .id
-                                            .toString();
-                                    map['imageOld'] = vendorAddProductController
-                                        .vendorAddProductModel.value.data!.image
-                                        .toString();
+                                      map['product_id'] =
+                                          vendorAddProductController
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .id
+                                              .toString();
+                                      map['category_id'] =
+                                          vendorAddProductController
+                                              .vendorAddProductModel
+                                              .value
+                                              .data!
+                                              .category!
+                                              .id
+                                              .toString();
+                                      map['imageOld'] = vendorAddProductController
+                                          .vendorAddProductModel.value.data!.image
+                                          .toString();
 
-                                    for (var i = 0;
-                                        i < listModelData.length;
-                                        i++) {
-                                      map["variants[$i][market_price]"] =
-                                          listModelData[i]
-                                              .marketPrice!
-                                              .value
-                                              .toString();
-                                      map["variants[$i][variant_qty]"] =
-                                          listModelData[i].qty.value.toString();
-                                      map["variants[$i][variant_qty_type]"] =
-                                          listModelData[i]
-                                              .qtyType
-                                              .value
-                                              .toString();
-                                      map["variants[$i][min_qty]"] =
-                                          listModelData[i]
-                                              .minQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][max_qty]"] =
-                                          listModelData[i]
-                                              .maxQty
-                                              .value
-                                              .toString();
-                                      map["variants[$i][price]"] =
-                                          listModelData[i]
-                                              .price
-                                              .value
-                                              .toString();
-                                    }
-                                    // print("Map data...$map");
-                                    vendorSaveProductRepo(
-                                            fieldName1: "image",
-                                            mapData: map,
-                                            context: context,
-                                            file1: image.value)
-                                        .then((value) {
-                                      if (value.status == true) {
-                                        showToast(value.message);
-                                        vendorProductListController
-                                            .getVendorProductList();
-                                        homeController.getData();
-                                        listModelData.clear();
-                                        Get.back();
+                                      for (var i = 0;
+                                          i < listModelData.length;
+                                          i++) {
+                                        map["variants[$i][market_price]"] =
+                                            listModelData[i]
+                                                .marketPrice!
+                                                .value
+                                                .toString();
+                                        map["variants[$i][variant_qty]"] =
+                                            listModelData[i].qty.value.toString();
+                                        map["variants[$i][variant_qty_type]"] =
+                                            listModelData[i]
+                                                .qtyType
+                                                .value
+                                                .toString();
+                                        map["variants[$i][min_qty]"] =
+                                            listModelData[i]
+                                                .minQty
+                                                .value
+                                                .toString();
+                                        map["variants[$i][max_qty]"] =
+                                            listModelData[i]
+                                                .maxQty
+                                                .value
+                                                .toString();
+                                        map["variants[$i][price]"] =
+                                            listModelData[i]
+                                                .price
+                                                .value
+                                                .toString();
                                       }
-                                    });
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize:
-                                      Size(double.maxFinite, AddSize.size45),
-                                  backgroundColor: AppTheme.primaryColor,
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                ),
-                                child: Text(
-                                  "SAVE",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall!
-                                      .copyWith(
-                                          color: AppTheme.backgroundcolor,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: AddSize.font18),
-                                ))
-                            : SizedBox(),
-                      ],
+                                      // print("Map data...$map");
+                                      vendorSaveProductRepo(
+                                              fieldName1: "image",
+                                              mapData: map,
+                                              context: context,
+                                              file1: image.value)
+                                          .then((value) {
+                                        if (value.status == true) {
+                                          showToast(value.message);
+                                          vendorProductListController
+                                              .getVendorProductList();
+                                          homeController.getData();
+                                          listModelData.clear();
+                                          Get.back();
+                                        }
+                                      });
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize:
+                                        Size(double.maxFinite, AddSize.size45),
+                                    backgroundColor: AppTheme.primaryColor,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                  ),
+                                  child: Text(
+                                    "SAVE",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall!
+                                        .copyWith(
+                                            color: AppTheme.backgroundcolor,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: AddSize.font18),
+                                  ))
+                              : SizedBox(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              )
-            : const Center(child: CircularProgressIndicator()),
+                )
+              : const Center(child: CircularProgressIndicator()),
+        ),
       );
     });
   }

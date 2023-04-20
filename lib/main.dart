@@ -13,6 +13,7 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+
   runApp(const MyApp());
 }
 
@@ -21,22 +22,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LocalJsonLocalization.delegate.directories = ['assets/Translation'];
+   // LocalJsonLocalization.delegate.directories = ['assets/Translation'];
     //LocalJsonLocalization.delegate.directories = ['lib/i18n'];
     return GetMaterialApp(
 
-      localizationsDelegates: [
-        // delegate from flutter_localization
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        // delegate from localization package.
-        LocalJsonLocalization.delegate,
-      ],
-      supportedLocales: [
-        Locale('ar', 'ARB'),
-      ],
-
+      // localizationsDelegates: [
+      //   // delegate from flutter_localization
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      //   // delegate from localization package.
+      //   LocalJsonLocalization.delegate,
+      // ],
+      // supportedLocales: [
+      //   Locale('ar', 'ARB'),
+      // ],
+     // home: Directionality(textDirection: TextDirection.rtl, child: MyApp(),),
       darkTheme: ThemeData.light(),
       defaultTransition: Transition.rightToLeft,
       debugShowCheckedModeBanner: false,

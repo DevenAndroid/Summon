@@ -8,6 +8,7 @@ import 'package:client_information/client_information.dart';
 import 'package:flutter/services.dart';
 
 import 'Onboarding_Screen_page.dart';
+import 'custum_bottom_bar.dart';
 
 
 
@@ -25,9 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () async {
       _getClientInformation();
       SharedPreferences pref = await SharedPreferences.getInstance();
-      // if (pref.getString('user_info') != null) {
-      //   Get.offAllNamed(CustomNavigationBar.customNavigationBar);
-      // }
+      if (pref.getString('user_info') != null) {
+        Get.toNamed(CustomNavigationBar.customNavigationBar);
+      }
 
       Get.offAllNamed(OnBoardingScreenPage.onBoarding);
 
