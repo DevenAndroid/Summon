@@ -2,11 +2,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/vendor_screen/Add_vendor_product.dart';
 import 'package:get/get.dart';
 import '../model/onboardData.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import 'Onboarding_Data.dart';
+import 'custum_bottom_bar.dart';
 
 class OnBoardingScreenPage extends StatefulWidget {
   const OnBoardingScreenPage({Key? key}) : super(key: key);
@@ -194,7 +196,7 @@ class OnboardContent extends StatelessWidget {
                     ),
                     Container(
                         height: height * .10,
-                        width: width * .90,
+                        width: width * .95,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                         ),
@@ -204,6 +206,8 @@ class OnboardContent extends StatelessWidget {
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.ease);
                             if (indexValue == 2) {
+                              // Get.toNamed(LoginScreen.loginScreen);
+                              // Get.toNamed(CustomNavigationBar.customNavigationBar);
                               Get.toNamed(LoginScreen.loginScreen);
                             }
                           },

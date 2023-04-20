@@ -161,7 +161,7 @@ AppBar backAppBar(
   return AppBar(
     toolbarHeight: 60,
     elevation: 0,
-    leadingWidth: AddSize.size20 * 1.6,
+    leadingWidth: AddSize.size20 * 2.2,
     backgroundColor: backgroundColor,
     title: Text(
       title,
@@ -169,7 +169,7 @@ AppBar backAppBar(
           fontWeight: FontWeight.w500, fontSize: 20, color: textColor),
     ),
     leading: Padding(
-      padding: EdgeInsets.only(left: AddSize.padding10),
+      padding: EdgeInsets.only(right: AddSize.padding15,),
       child: GestureDetector(
           onTap: () {
             Get.back();

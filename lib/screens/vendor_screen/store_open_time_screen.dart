@@ -2,7 +2,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_dashboard.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import '../../controller/SetStoreTIme_Controller.dart';
 import '../../controller/VendorDashboard_Controller.dart';
 import '../../repositories/Updated_StoreTime_Repo.dart';
@@ -23,15 +23,15 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
   Future<void> displayOpenTimeDialog(int index) async {
     DateTime? time;
     try {
-      time = DateFormat("hh:mm a")
+      time = intl.DateFormat("hh:mm a")
           .parse(setStoreTimeController.model.value.data![index].startTime);
     } catch (e) {
-      time = DateFormat("hh:mm")
+      time = intl.DateFormat("hh:mm")
           .parse(setStoreTimeController.model.value.data![index].startTime);
     }
     TimeOfDay? result = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.fromDateTime(DateFormat("hh:mm")
+        initialTime: TimeOfDay.fromDateTime(intl.DateFormat("hh:mm")
             .parse(setStoreTimeController.model.value.data![index].startTime)),
         builder: (context, child) {
           return MediaQuery(
@@ -55,10 +55,10 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
   Future<void> displayCloseTimeDialog(int index) async {
     DateTime? time;
     try {
-      time = DateFormat("hh:mm a")
+      time = intl.DateFormat("hh:mm a")
           .parse(setStoreTimeController.model.value.data![index].endTime);
     } catch (e) {
-      time = DateFormat("hh:mm")
+      time = intl.DateFormat("hh:mm")
           .parse(setStoreTimeController.model.value.data![index].endTime);
     }
 
@@ -96,91 +96,94 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppTheme.backgroundcolor,
-        appBar: PreferredSize(
-            preferredSize:
-                const Size.fromHeight(78.0), // here the desired height
-            child: backAppBar(title: "Set Store Time", context: context)),
-        body: Obx(() {
-          return setStoreTimeController.isDataLoading.value
-              ? SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: AddSize.size10,
-                        ),
-                        ...List.generate(
-                            setStoreTimeController.model.value.data!.length,
-                            (index) => Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: setStoreTimeController
-                                                      .model
-                                                      .value
-                                                      .data![index]
-                                                      .status ==
-                                                  true
-                                              ? AppTheme.primaryColor
-                                              : AppTheme.greycolor)),
-                                  child: Theme(
-                                    data: ThemeData(
-                                        checkboxTheme: CheckboxThemeData(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(5)))),
-                                    child:
-                                        buildCheckboxListTile(index, context),
-                                  ),
-                                )),
-                        SizedBox(
-                          height: AddSize.size40,
-                        ),
-                        ElevatedButton(
-                            onPressed: () {
-                              updatedSetStoreTimeRepo(
-                                      setStoreTimeController.model.value.data!,
-                                      context)
-                                  .then((value) {
-                                if (value.status == true) {
-                                  showToast(value.message);
-                                  Get.toNamed(VenderDashboard.vendorDashboard);
-                                  vendorDashboardController.getVendorDashboardData();
-                                }
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(10),
-                                minimumSize:
-                                    Size(double.maxFinite, AddSize.size50),
-                                primary: AppTheme.primaryColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                textStyle: TextStyle(
-                                    fontSize: AddSize.font18,
-                                    fontWeight: FontWeight.w600)),
-                            child: Text(
-                              "Save".toUpperCase(),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(
-                                      color: AppTheme.backgroundcolor,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: AddSize.font18),
-                            )),
-                      ],
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+          backgroundColor: AppTheme.backgroundcolor,
+          appBar: PreferredSize(
+              preferredSize:
+                  const Size.fromHeight(78.0), // here the desired height
+              child: backAppBar(title: "Set Store Time", context: context)),
+          body: Obx(() {
+            return setStoreTimeController.isDataLoading.value
+                ? SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: AddSize.size10,
+                          ),
+                          ...List.generate(
+                              setStoreTimeController.model.value.data!.length,
+                              (index) => Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: setStoreTimeController
+                                                        .model
+                                                        .value
+                                                        .data![index]
+                                                        .status ==
+                                                    true
+                                                ? AppTheme.primaryColor
+                                                : AppTheme.greycolor)),
+                                    child: Theme(
+                                      data: ThemeData(
+                                          checkboxTheme: CheckboxThemeData(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)))),
+                                      child:
+                                          buildCheckboxListTile(index, context),
+                                    ),
+                                  )),
+                          SizedBox(
+                            height: AddSize.size40,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                updatedSetStoreTimeRepo(
+                                        setStoreTimeController.model.value.data!,
+                                        context)
+                                    .then((value) {
+                                  if (value.status == true) {
+                                    showToast(value.message);
+                                    Get.toNamed(VenderDashboard.vendorDashboard);
+                                    vendorDashboardController.getVendorDashboardData();
+                                  }
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.all(10),
+                                  minimumSize:
+                                      Size(double.maxFinite, AddSize.size50),
+                                  primary: AppTheme.primaryColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  textStyle: TextStyle(
+                                      fontSize: AddSize.font18,
+                                      fontWeight: FontWeight.w600)),
+                              child: Text(
+                                "Save".toUpperCase(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5!
+                                    .copyWith(
+                                        color: AppTheme.backgroundcolor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: AddSize.font18),
+                              )),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              : const Center(child: CircularProgressIndicator());
-        }));
+                  )
+                : const Center(child: CircularProgressIndicator());
+          })),
+    );
   }
 
   CheckboxListTile buildCheckboxListTile(int index, BuildContext context) {
@@ -228,12 +231,12 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                           child: Obx(() {
                             DateTime? time;
                             try {
-                              time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].startTime);
+                              time = intl.DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].startTime);
                             } catch(e){
-                              time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].startTime);
+                              time = intl.DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].startTime);
                             }
                             return Text(
-                              DateFormat("hh:mm a").format(time),
+                              intl.DateFormat("hh:mm a").format(time),
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -285,12 +288,12 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                         child: Obx(() {
                           DateTime? time;
                           try {
-                            time = DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime);
+                            time = intl.DateFormat("hh:mm a").parse(setStoreTimeController.model.value.data![index].endTime);
                           } catch(e){
-                            time = DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].endTime);
+                            time = intl.DateFormat("hh:mm").parse(setStoreTimeController.model.value.data![index].endTime);
                           }
                           return Text(
-                            DateFormat("hh:mm a").format(time),
+                            intl.DateFormat("hh:mm a").format(time),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6!

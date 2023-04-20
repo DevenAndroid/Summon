@@ -159,314 +159,317 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Scaffold(
-        appBar: backAppBar(title: "Edit Products", context: context),
-        body: editProductController.isDataLoading.value
-            ? Obx(() {
-                if (editProductController.isDataLoading.value &&
-                    editProductController.editModel.value.data != null) {
-                  editProductController.productNameController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.name ??
-                              "")
-                          .toString();
-                  print("product name isssss....{productNameController.text}");
-                  editProductController.skuController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.sKU ??
-                              "")
-                          .toString();
-                  editProductController.marketPriceController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.marketPrice ??
-                              "")
-                          .toString();
-                  editProductController.qtyController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.qty ??
-                              "")
-                          .toString();
-                  editProductController.qtyTypeController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.qtyType ??
-                              "")
-                          .toString();
-                  editProductController.priceController.text =
-                      (editProductController.editModel.value.data!.product!
-                                  .regularPrice ??
-                              "")
-                          .toString();
-                  editProductController.minQtyController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.minQty ??
-                              "")
-                          .toString();
-                  editProductController.maxQtyController.text =
-                      (editProductController
-                                  .editModel.value.data!.product!.maxQty ??
-                              "")
-                          .toString();
-                }
-                return SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding16,
-                        vertical: AddSize.padding10),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: AppTheme.backgroundcolor),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: AddSize.padding16,
-                                vertical: AddSize.padding10),
-                            child: Column(
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: backAppBar(title: "Edit Products", context: context),
+          body: editProductController.isDataLoading.value
+              ? Obx(() {
+                  if (editProductController.isDataLoading.value &&
+                      editProductController.editModel.value.data != null) {
+                    editProductController.productNameController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.name ??
+                                "")
+                            .toString();
+                    print("product name isssss....{productNameController.text}");
+                    editProductController.skuController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.sKU ??
+                                "")
+                            .toString();
+                    editProductController.marketPriceController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.marketPrice ??
+                                "")
+                            .toString();
+                    editProductController.qtyController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.qty ??
+                                "")
+                            .toString();
+                    editProductController.qtyTypeController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.qtyType ??
+                                "")
+                            .toString();
+                    editProductController.priceController.text =
+                        (editProductController.editModel.value.data!.product!
+                                    .regularPrice ??
+                                "")
+                            .toString();
+                    editProductController.minQtyController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.minQty ??
+                                "")
+                            .toString();
+                    editProductController.maxQtyController.text =
+                        (editProductController
+                                    .editModel.value.data!.product!.maxQty ??
+                                "")
+                            .toString();
+                  }
+                  return SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: AddSize.padding16,
+                          vertical: AddSize.padding10),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: AppTheme.backgroundcolor),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: AddSize.padding16,
+                                  vertical: AddSize.padding10),
+                              child: Column(
+                                children: [
+                                  Obx(() {
+                                    return DottedBorder(
+                                        radius: const Radius.circular(10),
+                                        borderType: BorderType.RRect,
+                                        dashPattern: const [3, 5],
+                                        color: Colors.grey.shade500,
+                                        strokeWidth: 1,
+                                        child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: AddSize.padding16,
+                                                vertical: AddSize.padding16),
+                                            width: AddSize.screenWidth,
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade50,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: image.value.path == ""
+                                                ? SizedBox(
+                                                    height: AddSize.size40,
+                                                    width: AddSize.size40,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                          editProductController
+                                                              .editModel
+                                                              .value
+                                                              .data!
+                                                              .image
+                                                              .toString(),
+                                                      errorWidget: (_, __, ___) =>
+                                                          const SizedBox(),
+                                                      placeholder: (_, __) =>
+                                                          const SizedBox(),
+                                                    ),
+                                                  )
+                                                : SizedBox(
+                                                    width: double.maxFinite,
+                                                    height: AddSize.size100,
+                                                    child: Image.file(
+                                                        image.value))));
+                                  }),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  RegistrationTextField(
+                                    hint: "Product Name",
+                                    controller: editProductController
+                                        .productNameController,
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: "Please enter product name")
+                                    ]),
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  // RegistrationTextField(
+                                  //   hint: "SKU",
+                                  //   controller:
+                                  //       editProductController.skuController,
+                                  //   validator: MultiValidator([
+                                  //     RequiredValidator(
+                                  //         errorText: "Please enter SKU")
+                                  //   ]),
+                                  // ),
+                                  // SizedBox(
+                                  //   height: AddSize.size10,
+                                  // ),
+                                  Obx(() {
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: editProductController.listModelData.length,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return repeatUnit(
+                                              qty1: editProductController.listModelData[index].qty.value,
+                                              price1: editProductController
+                                                  .listModelData[index]
+                                                  .price
+                                                  .value,
+                                              minQty1: editProductController
+                                                  .listModelData[index]
+                                                  .minQty
+                                                  .value,
+                                              maxQty1: editProductController
+                                                  .listModelData[index]
+                                                  .maxQty
+                                                  .value,
+                                              marketPrice1: editProductController
+                                                  .listModelData[index]
+                                                  .marketPrice!
+                                                  .value,
+                                              index: index);
+                                        });
+                                  })
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: AddSize.size20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Obx(() {
-                                  return DottedBorder(
-                                      radius: const Radius.circular(10),
-                                      borderType: BorderType.RRect,
-                                      dashPattern: const [3, 5],
-                                      color: Colors.grey.shade500,
-                                      strokeWidth: 1,
-                                      child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: AddSize.padding16,
-                                              vertical: AddSize.padding16),
-                                          width: AddSize.screenWidth,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: image.value.path == ""
-                                              ? SizedBox(
-                                                  height: AddSize.size40,
-                                                  width: AddSize.size40,
-                                                  child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        editProductController
-                                                            .editModel
-                                                            .value
-                                                            .data!
-                                                            .image
-                                                            .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                )
-                                              : SizedBox(
-                                                  width: double.maxFinite,
-                                                  height: AddSize.size100,
-                                                  child: Image.file(
-                                                      image.value))));
-                                }),
-                                SizedBox(
-                                  height: AddSize.size10,
-                                ),
-                                RegistrationTextField(
-                                  hint: "Product Name",
-                                  controller: editProductController
-                                      .productNameController,
-                                  validator: MultiValidator([
-                                    RequiredValidator(
-                                        errorText: "Please enter product name")
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: AddSize.size10,
-                                ),
-                                // RegistrationTextField(
-                                //   hint: "SKU",
-                                //   controller:
-                                //       editProductController.skuController,
-                                //   validator: MultiValidator([
-                                //     RequiredValidator(
-                                //         errorText: "Please enter SKU")
-                                //   ]),
-                                // ),
-                                // SizedBox(
-                                //   height: AddSize.size10,
-                                // ),
-                                Obx(() {
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: editProductController.listModelData.length,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) {
-                                        return repeatUnit(
-                                            qty1: editProductController.listModelData[index].qty.value,
-                                            price1: editProductController
-                                                .listModelData[index]
-                                                .price
-                                                .value,
-                                            minQty1: editProductController
-                                                .listModelData[index]
-                                                .minQty
-                                                .value,
-                                            maxQty1: editProductController
-                                                .listModelData[index]
-                                                .maxQty
-                                                .value,
-                                            marketPrice1: editProductController
-                                                .listModelData[index]
-                                                .marketPrice!
-                                                .value,
-                                            index: index);
-                                      });
-                                })
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: AddSize.size30,
+                                    width: AddSize.size30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.amber.shade600,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Center(
+                                        child: GestureDetector(
+                                      onTap: () {
+                                        editProductController.listModelData.add(
+                                            ListModel(
+                                                qty: "".obs,
+                                                varientId: "".obs,
+                                                price: "".obs,
+                                                minQty: "".obs,
+                                                maxQty: "".obs,
+                                                qtyType: "".obs,
+                                                marketPrice: "".obs));
+                                        setState(() {});
+                                      },
+                                      child: Icon(
+                                        Icons.add,
+                                        color: AppTheme.backgroundcolor,
+                                        size: AddSize.size25,
+                                      ),
+                                    )),
+                                  ),
+                                )
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: AddSize.size20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  height: AddSize.size30,
-                                  width: AddSize.size30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber.shade600,
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: Center(
-                                      child: GestureDetector(
-                                    onTap: () {
-                                      editProductController.listModelData.add(
-                                          ListModel(
-                                              qty: "".obs,
-                                              varientId: "".obs,
-                                              price: "".obs,
-                                              minQty: "".obs,
-                                              maxQty: "".obs,
-                                              qtyType: "".obs,
-                                              marketPrice: "".obs));
-                                      setState(() {});
-                                    },
-                                    child: Icon(
-                                      Icons.add,
-                                      color: AppTheme.backgroundcolor,
-                                      size: AddSize.size25,
-                                    ),
-                                  )),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: AddSize.size20,
-                          ),
-                          ElevatedButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Map<String, String> map = {};
-                                  map['id'] = editProductController
-                                      .editModel.value.data!.id
-                                      .toString();
-                                  map['product_id'] = editProductController
-                                      .editModel.value.data!.product!.id
-                                      .toString();
-                                  map['category_id'] = editProductController
-                                      .editModel
-                                      .value
-                                      .data!
-                                      .product!
-                                      .category!
-                                      .id
-                                      .toString();
-                                  map['imageOld'] = editProductController
-                                      .editModel.value.data!.image
-                                      .toString();
-                                  print("Map data...$map");
-                                  map['product_variant_id'] =
-                                      editProductController.listModelData
-                                          .where((element) => element.varientId.value != "")
-                                          .toList()
-                                          .map((e) => e.varientId.value)
-                                          .join(",");
-                                  print("Map data...$map");
-                                  for (var i = 0;
-                                      i <
+                            SizedBox(
+                              height: AddSize.size20,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    Map<String, String> map = {};
+                                    map['id'] = editProductController
+                                        .editModel.value.data!.id
+                                        .toString();
+                                    map['product_id'] = editProductController
+                                        .editModel.value.data!.product!.id
+                                        .toString();
+                                    map['category_id'] = editProductController
+                                        .editModel
+                                        .value
+                                        .data!
+                                        .product!
+                                        .category!
+                                        .id
+                                        .toString();
+                                    map['imageOld'] = editProductController
+                                        .editModel.value.data!.image
+                                        .toString();
+                                    print("Map data...$map");
+                                    map['product_variant_id'] =
+                                        editProductController.listModelData
+                                            .where((element) => element.varientId.value != "")
+                                            .toList()
+                                            .map((e) => e.varientId.value)
+                                            .join(",");
+                                    print("Map data...$map");
+                                    for (var i = 0;
+                                        i <
+                                            editProductController
+                                                .listModelData.length;
+                                        i++) {
+                                      map["variants[$i][market_price]"] =
                                           editProductController
-                                              .listModelData.length;
-                                      i++) {
-                                    map["variants[$i][market_price]"] =
-                                        editProductController
-                                            .listModelData[i].marketPrice!.value
-                                            .toString();
-                                    map["variants[$i][variant_qty]"] =
-                                        editProductController
-                                            .listModelData[i].qty.value
-                                            .toString();
-                                    map["variants[$i][variant_qty_type]"] =
-                                        editProductController
-                                            .listModelData[i].qtyType.value
-                                            .toString();
-                                    map["variants[$i][min_qty]"] =
-                                        editProductController
-                                            .listModelData[i].minQty.value
-                                            .toString();
-                                    map["variants[$i][max_qty]"] =
-                                        editProductController
-                                            .listModelData[i].maxQty.value
-                                            .toString();
-                                    map["variants[$i][price]"] =
-                                        editProductController
-                                            .listModelData[i].price.value
-                                            .toString();
-                                  }
-                                  print("Map data...$map");
-
-                                  vendorSaveProductRepo(
-                                          fieldName1: "image",
-                                          mapData: map,
-                                          context: context,
-                                          file1: image.value)
-                                      .then((value) {
-                                    if (value.status == true) {
-                                      showToast(value.message);
-                                      vendorProductListController.getVendorProductList();
-                                      Get.back();
+                                              .listModelData[i].marketPrice!.value
+                                              .toString();
+                                      map["variants[$i][variant_qty]"] =
+                                          editProductController
+                                              .listModelData[i].qty.value
+                                              .toString();
+                                      map["variants[$i][variant_qty_type]"] =
+                                          editProductController
+                                              .listModelData[i].qtyType.value
+                                              .toString();
+                                      map["variants[$i][min_qty]"] =
+                                          editProductController
+                                              .listModelData[i].minQty.value
+                                              .toString();
+                                      map["variants[$i][max_qty]"] =
+                                          editProductController
+                                              .listModelData[i].maxQty.value
+                                              .toString();
+                                      map["variants[$i][price]"] =
+                                          editProductController
+                                              .listModelData[i].price.value
+                                              .toString();
                                     }
-                                  });
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                minimumSize:
-                                    Size(double.maxFinite, AddSize.size45),
-                                primary: AppTheme.primaryColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                              ),
-                              child: Text(
-                                "SAVE",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5!
-                                    .copyWith(
-                                        color: AppTheme.backgroundcolor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: AddSize.font18),
-                              )),
-                        ],
+                                    print("Map data...$map");
+
+                                    vendorSaveProductRepo(
+                                            fieldName1: "image",
+                                            mapData: map,
+                                            context: context,
+                                            file1: image.value)
+                                        .then((value) {
+                                      if (value.status == true) {
+                                        showToast(value.message);
+                                        vendorProductListController.getVendorProductList();
+                                        Get.back();
+                                      }
+                                    });
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize:
+                                      Size(double.maxFinite, AddSize.size45),
+                                  primary: AppTheme.primaryColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                ),
+                                child: Text(
+                                  "SAVE",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5!
+                                      .copyWith(
+                                          color: AppTheme.backgroundcolor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: AddSize.font18),
+                                )),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                );
-              })
-            : const Center(child: CircularProgressIndicator()),
+                  );
+                })
+              : const Center(child: CircularProgressIndicator()),
+        ),
       );
     });
   }

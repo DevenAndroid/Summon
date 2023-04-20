@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/verify_otp_model.dart';
 
 class ApiUrl {
-  static const baseUrl = "https://summon.eoxyslive.com/";
+  static const baseUrl = "https://summon.eoxyslive.com/api/";
   static const loginApi = "${baseUrl}login";
   static const otpApi = "${baseUrl}verify-otp";
   static const resendApi = "${baseUrl}resend-otp";
