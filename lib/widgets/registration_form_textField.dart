@@ -170,10 +170,10 @@ class RegistrationTextField1 extends StatelessWidget {
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 17),
           // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade300),
+            borderSide: BorderSide(color: Color(0xffC0CCD4)),
             borderRadius: BorderRadius.circular(10.0),
           ),
           enabledBorder: OutlineInputBorder(

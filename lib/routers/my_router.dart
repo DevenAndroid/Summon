@@ -34,6 +34,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.da
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/Onboarding_Screen_page.dart';
+import '../screens/SetPassword_Screen.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
@@ -62,6 +63,7 @@ class MyRouter {
         name: AdminResponse.adminResponse, page: () => const AdminResponse()),
     GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
+    GetPage(name: SetPasswordScreen.setPasswordScreen, page: () => const SetPasswordScreen()),
     GetPage(
       name: SearchScreenData.searchScreen,
       page: () => const SearchScreenData(),
