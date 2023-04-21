@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
-import 'package:fresh2_arrive/screens/otpscreen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repositories/login_repository.dart';
@@ -13,6 +12,7 @@ import '../routers/my_router.dart';
 import '../widgets/add_text.dart';
 import '../widgets/commonTextField.dart';
 import '../widgets/dimensions.dart';
+import 'Otp_Screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

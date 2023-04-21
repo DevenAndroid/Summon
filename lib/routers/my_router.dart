@@ -1,3 +1,4 @@
+import 'package:fresh2_arrive/screens/Otp_Screen.dart';
 import 'package:fresh2_arrive/screens/SearchScreenData..dart';
 import 'package:fresh2_arrive/screens/add_money.dart';
 import 'package:fresh2_arrive/screens/custum_bottom_bar.dart';
@@ -20,7 +21,6 @@ import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
 import 'package:fresh2_arrive/screens/order/orderDetails.dart';
-import 'package:fresh2_arrive/screens/otpscreen.dart';
 import 'package:fresh2_arrive/screens/privacy_policy.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/splash_screen.dart';
@@ -65,9 +65,9 @@ class MyRouter {
     GetPage(name: MyProfileScreen.myProfileScreen, page: () => const MyProfileScreen()),
     GetPage(
         name: AdminResponse.adminResponse, page: () => const AdminResponse()),
-    GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(name: HomePage.homePage, page: () => const HomePage()),
     GetPage(name: SetPasswordScreen.setPasswordScreen, page: () => const SetPasswordScreen()),
+    GetPage(name: OtpScreen.otpScreen, page: () => const OtpScreen()),
     GetPage(
       name: SearchScreenData.searchScreen,
       page: () => const SearchScreenData(),

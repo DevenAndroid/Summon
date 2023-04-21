@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:fresh2_arrive/screens/SignUp_Screen.dart';
+//import 'package:fresh2_arrive/screens/SignUp_Screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../repositories/login_repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/commonTextField.dart';
 import '../widgets/dimensions.dart';
+import 'custum_bottom_bar.dart';
 import 'loginScreen1.dart';
 class LoginScreen2 extends StatefulWidget {
   const LoginScreen2({Key? key}) : super(key: key);
@@ -18,6 +20,10 @@ class LoginScreen2 extends StatefulWidget {
 }
 
 class _LoginScreen2State extends State<LoginScreen2> {
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
   var obscureText = true;
   @override
@@ -56,7 +62,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       height: AddSize.size10,
                     ),
                     CommonTextFieldWidget(
-                      //controller: emailController,
+                      controller: emailController,
                       hint: 'Enter Your email or phone',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -85,7 +91,7 @@ class _LoginScreen2State extends State<LoginScreen2> {
                       height: AddSize.size10,
                     ),
                     CommonTextFieldWidget(
-                      //controller: passwordController,
+                      controller: passwordController,
                       //obscureText: obscureText,
                       hint: 'Password',
                       keyboardType: TextInputType.emailAddress,
@@ -134,7 +140,11 @@ class _LoginScreen2State extends State<LoginScreen2> {
                     ElevatedButton(
                         onPressed: () async {
                           if(formKey.currentState!.validate()){
+                            login(email: emailController.text,password: passwordController.text).then((value1) => {
+                              showToast(value1.message.toString()),
+                              Get.offAllNamed(CustomNavigationBar.customNavigationBar),
 
+                            });
                           }
                           //var fcmToken =
                           // await FirebaseMessaging.instance.getToken();

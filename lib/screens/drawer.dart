@@ -34,6 +34,7 @@ import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
 import 'driver_screen/withdraw_moeny.dart';
+import 'loginScreen2.dart';
 
 class CustomDrawer extends StatefulWidget {
   // final void Function(int index) onItemTapped;
@@ -603,7 +604,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             SharedPreferences preferences =
                                 await SharedPreferences.getInstance();
                             await preferences.clear();
-                            Get.offAllNamed(LoginScreen.loginScreen);
+                            Get.offAllNamed(LoginScreen2.loginScreen2);
                           }),
                     ],
                   ),

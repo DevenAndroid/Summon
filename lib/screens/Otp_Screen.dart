@@ -12,7 +12,7 @@ import '../widgets/registration_form_textField.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
-  static var setPasswordScreen = "/setPasswordScreen";
+  static var otpScreen = "/otpScreen";
   @override
   State<OtpScreen> createState() => _OtpScreenState();
 }

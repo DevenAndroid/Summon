@@ -2,6 +2,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/loginScreen2.dart';
 import 'package:get/get.dart';
 import '../model/onboardData.dart';
 import '../resources/app_assets.dart';
@@ -119,7 +120,7 @@ class OnboardContent extends StatelessWidget {
                   alignment: Alignment.topRight,
                   child: TextButton(
                       onPressed: () {
-                        Get.offAllNamed(LoginScreen.loginScreen);
+                        Get.offAllNamed(LoginScreen2.loginScreen2);
                       },
                       child: indexValue == 2
                           ? const SizedBox()

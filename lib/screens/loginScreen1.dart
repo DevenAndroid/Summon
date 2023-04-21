@@ -4,9 +4,11 @@ import 'package:fresh2_arrive/screens/loginScreen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 
+import '../repositories/signup_repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/commonTextField.dart';
 import '../widgets/dimensions.dart';
+import 'Otp_Screen.dart';
 import 'loginScreen2.dart';
 class LoginScreen1 extends StatefulWidget {
   const LoginScreen1({Key? key}) : super(key: key);
@@ -16,6 +18,10 @@ class LoginScreen1 extends StatefulWidget {
 }
 
 class _LoginScreen1State extends State<LoginScreen1> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   var obscureText = true;
   @override
@@ -53,7 +59,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                       height: AddSize.size5,
                     ),
                     CommonTextFieldWidget(
-                      //controller: emailController,
+                      controller:  nameController,
                       hint: 'Enter Your name',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -81,7 +87,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                       height: AddSize.size10,
                     ),
                     CommonTextFieldWidget(
-                      //controller: emailController,
+                      controller: emailController,
                       hint: 'Enter Your Email',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -110,7 +116,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                       height: AddSize.size10,
                     ),
                     CommonTextFieldWidget(
-                      //controller: passwordController,
+                      controller: passwordController,
                       //obscureText: obscureText,
                       hint: 'Password',
                       keyboardType: TextInputType.emailAddress,
@@ -150,7 +156,7 @@ class _LoginScreen1State extends State<LoginScreen1> {
                       height: AddSize.size10,
                     ),
                     CommonTextFieldWidget(
-                      //controller: passwordController,
+                      controller: confirmPasswordController,
                       //obscureText: obscureText,
                       hint: 'Confirm Password',
                       keyboardType: TextInputType.emailAddress,
@@ -189,7 +195,23 @@ class _LoginScreen1State extends State<LoginScreen1> {
                     ElevatedButton(
                         onPressed: () async {
                           if(formKey.currentState!.validate()){
+                            signup(
+                           name:    nameController.text,
+                             email:  emailController.text,
+                             password:  passwordController.text,
+                              confirmPassword:  confirmPasswordController.text
+                                ).then((value1) => {
+                               if(value1.status == true){
+                                 showToast(value1.message.toString()),
+                                Get.toNamed(LoginScreen2.loginScreen2)
+                               }
+                               else{
+                                showToast(value1.message.toString()),
+                               }
+                            });
 
+
+                           // Get.toNamed(LoginScreen2.loginScreen2);
                           }
                           //var fcmToken =
                          // await FirebaseMessaging.instance.getToken();
