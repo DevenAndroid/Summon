@@ -19,6 +19,9 @@ import '../controller/store_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
+import 'Categories_Screen.dart';
+import 'Homepage_Screen.dart';
+import 'MyCart_Page.dart';
 import 'drawer.dart';
 import 'myProfile.dart';
 import 'my_cart_screen.dart';
@@ -43,6 +46,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
   final myCartController = Get.put(MyCartDataListController());
   final notificationController = Get.put(NotificationController());
   final storeController = Get.put(StoreController());
+  final controller1 = Get.put(ProfileController());
   @override
   void initState() {
     // TODO: implement initState
@@ -65,171 +69,171 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
             fit: BoxFit.contain,
           ),
         ),
-        child: Obx(() {
-          return Directionality(
+        child:
+
+            Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 key: controller.scaffoldKey,
                 drawer: const CustomDrawer(),
-                appBar: controller.currentIndex.value != 2
-                    ? controller.currentIndex.value == 0
-                        ?
-                        // category app bar
-                        buildAppBar(
-                            false, controller.currentIndex.value, "".toString())
-                        : buildAppBar(
-                            false,
-                            controller.currentIndex.value,
-                            profileController.isDataLoading.value
-                                ? (profileController
-                                            .model.value.data!.profileImage ??
-                                        "")
-                                    .toString()
-                                : "")
-                    : AppBar(
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                        leadingWidth: AddSize.size50,
-                        leading: Padding(
-                          padding: EdgeInsets.only(left: AddSize.padding10,right: 20),
-                          child: GestureDetector(
-                            child: Image.asset(
-                              AppAssets.drawerImage,
-                              height: AddSize.size20,
-                            ),
-                            onTap: () {
-                              controller.scaffoldKey.currentState!.openDrawer();
-                              profileController.getData();
-                            },
-                          ),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.toNamed(ChooseAddress.chooseAddressScreen);
-                              },
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: const Icon(
-                                      Icons.location_on,
-                                      color: AppTheme.backgroundcolor,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  const Text(
-                                    "Home",
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: AppTheme.backgroundcolor,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  const Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: AppTheme.backgroundcolor,
-                                    size: 30,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Text(
-                              locationController.locality.value.toString(),
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppTheme.backgroundcolor,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          IconButton(
-                            icon:
-                            // Image.asset(
-                            //   AppAssets.notification,
-                            //   height: 22,
-                            // ),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 12.0),
-                                child:
-                                Badge(
-                                  badgeStyle: const BadgeStyle(badgeColor: AppTheme.blackcolor),
-                                  badgeContent: Obx(() {
-                                    return Text(
-                                      notificationController
-                                          .isDataLoading.value
-                                          ? notificationController
-                                          .model.value.data!.count
-                                          .toString()
-                                          : "0",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: AddSize.font12),
-                                    );
-                                  }),
-                                  child: const ImageIcon(
-                                    AssetImage(AppAssets.notification),
-                                    size: 22,
-                                  ),
-                                )),
-                            onPressed: () {
-                              Get.toNamed(NotificationScreen.notificationScreen);
-                              Get.to(SetPasswordScreen());
-                            },
-                          ),
-                          addWidth(10),
-                          Padding(
-                            padding: const EdgeInsets.only(left:22),
-                            child: GestureDetector(
-                              onTap: () async {
-                                Get.toNamed(MyProfileScreen.myProfileScreen);
-                              },
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 20,
-                                child: Container(
-                                    height: 38,
-                                    width: 38,
-                                    clipBehavior: Clip.antiAlias,
-                                    // margin: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      // color: Colors.brown
-                                    ),
-                                    child: Obx(() {
-                                      return(profileController.isDataLoading.value
-                                          ? (profileController.model.value.data!
-                                          .profileImage ??
-                                          "")
-                                          .toString()
-                                          : "").isNotEmpty ? CachedNetworkImage(
-                                        fit: BoxFit.cover,
-                                        imageUrl:
-                                            profileController.isDataLoading.value
-                                                ? profileController.model.value
-                                                    .data!.profileImage!
-                                                : '',
-                                        height: AddSize.size30,
-                                        width: AddSize.size30,
-                                        errorWidget: (_, __, ___) =>
-                                            const SizedBox(),
-                                        placeholder: (_, __) => const SizedBox(),
-                                      ):SizedBox.shrink();
-                                    })),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                // appBar: controller.currentIndex.value != 2
+                //     ? controller.currentIndex.value == 0
+                //         ?
+                //         // category app bar
+                //         buildAppBar(
+                //             false, controller.currentIndex.value, "".toString())
+                //         : buildAppBar(
+                //             false,
+                //             controller.currentIndex.value,
+                //             profileController.isDataLoading.value
+                //                 ? (profileController
+                //                             .model.value.data!.profileImage ??
+                //                         "")
+                //                     .toString()
+                //                 : "")
+                //     :
+                // AppBar(
+                //         backgroundColor: Color(0xffF6F6F6),
+                //         elevation: 0,
+                //         leadingWidth: AddSize.size80,
+                //         leading: Padding(
+                //           padding: EdgeInsets.only(left: 33,right: 20),
+                //           child: GestureDetector(
+                //             child: Image.asset(
+                //               AppAssets.homeIcon,
+                //               height: AddSize.size30,
+                //             ),
+                //             onTap: () {
+                //               controller.scaffoldKey.currentState!.openDrawer();
+                //               profileController.getData();
+                //             },
+                //           ),
+                //         ),
+                //         title: Column(
+                //           crossAxisAlignment: CrossAxisAlignment.start,
+                //           children: [
+                //             InkWell(
+                //               onTap: () {
+                //                 //Get.toNamed(ChooseAddress.chooseAddressScreen);
+                //               },
+                //               child: Row(
+                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //                 children: [
+                //                   // InkWell(
+                //                   //   onTap: () {},
+                //                   //   child: const Icon(
+                //                   //     Icons.location_on,
+                //                   //     color: AppTheme.backgroundcolor,
+                //                   //   ),
+                //                   // ),
+                //                   const SizedBox(
+                //                     width: 10,
+                //                   ),
+                //                   const Text(
+                //                     "Home",
+                //                     style: TextStyle(
+                //                         fontSize: 18,
+                //                         color: AppTheme.primaryColor,
+                //                         fontWeight: FontWeight.w500),
+                //                   ),
+                //                   const SizedBox(
+                //                     width: 5,
+                //                   ),
+                //
+                //                 ],
+                //               ),
+                //             ),
+                //             // Text(
+                //             //   locationController.locality.value.toString(),
+                //             //   style: const TextStyle(
+                //             //       fontSize: 14,
+                //             //       color: AppTheme.backgroundcolor,
+                //             //       fontWeight: FontWeight.w400),
+                //             // ),
+                //           ],
+                //         ),
+                //         actions: [
+                //           IconButton(
+                //             icon:
+                //             // Image.asset(
+                //             //   AppAssets.notification,
+                //             //   height: 22,
+                //             // ),
+                //             Padding(
+                //                 padding: const EdgeInsets.only(
+                //                     right: 10.0),
+                //                 child:
+                //                 Badge(
+                //                   badgeStyle: const BadgeStyle(badgeColor: AppTheme.primaryColor),
+                //                   badgeContent: Obx(() {
+                //                     return Text(
+                //                       notificationController
+                //                           .isDataLoading.value
+                //                           ? notificationController
+                //                           .model.value.data!.count
+                //                           .toString()
+                //                           : "0",
+                //                       style: TextStyle(
+                //                           color: Colors.white,
+                //                           fontSize: AddSize.font12),
+                //                     );
+                //                   }),
+                //                   child: const ImageIcon(
+                //                     AssetImage(AppAssets.bagIcon),
+                //                     size: 40,
+                //                     color: Colors.black,
+                //                   ),
+                //                 )),
+                //             onPressed: () {
+                //               Get.toNamed(NotificationScreen.notificationScreen);
+                //               //Get.to(SetPasswordScreen());
+                //             },
+                //           ),
+                //           addWidth(20),
+                //           // Padding(
+                //           //   padding: const EdgeInsets.only(left:22),
+                //           //   child: GestureDetector(
+                //           //     onTap: () async {
+                //           //       Get.toNamed(MyProfileScreen.myProfileScreen);
+                //           //     },
+                //           //     child: CircleAvatar(
+                //           //       backgroundColor: Colors.white,
+                //           //       radius: 20,
+                //           //       child: Container(
+                //           //           height: 38,
+                //           //           width: 38,
+                //           //           clipBehavior: Clip.antiAlias,
+                //           //           // margin: EdgeInsets.all(1),
+                //           //           decoration: BoxDecoration(
+                //           //             borderRadius: BorderRadius.circular(50),
+                //           //             // color: Colors.brown
+                //           //           ),
+                //           //           child: Obx(() {
+                //           //             return(profileController.isDataLoading.value
+                //           //                 ? (profileController.model.value.data!
+                //           //                 .profileImage ??
+                //           //                 "")
+                //           //                 .toString()
+                //           //                 : "").isNotEmpty ? CachedNetworkImage(
+                //           //               fit: BoxFit.cover,
+                //           //               imageUrl:
+                //           //                   profileController.isDataLoading.value
+                //           //                       ? profileController.model.value
+                //           //                           .data!.profileImage!
+                //           //                       : '',
+                //           //               height: AddSize.size30,
+                //           //               width: AddSize.size30,
+                //           //               errorWidget: (_, __, ___) =>
+                //           //                   const SizedBox(),
+                //           //               placeholder: (_, __) => const SizedBox(),
+                //           //             ):SizedBox.shrink();
+                //           //           })),
+                //           //     ),
+                //           //   ),
+                //           // )
+                //         ],
+                //       ),
                 bottomNavigationBar: Obx(() {
                   return BottomAppBar(
                       color: Colors.transparent,
@@ -342,15 +346,15 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       padding: const EdgeInsets.symmetric(vertical: 08),
                                       child: GestureDetector(
                                         onTap: () async {
-                                          await myOrderController.getMyOrder();
+                                           await profileController.getData();
                                         },
                                         child: const ImageIcon(
-                                          AssetImage(AppAssets.cartImage),
+                                          AssetImage(AppAssets.personIcon),
                                           size: 18,
                                         ),
                                       ),
                                     ),
-                                    label: 'Order'),
+                                    label: 'Profile'),
                               ],
                               type: BottomNavigationBarType.fixed,
                               currentIndex: controller.currentIndex.value,
@@ -369,8 +373,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     decoration: BoxDecoration(
                         color: AppTheme.primaryColor,
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(
-                            color: AppTheme.backgroundcolor, width: 2)),
+
+                    ),
                     child: GestureDetector(
                       child: const Center(
                         child: Icon(
@@ -390,16 +394,19 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     return IndexedStack(
                       index: controller.currentIndex.value,
                       children: const [
-                        AllCategories(),
-                        MyCartScreen(),
-                        HomePage(),
+                        //AllCategories(),
+                        CategoriesScreen(),
+                        MyCartPage(),
+                        HomePageScreen(),
                         StoreListScreen(),
-                        MyOrderScreen(),
+                        MyProfileScreen(),
                       ],
                     );
                   }),
                 )),
-          );
-        }));
+          ),
+
+
+        );
   }
 }

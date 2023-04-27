@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "642791608128",
-    "project_id": "fresh2arrive-a7448",
-    "storage_bucket": "fresh2arrive-a7448.appspot.com"
+    "project_number": "796991586210",
+    "project_id": "foodhub-8cdba",
+    "storage_bucket": "foodhub-8cdba.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:642791608128:android:25313a977c62ae26f434a5",
+        "mobilesdk_app_id": "1:796991586210:android:5a6503ce9595f14aed7cfb",
         "android_client_info": {
-          "package_name": "com.example.fresh2_arrive"
+          "package_name": "com.food.hub"
         }
       },
       "oauth_client": [
         {
-          "client_id": "642791608128-ep9ggkbos5e23n5bqsboub1vtjilvfh9.apps.googleusercontent.com",
+          "client_id": "796991586210-5u39i10f3bggrr514nkk7dgm77lpl714.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.food.hub",
+            "certificate_hash": "6bffe93a471d3eeb58affd709ce4cbde4a102d12"
+          }
+        },
+        {
+          "client_id": "796991586210-7fbpjqnf18mdm732eo07ukbld9h63r59.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBG3J6eNihnut_bVmYG-NgRVtR2oLvYQ7A"
+          "current_key": "AIzaSyANbBKZCAOWGQBkW5X6tOBtDmkjUu8UHwI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "642791608128-ep9ggkbos5e23n5bqsboub1vtjilvfh9.apps.googleusercontent.com",
+              "client_id": "796991586210-7fbpjqnf18mdm732eo07ukbld9h63r59.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

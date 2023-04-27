@@ -81,8 +81,10 @@ class HomePageState extends State<HomePage> {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+
           backgroundColor: Colors.transparent,
-          body: RefreshIndicator(
+          body:
+          RefreshIndicator(
             onRefresh: () async {
               nearStoreController.isPaginationLoading.value = true;
               nearStoreController.loadMore.value = true;

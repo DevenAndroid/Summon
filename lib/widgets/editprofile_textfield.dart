@@ -69,7 +69,7 @@ class EditProfileTextFieldWidget extends StatelessWidget {
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:
-              TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
+              TextStyle(color: Color(0xffADADB8), fontSize: AddSize.font14),
           labelText: label,
           labelStyle: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14),
           filled: true,

@@ -682,7 +682,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                       .toString() ==
                                                   ""
                                           ? const SizedBox()
-                                          : Row(
+                                          :
+                                      Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
                                                       .spaceBetween,
@@ -780,7 +781,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                       horizontal: width * .03,
                                       vertical: height * .02,
                                     ),
-                                    child: Column(
+                                    child:
+                                    Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:

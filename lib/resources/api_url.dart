@@ -6,6 +6,7 @@ import '../model/verify_otp_model.dart';
 class ApiUrl {
   static const baseUrl = "https://summon.eoxyslive.com/api/";
   static const loginApi = "${baseUrl}login";
+  static const socialLogin = "${baseUrl}social-login";
   static const otpApi = "${baseUrl}verify-otp";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
@@ -95,4 +96,10 @@ getHeaders() async {
           'Bearer ${ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!)).authToken}'
   };
   return headers;
+}
+Future<String> getUserToken() async {
+  SharedPreferences sharedPreference = await SharedPreferences.getInstance();
+  ModelVerifyOtp model = ModelVerifyOtp.fromJson(
+      jsonDecode(sharedPreference.getString("userData")!));
+  return model.data!.profileImage.toString();
 }

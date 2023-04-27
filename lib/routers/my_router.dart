@@ -53,12 +53,14 @@ import '../screens/vendor_screen/thank_you.dart';
 import '../screens/vendor_screen/vendor_products.dart';
 import '../screens/vendor_screen/vendor_registration.dart';
 import '../screens/wallet_screen.dart';
+import '../screens/welcome_screen.dart';
 
 class MyRouter {
   static var splashScreen = "/splashScreen";
   static var route = [
-    GetPage(name: '/', page: () => const LoginScreen2()),
+    GetPage(name: '/', page: () => const SplashScreen()),
     GetPage(name: OnBoardingScreenPage.onBoarding, page: () => const OnBoardingScreenPage()),
+    GetPage(name: WelcomeScreen.welcomeScreen, page: () => const WelcomeScreen()),
     GetPage(name: LoginScreen.loginScreen, page: () => const LoginScreen()),
     GetPage(name: LoginScreen2.loginScreen2, page: () => const LoginScreen2()),
     GetPage(name: LoginScreen1.loginScreen1, page: () => const LoginScreen1()),

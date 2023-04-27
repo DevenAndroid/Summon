@@ -1,4 +1,4 @@
-package com.example.fresh2_arrive
+package com.food.hub
 
 import io.flutter.embedding.android.FlutterActivity
 

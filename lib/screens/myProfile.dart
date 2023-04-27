@@ -99,297 +99,326 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: backAppBar(
-        title: "My Profile",
-        context: context,
-      ),
+      backgroundColor: Color(0xffF9F9F9),
       body: Obx(() {
         return controller.isDataLoading.value &&
                 controller.model.value.data != null
-            ? SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Stack(
+            ? Stack(
+              children: [
+                Positioned(
+                    top: -50,
+                    left: 100,
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+
+                          image: DecorationImage(
+                              image: AssetImage(AppAssets.profileIcon1)
+                          )
+                      ),
+                    )),
+                Positioned(
+                    top: -20,
+                    left: -10,
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+
+                          image: DecorationImage(
+                              image: AssetImage(AppAssets.profileIcon2)
+                          )
+                      ),
+                    )),
+                Positioned(
+                    top: -2,
+                    right: -5,
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+
+                          image: DecorationImage(
+                              image: AssetImage(AppAssets.profileIcon3)
+                          )
+                      ),
+                    )),
+
+                SingleChildScrollView(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              elevation: 0,
-                              child: Column(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 30),
+                              child: Stack(
                                 children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20),
-                                            topRight: Radius.circular(20)),
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                AppAssets.profileImage),
-                                            fit: BoxFit.cover)),
-                                    height: 112,
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 150,right: 50),
+                                    child: Column(
+                                      //crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+
+
+                                        Text(
+                                          controller.model.value.data!.name == null
+                                              ? "Test Customer"
+                                              : "${controller.model.value.data!.name}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: AddSize.font16),
+                                        ),
+                                        Text(
+                                          controller.model.value.data!.email == null
+                                              ? "abc@gmail.com"
+                                              : "${controller.model.value.data!.email}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w300,
+                                                  fontSize: AddSize.font14),
+                                        ),
+                                        // const SizedBox(
+                                        //   height: 20,
+                                        // ),
+                                      ],
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    height: 50,
-                                  ),
-                                  Text(
-                                    controller.model.value.data!.name == null
-                                        ? "Test Customer"
-                                        : "${controller.model.value.data!.name}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: AddSize.font16),
-                                  ),
-                                  Text(
-                                    controller.model.value.data!.email == null
-                                        ? "abc@gmail.com"
-                                        : "${controller.model.value.data!.email}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: AddSize.font14),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
+
+
+
                                 ],
                               ),
                             ),
-                            Positioned(
-                                top: 50,
-                                bottom: 85,
-                                left: 0,
-                                right: 0,
-                                child: CircleAvatar(
-                                    backgroundColor: Colors.white,
-                                    radius: 20,
-                                    child: Container(
-                                      // margin: const EdgeInsets.only(bottom: 32),
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      decoration: const ShapeDecoration(
-                                        shape: CircleBorder(),
-                                        // color: Colors.white,
-                                      ),
-                                      child: controller.image.value.path == ""
-                                          ? controller.model.value.data!
-                                                      .profileImage!.isEmpty ||
-                                                  controller.model.value.data!
-                                                          .profileImage! ==
-                                                      "https://fresh2arrive.eoxyslive.com/uploads/profile-images"
-                                              ? const SizedBox(
-                                                  height: 100,
-                                                  width: 100,
-                                                )
-                                              : Image.network(
-                                                  controller.model.value.data!
-                                                      .profileImage
-                                                      .toString(),
-                                                  fit: BoxFit.cover,
-                                                  height: 100,
-                                                  width: 100,
-                                                )
-                                          : Image.file(
-                                              controller.image.value,
-                                              fit: BoxFit.cover,
-                                              height: 100,
-                                              width: 100,
-                                            ),
-                                    ))),
-                            Positioned(
-                                right: 125,
-                                top: 90,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2,
-                                          color: AppTheme.backgroundcolor),
-                                      color: AppTheme.primaryColor,
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: Center(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        showUploadWindow();
-                                      },
-                                      child: const Image(
-                                          height: 10,
-                                          width: 15,
-                                          image: AssetImage(
-                                              AppAssets.camaraImage)),
-                                    ),
-                                  ),
-                                )),
-                          ],
-                        ),
-                        // const SizedBox(
-                        //   height: 20,
-                        // ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: AppTheme.backgroundcolor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15.0, vertical: 10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Edit Your Details",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: AddSize.font16),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  "Name",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: AddSize.font14),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                EditProfileTextFieldWidget(
-                                  hint: "Enter Your Name",
-                                  controller: controller.nameController,
-                                  validator: validateName,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  "E-mail",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: AddSize.font14),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                EditProfileTextFieldWidget(
-                                  hint: "Enter Your Email",
-                                  controller: controller.emailController,
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                Text(
-                                  "Mobile Number",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: AddSize.font14),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                EditProfileTextFieldWidget(
-                                  hint: "Enter Your Mobile Number",
-                                  controller: controller.mobileController,
-                                  validator: validateMobile,
-                                  keyboardType: TextInputType.number,
-                                  length: 10,
-                                  readOnly: true,
-                                  enable: false,
-                                ),
-                                const SizedBox(
-                                  height: 40,
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                      controller.mobileController.text;
-                                      FocusManager.instance.primaryFocus!
-                                          .unfocus();
-                                      if (_formKey.currentState!.validate()) {
-                                        Map<String, String> mapData = {
-                                          'name':
-                                              controller.nameController.text,
-                                          'phone':
-                                              controller.mobileController.text,
-                                          'email':
-                                              controller.emailController.text,
-                                        };
-                                        editUserProfileRepo(
-                                                context: context,
-                                                mapData: mapData,
-                                                fieldName1: "profile_image",
-                                                file1: controller.image.value)
-                                            .then((value) {
-                                          showToast(value.message);
-                                          if (value.status == true) {
-                                            controller.getData();
-                                          } else {
-                                            showToast(value.message);
-                                          }
-                                        });
-                                      } else {}
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        padding: const EdgeInsets.all(10),
-                                        backgroundColor: AppTheme.primaryColor,
-                                        minimumSize:
-                                            const Size(double.maxFinite, 50),
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        textStyle: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600)),
-                                    child: Text(
-                                      "UPDATE",
+
+                            Container(
+                              decoration: BoxDecoration(
+                                //color: AppTheme.backgroundcolor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+
+                                    Text(
+                                      "Full name",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5!
                                           .copyWith(
-                                              color: AppTheme.backgroundcolor,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: AddSize.font16),
-                                    )),
-                                SizedBox(
-                                  height: AddSize.size20,
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: AddSize.font14,color: Color(0xff828282)),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    EditProfileTextFieldWidget(
+                                      hint: "Enter Your Name",
+                                      controller: controller.nameController,
+                                      validator: validateName,
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      "E-mail",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: AddSize.font14,color: Color(0xff828282)),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    EditProfileTextFieldWidget(
+                                      hint: "Enter Your Email",
+                                      controller: controller.emailController,
+                                    ),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    Text(
+                                      "Mobile Number",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline5!
+                                          .copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: AddSize.font14,color: Color(0xff828282)),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    EditProfileTextFieldWidget(
+                                      hint: "Enter Your Mobile Number",
+                                      controller: controller.mobileController,
+                                      validator: validateMobile,
+                                      keyboardType: TextInputType.number,
+                                      length: 10,
+                                      readOnly: true,
+                                      enable: false,
+                                    ),
+                                    const SizedBox(
+                                      height: 40,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          controller.mobileController.text;
+                                          FocusManager.instance.primaryFocus!
+                                              .unfocus();
+                                          if (_formKey.currentState!.validate()) {
+                                            Map<String, String> mapData = {
+                                              'name':
+                                                  controller.nameController.text,
+                                              'phone':
+                                                  controller.mobileController.text,
+                                              'email':
+                                                  controller.emailController.text,
+                                            };
+                                            editUserProfileRepo(
+                                                    context: context,
+                                                    mapData: mapData,
+                                                    fieldName1: "profile_image",
+                                                    file1: controller.image.value)
+                                                .then((value) {
+                                              showToast(value.message);
+                                              if (value.status == true) {
+                                                controller.getData();
+                                              } else {
+                                                showToast(value.message);
+                                              }
+                                            });
+                                          } else {}
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            padding: const EdgeInsets.all(10),
+                                            backgroundColor: AppTheme.primaryColor,
+                                            minimumSize:
+                                                const Size(double.maxFinite, 50),
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            textStyle: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w600)),
+                                        child: Text(
+                                          "UPDATE",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5!
+                                              .copyWith(
+                                                  color: AppTheme.backgroundcolor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: AddSize.font16),
+                                        )),
+                                    SizedBox(
+                                      height: AddSize.size20,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              )
+                Positioned(
+                    top: 70,
+                    //bottom: 10,
+                    left: 170,
+                    //right: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xffF45D28),
+                      ),
+                      height: 120,
+                      width: 120,
+                      child: CircleAvatar(
+                          backgroundColor: Color(0xffF45D28),
+                          radius: 20,
+                          child: Container(
+                            // margin: const EdgeInsets.only(bottom: 32),
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            decoration: const ShapeDecoration(
+                              shape: CircleBorder(),
+                              // color: Colors.white,
+                            ),
+                            child: controller.image.value.path == ""
+                                ? controller.model.value.data!
+                                .profileImage!.isEmpty ||
+                                controller.model.value.data!
+                                    .profileImage! ==
+                                    "https://fresh2arrive.eoxyslive.com/uploads/profile-images"
+                                ? const SizedBox(
+                              height: 100,
+                              width: 100,
+                            )
+                                : Image.network(
+                              controller.model.value.data!
+                                  .profileImage
+                                  .toString(),
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            )
+                                : Image.file(
+                              controller.image.value,
+                              fit: BoxFit.cover,
+                              height: 100,
+                              width: 100,
+                            ),
+                          )),
+                    )),
+                Positioned(
+                    right: 130,
+                    top: 150,
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      decoration: BoxDecoration(
+
+                        //color: AppTheme.primaryColor,
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            showUploadWindow();
+                          },
+                          child: const Image(
+                              height: 45,
+                              width: 45,
+                              image: AssetImage(
+                                  AppAssets.cameraImage)),
+                        ),
+                      ),
+                    )),
+              ],
+            )
             : const Center(
-                child: CircularProgressIndicator(
+                child:
+                CircularProgressIndicator(
                 color: AppTheme.primaryColor,
-              ));
+              )
+        );
       }),
     );
   }

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/model/model_common_ressponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/Social_Login_Model.dart';
 import '../model/login_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
@@ -18,8 +19,8 @@ Future<ModelCommonResponse> updateLocation(
   map['longitude'] = longitude;
   log(map.toString());
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',

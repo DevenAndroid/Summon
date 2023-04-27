@@ -2,7 +2,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
 import 'package:fresh2_arrive/screens/loginScreen.dart';
+import 'package:fresh2_arrive/screens/loginScreen2.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/Add_vendor_product.dart';
+import 'package:fresh2_arrive/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 import '../model/onboardData.dart';
 import '../resources/app_assets.dart';
@@ -208,7 +210,7 @@ class OnboardContent extends StatelessWidget {
                             if (indexValue == 2) {
                               // Get.toNamed(LoginScreen.loginScreen);
                               // Get.toNamed(CustomNavigationBar.customNavigationBar);
-                              Get.toNamed(LoginScreen.loginScreen);
+                              Get.toNamed(WelcomeScreen.welcomeScreen);
                             }
                           },
                           style: ElevatedButton.styleFrom(

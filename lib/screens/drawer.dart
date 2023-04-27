@@ -26,6 +26,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_products.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vendor_registration.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:fresh2_arrive/screens/wallet_screen.dart';
+import 'package:fresh2_arrive/screens/welcome_screen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -604,7 +605,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             SharedPreferences preferences =
                                 await SharedPreferences.getInstance();
                             await preferences.clear();
-                            Get.offAllNamed(LoginScreen2.loginScreen2);
+                            Get.offAllNamed(WelcomeScreen.welcomeScreen);
                           }),
                     ],
                   ),

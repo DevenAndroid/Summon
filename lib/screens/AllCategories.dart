@@ -43,7 +43,8 @@ class _AllCategoriesState extends State<AllCategories> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Scaffold(
+      return
+        Scaffold(
         // backgroundColor: Colors.white,
         body: Obx(() {
           return categoryController.isDataLoading.value
