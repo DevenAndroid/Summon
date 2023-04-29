@@ -151,17 +151,17 @@ addCartSection() {
 }
 
 AppBar backAppBar(
-    {required title,
-    required BuildContext context,
-    String dispose = "",
-    Color? backgroundColor = AppTheme.backgroundcolor,
-    Color? textColor = Colors.black,
-    Widget? icon,
-    disposeController}) {
+{required title,
+required BuildContext context,
+String dispose = "",
+Color? backgroundColor = AppTheme.backgroundcolor,
+Color? textColor = Colors.black,
+Widget? icon,
+disposeController}){
   return AppBar(
     toolbarHeight: 60,
     elevation: 0,
-    leadingWidth: AddSize.size20 * 2.2,
+    leadingWidth: AddSize.size20 * 2.0,
     backgroundColor: backgroundColor,
     title: Text(
       title,
@@ -170,7 +170,7 @@ AppBar backAppBar(
     ),
     leading: Padding(
 
-      padding: EdgeInsets.only(right: AddSize.padding10),
+      padding: EdgeInsets.only(right: AddSize.padding14),
 
       
 
@@ -183,6 +183,7 @@ AppBar backAppBar(
               Image.asset(
                 AppAssets.back,
                 height: AddSize.size20,
+
               )),
     ),
   );

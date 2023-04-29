@@ -10,7 +10,8 @@ class ProfileController extends GetxController {
   Rx<ProfileModel> model = ProfileModel().obs;
   Rx<File> image = File("").obs;
   final ImagePicker picker = ImagePicker();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   @override
@@ -26,8 +27,10 @@ class ProfileController extends GetxController {
       model.value = value;
       if (isDataLoading.value &&
           model.value.data != null) {
-        nameController.text =
-            model.value.data!.name.toString();
+        firstNameController.text =
+            model.value.data!.firstName.toString();
+        lastNameController.text =
+            model.value.data!.lastName.toString();
         emailController.text =
             model.value.data!.email.toString();
         mobileController.text =

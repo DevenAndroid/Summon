@@ -48,6 +48,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final storeController = Get.put(SingleStoreController());
   final notificationController = Get.put(NotificationController());
 
+  int currentIndex = -1;
+
   final scrollController = ScrollController();
   RxDouble sliderIndex = (0.0).obs;
 
@@ -224,17 +226,17 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               size: 30,
                             ),
                           ),
-                          prefixIcon: IconButton(
-                            onPressed: () {
-                              // Get.to(const SearchScreenData());
-
-                            },
-                            icon: const Icon(
-                              Icons.place_rounded,
-                              color: Color(0xffD3D1D8),
-                              size: 30,
-                            ),
-                          ),
+                          // prefixIcon: IconButton(
+                          //   onPressed: () {
+                          //     // Get.to(const SearchScreenData());
+                          //
+                          //   },
+                          //   icon: const Icon(
+                          //     Icons.place_rounded,
+                          //     color: Color(0xffD3D1D8),
+                          //     size: 30,
+                          //   ),
+                          // ),
                         ),
                       ),
                     ),
@@ -275,23 +277,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               ))),
                     ),
                     SizedBox(
-                      height: height * .01,
+                      height: height * .02,
                     ),
-                    Obx(() {
-                      return Center(
-                        child: DotsIndicator(
-                          dotsCount: 3,
-                          position: sliderIndex.value,
-                          decorator: DotsDecorator(
-                            color: Colors
-                                .grey.shade300, // Inactive color
-                            activeColor: AppTheme.primaryColor,
-                            size: const Size.square(12),
-                            activeSize: const Size.square(12),
-                          ),
-                        ),
-                      );
-                    }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+
+                        Text("View All",
+                          style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color:AppTheme.primaryColor),),
+                      ],
+                    ),
                     SizedBox(
                       height: height * .01,
                     ),
@@ -304,36 +299,48 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           itemBuilder: (context, index){
                             return SizedBox(
                               width: 100,
-                              child: Column(
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                //mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
+                              child: InkWell(
+                                onTap:(){
+                                    currentIndex=index;
+                                    setState(() {
+
+                                    });
+                                  },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
                                     height: 140,
                                     width: 85,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: currentIndex != index ? Colors.white :Color(0xffFE724C).withOpacity(.80),
                                       borderRadius: BorderRadius.circular(20)
 
                                     ),
                                     child:  Column(
-                                      //mainAxisAlignment: MainAxisAlignment.start,
-                                      //crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
 
+                                      children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Image(
-                                            image: AssetImage(AppAssets.burger,),
+                                          child: Container(
+                                            height: 55,
+                                            width: 55,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: AssetImage(AppAssets.burger,),
+                                              )
+                                            ),
+
                                           ),
                                         ),
+                                        SizedBox(height: 5,),
                                         Text("Donut",
-                                          style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,color: Color(0xff67666D)),),
+                                          style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500,
+                                              color: currentIndex == index ? Colors.white: Color(0xff67666D)),),
                                       ],
                                     ),
                                   ),
-
-                                ],
+                                ),
                               ),
                             );
                           }),

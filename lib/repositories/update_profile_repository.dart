@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/update_profile_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
+import '../resources/helper.dart';
 
 Future<UpdateProfileModel> editUserProfileRepo({
   mapData,
@@ -13,6 +15,9 @@ Future<UpdateProfileModel> editUserProfileRepo({
   required File file1,
   required context,
 }) async {
+
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context).insert(loader);
   try {
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiUrl.updateProfileUrl));
@@ -36,6 +41,7 @@ Future<UpdateProfileModel> editUserProfileRepo({
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 400) {
+      Helpers.hideLoader(loader);
       return UpdateProfileModel.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {

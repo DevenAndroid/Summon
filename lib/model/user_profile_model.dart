@@ -8,13 +8,13 @@ class ProfileModel {
   ProfileModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['status'] = status;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -29,15 +29,15 @@ class Data {
   String? latitude;
   String? longitude;
   String? location;
+  String? firstName;
+  String? lastName;
   String? name;
   String? email;
   String? phone;
-  String? walletBalance;
+  String? earnedBalance;
   String? profileImage;
-  String? referalCode;
   bool? isDriverOnline;
   bool? isVendorOnline;
-  int? deliveryRange;
   bool? selfDelivery;
   bool? asDriverVerified;
   bool? asVendorVerified;
@@ -45,24 +45,24 @@ class Data {
 
   Data(
       {this.id,
-      this.isDriver,
-      this.isVendor,
-      this.latitude,
-      this.longitude,
-      this.location,
-      this.name,
-      this.email,
-      this.phone,
-      this.walletBalance,
-      this.profileImage,
-      this.referalCode,
-      this.isDriverOnline,
-      this.isVendorOnline,
-      this.deliveryRange,
-      this.selfDelivery,
-      this.asDriverVerified,
-      this.asVendorVerified,
-      this.isProfileComplete});
+        this.isDriver,
+        this.isVendor,
+        this.latitude,
+        this.longitude,
+        this.location,
+        this.firstName,
+        this.lastName,
+        this.name,
+        this.email,
+        this.phone,
+        this.earnedBalance,
+        this.profileImage,
+        this.isDriverOnline,
+        this.isVendorOnline,
+        this.selfDelivery,
+        this.asDriverVerified,
+        this.asVendorVerified,
+        this.isProfileComplete});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -71,15 +71,15 @@ class Data {
     latitude = json['latitude'];
     longitude = json['longitude'];
     location = json['location'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
-    walletBalance = json['wallet_balance'];
+    earnedBalance = json['earned_balance'];
     profileImage = json['profile_image'];
-    referalCode = json['referal_code'];
     isDriverOnline = json['is_driver_online'];
     isVendorOnline = json['is_vendor_online'];
-    deliveryRange = json['delivery_range'];
     selfDelivery = json['self_delivery'];
     asDriverVerified = json['as_driver_verified'];
     asVendorVerified = json['as_vendor_verified'];
@@ -87,26 +87,26 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['is_driver'] = isDriver;
-    data['is_vendor'] = isVendor;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
-    data['location'] = location;
-    data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['wallet_balance'] = walletBalance;
-    data['profile_image'] = profileImage;
-    data['referal_code'] = referalCode;
-    data['is_driver_online'] = isDriverOnline;
-    data['is_vendor_online'] = isVendorOnline;
-    data['delivery_range'] = deliveryRange;
-    data['self_delivery'] = selfDelivery;
-    data['as_driver_verified'] = asDriverVerified;
-    data['as_vendor_verified'] = asVendorVerified;
-    data['is_profile_complete'] = isProfileComplete;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['is_driver'] = this.isDriver;
+    data['is_vendor'] = this.isVendor;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['location'] = this.location;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['phone'] = this.phone;
+    data['earned_balance'] = this.earnedBalance;
+    data['profile_image'] = this.profileImage;
+    data['is_driver_online'] = this.isDriverOnline;
+    data['is_vendor_online'] = this.isVendorOnline;
+    data['self_delivery'] = this.selfDelivery;
+    data['as_driver_verified'] = this.asDriverVerified;
+    data['as_vendor_verified'] = this.asVendorVerified;
+    data['is_profile_complete'] = this.isProfileComplete;
     return data;
   }
 }

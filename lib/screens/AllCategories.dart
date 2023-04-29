@@ -9,6 +9,7 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/store_by_category_controller.dart';
+import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 
@@ -24,6 +25,9 @@ class _AllCategoriesState extends State<AllCategories> {
   final categoryController = Get.put(CategoryController());
   final nearStoreController= Get.put(StoreByCategoryController());
   final scrollController = ScrollController();
+
+  int currentIndex = -1;
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +49,30 @@ class _AllCategoriesState extends State<AllCategories> {
     return Obx(() {
       return
         Scaffold(
+          appBar:  AppBar(
+              backgroundColor: Color(0xffFFFFFF),
+              elevation: 0,
+              leadingWidth: AddSize.size80,
+              leading: Padding(
+                padding: EdgeInsets.only(left: 33,right: 20),
+                child: GestureDetector(
+                  child: Image.asset(
+                    AppAssets.BACKICON,
+                    height: AddSize.size30,
+                  ),
+                  onTap: () {
+
+                  },
+                ),
+              ),
+              centerTitle: false,
+              title: Text("Category", style: TextStyle(
+                  color: Color(0xff423E5E),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20),)
+
+
+          ),
         // backgroundColor: Colors.white,
         body: Obx(() {
           return categoryController.isDataLoading.value
@@ -62,7 +90,7 @@ class _AllCategoriesState extends State<AllCategories> {
                       physics: const BouncingScrollPhysics(),
                       itemCount: categoryController.model.value.data!.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
+                          crossAxisCount: 4,
                           crossAxisSpacing: 10.0,
                           mainAxisExtent: 140,
                           mainAxisSpacing: 10.0),
@@ -70,6 +98,10 @@ class _AllCategoriesState extends State<AllCategories> {
                         var itemdata = categoryController.model.value.data![index];
                         return GestureDetector(
                           onTap: () {
+                            currentIndex=index;
+                            setState(() {
+
+                            });
                             nearStoreController
                                 .storeId.value = categoryController.model
                                 .value.data![index].id
@@ -84,26 +116,31 @@ class _AllCategoriesState extends State<AllCategories> {
                                   horizontal: AddSize.padding10,
                                   vertical: AddSize.padding10),
                               decoration: BoxDecoration(
-                                  color: index % 3 == 0
-                                      ? AppTheme.appPrimaryPinkColor
-                                      : index % 3 == 2
-                                      ? AppTheme.appPrimaryGreenColor
-                                      : AppTheme.appPrimaryYellowColor,
-                                  borderRadius: BorderRadius.circular(10)),
+                                  color: currentIndex == index ? AppTheme.primaryColor.withOpacity(.80): Color(0xffFFFFFF),
+                                  borderRadius: BorderRadius.circular(15)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    height: AddSize.size50 * 1.2,
-                                    width: AddSize.size50 * 2,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl: itemdata.image.toString(),
-                                        errorWidget: (_, __, ___) => const SizedBox(),
-                                        placeholder: (_, __) => const SizedBox(),
-                                        fit: BoxFit.cover,
+                                  Container(
+
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                    height: AddSize.size50 * 1,
+                                    width: AddSize.size50 * 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: CachedNetworkImage(
+                                          imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?cs=srgb&dl=pexels-pixabay-461198.jpg&fm=jpg",
+                                          // itemdata.image.toString(),
+                                          errorWidget: (_, __, ___) => const SizedBox(),
+                                          placeholder: (_, __) => const SizedBox(),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -113,7 +150,7 @@ class _AllCategoriesState extends State<AllCategories> {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: AppTheme.subText,
+                                        color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
                                         fontSize: AddSize.font14,
                                         fontWeight: FontWeight.w500),
                                   )

@@ -79,6 +79,7 @@ class AppAssets {
   static const String paymentIcon1 = "assets/images/payment_icon1.png";
   static const String cashIcon = "assets/images/cash_icon.png";
   static const String thankYou = "assets/images/thankyou.png";
+  static const String thankYOU = "assets/images/thankYOU.png";
   static const String walletIcon = "assets/images/wallet.png";
   static const String store1Icon = "assets/images/store1.png";
   static const String driverIcon = "assets/images/driver.png";

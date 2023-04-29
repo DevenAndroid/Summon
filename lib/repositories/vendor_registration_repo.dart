@@ -13,14 +13,9 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
   mapData,
   required fieldName1,
   required fieldName2,
-  required fieldName3,
-  required fieldName4,
-  required fieldName5,
+
   required File file1,
   required File file2,
-  required File file3,
-  required File file4,
-  required File file5,
   required context,
 }) async {
   try {
@@ -39,15 +34,9 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
     request.fields.addAll(mapData);
 
     if (file1.path != "" &&
-        file2.path != "" &&
-        file3.path != "" &&
-        file4.path != "" &&
-        file5.path != "") {
+        file2.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
       request.files.add(await multipartFile(fieldName2, file2));
-      request.files.add(await multipartFile(fieldName3, file3));
-      request.files.add(await multipartFile(fieldName4, file4));
-      request.files.add(await multipartFile(fieldName5, file5));
     }
 
     log(request.fields.toString());

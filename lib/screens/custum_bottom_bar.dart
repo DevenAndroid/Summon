@@ -395,7 +395,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                       index: controller.currentIndex.value,
                       children: const [
                         //AllCategories(),
-                        CategoriesScreen(),
+                        AllCategories(),
                         MyCartPage(),
                         HomePageScreen(),
                         StoreListScreen(),

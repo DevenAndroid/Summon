@@ -39,7 +39,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
               child: Image(
                 height: AddSize.size300,
                 width: double.maxFinite,
-                image: const AssetImage(AppAssets.thankYou),
+                image: const AssetImage(AppAssets.thankYOU),
                 fit: BoxFit.contain,
               ),
             ),
@@ -52,7 +52,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
               style: Theme.of(context).textTheme.headline5!.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: AddSize.font24,
-                  color: AppTheme.blackcolor),
+                  color:Color(0xff262F33)),
             ),
             SizedBox(
               height: AddSize.size15,
@@ -63,7 +63,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
               style: Theme.of(context).textTheme.headline5!.copyWith(
                   fontWeight: FontWeight.w300,
                   fontSize: AddSize.font14,
-                  color: AppTheme.lightblack),
+                  color: Color(0xff596774)),
             ),
             SizedBox(
               height: AddSize.size10,

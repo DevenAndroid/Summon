@@ -131,32 +131,7 @@ class _MyAddressState extends State<MyAddress> {
                     SizedBox(
                       height: height * .02,
                     ),
-                    InkWell(
-                      onTap: () {
-                        Get.toNamed(ChooseAddress.chooseAddressScreen);
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.add,
-                            color: AppTheme.primaryColor,
-                          ),
-                          SizedBox(
-                            width: width * .02,
-                          ),
-                          const Text(
-                            "Add New Address",
-                            style: TextStyle(
-                                color: AppTheme.primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * .02,
-                    ),
+
                     addressController.isAddressLoad.value
                         ? addressController
                                 .myAddressModel.value.data!.isNotEmpty
@@ -350,6 +325,7 @@ class _MyAddressState extends State<MyAddress> {
                                   //               fontWeight: FontWeight.w500,
                                   //               fontSize: 18),
                                   //     )),
+
                                 ],
                               )
                             : const SizedBox()
@@ -357,6 +333,32 @@ class _MyAddressState extends State<MyAddress> {
                             child: CircularProgressIndicator(
                             color: AppTheme.primaryColor,
                           )),
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(ChooseAddress.chooseAddressScreen);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.all(10),
+                            backgroundColor: AppTheme.primaryColor,
+                            minimumSize:
+                            const Size(double.maxFinite, 50),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(10)),
+                            textStyle: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600)),
+                        child: Text(
+                          "ADD NEW",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5!
+                              .copyWith(
+                              color: AppTheme.backgroundcolor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AddSize.font16),
+                        )),
                   ],
                 ),
               ));
