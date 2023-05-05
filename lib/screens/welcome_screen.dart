@@ -53,27 +53,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 30,right: 34,top: 25),
+                  padding: const EdgeInsets.only(left: 30,right: 34,top: 170),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
 
-                      Padding(
-                        padding: const EdgeInsets.only(left: 50),
-                        child:
-                        GestureDetector(
-                          onTap: (){
-                            Get.toNamed(CustomNavigationBar.customNavigationBar);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
 
-                              Image.asset(AppAssets.skipImage,height: 120,width: 120),
-                            ],
-                          ),
-                        ),
-                      ),
                       Text("Welcome to", style: TextStyle(color:Color(0xff111719),fontWeight: FontWeight.w700,fontSize: 45),),
                       Text("Summon", style: TextStyle(color:AppTheme.primaryColor,fontWeight: FontWeight.w700,fontSize: 45),),
                       SizedBox(height: 13,),
@@ -101,7 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       //     ),
                       //   ],
                       // ),
-                      SizedBox(height: height * .45,),
+                      SizedBox(height: height * .4,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -181,7 +166,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
           ),
-        ))
+        )),
+        Positioned(
+          top: 12,
+          right: -20,
+          child: GestureDetector(
+            onTap: (){
+              Get.toNamed(CustomNavigationBar.customNavigationBar);
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                Image.asset(AppAssets.skipImage,height: 120,width: 120),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

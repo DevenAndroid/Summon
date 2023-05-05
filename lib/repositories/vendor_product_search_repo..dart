@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -10,10 +11,10 @@ import '../resources/api_url.dart';
 Future<VendorSearchProductModel> vendorSearchProductListRepo(
     {required keyword}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user;
+  SocialLoginModel? user;
   if(pref.getString('user_info') != null) {
     user =
-    ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+    SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
   }
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',

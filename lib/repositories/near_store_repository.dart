@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
+import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:fresh2_arrive/model/near_store_model.dart';
 import 'package:fresh2_arrive/model/verify_otp_model.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
@@ -17,8 +18,8 @@ Future<NearStoreModel> loadWithPagination(
   }
   // try {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
@@ -59,8 +60,8 @@ Future<NearStoreModel> loadWithPagination1(
   }
   // try {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-  ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',

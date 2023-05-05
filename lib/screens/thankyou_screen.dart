@@ -35,7 +35,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                 Image(
                   height: height * .25,
                   width: width,
-                  image: const AssetImage(AppAssets.thankYou),
+                  image: const AssetImage(AppAssets.thankYOU),
                 ),
                 SizedBox(
                   height: height * .04,

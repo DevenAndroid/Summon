@@ -469,7 +469,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     }),
                                 Expanded(
                                     child: Text(
-                                      "Using imported  meat?",
+                                      "? Using imported  meats",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5!
@@ -485,7 +485,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                 Checkbox(
                                     side: BorderSide(
                                         color: showValidation == false
-                                            ? AppTheme.primaryColor
+                                            ? AppTheme.primaryColor.withOpacity(.80)
                                             : Colors.red,
                                         width: 2),
                                     shape: RoundedRectangleBorder(
@@ -498,7 +498,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     }),
                                 Expanded(
                                     child: Text(
-                                      "Using imported  Chicken?",
+                                      "? Using imported  Chicken",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline5!
@@ -513,7 +513,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate() &&
+                                  if (_formKey.currentState!.validate() && _isValue1==true &&
                                       _address!.isNotEmpty &&
                                       image.value.path != "" &&
                                       image1.value.path != "") {
@@ -522,6 +522,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                       'phone': phoneController.text,
                                       'location': _address!,
                                       'business_id': businessIdController.text,
+                                      'imported_meat': '',
+                                      'imported_chicken': ''
                                     };
                                     vendorRegistrationRepo(
                                             context: context,
@@ -553,7 +555,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(double.maxFinite, 60),
-                                  primary: AppTheme.primaryColor,
+                                  primary: AppTheme.primaryColor.withOpacity(.80),
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),

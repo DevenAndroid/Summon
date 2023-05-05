@@ -8,6 +8,7 @@ class ApiUrl {
   static const loginApi = "${baseUrl}login";
   static const socialLogin = "${baseUrl}social-login";
   static const otpApi = "${baseUrl}verify-otp";
+  static const wishListUrl = "${baseUrl}add-remove-wishlist";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
   static const couponsUrl = "${baseUrl}coupons";
@@ -18,6 +19,9 @@ class ApiUrl {
   static const userProfileUrl = "${baseUrl}user-profile";
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const homeUrl = "${baseUrl}home";
+  static const homeUrl1 = "${baseUrl}home";
+  static const addOnsUrl = "${baseUrl}addons";
+  static const varientSizeUrl = "${baseUrl}variants-size";
   static const nearStores = "${baseUrl}stores";
   static const storesUrl = "${baseUrl}near-stores";
   static const myCartUrl = "${baseUrl}my-cart";
@@ -31,6 +35,7 @@ class ApiUrl {
   static const updateLocationUrl = "${baseUrl}update-location";
   static const myAddressUrl = "${baseUrl}my-address";
   static const myOrdersUrl = "${baseUrl}my-orders";
+  static const searchUrlPagination = "${baseUrl}search";
   static const myOrderDetailsUrl = "${baseUrl}order-details";
   static const editAddressUrl = "${baseUrl}edit-address";
   static const removeAddressUrl = "${baseUrl}remove-address";
@@ -43,6 +48,7 @@ class ApiUrl {
   static const vendorOrderListUrl = "${baseUrl}vendor-order-list";
   static const referAndEarnUrl = "${baseUrl}refer-and-earn";
   static const notificationUrl = "${baseUrl}notification-list";
+  static const vendorAllCategoryUrl = "${baseUrl}all-categories";
   static const vendorRejectVariantUrl = "${baseUrl}vendor-reject-variant";
   static const withdrawalListUrl = "${baseUrl}withdrawal-list";
   static const withdrawalRequestUrl = "${baseUrl}withdrawal-request";
@@ -74,6 +80,7 @@ class ApiUrl {
   static const driverDeliveryModeUpdateUrl =
       "${baseUrl}driver-delivery-mode-update";
   static const addMoneyUrl = "${baseUrl}add-money";
+  static const singleProductUrl = "${baseUrl}product/";
   static const onlineSuccessPaymentUrl = "${baseUrl}online-success-payment";
   static const vendorEditProductUrl = "${baseUrl}vendor-product/";
   static const vendorBankDetailsUrl = "${baseUrl}account-details";

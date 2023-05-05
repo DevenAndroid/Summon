@@ -22,7 +22,7 @@ Future<StoreDetailsModel> storeDetailsRepo(id) async {
   // OverlayEntry loader = Helpers.overlayLoader(context);
   // Overlay.of(context).insert(loader);
   print("${ApiUrl.storeDetailsUrl}/$id");
-  try {
+  //try {
     final response =
         await http.get(Uri.parse("${ApiUrl.storeDetailsUrl}/$id"), headers: headers);
 
@@ -34,10 +34,11 @@ Future<StoreDetailsModel> storeDetailsRepo(id) async {
     } else {
       throw Exception(response.body);
     }
-  } catch (e) {
-    throw Exception(e.toString());
   }
-}
+//   catch (e) {
+//     throw Exception(e.toString());
+//   }
+// }
 
 
 

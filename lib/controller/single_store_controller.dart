@@ -7,6 +7,16 @@ import '../model/Store_Details_model.dart';
 import '../repositories/Store_Details_Repo.dart';
 import '../repositories/near_store_repository.dart';
 
+extension Anjali on StoreDetailsModel {
+  Variants getVariant({required int index}) {
+    return this.data!.latestProducts![index].variants!.firstWhere(
+            (element) =>
+        element.size.toString() ==
+            this.data!.latestProducts![index].varientIndex!.value.toString() || element.size.toString().isEmpty,
+        orElse: () => Variants());
+  }
+}
+
 class SingleStoreController extends GetxController {
   RxBool isPaginationLoading = true.obs;
   RxBool isDataLoading = false.obs;
@@ -28,7 +38,7 @@ Future<dynamic> getStoreDetails({bool? isFirstTime = false, context}) async {
     // storeDetailsModel.value.data!.latestProducts!.clear();
   }
   if ((isPaginationLoading.value && loadMore.value) || isFirstTime) {
-    log("Anjali");
+    //log("Anjali");
     isPaginationLoading.value = false;
     isDataLoading.value = false;
     await storeDetailsRepo1(

@@ -49,31 +49,7 @@ class _AllCategoriesState extends State<AllCategories> {
     return Obx(() {
       return
         Scaffold(
-          appBar:  AppBar(
-              backgroundColor: Color(0xffFFFFFF),
-              elevation: 0,
-              leadingWidth: AddSize.size80,
-              leading: Padding(
-                padding: EdgeInsets.only(left: 33,right: 20),
-                child: GestureDetector(
-                  child: Image.asset(
-                    AppAssets.BACKICON,
-                    height: AddSize.size30,
-                  ),
-                  onTap: () {
-
-                  },
-                ),
-              ),
-              centerTitle: false,
-              title: Text("Category", style: TextStyle(
-                  color: Color(0xff423E5E),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20),)
-
-
-          ),
-        // backgroundColor: Colors.white,
+            appBar: backAppBar1(title: "Category List", context: context),
         body: Obx(() {
           return categoryController.isDataLoading.value
               ? Padding(
@@ -91,9 +67,9 @@ class _AllCategoriesState extends State<AllCategories> {
                       itemCount: categoryController.model.value.data!.length,
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
-                          crossAxisSpacing: 10.0,
+                          crossAxisSpacing: 12.0,
                           mainAxisExtent: 140,
-                          mainAxisSpacing: 10.0),
+                          mainAxisSpacing: 14.0),
                       itemBuilder: (context, index) {
                         var itemdata = categoryController.model.value.data![index];
                         return GestureDetector(
@@ -112,47 +88,70 @@ class _AllCategoriesState extends State<AllCategories> {
                           },
                           child: Container(
                             //height: 100,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: AddSize.padding10,
-                                  vertical: AddSize.padding10),
+                            //   padding: EdgeInsets.symmetric(
+                            //       horizontal: AddSize.padding10,
+                            //       vertical: AddSize.padding10),
                               decoration: BoxDecoration(
                                   color: currentIndex == index ? AppTheme.primaryColor.withOpacity(.80): Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(15)),
+                                  borderRadius: BorderRadius.circular(20)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
+                                    height: 65,
+                                    width: 65,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      color: Colors.white,
 
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                    height: AddSize.size50 * 1,
-                                    width: AddSize.size50 * 1,
-                                    child: Padding(
+                                    ),
+                                    child:  Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: CachedNetworkImage(
-                                          imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?cs=srgb&dl=pexels-pixabay-461198.jpg&fm=jpg",
-                                          // itemdata.image.toString(),
-                                          errorWidget: (_, __, ___) => const SizedBox(),
-                                          placeholder: (_, __) => const SizedBox(),
-                                          fit: BoxFit.cover,
-                                        ),
+                                      child: CachedNetworkImage(
+                                        imageUrl: itemdata.image.toString(),
+                                        errorWidget: (_, __, ___) =>
+                                        const SizedBox(),
+                                        placeholder: (_, __) =>
+                                        const SizedBox(),
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  Text(
-                                    itemdata.name.toString().capitalizeFirst!,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
-                                        fontSize: AddSize.font14,
-                                        fontWeight: FontWeight.w500),
+                                  // Container(
+                                  //
+                                  // decoration: BoxDecoration(
+                                  //   shape: BoxShape.circle,
+                                  //   color: Colors.white,
+                                  // ),
+                                  //   height: AddSize.size50 * 1,
+                                  //   width: AddSize.size50 * 1,
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.all(8.0),
+                                  //     child: ClipRRect(
+                                  //       borderRadius: BorderRadius.circular(50),
+                                  //       child: CachedNetworkImage(
+                                  //         imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?cs=srgb&dl=pexels-pixabay-461198.jpg&fm=jpg",
+                                  //         // itemdata.image.toString(),
+                                  //         errorWidget: (_, __, ___) => const SizedBox(),
+                                  //         placeholder: (_, __) => const SizedBox(),
+                                  //         fit: BoxFit.cover,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      itemdata.name.toString().capitalizeFirst!,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
+                                          fontSize: AddSize.font14,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   )
                                 ],
                               )),

@@ -40,7 +40,7 @@ class _AdminResponseScreenState extends State<AdminResponseScreen> {
                   child: Image(
                     height: AddSize.size300,
                     width: double.maxFinite,
-                    image: const AssetImage(AppAssets.thankYou),
+                    image: const AssetImage(AppAssets.thankYOU),
                     fit: BoxFit.contain,
                   ),
                 ),

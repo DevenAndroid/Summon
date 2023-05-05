@@ -24,13 +24,17 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () async {
-      _getClientInformation();
+      //_getClientInformation();
       SharedPreferences pref = await SharedPreferences.getInstance();
+      print("these are login info...${pref.getString('user_info')}");
       if (pref.getString('user_info') != null) {
         Get.toNamed(CustomNavigationBar.customNavigationBar);
       }
+      else{
+        Get.offAllNamed(OnBoardingScreenPage.onBoarding);
+      }
 
-      Get.offAllNamed(OnBoardingScreenPage.onBoarding);
+
 
     });
   }
@@ -50,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xffFE724C),
+      backgroundColor: Color(0xffFE724C).withOpacity(.90),
       body: Stack(
         children: [
 

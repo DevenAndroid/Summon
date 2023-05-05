@@ -9,23 +9,26 @@ import '../repositories/vendor_product_search_repo..dart';
 
 class VendorAddProductController extends GetxController {
   final TextEditingController productNameController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController skuController = TextEditingController();
-  final TextEditingController qtyController = TextEditingController();
-  final TextEditingController qtyTypeController = TextEditingController();
+  final TextEditingController sizeController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController minQtyController = TextEditingController();
   final TextEditingController maxQtyController = TextEditingController();
-  final TextEditingController marketPriceController = TextEditingController();
+  final TextEditingController addOnNameController = TextEditingController();
+  final TextEditingController addOnPriceController = TextEditingController();
   RxString productId = "".obs;
   RxString qtyType = "".obs;
   RxBool isDataLoading = false.obs;
   RxList<ListModel> listModelData = <ListModel>[].obs;
   Rx<VendorSearchProductModel> model = VendorSearchProductModel().obs;
   Rx<VendorAddProductModel> vendorAddProductModel = VendorAddProductModel().obs;
-  final TextEditingController vendorSearchProductController = TextEditingController();
-// this method working for search the product on ADD product pages
-  getVendorSearchProductList() {
-    vendorSearchProductListRepo(
+  final TextEditingController vendorSearchProductController =
+  TextEditingController();
+
+  Future getVendorSearchProductList() async {
+
+    await vendorSearchProductListRepo(
       keyword: vendorSearchProductController.text.trim(),
     ).then((value) {
       isDataLoading.value = true;

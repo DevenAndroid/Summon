@@ -13,15 +13,9 @@ import '../resources/helper.dart';
 Future<ModelCommonResponse> driverRegistrationRepo({
   mapData,
   required fieldName1,
-  required fieldName2,
-  required fieldName3,
-  required fieldName4,
   required fieldName5,
   required fieldName6,
   required File file1,
-  required File file2,
-  required File file3,
-  required File file4,
   required File file5,
   required File file6,
   required context,
@@ -41,11 +35,8 @@ Future<ModelCommonResponse> driverRegistrationRepo({
     Overlay.of(context)!.insert(loader);
     request.headers.addAll(headers);
     request.fields.addAll(mapData);
-    if (file1.path != "" && file2.path != "" && file3.path != "" && file4.path != "" && file5.path != "" && file6.path != "") {
+    if (file1.path != "" && file5.path != "" && file6.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
-      request.files.add(await multipartFile(fieldName2, file2));
-      request.files.add(await multipartFile(fieldName3, file3));
-      request.files.add(await multipartFile(fieldName4, file4));
       request.files.add(await multipartFile(fieldName5, file5));
       request.files.add(await multipartFile(fieldName6, file6));
     }

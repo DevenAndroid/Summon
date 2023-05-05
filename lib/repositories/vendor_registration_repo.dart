@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/model_common_ressponse.dart';
@@ -106,8 +107,8 @@ Future<ModelCommonResponse> vendorInformationEditRepo({
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorInformationEditUrl));
     SharedPreferences pref = await SharedPreferences.getInstance();
-    ModelVerifyOtp? user =
-    ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+    SocialLoginModel? user =
+    SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptHeader: 'application/json',

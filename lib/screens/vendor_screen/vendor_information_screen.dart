@@ -213,18 +213,6 @@ class _VendorInformationState extends State<VendorInformation> {
                                   SizedBox(
                                     height: AddSize.size12,
                                   ),
-                                  RegistrationTextField(
-                                    readOnly: true,
-                                      controller:
-                                      vendorInformationController.addressController,
-                                      hint: "Store Address",
-                                      validator: MultiValidator([
-                                        RequiredValidator(
-                                            errorText: 'Store address is required')
-                                      ])),
-                                  SizedBox(
-                                    height: AddSize.size12,
-                                  ),
                                   InkWell(
                                       onTap: () async {
                                         var place = await PlacesAutocomplete.show(
@@ -322,92 +310,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                   SizedBox(
                                     height: AddSize.size12,
                                   ),
-                                  RegistrationTextField(
-                                    controller: vendorInformationController
-                                        .adharNoController,
-                                    hint: vendorInformationController
-                                        .model.value.data!.aadharNo
-                                        .toString(),
-                                    enable: false,
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size12,
-                                  ),
-                                  RegistrationTextField(
-                                    controller: vendorInformationController
-                                        .panNoController,
-                                    hint: vendorInformationController
-                                        .model.value.data!.panNo
-                                        .toString(),
-                                    enable: false,
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size12,
-                                  ),
-                                  Obx(() {
-                                    return DropdownButtonFormField(
-                                      decoration: InputDecoration(
-                                        fillColor: Colors.grey.shade50,
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                horizontal: 20, vertical: 15),
-                                        // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Colors.grey.shade300),
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey.shade300),
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(10.0))),
-                                        border: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Colors.grey.shade300,
-                                                width: 3.0),
-                                            borderRadius:
-                                                BorderRadius.circular(15.0)),
-                                        enabled: true,
-                                      ),
-                                      isExpanded: true,
-                                      hint: Text(
-                                        'Select Areas',
-                                        style: TextStyle(
-                                            color: AppTheme.userText,
-                                            fontSize: AddSize.font14),
-                                      ),
-                                      value: selectedCAt.value == ""
-                                          ? vendorInformationController
-                                              .model.value.data!.deliveryRange
-                                              .toString()
-                                          : selectedCAt.value,
-                                      items: area.map((value) {
-                                        return DropdownMenuItem(
-                                          value: value.key.toString(),
-                                          child: Text(
-                                            value.value.toString(),
-                                            style: TextStyle(
-                                                fontSize: AddSize.font14),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (newValue) {
-                                        selectedCAt.value = newValue.toString();
-                                        showValidation.value == false;
-                                      },
-                                      // validator: (String? value) {
-                                      //   if (value?.isEmpty ?? true) {
-                                      //     return 'Please select area';
-                                      //   }
-                                      //   return null;
-                                      // },
-                                    );
-                                  }),
-                                  SizedBox(
-                                    height: AddSize.padding12,
-                                  ),
+
                                   Text(
                                     "Upload Bank account statement and cancel cheque",
                                     style: Theme.of(context)
@@ -450,18 +353,6 @@ class _VendorInformationState extends State<VendorInformation> {
                                       ),
                                     );
                                   }),
-                                  SizedBox(
-                                    height: AddSize.padding12,
-                                  ),
-                                  Text(
-                                    "Upload Pan Card",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .copyWith(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: AddSize.font16),
-                                  ),
                                   SizedBox(
                                     height: AddSize.padding12,
                                   ),
@@ -510,87 +401,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                   SizedBox(
                                     height: AddSize.padding12,
                                   ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Obx(() {
-                                        return Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: AddSize.padding16,
-                                              vertical: AddSize.padding16),
-                                          width: AddSize.size50 * 3,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey.shade50,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: Colors.grey.shade300,
-                                              )),
-                                          child: SizedBox(
-                                            height: AddSize.size125,
-                                            width: AddSize.size100,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    vendorInformationController
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .aadharFrontImage
-                                                        .toString(),
-                                                errorWidget: (_, __, ___) =>
-                                                    const SizedBox(),
-                                                placeholder: (_, __) =>
-                                                    const SizedBox(),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                      Obx(() {
-                                        return Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: AddSize.padding16,
-                                              vertical: AddSize.padding16),
-                                          width: AddSize.size50 * 3,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey.shade50,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              border: Border.all(
-                                                color: Colors.grey.shade300,
-                                              )),
-                                          child: SizedBox(
-                                            height: AddSize.size125,
-                                            width: AddSize.size100,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              child: CachedNetworkImage(
-                                                imageUrl:
-                                                    vendorInformationController
-                                                        .model
-                                                        .value
-                                                        .data!
-                                                        .aadharBackImage
-                                                        .toString(),
-                                                errorWidget: (_, __, ___) =>
-                                                    const SizedBox(),
-                                                placeholder: (_, __) =>
-                                                    const SizedBox(),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size15,
-                                  ),
+
                                   ElevatedButton(
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {

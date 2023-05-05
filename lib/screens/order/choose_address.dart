@@ -722,16 +722,16 @@ class _ChooseAddressState extends State<ChooseAddress> {
                     SizedBox(height: height * .02,),
                     ElevatedButton(
                         onPressed: () {
-                          setState(() {
-                            _isValue.value = !_isValue.value;
-                            selectedChip.value = "Home";
-                          });
-                          showChangeAddressSheet(addressModel.value);
+                          // setState(() {
+                          //   _isValue.value = !_isValue.value;
+                          //   selectedChip.value = "Home";
+                          // });
+                          // showChangeAddressSheet(addressModel.value);
                           // Get.toNamed(MyRouter.chooseAddressScreen);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.maxFinite, 60),
-                          primary: AppTheme.primaryColor,
+                          primary: AppTheme.primaryColor.withOpacity(.80),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),

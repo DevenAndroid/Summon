@@ -176,7 +176,8 @@ class HomePageState extends State<HomePage> {
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(15),
-                                              child: CachedNetworkImage(
+                                              child:
+                                              CachedNetworkImage(
                                                 imageUrl: homeController
                                                     .model
                                                     .value

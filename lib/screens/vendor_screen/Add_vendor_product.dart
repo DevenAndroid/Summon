@@ -166,7 +166,7 @@ class _AddVendorProductState extends State<AddVendorProduct> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       vendorAddProductController.vendorAddProductModel.value =
           VendorAddProductModel();
-      vendorAddProductController.getVendorSearchProductList();
+      //vendorAddProductController.getVendorSearchProductList();
       vendorAddProductController.productNameController.clear();
       vendorAddProductController.skuController.clear();
     });
@@ -491,16 +491,16 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             .vendorAddProductModel.value.data!.sKU ??
                         "")
                     .toString();
-            vendorAddProductController.qtyController.text =
-                (vendorAddProductController
-                            .vendorAddProductModel.value.data!.qty ??
-                        "")
-                    .toString();
-            vendorAddProductController.qtyTypeController.text =
-                (vendorAddProductController
-                            .vendorAddProductModel.value.data!.qtyType ??
-                        "")
-                    .toString();
+            // vendorAddProductController.qtyController.text =
+            //     (vendorAddProductController
+            //                 .vendorAddProductModel.value.data!.qty ??
+            //             "")
+            //         .toString();
+            // vendorAddProductController.qtyTypeController.text =
+            //     (vendorAddProductController
+            //                 .vendorAddProductModel.value.data!.qtyType ??
+            //             "")
+            //         .toString();
             vendorAddProductController.priceController.text =
                 (vendorAddProductController
                             .vendorAddProductModel.value.data!.regularPrice ??
@@ -516,11 +516,11 @@ class _AddVendorProductState extends State<AddVendorProduct> {
                             .vendorAddProductModel.value.data!.maxQty ??
                         "")
                     .toString();
-            vendorAddProductController.marketPriceController.text =
-                (vendorAddProductController
-                            .vendorAddProductModel.value.data!.marketPrice ??
-                        "")
-                    .toString();
+            // vendorAddProductController.marketPriceController.text =
+            //     (vendorAddProductController
+            //                 .vendorAddProductModel.value.data!.marketPrice ??
+            //             "")
+            //         .toString();
 
             listModelData[0].price.value = (vendorAddProductController
                         .vendorAddProductModel.value.data!.regularPrice ??

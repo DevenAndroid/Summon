@@ -59,12 +59,13 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Container(
-        decoration: const BoxDecoration(
-          color: Color(0xfff3f3f3),
+        decoration:  BoxDecoration(
+          color: Color(0xffFFFFFF),
           image: DecorationImage(
             image: AssetImage(
-              AppAssets.background,
+              AppAssets.storeBG,
             ),
+           opacity: .8,
             alignment: Alignment.topRight,
             fit: BoxFit.contain,
           ),
@@ -371,7 +372,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     height: 55,
                     width: 55,
                     decoration: BoxDecoration(
-                        color: AppTheme.primaryColor,
+                        color: AppTheme.primaryColor.withOpacity(.95),
                         borderRadius: BorderRadius.circular(30),
 
                     ),

@@ -34,7 +34,9 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.da
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/Onboarding_Screen_page.dart';
+import '../screens/OneProduct_Screen.dart';
 import '../screens/SetPassword_Screen.dart';
+import '../screens/SingleProdct_Screen.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
@@ -47,6 +49,7 @@ import '../screens/payment_method.dart';
 import '../screens/refer_and_earn.dart';
 import '../screens/store_by_category.dart';
 import '../screens/vendor_screen/Add_vendor_product.dart';
+import '../screens/vendor_screen/addVendorProducts1.dart';
 import '../screens/vendor_screen/admin_response_screen.dart';
 import '../screens/vendor_screen/store_open_time_screen.dart';
 import '../screens/vendor_screen/thank_you.dart';
@@ -186,5 +189,11 @@ class MyRouter {
     GetPage(
         name: EditProductScreen.editProductScreen,
         page: () => const EditProductScreen()),
+    GetPage(
+        name: AddVendorProduct1.addVendorProduct1,
+        page: () => const AddVendorProduct1()),
+    GetPage(
+        name: SingleProductPage.singleProductPage,
+        page: () => const SingleProductPage()),
   ];
 }

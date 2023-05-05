@@ -133,7 +133,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             decoration: BoxDecoration(
 
                                 image: DecorationImage(
-                                    image: AssetImage(AppAssets.profileIcon2)
+                                    image: AssetImage(AppAssets.profileIcon2),
                                 )
                             ),
                           )),
@@ -146,7 +146,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             decoration: BoxDecoration(
 
                                 image: DecorationImage(
-                                    image: AssetImage(AppAssets.profileIcon3)
+                                    image: AssetImage(AppAssets.profileIcon3,)
+
                                 )
                             ),
                           )),
@@ -158,12 +159,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(0xffF45D28),
+                              color: AppTheme.primaryColor.withOpacity(.80),
                             ),
                             height: 120,
                             width: 120,
                             child: CircleAvatar(
-                                backgroundColor: Color(0xffF45D28),
+                                backgroundColor: AppTheme.primaryColor.withOpacity(.80),
                                 radius: 20,
                                 child: Container(
                                   // margin: const EdgeInsets.only(bottom: 32),
@@ -230,7 +231,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.white,width: 3),
                               shape: BoxShape.circle,
-                              color: AppTheme.primaryColor
+                              color: AppTheme.primaryColor.withOpacity(.80)
 
                                 ),
                           )),
@@ -412,7 +413,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                     },
                                                     style: ElevatedButton.styleFrom(
                                                         padding: const EdgeInsets.all(10),
-                                                        backgroundColor: AppTheme.primaryColor,
+                                                        backgroundColor: AppTheme.primaryColor.withOpacity(.80),
                                                         minimumSize:
                                                         const Size(double.maxFinite, 50),
                                                         elevation: 0,

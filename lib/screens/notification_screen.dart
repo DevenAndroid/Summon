@@ -20,34 +20,37 @@ class NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Scaffold(
-        appBar: backAppBar(title: "Notification", context: context),
-        body: Obx(() {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+          appBar: backAppBar(title: "Notification", context: context),
+          body: Obx(() {
   return controller.isDataLoading.value ? controller.model.value.data!.notificationData!.isNotEmpty ? SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: width * 0.02, vertical: height * .01),
-            child: Column(
-              children: [
-                ListView.builder(
-                    itemCount: controller.model.value.data!.notificationData!.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return notificationList(
-                          controller.model.value.data!.notificationData![index].time.toString(),
-                          controller.model.value.data!.notificationData![index].title.toString(),
-                        controller.model.value.data!.notificationData![index].body.toString());
-                    })
-              ],
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: width * 0.02, vertical: height * .01),
+              child: Column(
+                children: [
+                  ListView.builder(
+                      itemCount: controller.model.value.data!.notificationData!.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return notificationList(
+                            controller.model.value.data!.notificationData![index].time.toString(),
+                            controller.model.value.data!.notificationData![index].title.toString(),
+                          controller.model.value.data!.notificationData![index].body.toString());
+                      })
+                ],
+              ),
             ),
-          ),
-        ):Padding(
-          padding: EdgeInsets.only(top: AddSize.padding20 * 2,left: AddSize.padding20 * 5),
-          child: Text("Notification Not Available"),
-        ):const Center(child: CircularProgressIndicator(),);
-}));
+          ):Padding(
+            padding: EdgeInsets.only(top: AddSize.padding20 * 2,left: AddSize.padding20 * 5),
+            child: Text("Notification Not Available"),
+          ):const Center(child: CircularProgressIndicator(),);
+})),
+    );
   }
 
   Widget notificationList(date, title, description) {
@@ -69,8 +72,8 @@ class NotificationScreenState extends State<NotificationScreen> {
               child: Container(
                 width: width * .010,
                 height: height * .08,
-                decoration: const BoxDecoration(
-                  color: AppTheme.primaryColor,
+                decoration:  BoxDecoration(
+                  color: AppTheme.primaryColor.withOpacity(.80),
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
               ),
@@ -83,8 +86,8 @@ class NotificationScreenState extends State<NotificationScreen> {
               child: Container(
                 height: height * .05,
                 width: width * .10,
-                decoration: const ShapeDecoration(
-                    color: AppTheme.primaryColor, shape: CircleBorder()),
+                decoration:  ShapeDecoration(
+                    color: AppTheme.primaryColor.withOpacity(.80), shape: CircleBorder()),
                 child: Center(
                     child: Text(
                   "B",
@@ -106,7 +109,7 @@ class NotificationScreenState extends State<NotificationScreen> {
                       date,
                       style: Theme.of(context).textTheme.headline5!.copyWith(
                             fontWeight: FontWeight.w400,
-                            color: AppTheme.primaryColor,
+                            color: AppTheme.primaryColor.withOpacity(.80),
                             fontSize: 12,
                           ),
                     ),

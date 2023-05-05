@@ -237,7 +237,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                         style: ElevatedButton.styleFrom(
                                           minimumSize:
                                               const Size(double.maxFinite, 60),
-                                          primary: AppTheme.primaryColor,
+                                          primary: AppTheme.primaryColor.withOpacity(.80),
                                           elevation: 0,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:

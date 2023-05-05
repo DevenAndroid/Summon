@@ -10,7 +10,7 @@ import '../resources/helper.dart';
 Future<CategoryModel> categoryData({page, pagination, BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if (context != null) {
-    Overlay.of(context)!.insert(loader);
+    Overlay.of(context).insert(loader);
   }
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',

@@ -32,7 +32,7 @@ class MyCartPage extends StatefulWidget {
 
 class _MyCartPageState extends State<MyCartPage> {
   final notificationController = Get.put(NotificationController());
-
+  final controller = Get.put(MainHomeController());
 
 
 
@@ -59,13 +59,15 @@ class _MyCartPageState extends State<MyCartPage> {
             leading: Padding(
               padding: EdgeInsets.only(left: 33,right: 20),
               child: GestureDetector(
+                onTap: () {
+                  controller.onItemTap(2);
+                },
                 child: Image.asset(
                   AppAssets.BACKICON,
                   height: AddSize.size30,
+                    opacity: AlwaysStoppedAnimation(.80)
                 ),
-                onTap: () {
 
-                },
               ),
             ),
             title: Column(
@@ -78,13 +80,7 @@ class _MyCartPageState extends State<MyCartPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // InkWell(
-                      //   onTap: () {},
-                      //   child: const Icon(
-                      //     Icons.location_on,
-                      //     color: AppTheme.backgroundcolor,
-                      //   ),
-                      // ),
+
                       const SizedBox(
                         width: 10,
                       ),
@@ -134,7 +130,9 @@ class _MyCartPageState extends State<MyCartPage> {
                           );
                         }),
                         child:  Image.asset(
-                          AppAssets.cartIcon),
+                          AppAssets.cartIcon,
+                            opacity: AlwaysStoppedAnimation(.80)),
+
 
                         ),
                       ), onPressed: () {  },),
@@ -214,14 +212,14 @@ class _MyCartPageState extends State<MyCartPage> {
                                                width: 32,
                                                decoration: BoxDecoration(
                                                  shape: BoxShape.circle,
-                                                 color: AppTheme.primaryColor
+                                                 color: AppTheme.primaryColor.withOpacity(.80)
                                                ),
                                                child: Icon(Icons.add,color: Colors.white,),
                                              ),
-                                             SizedBox(width: 7,),
-                                             Text("02",
-                                               style: TextStyle(fontSize: 16,fontWeight: FontWeight.w900,color: Color(0xff000000)),),
-                                             SizedBox(width: 7,),
+                                             SizedBox(width: 9,),
+                                             Text("2",
+                                               style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Color(0xff000000)),),
+                                             SizedBox(width: 9,),
                                              Image.asset(AppAssets.removeIcon,height: 30,width: 30,),
                                            ],
                                          ),
@@ -259,7 +257,7 @@ class _MyCartPageState extends State<MyCartPage> {
                               shape:RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)
                               ),
-                              primary: AppTheme.primaryColor
+                              primary: AppTheme.primaryColor.withOpacity(.80)
                             ),
                               child:  Text("Apply",
                                 style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color:Colors.white),),),
@@ -309,6 +307,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                        SizedBox(width: 10,),
 
                                        const Image(
+                                           opacity: AlwaysStoppedAnimation(.80),
                                            height: 22,
                                            width: 28,
                                            image: AssetImage(AppAssets
@@ -383,7 +382,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                         EdgeInsets.zero),
                                     child: Text("Remove",
                                         style: TextStyle(
-                                            color: Colors.red,
+                                            color: AppTheme.primaryColor.withOpacity(.80),
                                             fontSize:
                                             AddSize.font12,
                                             fontWeight:
@@ -443,7 +442,7 @@ class _MyCartPageState extends State<MyCartPage> {
                       onPressed: () async {
                       },
                       style: ElevatedButton.styleFrom(
-                          primary: AppTheme.primaryColor,
+                          primary: AppTheme.primaryColor.withOpacity(.80),
                           minimumSize: const Size(double.maxFinite, 60),
                           elevation: 0,
                           shape: RoundedRectangleBorder(

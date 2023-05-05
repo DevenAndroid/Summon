@@ -41,6 +41,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
                 width: double.maxFinite,
                 image: const AssetImage(AppAssets.thankYOU),
                 fit: BoxFit.contain,
+                opacity: AlwaysStoppedAnimation(.80),
               ),
             ),
             SizedBox(
@@ -77,17 +78,13 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
           child: ElevatedButton(
               onPressed: () {
                 profileController.getData();
+
                 Get.back();
                 Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-                Get.back();
-                controller.onItemTap(2);
               },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.maxFinite, 60),
-                  backgroundColor: AppTheme.primaryColor,
+                  backgroundColor: AppTheme.primaryColor.withOpacity(.80),
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(AddSize.size10)),

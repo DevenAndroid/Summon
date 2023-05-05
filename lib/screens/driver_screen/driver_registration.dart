@@ -23,11 +23,12 @@ class DriverRegistrationScreen extends StatefulWidget {
 
 class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   // final controller =
-  final TextEditingController adharNoController = TextEditingController();
-  final TextEditingController panNoController = TextEditingController();
+  final TextEditingController nationalIdNumberController = TextEditingController();
+  final TextEditingController carYearController = TextEditingController();
   final TextEditingController dateOfBirth = TextEditingController();
-  final TextEditingController vehicleNumber = TextEditingController();
-  final TextEditingController licenceNumber = TextEditingController();
+  final TextEditingController makeController = TextEditingController();
+  final TextEditingController colorController = TextEditingController();
+  final TextEditingController modelController = TextEditingController();
   // Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
@@ -112,9 +113,9 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                               height: AddSize.size12,
                             ),
                             RegistrationTextField(
-                              controller: adharNoController,
+                              controller: nationalIdNumberController,
                               length: 12,
-                              hint: "Aadhar card number",
+                              hint: "National ID (number)",
                               keyboardType: TextInputType.number,
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 12) {
@@ -126,47 +127,86 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
-                            RegistrationTextField(
-                              controller: panNoController,
-                              hint: "Pan card number",
-                              length: 10,
-                              validator: (value) {
-                                if (value!.isEmpty || value.length < 10) {
-                                  return 'Please enter 10 digit licence card number';
-                                }
-                                return null;
-                              },
+                            Text(
+                              "Vehicle Details",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                  fontWeight: FontWeight.w500, fontSize: 16,color: Color(0xff2F2F2F)),
                             ),
+                            SizedBox(
+                              height: AddSize.size5,
+                            ),
+                           Row(
+                             children: [
+                               Expanded(
+                                 child: RegistrationTextField(
+                                   controller: carYearController,
+                                   hint: "Car Year",
+                                   length: 10,
+                                   validator: (value) {
+                                     if (value!.isEmpty || value.length < 4) {
+                                       return 'Please enter 10 digit licence card number';
+                                     }
+                                     return null;
+                                   },
+                                 ),
+                               ),
+                               SizedBox(
+                                 width: AddSize.size12,
+                               ),
+                               Expanded(
+                                 child: RegistrationTextField(
+                                   controller: makeController,
+                                   hint: "Make",
+                                   validator: MultiValidator([
+                                     RequiredValidator(
+                                         errorText: 'Vehicle number is required'),
+                                   ]),
+                                 ),
+                               ),
+                             ],
+                           ),
                             SizedBox(
                               height: AddSize.size12,
                             ),
-                            RegistrationTextField(
-                              controller: vehicleNumber,
-                              hint: "Vehicle number",
-                              validator: MultiValidator([
-                                RequiredValidator(
-                                    errorText: 'Vehicle number is required'),
-                              ]),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RegistrationTextField(
+                                    controller: modelController,
+                                    hint: "Model",
+                                    length: 10,
+                                    validator: (value) {
+                                      if (value!.isEmpty || value.length < 4) {
+                                        return 'Please enter 10 digit licence card number';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: AddSize.size12,
+                                ),
+                                Expanded(
+                                  child: RegistrationTextField(
+                                    controller: colorController,
+                                    hint: "Color",
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: 'Vehicle number is required'),
+                                    ]),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: AddSize.size12,
-                            ),
-                            RegistrationTextField(
-                              controller: licenceNumber,
-                              hint: "Licence number",
-                              length: 16,
-                              validator: (value) {
-                                if (value!.isEmpty || value.length < 14) {
-                                  return 'Please enter 14 digit licence card number';
-                                }
-                                return null;
-                              },
-                            ),
+
                             SizedBox(
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Upload Bank account statement and\ncancel cheque",
+                              "License plate",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -289,7 +329,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                               height: AddSize.padding12,
                             ),
                             Text(
-                              "Upload Driving Licence",
+                              "Upload Driver Licence",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -525,363 +565,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             SizedBox(
                               height: AddSize.size15,
                             ),
-                            Text(
-                              "Upload Pan Card",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w500, fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: AddSize.padding12,
-                            ),
-                            Obx(() {
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: AddSize.padding16,
-                                    vertical: AddSize.padding16),
-                                width: AddSize.screenWidth,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey.shade50,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: !checkValidation(
-                                          showValidation.value,
-                                          image2.value.path == "")
-                                          ? Colors.grey.shade300
-                                          : Colors.red,
-                                    )),
-                                child: image2.value.path == ""
-                                    ?
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Front",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16),
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.size10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        NewHelper()
-                                            .addFilePicker()
-                                            .then((value) {
-                                          image2.value = value;
-                                        });
-                                      },
-                                      child: Container(
-                                        height: AddSize.size45,
-                                        width: AddSize.size45,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade50,
-                                            borderRadius:
-                                            BorderRadius.circular(30),
-                                            border: Border.all(
-                                                color: Colors
-                                                    .grey.shade300)),
-                                        child: Center(
-                                            child: Image(
-                                                height: AddSize.size25,
-                                                width: AddSize.size25,
-                                                color:
-                                                Colors.grey.shade500,
-                                                image: const AssetImage(
-                                                    AppAssets
-                                                        .camaraImage))),
-                                      ),
-                                    ),
-                                  ],
-                                )
 
-                                    : Stack(
-                                  children: [
-                                    SizedBox(
-                                        width: double.maxFinite,
-                                        height: AddSize.size100,
-                                        child: Image.file(image2.value)),
-
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          NewHelper()
-                                              .addFilePicker()
-                                              .then((value) {
-                                            image2.value = value;
-                                          });
-                                        },
-                                        child: Container(
-                                          height: AddSize.size30,
-                                          width: AddSize.size30,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: AppTheme
-                                                      .backgroundcolor),
-                                              color:
-                                              AppTheme.primaryColor,
-                                              borderRadius:
-                                              BorderRadius.circular(
-                                                  50)),
-                                          child: const Center(
-                                              child: Icon(
-                                                Icons.edit,
-                                                color: AppTheme
-                                                    .backgroundcolor,
-                                                size: 20,
-                                              )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                            SizedBox(
-                              height: AddSize.padding12,
-                            ),
-                            Text(
-                              "Upload Adhar Card",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w500, fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: AddSize.padding12,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Obx(() {
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth * .38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                              showValidation.value,
-                                              image3.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image3.value.path == ""
-                                        ?
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Front",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6!
-                                              .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                        ),
-                                        SizedBox(
-                                          height: AddSize.size10,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            NewHelper()
-                                                .addFilePicker()
-                                                .then((value) {
-                                              image3.value = value;
-                                            });
-                                          },
-                                          child: Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade50,
-                                                borderRadius:
-                                                BorderRadius.circular(30),
-                                                border: Border.all(
-                                                    color: Colors
-                                                        .grey.shade300)),
-                                            child: Center(
-                                                child: Image(
-                                                    height: AddSize.size25,
-                                                    width: AddSize.size25,
-                                                    color:
-                                                    Colors.grey.shade500,
-                                                    image: const AssetImage(
-                                                        AppAssets
-                                                            .camaraImage))),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-
-                                        : Stack(
-                                      children: [
-                                        SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image3.value)),
-
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              NewHelper()
-                                                  .addFilePicker()
-                                                  .then((value) {
-                                                image3.value = value;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: AddSize.size30,
-                                              width: AddSize.size30,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: AppTheme
-                                                          .backgroundcolor),
-                                                  color:
-                                                  AppTheme.primaryColor,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      50)),
-                                              child: const Center(
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                    size: 20,
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                                Obx(() {
-                                  return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding16,
-                                        vertical: AddSize.padding16),
-                                    width: AddSize.screenWidth *.38,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: !checkValidation(
-                                              showValidation.value,
-                                              image4.value.path == "")
-                                              ? Colors.grey.shade300
-                                              : Colors.red,
-                                        )),
-                                    child: image4.value.path == ""
-                                        ?
-                                    Column(
-                                      children: [
-                                        Text(
-                                          "Back",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6!
-                                              .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
-                                        ),
-                                        SizedBox(
-                                          height: AddSize.size10,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            NewHelper()
-                                                .addFilePicker()
-                                                .then((value) {
-                                              image4.value = value;
-                                            });
-                                          },
-                                          child: Container(
-                                            height: AddSize.size45,
-                                            width: AddSize.size45,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade50,
-                                                borderRadius:
-                                                BorderRadius.circular(30),
-                                                border: Border.all(
-                                                    color: Colors
-                                                        .grey.shade300)),
-                                            child: Center(
-                                                child: Image(
-                                                    height: AddSize.size25,
-                                                    width: AddSize.size25,
-                                                    color:
-                                                    Colors.grey.shade500,
-                                                    image: const AssetImage(
-                                                        AppAssets
-                                                            .camaraImage))),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-
-                                        : Stack(
-                                      children: [
-                                        SizedBox(
-                                            width: double.maxFinite,
-                                            height: AddSize.size100,
-                                            child: Image.file(image4.value)),
-
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              NewHelper()
-                                                  .addFilePicker()
-                                                  .then((value) {
-                                                image4.value = value;
-                                              });
-                                            },
-                                            child: Container(
-                                              height: AddSize.size30,
-                                              width: AddSize.size30,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: AppTheme
-                                                          .backgroundcolor),
-                                                  color:
-                                                  AppTheme.primaryColor,
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      50)),
-                                              child: const Center(
-                                                  child: Icon(
-                                                    Icons.edit,
-                                                    color: AppTheme
-                                                        .backgroundcolor,
-                                                    size: 20,
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
                             SizedBox(
                               height: AddSize.size15,
                             ),
@@ -889,33 +573,25 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate() &&
                                       image1.value.path != "" &&
-                                      image2.value.path != "" &&
-                                      image3.value.path != "" &&
-                                      image4.value.path != "" &&
                                       image5.value.path != "" &&
                                       image6.value.path != "") {
                                     Map<String, String> mapData = {
-                                      'aadhar_number':
-                                          adharNoController.text.trim(),
-                                      'pan_card_number':
-                                          panNoController.text.trim(),
+                                      'national_id':
+                                          nationalIdNumberController.text.trim(),
+                                      'car_year':
+                                          carYearController.text.trim(),
                                       'dob': dateOfBirth.text,
-                                      'vehicle_no': vehicleNumber.text,
-                                      'licence_no': licenceNumber.text
+                                      'make': makeController.text,
+                                      'model': modelController.text,
+                                      'color': colorController.text,
                                     };
                                     driverRegistrationRepo(
                                       context: context,
                                       mapData: mapData,
-                                      fieldName1: "bank_statement",
-                                      fieldName2: "pan_card_image",
-                                      fieldName3: "aadhar_front_image",
-                                      fieldName4: "aadhar_back_image",
+                                      fieldName1: "number_plate",
                                       fieldName5: "licence_front_image",
                                       fieldName6: "licence_back_image",
                                       file1: image1.value,
-                                      file2: image2.value,
-                                      file3: image3.value,
-                                      file4: image4.value,
                                       file5: image5.value,
                                       file6: image6.value,
                                     ).then((value) {
@@ -932,26 +608,16 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                   showValidation.value = true;
                                   if (dateOfBirth.text.isEmpty) {
                                     scrollNavigation(0);
-                                  } else if (adharNoController.text
+                                  } else if (nationalIdNumberController.text
                                           .trim()
                                           .isEmpty ||
-                                      adharNoController.text.length < 12) {
-                                    scrollNavigation(50);
-                                  } else if (panNoController.text
-                                          .trim()
-                                          .isEmpty ||
-                                      panNoController.text.length < 10) {
-                                    scrollNavigation(50);
-                                  } else if (vehicleNumber.text.trim().isEmpty ||
-                                      vehicleNumber.text.length < 14) {
-                                    scrollNavigation(50);
-                                  } else if (licenceNumber.text.trim().isEmpty) {
+                                      nationalIdNumberController.text.length < 12) {
                                     scrollNavigation(50);
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: Size(double.maxFinite, 60),
-                                  primary: AppTheme.primaryColor,
+                                  primary: AppTheme.primaryColor.withOpacity(.80),
                                   elevation: 0,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),

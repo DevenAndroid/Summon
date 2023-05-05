@@ -39,16 +39,14 @@ class CategoryModel {
 
 class Data {
   int? id;
-  String? taxPercent;
   String? name;
   String? slug;
   String? image;
 
-  Data({this.id, this.taxPercent, this.name, this.slug, this.image});
+  Data({this.id, this.name, this.slug, this.image});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    taxPercent = json['tax_percent'];
     name = json['name'];
     slug = json['slug'];
     image = json['image'];
@@ -57,7 +55,6 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['tax_percent'] = this.taxPercent;
     data['name'] = this.name;
     data['slug'] = this.slug;
     data['image'] = this.image;

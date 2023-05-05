@@ -177,17 +177,60 @@ disposeController}){
       child: GestureDetector(
           onTap: () {
             Get.back();
-            if (dispose == "dispose") {}
+             if (dispose == "dispose") {}
           },
           child: icon ??
               Image.asset(
                 AppAssets.back,
-                height: AddSize.size20,
+                height: AddSize.size20,opacity: AlwaysStoppedAnimation(.80)
 
               )),
     ),
   );
 }
+// for store list
+AppBar backAppBar1(
+
+    {required title,
+      required BuildContext context,
+      String dispose = "",
+      Color? backgroundColor = AppTheme.backgroundcolor,
+      Color? textColor = Colors.white,
+      Widget? icon,
+      disposeController}){
+  final controller = Get.put(MainHomeController());
+  return AppBar(
+    toolbarHeight: 60,
+    elevation: 0,
+    leadingWidth: AddSize.size20 * 2.0,
+    backgroundColor: controller.currentIndex == 3 ? Colors.transparent: Colors.white,
+    title: Text(
+      title,
+      style: Theme.of(context).textTheme.headline6!.copyWith(
+          fontWeight: FontWeight.w500, fontSize: 20, color: controller.currentIndex == 3 ? textColor: Color(0xff423E5E)),
+    ),
+    leading: Padding(
+
+      padding: EdgeInsets.only(right: AddSize.padding14),
+
+
+
+      child: GestureDetector(
+          onTap: () {
+            controller.onItemTap(2);
+          },
+          child:  controller.currentIndex == 3 ? icon ??
+              Image.asset(
+                  AppAssets.whiteIcon,
+
+              ):Image.asset(
+            AppAssets.back,
+
+          )),
+    ),
+  );
+}
+
 
 class AddText extends StatelessWidget {
   final String? text;

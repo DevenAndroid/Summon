@@ -215,7 +215,7 @@ class OnboardContent extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                               shape: CircleBorder(),
-                              primary: AppTheme.primaryColor,
+                              primary: AppTheme.primaryColor.withOpacity(.80),
                               textStyle: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w500)),
                           child: Image.asset(AppAssets.arrowIcon,height: 30,width: 30,),

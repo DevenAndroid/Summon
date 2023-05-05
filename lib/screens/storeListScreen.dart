@@ -20,6 +20,7 @@ class StoreListScreen extends StatefulWidget {
 }
 
 class _StoreListScreenState extends State<StoreListScreen> {
+  final TextEditingController storeSearchController=TextEditingController();
   final scrollController = ScrollController();
   final storeController = Get.put(StoreController());
   final singleStoreController = Get.put(SingleStoreController());
@@ -29,7 +30,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
       storeController
-          .getData(context: context)
+          .getData()
           .then((value) => setState(() {}));
     }
   }
@@ -40,7 +41,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    storeController.getData();
+    storeController.getData(isFirstTime: true);
     scrollController.addListener(_scrollListener);
   }
 
@@ -50,6 +51,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
     var width = MediaQuery.of(context).size.width;
     return Obx(() {
       return Scaffold(
+        appBar: backAppBar1(title: 'Store List', context: context),
         backgroundColor: Colors.transparent,
         body: RefreshIndicator(
           color: AppTheme.primaryColor,
@@ -70,7 +72,46 @@ class _StoreListScreenState extends State<StoreListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                height: height * .02,
+                                height: height * .06,
+                                child: TextField(
+                                  maxLines: 1,
+                                  //controller:
+                                  //homeSearchController.storeSearchController,
+                                  style: const TextStyle(fontSize: 17),
+                                  textAlignVertical: TextAlignVertical.center,
+                                  textInputAction: TextInputAction.search,
+                                  onChanged: (value){
+                                    //storeController.getData();
+                                  },
+                                  decoration: InputDecoration(
+                                      filled: true,
+                                      suffixIcon: IconButton(
+                                        onPressed: () {
+                                         // storeController.getData();
+                                        },
+                                        icon: const Icon(
+                                          Icons.search_rounded,
+                                          color: Color(0xff8990A7),
+                                          size: 30,
+                                        ),
+                                      ),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8))),
+                                      fillColor: Colors.white,
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: width * .05,vertical: 16),
+                                      hintText: 'Search Store',
+                                      hintStyle: TextStyle(
+                                          fontSize: 15,
+                                          color: Color(0xff8990A7),
+                                          fontWeight: FontWeight.w400)),
+                                ),
+                              ),
+
+                              SizedBox(
+                                height: height * .01,
                               ),
                               storeController.model.value.data!.isEmpty
                                   ? const Center(
@@ -86,13 +127,13 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          '(${storeController.model.value.data!.length}) Stores Near You',
-                                          style: const TextStyle(
-                                              color: AppTheme.backgroundcolor,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600),
-                                        ),
+                                        // Text(
+                                        //   '(${storeController.model.value.data!.length}) Stores Near You',
+                                        //   style: const TextStyle(
+                                        //       color: AppTheme.backgroundcolor,
+                                        //       fontSize: 16,
+                                        //       fontWeight: FontWeight.w600),
+                                        // ),
                                         SizedBox(
                                           height: height * .01,
                                         ),
@@ -108,6 +149,9 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                 int index) {
                                               return InkWell(
                                                   onTap: () {
+                                                    print(" store id is...${storeController.model
+                                                        .value.data![index].id
+                                                        .toString()}");
                                                     Get.toNamed(StoreScreen
                                                         .singleStoreScreen);
                                                     singleStoreController
@@ -122,8 +166,9 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                   child: Container(
                                                       margin:
                                                           const EdgeInsets.only(
-                                                              top: 10),
+                                                              top: 15),
                                                       decoration: BoxDecoration(
+                                                        boxShadow: [BoxShadow(color: Colors.grey.shade200,blurRadius: 3)],
                                                           color: AppTheme
                                                               .backgroundcolor,
                                                           borderRadius:
@@ -189,22 +234,18 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                                       .name
                                                                       .toString(),
                                                                   style: TextStyle(
-                                                                      color: AppTheme
-                                                                          .blackcolor,
-                                                                      fontSize:
-                                                                          AddSize
-                                                                              .font14,
+                                                                      color: Color(0xff21283D),
+                                                                      fontSize: 17,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w500),
+                                                                              .w600),
                                                                 ),
                                                                 Row(
                                                                   children: [
                                                                     const Icon(
                                                                       Icons
-                                                                          .location_on,
-                                                                      color: AppTheme
-                                                                          .primaryColor,
+                                                                          .star,
+                                                                      color: Color(0xffFFC529),
                                                                       size: 20,
                                                                     ),
                                                                     SizedBox(
@@ -213,23 +254,54 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                                                               .02,
                                                                     ),
                                                                     Text(
-                                                                      "${storeController.model.value.data![index].distance.toString()} KM",
+                                                                      "4.5",
                                                                       style: TextStyle(
-                                                                          color: AppTheme
-                                                                              .blackcolor,
+                                                                          color:Color(0xff333333),
                                                                           fontSize:
                                                                               AddSize
-                                                                                  .font12,
+                                                                                  .font14,
                                                                           fontWeight:
-                                                                              FontWeight.w400),
+                                                                              FontWeight.w600),
                                                                     ),
                                                                   ],
                                                                 ),
                                                               ],
                                                             ),
+                                                            SizedBox(height: height * .01,),
+                                                            Row(
+                                                              children: [
+                                                                 Icon(
+                                                                  Icons
+                                                                      .location_on,
+                                                                  color: AppTheme
+                                                                      .primaryColor.withOpacity(.80),
+                                                                  size: 20,
+                                                                ),
+                                                                SizedBox(
+                                                                  width:
+                                                                  width *
+                                                                      .02,
+                                                                ),
+                                                                Text(
+                                                                  "${storeController.model.value.data![index].distance.toString()} KM",
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .blackcolor,
+                                                                      fontSize:
+                                                                      AddSize
+                                                                          .font12,
+                                                                      fontWeight:
+                                                                      FontWeight.w400),
+                                                                ),
+                                                              ],
+                                                            ),
+
+
                                                           ],
                                                         ),
+
                                                       )));
+
                                             },
                                           );
                                         }),
