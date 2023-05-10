@@ -205,7 +205,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       .value
                                       .data!
                                       .storeDetails!
-                                      .importedMeat == false ? Text("Imported meat",
+                                      .importedMeat == true ? Text("Imported meat",
                                     style: const TextStyle(
                                         fontSize: 13,
                                         color: Color(0xffFE724C),

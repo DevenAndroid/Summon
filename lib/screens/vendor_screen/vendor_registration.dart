@@ -513,8 +513,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate() && _isValue1==true &&
-                                      _address!.isNotEmpty &&
+                                  if (_formKey.currentState!.validate() &&
+                                  _address!.isNotEmpty &&
                                       image.value.path != "" &&
                                       image1.value.path != "") {
                                     Map<String, String> mapData = {
@@ -522,8 +522,6 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                       'phone': phoneController.text,
                                       'location': _address!,
                                       'business_id': businessIdController.text,
-                                      'imported_meat': '',
-                                      'imported_chicken': ''
                                     };
                                     vendorRegistrationRepo(
                                             context: context,

@@ -11,11 +11,11 @@ import '../resources/api_url.dart';
 
 Future<HomePageSearchModel1> searchHomeDataPagination(
     {keyword, page, pagination}) async {
-  var map = <String, dynamic>{};
-  if (keyword != "") {
-    map['keyword'] = keyword;
-  }
-  log(map.toString());
+  // var map = <String, dynamic>{};
+  // if (keyword != "") {
+  //   map['keyword'] = keyword;
+  // }
+  //log(map.toString());
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -26,7 +26,7 @@ Future<HomePageSearchModel1> searchHomeDataPagination(
   };
 
   try {
-    final response = await http.get(Uri.parse("${ApiUrl.searchUrlPagination}?keyword=$keyword&pagination=$pagination&page=$page"),headers: headers);
+    final response = await http.get(Uri.parse("${ApiUrl.searchUrlPagination}?keyword=$keyword&pagination=4&page=$page"),headers: headers);
     log(response.body.toString());
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);

@@ -11,15 +11,15 @@ class AddToCartData {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -28,46 +28,97 @@ class AddToCartData {
 }
 
 class Data {
-  int? id;
-  String? name;
-  String? variantQty;
-  String? variantQtyType;
-  int? variantPrice;
-  int? cartItemQty;
-  int? totalPrice;
+  dynamic id;
+  dynamic productId;
+  dynamic variantId;
+  dynamic name;
+  dynamic sizeId;
+  dynamic size;
+  dynamic minQty;
+  dynamic maxQty;
+  dynamic variantPrice;
+  dynamic cartItemQty;
+  Addons? addons;
+  dynamic totalPrice;
   String? image;
 
   Data(
       {this.id,
-      this.name,
-      this.variantQty,
-      this.variantQtyType,
-      this.variantPrice,
-      this.cartItemQty,
-      this.totalPrice,
-      this.image});
+        this.productId,
+        this.variantId,
+        this.name,
+        this.sizeId,
+        this.size,
+        this.minQty,
+        this.maxQty,
+        this.variantPrice,
+        this.cartItemQty,
+        this.addons,
+        this.totalPrice,
+        this.image});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    productId = json['product_id'];
+    variantId = json['variant_id'];
     name = json['name'];
-    variantQty = json['variant_qty'];
-    variantQtyType = json['variant_qty_type'];
+    sizeId = json['size_id'];
+    size = json['size'];
+    minQty = json['min_qty'];
+    maxQty = json['max_qty'];
     variantPrice = json['variant_price'];
     cartItemQty = json['cart_item_qty'];
+    addons =
+    json['addons'] != null ? new Addons.fromJson(json['addons']) : null;
     totalPrice = json['total_price'];
     image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['variant_qty'] = variantQty;
-    data['variant_qty_type'] = variantQtyType;
-    data['variant_price'] = variantPrice;
-    data['cart_item_qty'] = cartItemQty;
-    data['total_price'] = totalPrice;
-    data['image'] = image;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['product_id'] = this.productId;
+    data['variant_id'] = this.variantId;
+    data['name'] = this.name;
+    data['size_id'] = this.sizeId;
+    data['size'] = this.size;
+    data['min_qty'] = this.minQty;
+    data['max_qty'] = this.maxQty;
+    data['variant_price'] = this.variantPrice;
+    data['cart_item_qty'] = this.cartItemQty;
+    if (this.addons != null) {
+      data['addons'] = this.addons!.toJson();
+    }
+    data['total_price'] = this.totalPrice;
+    data['image'] = this.image;
+    return data;
+  }
+}
+
+class Addons {
+  int? id;
+  String? name;
+  String? price;
+  int? addonTypeId;
+  String? addonType;
+
+  Addons({this.id, this.name, this.price, this.addonTypeId, this.addonType});
+
+  Addons.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    price = json['price'];
+    addonTypeId = json['addon_type_id'];
+    addonType = json['addon_type'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['price'] = this.price;
+    data['addon_type_id'] = this.addonTypeId;
+    data['addon_type'] = this.addonType;
     return data;
   }
 }

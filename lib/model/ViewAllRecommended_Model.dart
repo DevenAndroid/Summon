@@ -1,16 +1,24 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
-class SingleProductModel {
+class ViewAllRecommendedModel {
   bool? status;
   String? message;
-  Data? data;
+  List<Data>? data;
+  Meta? meta;
+  Link? link;
 
-  SingleProductModel({this.status, this.message, this.data});
+  ViewAllRecommendedModel(
+      {this.status, this.message, this.data, this.meta, this.link});
 
-  SingleProductModel.fromJson(Map<String, dynamic> json) {
+  ViewAllRecommendedModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
+    link = json['link'] != null ? new Link.fromJson(json['link']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -18,78 +26,52 @@ class SingleProductModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (this.meta != null) {
+      data['meta'] = this.meta!.toJson();
+    }
+    if (this.link != null) {
+      data['link'] = this.link!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  ProductDetail? productDetail;
-  List<SinglePageAddons>? singlePageAddons;
-  int? addonLimit;
-
-  Data({this.productDetail, this.singlePageAddons, this.addonLimit});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    productDetail = json['product_detail'] != null
-        ? new ProductDetail.fromJson(json['product_detail'])
-        : null;
-    if (json['single_page_addons'] != null) {
-      singlePageAddons = <SinglePageAddons>[];
-      json['single_page_addons'].forEach((v) {
-        singlePageAddons!.add(new SinglePageAddons.fromJson(v));
-      });
-    }
-    addonLimit = json['addon_limit'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.productDetail != null) {
-      data['product_detail'] = this.productDetail!.toJson();
-    }
-    if (this.singlePageAddons != null) {
-      data['single_page_addons'] =
-          this.singlePageAddons!.map((v) => v.toJson()).toList();
-    }
-    data['addon_limit'] = this.addonLimit;
-    return data;
-  }
-}
-
-class ProductDetail {
-  dynamic id;
-  dynamic name;
-  dynamic sKU;
-  dynamic type;
-  dynamic content;
-  dynamic image;
+  int? id;
+  String? name;
+  String? sKU;
+  String? type;
+  String? content;
+  String? image;
+  bool? wishlist;
   bool? status;
   List<Variants>? variants;
-  RxString varientIndex = "".obs;
   List<Addons>? addons;
-  dynamic avgRating;
+  String? avgRating;
 
-  ProductDetail(
+  Data(
       {this.id,
         this.name,
         this.sKU,
         this.type,
         this.content,
         this.image,
+        this.wishlist,
         this.status,
         this.variants,
         this.addons,
         this.avgRating});
 
-  ProductDetail.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     sKU = json['SKU'];
     type = json['type'];
     content = json['content'];
     image = json['image'];
+    wishlist = json['wishlist'];
     status = json['status'];
     if (json['variants'] != null) {
       variants = <Variants>[];
@@ -114,6 +96,7 @@ class ProductDetail {
     data['type'] = this.type;
     data['content'] = this.content;
     data['image'] = this.image;
+    data['wishlist'] = this.wishlist;
     data['status'] = this.status;
     if (this.variants != null) {
       data['variants'] = this.variants!.map((v) => v.toJson()).toList();
@@ -133,7 +116,6 @@ class Variants {
   dynamic price;
   dynamic minQty;
   dynamic maxQty;
-
   Variants(
       {this.id,
         this.size,
@@ -191,54 +173,46 @@ class Addons {
   }
 }
 
-class SinglePageAddons {
-  String? title;
-  String selectedAddon = "";
-  List<AddonData>? addonData;
+class Meta {
+  int? totalPage;
+  int? currentPage;
+  int? totalItem;
+  int? perPage;
 
+  Meta({this.totalPage, this.currentPage, this.totalItem, this.perPage});
 
-  SinglePageAddons({this.title, this.addonData});
-
-  SinglePageAddons.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    if (json['addon_data'] != null) {
-      addonData = <AddonData>[];
-      json['addon_data'].forEach((v) {
-        addonData!.add(new AddonData.fromJson(v));
-      });
-    }
+  Meta.fromJson(Map<String, dynamic> json) {
+    totalPage = json['total_page'];
+    currentPage = json['current_page'];
+    totalItem = json['total_item'];
+    perPage = json['per_page'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    if (this.addonData != null) {
-      data['addon_data'] = this.addonData!.map((v) => v.toJson()).toList();
-    }
+    data['total_page'] = this.totalPage;
+    data['current_page'] = this.currentPage;
+    data['total_item'] = this.totalItem;
+    data['per_page'] = this.perPage;
     return data;
   }
 }
 
-class AddonData {
-  int? id;
-  String? name;
-  String? price;
-  RxBool editable = false.obs;
-  RxInt qty = 0.obs;
+class Link {
+  bool? next;
+  bool? prev;
 
-  AddonData({this.id, this.name, this.price});
+  Link({this.next, this.prev});
 
-  AddonData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    price = json['price'];
+  Link.fromJson(Map<String, dynamic> json) {
+    next = json['next'];
+    prev = json['prev'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['price'] = this.price;
+    data['next'] = this.next;
+    data['prev'] = this.prev;
     return data;
   }
 }

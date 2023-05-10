@@ -19,12 +19,15 @@ class ApiUrl {
   static const userProfileUrl = "${baseUrl}user-profile";
   static const updateProfileUrl = "${baseUrl}update-profile";
   static const homeUrl = "${baseUrl}home";
+  static const recommendedDataUrl = "${baseUrl}recommended";
+  static const popularHomePageDataUrl = "${baseUrl}popular-products";
   static const homeUrl1 = "${baseUrl}home";
   static const addOnsUrl = "${baseUrl}addons";
   static const varientSizeUrl = "${baseUrl}variants-size";
   static const nearStores = "${baseUrl}stores";
   static const storesUrl = "${baseUrl}near-stores";
   static const myCartUrl = "${baseUrl}my-cart";
+  static const myCartDataListUrl = "${baseUrl}my-cart";
   static const addCartUrl = "${baseUrl}add-cart";
   static const updateCartUrl = "${baseUrl}update-cart";
   static const removeCartItemUrl = "${baseUrl}remove-cart-item";

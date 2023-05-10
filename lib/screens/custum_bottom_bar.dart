@@ -9,6 +9,8 @@ import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
+import '../controller/CartController.dart';
+import '../controller/HomePageController1.dart';
 import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
@@ -21,7 +23,9 @@ import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import 'Categories_Screen.dart';
 import 'Homepage_Screen.dart';
+import 'MapScreen_Page.dart';
 import 'MyCart_Page.dart';
+import 'SearchScreenData..dart';
 import 'drawer.dart';
 import 'myProfile.dart';
 import 'my_cart_screen.dart';
@@ -40,19 +44,33 @@ class CustomNavigationBar extends StatefulWidget {
 
 class CustomNavigationBarState extends State<CustomNavigationBar> {
   final myOrderController = Get.put(MyOrderController());
+  final homeSearchController = Get.put(HomePageController1());
   final controller = Get.put(MainHomeController());
   final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
-  final myCartController = Get.put(MyCartDataListController());
+  final myCartController = Get.put(MyCartController());
   final notificationController = Get.put(NotificationController());
   final storeController = Get.put(StoreController());
   final controller1 = Get.put(ProfileController());
+  final scrollController = ScrollController();
+
+  void _scrollListener() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      homeSearchController.page.value++;
+      homeSearchController.searchingData();
+      print("call");
+    }else{
+      print("dont call");
+    }
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
-    myCartController.getAddToCartList();
+    homeSearchController.searchingData();
+    scrollController.addListener(_scrollListener);
+   // myCartController.getAddToCartList();
   }
 
   @override
@@ -300,7 +318,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                           }),
                                           child: GestureDetector(
                                             onTap: ()async{
-                                             await myCartController.getAddToCartList();
+                                             await myCartController.getCartData();
                                             },
                                             child: const ImageIcon(
                                               AssetImage(AppAssets.cartImage),
@@ -329,33 +347,32 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                         vertical: 08,
                                       ),
                                       child: GestureDetector(
-                                        onTap: () {},
-                                        child: GestureDetector(
-                                          onTap: ()async{
-                                           await storeController.getData();
-                                          },
-                                          child: const ImageIcon(
-                                            AssetImage(AppAssets.store),
-                                            size: 20,
-                                          ),
+                                        onTap: (){
+                                          //homeSearchController.load=false.obs;
+                                          homeSearchController.searchingData(allowClear: true);
+                                        },
+                                        child: const ImageIcon(
+                                          AssetImage(AppAssets.searchIcon),
+                                          size: 20,
                                         ),
                                       ),
                                     ),
-                                    label: 'Stores'),
+                                    label: 'Search'),
                                  BottomNavigationBarItem(
                                     icon: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 08),
                                       child: GestureDetector(
                                         onTap: () async {
-                                           await profileController.getData();
+                                           // await profileController.getData();
                                         },
                                         child: const ImageIcon(
-                                          AssetImage(AppAssets.personIcon),
+                                          AssetImage(AppAssets.mapIcon),
                                           size: 18,
+
                                         ),
                                       ),
                                     ),
-                                    label: 'Profile'),
+                                    label: 'Map'),
                               ],
                               type: BottomNavigationBarType.fixed,
                               currentIndex: controller.currentIndex.value,
@@ -372,7 +389,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     height: 55,
                     width: 55,
                     decoration: BoxDecoration(
-                        color: AppTheme.primaryColor.withOpacity(.95),
+                        color: AppTheme.primaryColor,
                         borderRadius: BorderRadius.circular(30),
 
                     ),
@@ -399,8 +416,10 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                         AllCategories(),
                         MyCartPage(),
                         HomePageScreen(),
-                        StoreListScreen(),
-                        MyProfileScreen(),
+                        SearchScreenData(),
+                        // StoreListScreen(),
+                        MapScreenPage(),
+
                       ],
                     );
                   }),

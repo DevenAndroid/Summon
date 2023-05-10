@@ -31,11 +31,12 @@ class _SearchScreenDataState extends State<SearchScreenData> {
   final scrollController = ScrollController();
   final TextEditingController searchController=TextEditingController();
   void _scrollListener() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      // homeSearchController
-      //     .getData(context: context)
-      //     .then((value) => setState(() {}));
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      homeSearchController.page.value++;
+      homeSearchController.searchingData();
+      print("call");
+    }else{
+      print("dont call");
     }
   }
 
@@ -44,11 +45,13 @@ class _SearchScreenDataState extends State<SearchScreenData> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      //homeSearchController.getData();
+      homeSearchController.searchingData();
       // controller.searchDataModel.value.data != null
       //     ? controller.searchDataModel.value.data!.clear()
       //     : Container();
     });
+    scrollController.addListener(_scrollListener);
+
   }
 
   @override
@@ -58,26 +61,81 @@ class _SearchScreenDataState extends State<SearchScreenData> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        // backgroundColor: const Color(0xffFFFFFF),
-        appBar: backAppBar(title: "Search Product", context: context),
+         backgroundColor: const Color(0xffF6F6F6),
+        appBar: backAppBar1(title: "Search Product", context: context),
         body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          controller: scrollController,
+          physics: AlwaysScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: AddSize.padding16, vertical: AddSize.padding10),
             child: Column(
               children: [
+                // SizedBox(
+                //   height: height * .07,
+                //   child: TextField(
+                //     maxLines: 3,
+                //     controller:homeSearchController.searchController,
+                //     style: const TextStyle(fontSize: 17),
+                //     // textAlignVertical: TextAlignVertical.center,
+                //     textInputAction: TextInputAction.search,
+                //     onSubmitted: (value) {
+                //     homeSearchController.searchingData();
+                //     },
+                //     decoration: InputDecoration(
+                //       filled: true,
+                //
+                //       border: const OutlineInputBorder(
+                //           borderSide: BorderSide.none,
+                //           borderRadius: BorderRadius.all(
+                //               Radius.circular(8))),
+                //       fillColor: Colors.white,
+                //       contentPadding: EdgeInsets.symmetric(
+                //           horizontal: width * .02,
+                //           vertical: height * .02),
+                //       hintText: 'Find for food or restaurant...',
+                //       hintStyle: TextStyle(
+                //           fontSize: AddSize.font14,
+                //           color: Color(0xff9DA4BB),
+                //           fontWeight: FontWeight.w400),
+                //       suffixIcon: IconButton(
+                //         onPressed: () {
+                //           print("hello");
+                //           homeSearchController.load=false.obs;
+                //           homeSearchController.searchingData();
+                //         },
+                //         icon: const Icon(
+                //           Icons.search_rounded,
+                //           color: Color(0xff8990A7),
+                //           size: 30,
+                //         ),
+                //       ),
+                //       // prefixIcon: IconButton(
+                //       //   onPressed: () {
+                //       //     // Get.to(const SearchScreenData());
+                //       //
+                //       //   },
+                //       //   icon: const Icon(
+                //       //     Icons.place_rounded,
+                //       //     color: Color(0xffD3D1D8),
+                //       //     size: 30,
+                //       //   ),
+                //       // ),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: height * .07,
                   child: TextField(
                     maxLines: 1,
-                    controller: searchController,
+                    controller: homeSearchController.searchController,
                     style: const TextStyle(fontSize: 17),
                     textAlignVertical: TextAlignVertical.center,
                     textInputAction: TextInputAction.search,
-                    onSubmitted: (value) {
-                     // homeSearchController.getData();
+                    onChanged: (value) {
+
+                      homeSearchController.searchingData(allowClear: true);
                     },
                     decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -91,7 +149,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             print("hello");
-                            searchHomeDataPagination();
+                            homeSearchController.searchingData(allowClear: true);
 
                           },
                           icon: const Icon(
@@ -114,26 +172,31 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                   ),
                 ),
                 Obx(() {
-                  return controller.isDataLoading.value ? (controller.searchDataModel.value.data != null && controller.searchDataModel.value.data!.isNotEmpty)
-                      ? ListView.builder(
-                          itemCount: controller.searchDataModel.value.data != null
-                              ? controller.searchDataModel.value.data!.length
-                              : 0,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                          return InkWell(
+                  return homeSearchController.isDataLoading.value ? (homeSearchController.searchModel2.isNotEmpty)
+                      ?
+                  GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: homeSearchController.load.value == false ?  homeSearchController.searchModel2.length + 1  :  homeSearchController.searchModel2.length  ,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 20,
+                            mainAxisExtent: 230,
+                            mainAxisSpacing: 20.0),
+                            scrollDirection: Axis.vertical,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+
+                          if(index < homeSearchController.searchModel2.length){
+                            return InkWell(
                                 onTap: () {
                                   Get.toNamed(StoreScreen
                                       .singleStoreScreen);
                                   storeController
                                       .storeId.value =
-                                      controller.searchDataModel.value.data![index].id
+                                      homeSearchController.searchModel2[index].id
                                           .toString();
                                 },
                                 child: Container(
-                                    margin:
-                                    const EdgeInsets.only(
-                                        top: 10),
                                     decoration: BoxDecoration(
                                         color: AppTheme
                                             .backgroundcolor,
@@ -155,70 +218,59 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                         CrossAxisAlignment
                                             .start,
                                         children: [
-                                          SizedBox(
-                                            height:
-                                            height * .19,
-                                            width: width,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                  10),
-                                              child:
-                                              CachedNetworkImage(
-                                                imageUrl: controller.searchDataModel.value.data![
-                                                index]
-                                                    .image
-                                                    .toString(),
-                                                errorWidget: (_,
-                                                    __,
-                                                    ___) =>
-                                                const SizedBox(),
-                                                placeholder: (_,
-                                                    __) =>
-                                                const SizedBox(),
-                                                fit: BoxFit
-                                                    .cover,
+                                          Expanded(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                //color: Colors.grey,
+                                                borderRadius: BorderRadius.only(
+                                                    topRight: Radius.circular(20),
+                                                    topLeft: Radius.circular(20)),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(20),
+                                                  topLeft: Radius.circular(20),
+                                                ),
+                                                child:
+                                                CachedNetworkImage(
+                                                  imageUrl: homeSearchController.searchModel2[index].image
+                                                      .toString(),
+                                                  errorWidget: (_, __, ___) =>
+                                                  const SizedBox(),
+                                                  placeholder: (_, __) =>
+                                                  const SizedBox(),
+                                                  fit: BoxFit.cover,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                          addHeight(10),
+                                         // addHeight(10),
+                                          Text(
+                                            homeSearchController.searchModel2[
+                                            index]
+                                                .name
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: AppTheme
+                                                    .blackcolor,
+                                                fontSize:
+                                                AddSize
+                                                    .font14,
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500),
+                                          ),
                                           Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment
                                                 .spaceBetween,
                                             children: [
-                                              Text(
-                                                controller.searchDataModel.value.data![
-                                                index]
-                                                    .name
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: AppTheme
-                                                        .blackcolor,
-                                                    fontSize:
-                                                    AddSize
-                                                        .font14,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w500),
-                                              ),
+
                                               Row(
                                                 children: [
-                                                  const Icon(
-                                                    Icons
-                                                        .location_on,
-                                                    color: AppTheme
-                                                        .primaryColor,
-                                                    size: 20,
-                                                  ),
-                                                  SizedBox(
-                                                    width:
-                                                    width *
-                                                        .02,
-                                                  ),
+
                                                   Text(
-                                                    "${controller.searchDataModel.value.data![index].distance.toString()} KM",
+                                                    "${homeSearchController.searchModel2[index].distance.toString()} KM",
                                                     style: TextStyle(
                                                         color: AppTheme
                                                             .blackcolor,
@@ -235,6 +287,21 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                         ],
                                       ),
                                     )));
+                          }
+                          else{
+                       if(homeSearchController.load.value == true){
+                         return Row(
+                           crossAxisAlignment: CrossAxisAlignment.center,
+                           mainAxisAlignment: MainAxisAlignment.center,
+                           children: [
+                             SizedBox(
+                                 height: 30,
+                                 width: 30,
+                                 child: CircularProgressIndicator()),
+                           ],
+                         );
+                       }
+                          }
                           })
                       : const Text("No data found"):Center(child: CircularProgressIndicator());
                 })

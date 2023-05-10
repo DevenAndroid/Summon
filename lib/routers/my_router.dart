@@ -1,3 +1,6 @@
+import 'package:fresh2_arrive/model/HomePageModel1.dart';
+import 'package:fresh2_arrive/screens/MapScreen_Page.dart';
+import 'package:fresh2_arrive/screens/MyCart_Page.dart';
 import 'package:fresh2_arrive/screens/Otp_Screen.dart';
 import 'package:fresh2_arrive/screens/SearchScreenData..dart';
 import 'package:fresh2_arrive/screens/add_money.dart';
@@ -35,6 +38,8 @@ import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/Onboarding_Screen_page.dart';
 import '../screens/OneProduct_Screen.dart';
+import '../screens/Popular_Homepage_Product_screen.dart';
+import '../screens/RecomendedViewAll_Screen.dart';
 import '../screens/SetPassword_Screen.dart';
 import '../screens/SingleProdct_Screen.dart';
 import '../screens/admin_response_screen.dart';
@@ -76,6 +81,14 @@ class MyRouter {
     GetPage(
       name: SearchScreenData.searchScreen,
       page: () => const SearchScreenData(),
+    ),
+    GetPage(
+      name: MapScreenPage.mapScreen,
+      page: () => const MapScreenPage(),
+    ),
+    GetPage(
+      name: ViewAllPopularPage.viewAllPopularPage,
+      page: () => const ViewAllPopularPage(),
     ),
     GetPage(
         name: CustomNavigationBar.customNavigationBar,
@@ -195,5 +208,11 @@ class MyRouter {
     GetPage(
         name: SingleProductPage.singleProductPage,
         page: () => const SingleProductPage()),
+    GetPage(
+        name: ViewAllRecommendedPage.viewAllRecommendedPage,
+        page: () =>  const ViewAllRecommendedPage()),
+    GetPage(
+        name: MyCartPage.myCartPage,
+        page: () =>  const MyCartPage()),
   ];
 }

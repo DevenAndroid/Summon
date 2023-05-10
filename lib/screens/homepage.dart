@@ -88,10 +88,10 @@ class HomePageState extends State<HomePage> {
             onRefresh: () async {
               nearStoreController.isPaginationLoading.value = true;
               nearStoreController.loadMore.value = true;
-              await nearStoreController.getData(isFirstTime: true);
-              profileController.getData();
-              homeController.getData();
-              myOrderController.getMyOrder();
+              // await nearStoreController.getData(isFirstTime: true);
+              // profileController.getData();
+              // homeController.getData();
+              // myOrderController.getMyOrder();
             },
             child: SingleChildScrollView(
               controller: scrollController,
@@ -818,130 +818,9 @@ class HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               InkWell(
-                                                onTap: () {
-                                                  // removeCartItemRepo(singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varints![singleStoreController.storeDetailsModel.value.data!.latestProducts![index].varientIndex!.value].price.toString(), context);
-                                                  if ((myCartController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .cartItems!
-                                                              .firstWhere(
-                                                                  (element) =>
-                                                                      element
-                                                                          .variantId
-                                                                          .toString() ==
-                                                                      homeController
-                                                                          .model
-                                                                          .value
-                                                                          .data!
-                                                                          .bestFreshProduct![
-                                                                              index]
-                                                                          .varints![homeController
-                                                                              .model
-                                                                              .value
-                                                                              .data!
-                                                                              .bestFreshProduct![
-                                                                                  index]
-                                                                              .varientIndex!
-                                                                              .value]
-                                                                          .id
-                                                                          .toString(),
-                                                                  orElse: () =>
-                                                                      CartItems())
-                                                              .cartItemQty ??
-                                                          "0").toString() ==
-                                                      homeController
-                                                          .model
-                                                          .value
-                                                          .data!
-                                                          .bestFreshProduct![
-                                                              index]
-                                                          .varints![homeController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .bestFreshProduct![
-                                                                  index]
-                                                              .varientIndex!
-                                                              .value]
-                                                          .minQty
-                                                          .toString()) {
-                                                    removeCartItemRepo(
-                                                            (myCartController
-                                                                        .model
-                                                                        .value
-                                                                        .data!
-                                                                        .cartItems!
-                                                                        .firstWhere(
-                                                                            (element) =>
-                                                                                element.variantId.toString() ==
-                                                                                homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].id.toString(),
-                                                                            orElse: () => CartItems())
-                                                                        .id ??
-                                                                    "0")
-                                                                .toString(),
-                                                            context)
-                                                        .then((value) {
-                                                      if (value.status ==
-                                                          true) {
-                                                        showToast(
-                                                            value.message);
-                                                        myCartController
-                                                            .getAddToCartList();
-                                                      } else {
-                                                        showToast(
-                                                            value.message);
-                                                      }
-                                                    });
-                                                  } else {
-                                                    addToCartRepo(
-                                                            homeController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .bestFreshProduct![
-                                                                    index]
-                                                                .varints![homeController
-                                                                    .model
-                                                                    .value
-                                                                    .data!
-                                                                    .bestFreshProduct![
-                                                                        index]
-                                                                    .varientIndex!
-                                                                    .value]
-                                                                .id
-                                                                .toString(),
-                                                            homeController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .bestFreshProduct![
-                                                                    index]
-                                                                .id
-                                                                .toString(),
-                                                            int.parse((myCartController
-                                                                            .model
-                                                                            .value
-                                                                            .data!
-                                                                            .cartItems!
-                                                                            .firstWhere((element) => element.variantId.toString() == homeController.model.value.data!.bestFreshProduct![index].varints![homeController.model.value.data!.bestFreshProduct![index].varientIndex!.value].id.toString(),
-                                                                                orElse: () => CartItems())
-                                                                            .cartItemQty ??
-                                                                        "0")
-                                                                    .toString()) -
-                                                                1,
-                                                            context)
-                                                        .then((value) {
-                                                      showToast(value.message);
-                                                      if (value.status ==
-                                                          true) {
-                                                        myCartController
-                                                            .getAddToCartList();
-                                                      }
-                                                      setState(() {});
-                                                    });
-                                                  }
-                                                },
+                                               onTap:(){
+
+                                        },
                                                 child: const Icon(
                                                   Icons.remove,
                                                   color:

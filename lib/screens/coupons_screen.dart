@@ -47,55 +47,55 @@ class _CouponsScreenState extends State<CouponsScreen> {
                     horizontal: width * 0.03, vertical: height * .01),
                 child: Column(
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.backgroundcolor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        maxLines: 1,
-                        controller: codeController,
-                        style: const TextStyle(fontSize: 17),
-                        textAlignVertical: TextAlignVertical.center,
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (value) => {},
-                        decoration: InputDecoration(
-                            filled: true,
-                            suffixIcon: TextButton(
-                                onPressed: () {
-                                  applyCoupons(couponCode: codeController.text
-                                      .toString(), context: context).
-                                  then((value){
-                                    showToast(value.message);
-                                    if(value.status == true){
-                                      myCartController.getAddToCartList();
-                                      controller.onItemTap(1);
-                                      Get.back();
-                                    }
-                                  });
-                                },
-                                child: Text(
-                                  "Apply  ".toUpperCase(),
-                                  style: TextStyle(
-                                      fontSize: AddSize.font16,
-                                      color: AppTheme.blackcolor,
-                                      fontWeight: FontWeight.w500),
-                                )),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            fillColor: Colors.white,
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: AddSize.padding20,
-                                vertical: AddSize.padding20),
-                            hintText: 'Enter coupon code',
-                            hintStyle: TextStyle(
-                                fontSize: AddSize.font14,
-                                color: AppTheme.blackcolor,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     color: AppTheme.backgroundcolor,
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: TextField(
+                    //     maxLines: 1,
+                    //     controller: codeController,
+                    //     style: const TextStyle(fontSize: 17),
+                    //     textAlignVertical: TextAlignVertical.center,
+                    //     textInputAction: TextInputAction.search,
+                    //     onSubmitted: (value) => {},
+                    //     decoration: InputDecoration(
+                    //         filled: true,
+                    //         suffixIcon: TextButton(
+                    //             onPressed: () {
+                    //               applyCoupons(couponCode: codeController.text
+                    //                   .toString(), context: context).
+                    //               then((value){
+                    //                 showToast(value.message);
+                    //                 if(value.status == true){
+                    //                   myCartController.getAddToCartList();
+                    //                   controller.onItemTap(1);
+                    //                   Get.back();
+                    //                 }
+                    //               });
+                    //             },
+                    //             child: Text(
+                    //               "Apply  ".toUpperCase(),
+                    //               style: TextStyle(
+                    //                   fontSize: AddSize.font16,
+                    //                   color: AppTheme.blackcolor,
+                    //                   fontWeight: FontWeight.w500),
+                    //             )),
+                    //         border: const OutlineInputBorder(
+                    //             borderSide: BorderSide.none,
+                    //             borderRadius:
+                    //                 BorderRadius.all(Radius.circular(10))),
+                    //         fillColor: Colors.white,
+                    //         contentPadding: EdgeInsets.symmetric(
+                    //             horizontal: AddSize.padding20,
+                    //             vertical: AddSize.padding20),
+                    //         hintText: 'Enter coupon code',
+                    //         hintStyle: TextStyle(
+                    //             fontSize: AddSize.font14,
+                    //             color: AppTheme.blackcolor,
+                    //             fontWeight: FontWeight.w400)),
+                    //   ),
+                    // ),
                     Obx(() {
                       return couponController.isDataLoading.value
                           ? couponController.model.value.data!.isEmpty ?
@@ -160,8 +160,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                           child: Container(
                                                             decoration:
                                                                 const BoxDecoration(
-                                                                    color: AppTheme
-                                                                        .newprimaryColor),
+                                                                    color: Color(0xffFFF1ED)),
                                                             child: Padding(
                                                               padding: EdgeInsets
                                                                   .symmetric(
@@ -215,8 +214,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                               .textTheme
                                                               .headline5!
                                                               .copyWith(
-                                                                  color: AppTheme
-                                                                      .userActive,
+                                                                  color: AppTheme.primaryColor,
                                                                   fontWeight:
                                                                       FontWeight.w500,
                                                                   fontSize: 16),
@@ -232,14 +230,13 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                             )),
                                         Positioned(
                                           top: AddSize.size20,
-                                          right: AddSize.size20,
+                                          left: AddSize.size20,
                                           child:  Container(
                                           height: height * .04,
                                           width: width * .10,
                                           decoration:
                                           const ShapeDecoration(
-                                              color: AppTheme
-                                                  .newprimaryColor,
+                                              color: Color(0xffFFF1ED),
                                               shape:
                                               CircleBorder()),
                                           child: Center(
@@ -247,8 +244,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                   height: height * .02,
                                                   width: width * .04,
                                                   image: const AssetImage(
-                                                      AppAssets
-                                                          .coupons_image))),
+                                                      AppAssets.couponIcon,))),
                                         ),)
                                       ],
                                     ));

@@ -12,7 +12,7 @@ import '../resources/helper.dart';
 
 
 Future<ModelCommonResponse> wishListRepo(
-    {required productId,
+    {required store_id,
       required BuildContext context}) async {
 
 
@@ -31,7 +31,7 @@ Future<ModelCommonResponse> wishListRepo(
   };
 
   http.Response response = await http.post(Uri.parse(ApiUrl.wishListUrl),
-      body: jsonEncode(productId), headers: headers);
+      body: jsonEncode(store_id), headers: headers);
   //response.headers.addAll(headers);
 
   log("wishlist api....${response.body}");

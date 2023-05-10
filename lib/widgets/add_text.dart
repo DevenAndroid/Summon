@@ -166,7 +166,7 @@ disposeController}){
     title: Text(
       title,
       style: Theme.of(context).textTheme.headline6!.copyWith(
-          fontWeight: FontWeight.w500, fontSize: 20, color: textColor),
+          fontWeight: FontWeight.w600, fontSize: 20, color: textColor),
     ),
     leading: Padding(
 
@@ -203,11 +203,11 @@ AppBar backAppBar1(
     toolbarHeight: 60,
     elevation: 0,
     leadingWidth: AddSize.size20 * 2.0,
-    backgroundColor: controller.currentIndex == 3 ? Colors.transparent: Colors.white,
+    backgroundColor: controller.currentIndex == 3 ? Colors.white: Colors.white,
     title: Text(
       title,
       style: Theme.of(context).textTheme.headline6!.copyWith(
-          fontWeight: FontWeight.w500, fontSize: 20, color: controller.currentIndex == 3 ? textColor: Color(0xff423E5E)),
+          fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xff423E5E)),
     ),
     leading: Padding(
 
@@ -221,7 +221,7 @@ AppBar backAppBar1(
           },
           child:  controller.currentIndex == 3 ? icon ??
               Image.asset(
-                  AppAssets.whiteIcon,
+                  AppAssets.back,
 
               ):Image.asset(
             AppAssets.back,

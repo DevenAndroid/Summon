@@ -25,14 +25,14 @@ class HomePageModel1 {
 class Data {
   List<SliderData>? sliderData;
   List<LatestCategory>? latestCategory;
-  List<RecommendedProduct>? recommendedProduct;
-  List<PopularProduct>? popularProduct;
+  List<RecommendedStore>? recommendedStore;
+  List<PopularStore>? popularStore;
 
   Data(
       {this.sliderData,
         this.latestCategory,
-        this.recommendedProduct,
-        this.popularProduct});
+        this.recommendedStore,
+        this.popularStore});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['sliderData'] != null) {
@@ -47,16 +47,16 @@ class Data {
         latestCategory!.add(new LatestCategory.fromJson(v));
       });
     }
-    if (json['recommendedProduct'] != null) {
-      recommendedProduct = <RecommendedProduct>[];
-      json['recommendedProduct'].forEach((v) {
-        recommendedProduct!.add(new RecommendedProduct.fromJson(v));
+    if (json['recommendedStore'] != null) {
+      recommendedStore = <RecommendedStore>[];
+      json['recommendedStore'].forEach((v) {
+        recommendedStore!.add(new RecommendedStore.fromJson(v));
       });
     }
-    if (json['popularProduct'] != null) {
-      popularProduct = <PopularProduct>[];
-      json['popularProduct'].forEach((v) {
-        popularProduct!.add(new PopularProduct.fromJson(v));
+    if (json['popularStore'] != null) {
+      popularStore = <PopularStore>[];
+      json['popularStore'].forEach((v) {
+        popularStore!.add(new PopularStore.fromJson(v));
       });
     }
   }
@@ -70,13 +70,12 @@ class Data {
       data['latestCategory'] =
           this.latestCategory!.map((v) => v.toJson()).toList();
     }
-    if (this.recommendedProduct != null) {
-      data['recommendedProduct'] =
-          this.recommendedProduct!.map((v) => v.toJson()).toList();
+    if (this.recommendedStore != null) {
+      data['recommendedStore'] =
+          this.recommendedStore!.map((v) => v.toJson()).toList();
     }
-    if (this.popularProduct != null) {
-      data['popularProduct'] =
-          this.popularProduct!.map((v) => v.toJson()).toList();
+    if (this.popularStore != null) {
+      data['popularStore'] = this.popularStore!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -110,184 +109,88 @@ class SliderData {
 class LatestCategory {
   int? id;
   String? name;
-  String? slug;
-  String? image;
 
-  LatestCategory({this.id, this.name, this.slug, this.image});
+  LatestCategory({this.id, this.name});
 
   LatestCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    slug = json['slug'];
-    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['image'] = this.image;
     return data;
   }
 }
 
-class RecommendedProduct {
+class RecommendedStore {
   int? id;
   String? name;
-  String? sKU;
-  String? type;
-  String? content;
   String? image;
-  bool? status;
-  List<Variants>? variants;
-  List<Addons>? addons;
+  String? distance;
+  String? deliveryCharge;
+  bool? wishlist;
+  String? avgRating;
 
-  RecommendedProduct(
+  RecommendedStore(
       {this.id,
         this.name,
-        this.sKU,
-        this.type,
-        this.content,
         this.image,
-        this.status,
-        this.variants,
-        this.addons});
+        this.distance,
+        this.deliveryCharge,
+        this.wishlist,
+        this.avgRating});
 
-  RecommendedProduct.fromJson(Map<String, dynamic> json) {
+  RecommendedStore.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    sKU = json['SKU'];
-    type = json['type'];
-    content = json['content'];
     image = json['image'];
-    status = json['status'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(new Variants.fromJson(v));
-      });
-    }
-    if (json['addons'] != null) {
-      addons = <Addons>[];
-      json['addons'].forEach((v) {
-        addons!.add(new Addons.fromJson(v));
-      });
-    }
+    distance = json['distance'];
+    deliveryCharge = json['delivery_charge'];
+    wishlist = json['wishlist'];
+    avgRating = json['avg_rating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['SKU'] = this.sKU;
-    data['type'] = this.type;
-    data['content'] = this.content;
     data['image'] = this.image;
-    data['status'] = this.status;
-    if (this.variants != null) {
-      data['variants'] = this.variants!.map((v) => v.toJson()).toList();
-    }
-    if (this.addons != null) {
-      data['addons'] = this.addons!.map((v) => v.toJson()).toList();
-    }
+    data['distance'] = this.distance;
+    data['delivery_charge'] = this.deliveryCharge;
+    data['wishlist'] = this.wishlist;
+    data['avg_rating'] = this.avgRating;
     return data;
   }
 }
-
-class Variants {
-  int? id;
-  dynamic size;
-  String? sizeName;
-  String? price;
-  int? minQty;
-  int? maxQty;
-
-  Variants(
-      {this.id,
-        this.size,
-        this.sizeName,
-        this.price,
-        this.minQty,
-        this.maxQty});
-
-  Variants.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    size = json['size'];
-    sizeName = json['size_name'];
-    price = json['price'];
-    minQty = json['min_qty'];
-    maxQty = json['max_qty'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['size'] = this.size;
-    data['size_name'] = this.sizeName;
-    data['price'] = this.price;
-    data['min_qty'] = this.minQty;
-    data['max_qty'] = this.maxQty;
-    return data;
-  }
-}
-
-class Addons {
-  int? id;
-  String? name;
-  String? price;
-  int? addonTypeId;
-  String? addonType;
-
-  Addons({this.id, this.name, this.price, this.addonTypeId, this.addonType});
-
-  Addons.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    price = json['price'];
-    addonTypeId = json['addon_type_id'];
-    addonType = json['addon_type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['price'] = this.price;
-    data['addon_type_id'] = this.addonTypeId;
-    data['addon_type'] = this.addonType;
-    return data;
-  }
-}
-
-class PopularProduct {
+class PopularStore {
   int? id;
   String? name;
   String? image;
-  String? type;
-  List<Variants>? variants;
-  List<Addons>? addons;
+  String? distance;
+  String? deliveryCharge;
+  bool? wishlist;
+  String? avgRating;
 
-  PopularProduct(
-      {this.id, this.name, this.image, this.type, this.variants, this.addons});
+  PopularStore(
+      {this.id,
+        this.name,
+        this.image,
+        this.distance,
+        this.deliveryCharge,
+        this.wishlist,
+        this.avgRating});
 
-  PopularProduct.fromJson(Map<String, dynamic> json) {
+  PopularStore.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     image = json['image'];
-    type = json['type'];
-    if (json['variants'] != null) {
-      variants = <Variants>[];
-      json['variants'].forEach((v) {
-        variants!.add(new Variants.fromJson(v));
-      });
-    }
-    if (json['addons'] != null) {
-      addons = <Addons>[];
-      json['addons'].forEach((v) {
-        addons!.add(new Addons.fromJson(v));
-      });
-    }
+    distance = json['distance'];
+    deliveryCharge = json['delivery_charge'];
+    wishlist = json['wishlist'];
+    avgRating = json['avg_rating'];
   }
 
   Map<String, dynamic> toJson() {
@@ -295,13 +198,10 @@ class PopularProduct {
     data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
-    data['type'] = this.type;
-    if (this.variants != null) {
-      data['variants'] = this.variants!.map((v) => v.toJson()).toList();
-    }
-    if (this.addons != null) {
-      data['addons'] = this.addons!.map((v) => v.toJson()).toList();
-    }
+    data['distance'] = this.distance;
+    data['delivery_charge'] = this.deliveryCharge;
+    data['wishlist'] = this.wishlist;
+    data['avg_rating'] = this.avgRating;
     return data;
   }
 }

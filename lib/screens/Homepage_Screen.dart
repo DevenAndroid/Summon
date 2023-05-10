@@ -3,17 +3,21 @@ import 'dart:developer';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/screens/Popular_Homepage_Product_screen.dart';
+import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import '../controller/CartController.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
+import '../controller/SingleProductController.dart';
 import '../controller/cart_related_product_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/home_page_controller.dart';
@@ -28,8 +32,11 @@ import '../controller/store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/dimensions.dart';
+import 'OneProduct_Screen.dart';
+import 'RecomendedViewAll_Screen.dart';
 import 'SearchScreenData..dart';
 import 'notification_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -40,9 +47,11 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreenState extends State<HomePageScreen> {
   final homeSearchController = Get.put(HomePageController1());
-  final myCartController = Get.put(MyCartDataListController());
+  final singleProductController = Get.put(SingleProductController());
+ // final myCartController = Get.put(MyCartDataListController());
   final relatedCartController = Get.put(CartRelatedProductController());
   final viewAllController = Get.put(CategoryController());
+  final myCartDataController = Get.put(MyCartController());
   final locationController = Get.put(LocationController());
   final controller = Get.put(MainHomeController());
   final homeController1 = Get.put(HomePageController1());
@@ -54,6 +63,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final addToCartQtyController = TextEditingController();
   final storeController = Get.put(SingleStoreController());
   final notificationController = Get.put(NotificationController());
+  TextEditingController searchController=TextEditingController();
 
   int currentIndex = -1;
 
@@ -106,9 +116,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
               child: GestureDetector(
                 child: Image.asset(
                     AppAssets.homeIcon,
-                    height: 50,
-                    width: 50,
-                    opacity: AlwaysStoppedAnimation(.80)
+                    height: 60,
+                    width: 60,
+
                 ),
                 onTap: () {
                   controller.scaffoldKey.currentState!.openDrawer();
@@ -133,7 +143,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         "Home",
                         style: TextStyle(
                             fontSize: 20,
-                            color: AppTheme.primaryColor.withOpacity(.80),
+                            color: AppTheme.primaryColor,
 
                             fontWeight: FontWeight.w500),
                       ),
@@ -162,29 +172,32 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       child:
                       Badge(
                         badgeStyle: BadgeStyle(
-                            badgeColor: AppTheme.primaryColor.withOpacity(.80)),
+                            badgeColor: AppTheme.primaryColor),
                         badgeContent: Obx(() {
                           return Text(
-                            notificationController
-                                .isDataLoading.value
-                                ? notificationController
-                                .model.value.data!.count
-                                .toString()
+                            myCartDataController
+                                .isDataLoaded.value
+                                ? myCartDataController.sum.value.toString()
                                 : "0",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: AddSize.font12),
                           );
                         }),
-                        child: const ImageIcon(
-                          AssetImage(AppAssets.bagIcon),
-                          size: 45,
-                          color: Colors.black,
+                        child: InkWell(
+                          onTap: (){
+                            controller.onItemTap(1);
+                          },
+                          child: const ImageIcon(
+                            AssetImage(AppAssets.bagIcon),
+                            size: 45,
+                            color: Colors.black,
 
+                          ),
                         ),
                       )),
                   onPressed: () {
-                    Get.toNamed(NotificationScreen.notificationScreen);
+                    controller.onItemTap(1);
                     //Get.to(SetPasswordScreen());
                   },
                 ),
@@ -198,10 +211,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
               onRefresh: () async {
                 nearStoreController.isPaginationLoading.value = true;
                 nearStoreController.loadMore.value = true;
-                await nearStoreController.getData(isFirstTime: true);
+                // await nearStoreController.getData(isFirstTime: true);
                 profileController.getData();
                 homeController1.getHomePageData();
                 myOrderController.getMyOrder();
+                myCartDataController.getCartData();
               },
               child:  homeController1.isDataLoading.value ?  SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -221,7 +235,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         child: TextField(
                           maxLines: 3,
                           controller:
-                          homeSearchController.searchController,
+                          searchController,
                           style: const TextStyle(fontSize: 17),
                           // textAlignVertical: TextAlignVertical.center,
                           textInputAction: TextInputAction.search,
@@ -311,113 +325,61 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         const SizedBox(),
                                         fit: BoxFit.cover,
                                       ),
-                                    ))),
-                      ),
-                      SizedBox(
-                        height: height * .02,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          controller.onItemTap(0);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-
-                            Text("View All",
-                              style: TextStyle(fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppTheme.primaryColor.withOpacity(
-                                      .80)),),
-                          ],
+                                    ))
                         ),
                       ),
+
                       SizedBox(
-                        height: height * .01,
-                      ),
-                      SizedBox(
-                        height: 140,
+                        height: 120,
                         child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 4,
+                            itemCount: homeController1.model.value.data!.latestCategory!.length,
                             itemBuilder: (context, index) {
-                              return SizedBox(
-                                width: 100,
-                                child: InkWell(
-                                  onTap: () {
-                                    currentIndex = index;
-                                    setState(() {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 7),
+                                child: Row(
+                                  children:[
 
-                                      });
-                                    storeCategoryController
-                                          .storeId.value = homeController1.model.value.data!.latestCategory![index].id
-                                          .toString();
-                                      log("category id is ..${storeCategoryController.storeId.value}");
-                                      Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
+                                  InkWell(
+                                    onTap: () {
+                                      currentIndex = index;
+                                      setState(() {
 
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
+                                        });
+                                      storeCategoryController
+                                            .storeId.value = homeController1.model.value.data!.latestCategory![index].id
+                                            .toString();
+                                        log("category id is ..${storeCategoryController.storeId.value}");
+                                        Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
+
+                                    },
                                     child: Container(
-                                      height: 140,
-                                      width: 85,
+                                     // margin: EdgeInsets.symmetric(vertical: 5),
+                                      height: 51,
+                                      width: 110,
                                       decoration: BoxDecoration(
-                                          color: currentIndex != index ? Colors
-                                              .white : Color(0xffFE724C)
-                                              .withOpacity(.80),
+                                          color: currentIndex != index ? Color(0xffF2F2F2): Color(0xffFE724C),
                                           borderRadius: BorderRadius.circular(
-                                              20)
+                                              12)
 
                                       ),
-                                      child: Column(
-
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                              height: 60,
-                                              width: 60,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                color: Colors.white
-                                              ),
-                                                child:  Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: homeController1.model.value
-                                                        .data!.latestCategory![index].image
-                                                        .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                    const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                    const SizedBox(),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                            ),
-                                          ),
-                                          SizedBox(height: 5,),
-                                          Text(homeController1.model.value
-                                              .data!.latestCategory![index].name
-                                              .toString(),
-                                            style: TextStyle(fontSize: 15,
-                                                fontWeight: FontWeight.w500,
-                                                color: currentIndex == index
-                                                    ? Colors.white
-                                                    : Color(0xff67666D)),),
-                                        ],
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 14),
+                                        child: Text(homeController1.model.value.data!.latestCategory![index].name
+                                            .toString(), textAlign:TextAlign.center,style: TextStyle(fontSize: 17,
+                                            fontWeight: FontWeight.w400,
+                                            color: currentIndex != index ? Color(0xff000000):Color(0xffFFFFFF)),),
                                       ),
                                     ),
                                   ),
+                                 ]
                                 ),
                               );
                             }),
                       ),
 
-                      SizedBox(
-                        height: height * .02,
-                      ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -425,11 +387,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             style: TextStyle(fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000)),),
-                          Text("View All",
-                            style: TextStyle(fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: AppTheme.primaryColor.withOpacity(
-                                    .80)),),
+                          GestureDetector(
+                            onTap: (){
+                              Get.toNamed(ViewAllRecommendedPage.viewAllRecommendedPage);
+                            },
+                            child: Text("View All",
+                              style: TextStyle(fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor.withOpacity(
+                                      .80)),),
+                          ),
                         ],
                       ),
 
@@ -438,7 +405,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: homeController1.model.value.data!.recommendedProduct!.length,
+                          itemCount: homeController1.model.value.data!.recommendedStore!.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 20,
@@ -450,82 +417,116 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             return
                               Stack(
                                   children: [
-                                    Container(
-                                      decoration:BoxDecoration(
-                                        color: Color(0xffFFFFFF),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Column(
+                                    InkWell(
+                                      onTap:(){
+                                        singleStoreController.storeId.value =
+                                            homeController1.model.value.data!.recommendedStore![index].id.toString();
+                                        print(
+                                            singleProductController.id.value);
+                                        Get.toNamed(StoreScreen.singleStoreScreen);
+                            },
+                                      child: Container(
+                                        decoration:BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Column(
 
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                //color: Colors.grey,
-                                                // borderRadius: BorderRadius.only(
-                                                //     topRight: Radius.circular(20),
-                                                //     topLeft: Radius.circular(20)),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(15),
-                                                  topLeft: Radius.circular(15),
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  //color: Colors.grey,
+                                                  // borderRadius: BorderRadius.only(
+                                                  //     topRight: Radius.circular(20),
+                                                  //     topLeft: Radius.circular(20)),
                                                 ),
-                                                child:
-                                                CachedNetworkImage(
-                                                  imageUrl: homeController1.model.value
-                                                      .data!.recommendedProduct![index].image
-                                                      .toString(),
-                                                  errorWidget: (_, __, ___) =>
-                                                  const SizedBox(),
-                                                  placeholder: (_, __) =>
-                                                  const SizedBox(),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          //SizedBox(height: 5,),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  homeController1.model.value
-                                                      .data!.recommendedProduct![index].name
-                                                      .toString(),
-                                                  style: TextStyle(fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Color(0xff08141B)),),
-                                                SizedBox(height: 8,),
-                                                Row(
-                                                  children: [
-                                                    Text(homeController1.model.value
-                                                        .data!.recommendedProduct![index].variants![0].price
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.only(
+                                                    topRight: Radius.circular(15),
+                                                    topLeft: Radius.circular(15),
+                                                  ),
+                                                  child:
+                                                  CachedNetworkImage(
+                                                    imageUrl: homeController1.model.value
+                                                        .data!.recommendedStore![index].image
                                                         .toString(),
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),), SizedBox(width: 5,),Text("25 mins •",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 3,),
-                                                    Text("★4.5", style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Color(0xffFE724C)),),
-                                                  ],
+                                                    errorWidget: (_, __, ___) =>
+                                                    const SizedBox(),
+                                                    placeholder: (_, __) =>
+                                                    const SizedBox(),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                            //SizedBox(height: 5,),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    homeController1.model.value
+                                                        .data!.recommendedStore![index].name
+                                                        .toString(),
+                                                    style: GoogleFonts.ibmPlexSansArabic(fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Color(0xff08141B)),),
+                                                  SizedBox(height: 8,),
+                                                  Row(
+                                                    children: [
+                                                      Text("SR",
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text("${homeController1.model.value
+                                                          .data!.recommendedStore![index].deliveryCharge
+                                                          .toString()}",
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                      Text("KM",
+                                                        style: TextStyle(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text(homeController1.model.value
+                                                          .data!.recommendedStore![index].distance
+                                                          .toString(),
 
-                                        ],
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                     Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                      Text(homeController1.model.value
+                                                          .data!.recommendedStore![index].avgRating
+                                                          .toString(), style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xff2C4D61)),),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Positioned(
@@ -533,10 +534,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         right: 20,
                                         child: InkWell(
                                         onTap: (){
-                                          print("product wishlist id..${homeController1.model.value.data!.recommendedProduct![index].id.toString()}");
+                                          print("product wishlist id..${homeController1.model.value.data!.recommendedStore![index].id.toString()}");
                                           Map<String, dynamic> map={};
-                                          map['product_id'] = homeController1.model.value.data!.recommendedProduct![index].id.toString();
-                                          wishListRepo(productId: map,
+                                          map['store_id'] = homeController1.model.value.data!.recommendedStore![index].id.toString();
+                                          wishListRepo(store_id: map,
                                               context: context).then((value){
                                             if(value.status==true){
                                               showToast(value.message);
@@ -544,7 +545,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                             }
                                           });
                                         },
-                                          child: Container(
+                                          child:
+                            homeController1.model.value.data!.recommendedStore![index].wishlist! ? Container(
 
                                             height: 25,
                                             width: 25,
@@ -554,7 +556,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                       AppAssets.favIcon),
                                                 )
                                             ),
-                                          ),
+                                          ): Container(
+                              height: 25,
+                              width: 25,
+                              decoration:BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:Colors.white
+                              ),
+                              child: Icon(Icons.favorite_border,color: AppTheme.primaryColor,size: 18,),
+                            ),
                                         )),
                                   ]);
                           }),
@@ -569,10 +579,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000)),),
                           Flexible(child: Container()),
-                          Text("View All",
-                            style: TextStyle(fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: AppTheme.primaryColor),),
+                          GestureDetector(
+                            onTap: (){
+                              Get.toNamed(ViewAllPopularPage.viewAllPopularPage);
+                            },
+                            child: Text("View All",
+                              style: TextStyle(fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppTheme.primaryColor),),
+                          ),
                           SizedBox(
                             height: height * .01,
                           ),
@@ -583,7 +598,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       GridView.builder(
                           shrinkWrap: true,
-                          itemCount: homeController1.model.value.data!.popularProduct!.length,
+                          itemCount: homeController1.model.value.data!.popularStore!.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
                               crossAxisSpacing: 20,
@@ -595,84 +610,116 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             return
                               Stack(
                                   children: [
-                                    Container(
-                                      decoration:BoxDecoration(
-                                        color: Color(0xffFFFFFF).withOpacity(.30),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Column(
+                                    InkWell(
+                                      onTap:(){
+                                        singleStoreController.storeId.value =
+                                            homeController1.model.value.data!.popularStore![index].id.toString();
+                                        print(
+                                            singleProductController.id.value);
+                                        Get.toNamed(StoreScreen.singleStoreScreen);
+                                      },
+                                      child: Container(
+                                        decoration:BoxDecoration(
+                                          color: Color(0xffFFFFFF).withOpacity(.30),
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                        child: Column(
 
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                //color: Colors.grey,
-                                                borderRadius: BorderRadius.only(
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  //color: Colors.grey,
+                                                  borderRadius: BorderRadius.only(
+                                                      topRight: Radius.circular(20),
+                                                      topLeft: Radius.circular(20)),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.only(
                                                     topRight: Radius.circular(20),
-                                                    topLeft: Radius.circular(20)),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(20),
-                                                  topLeft: Radius.circular(20),
-                                                ),
-                                                child:
-                                                CachedNetworkImage(
-                                                  imageUrl: homeController1.model.value
-                                                      .data!.popularProduct![index].image
-                                                      .toString(),
-                                                  errorWidget: (_, __, ___) =>
-                                                  const SizedBox(),
-                                                  placeholder: (_, __) =>
-                                                  const SizedBox(),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          //SizedBox(height: 5,),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  homeController1.model.value
-                                                      .data!.popularProduct![index].name
-                                                      .toString(),
-                                                  style: TextStyle(fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Color(0xff08141B)),),
-                                                SizedBox(height: 8,),
-                                                Row(
-                                                  children: [
-                                                    Text(homeController1.model.value
-                                                        .data!.popularProduct![index].variants![0].price
+                                                    topLeft: Radius.circular(20),
+                                                  ),
+                                                  child:
+                                                  CachedNetworkImage(
+                                                    imageUrl: homeController1.model.value
+                                                        .data!.popularStore![index].image
                                                         .toString(),
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 5,),
-                                                    Text("25 mins •",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 3,),
-                                                    Text("★4.5", style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Color(0xffFE724C)),),
-                                                  ],
+                                                    errorWidget: (_, __, ___) =>
+                                                    const SizedBox(),
+                                                    placeholder: (_, __) =>
+                                                    const SizedBox(),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
+                                            //SizedBox(height: 5,),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    homeController1.model.value
+                                                        .data!.popularStore![index].name
+                                                        .toString(),
+                                                    style: GoogleFonts.ibmPlexSansArabic(fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Color(0xff08141B)),),
+                                                  SizedBox(height: 8,),
+                                                  Row(
+                                                    children: [
+                                                      Text("SR",
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text("${homeController1.model.value
+                                                          .data!.popularStore![index].deliveryCharge
+                                                          .toString()}",
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                      Text("KM",
+                                                        style: TextStyle(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text(homeController1.model.value
+                                                          .data!.popularStore![index].distance
+                                                          .toString(),
 
-                                        ],
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                      Text(homeController1.model.value
+                                                          .data!.popularStore![index].avgRating
+                                                          .toString(), style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xff2C4D61)),),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Positioned(
@@ -680,10 +727,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         right: 20,
                                         child: GestureDetector(
                                           onTap: (){
-                                            print("product wishlist id..${homeController1.model.value.data!.popularProduct![index].id.toString()}");
+                                            print("store wishlist id..${homeController1.model.value.data!.popularStore![index].id.toString()}");
                                             Map<String, dynamic> map={};
-                                            map['product_id'] = homeController1.model.value.data!.popularProduct![index].id.toString();
-                                            wishListRepo(productId: map,
+                                            map['store_id'] = homeController1.model.value.data!.popularStore![index].id.toString();
+                                            wishListRepo(store_id: map,
                                                 context: context).then((value){
                                               if(value.status==true){
                                                 showToast(value.message);
@@ -691,7 +738,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                               }
                                             });
                                           },
-                                          child: Container(
+                                          child:
+                                          homeController1.model.value.data!.popularStore![index].wishlist! ? Container(
 
                                             height: 25,
                                             width: 25,
@@ -701,6 +749,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                       AppAssets.favIcon),
                                                 )
                                             ),
+                                          ):Container(
+                                            height: 25,
+                                            width: 25,
+                                            decoration:BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color:Colors.white
+                                            ),
+                                            child: Icon(Icons.favorite_border,color: AppTheme.primaryColor,size: 18,),
                                           ),
                                         )),
                                   ]);

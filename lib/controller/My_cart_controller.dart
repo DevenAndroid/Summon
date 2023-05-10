@@ -21,9 +21,10 @@ class MyCartDataListController extends GetxController {
     });
   }
 
+
   @override
   void onInit() {
     super.onInit();
-    getAddToCartList();
+    //getAddToCartList();
   }
 }

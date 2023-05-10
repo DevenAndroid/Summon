@@ -7,6 +7,9 @@ class AppAssets {
   static const String BG1 = "assets/images/BG1.png";
   static const String BG2 = "assets/images/BG2.png";
   static const String BG3 = "assets/images/BG3.png";
+  static const String mapIcon = "assets/images/mapIcon.png";
+  static const String searchIcon = "assets/images/searchIcon.png";
+  static const String wishlist = "assets/images/wishlist.svg";
   static const String AddtoCartIcon = "assets/images/AddtoCartIcon.png";
   static const String FavriteIcon = "assets/images/FavriteIcon.png";
   static const String callImage = "assets/images/callImage.png";

@@ -61,7 +61,7 @@ Future<dynamic> getStoreDetails({bool? isFirstTime = false, context}) async {
           storeDetailsModel.value.data!.latestProducts!.addAll(
               value.data!.latestProducts!);
         }
-        loadMore.value = value.link!.next ?? false;
+        loadMore.value = value.link?.next ?? false;
       }
     });
   }

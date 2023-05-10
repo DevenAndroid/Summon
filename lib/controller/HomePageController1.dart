@@ -21,6 +21,9 @@ class HomePageController1 extends GetxController {
   RxString storeId = "".obs;
   RxString keyword = "".obs;
   Rx<HomePageSearchModel1> searchModel = HomePageSearchModel1().obs;
+
+
+
   final TextEditingController searchController=TextEditingController();
 
   @override
@@ -61,35 +64,65 @@ class HomePageController1 extends GetxController {
   //   }
   // }
 
-  Future getData({isFirstTime = false, context}) async {
+  // Future getData({isFirstTime = false, context}) async {
+  //
+  //   if(isFirstTime){
+  //     page.value = 1;
+  //   }
+  //   if (isPaginationLoading.value && loadMore.value) {
+  //     isPaginationLoading.value = false;
+  //     isSearchDataLoad.value = false;
+  //     await
+  //     searchHomeDataPagination(
+  //         page: page.value,
+  //         pagination: pagination.value,
+  //         keyword: searchController.text.trim())
+  //         .then((value) {
+  //       if (isFirstTime) {
+  //         searchModel.value = value;
+  //       }
+  //       isPaginationLoading.value = true;
+  //       isSearchDataLoad.value = true;
+  //       if (value.status!) {
+  //         isSearchDataLoad.value = true;
+  //         page.value++;
+  //         if (!isFirstTime) {
+  //           searchModel.value.data!.addAll(value.data!);
+  //         }
+  //         loadMore.value = value.link!.next ?? false;
+  //       }
+  //     });
+  //   }
+  // }
 
-    if(isFirstTime){
-      page.value = 1;
-    }
-    if (isPaginationLoading.value && loadMore.value) {
-      isPaginationLoading.value = false;
-      isSearchDataLoad.value = false;
-      await
-      searchHomeDataPagination(
-          page: page.value,
-          pagination: pagination.value,
-          keyword: searchController.text.trim())
-          .then((value) {
-        if (isFirstTime) {
-          searchModel.value = value;
-        }
-        isPaginationLoading.value = true;
-        isSearchDataLoad.value = true;
-        if (value.status!) {
-          isSearchDataLoad.value = true;
-          page.value++;
-          if (!isFirstTime) {
-            searchModel.value.data!.addAll(value.data!);
+  RxBool load = false.obs;
+
+  RxList<SearchModelData> searchModel2 = <SearchModelData>[].obs;
+ void  searchingData({bool? allowClear}) async {
+   if(allowClear == true){
+     searchModel2.clear();
+     load.value = false;
+     page.value = 1;
+   }
+    if(load.value == false && searchController.text.trim().isNotEmpty){
+      load.value = true;
+       searchHomeDataPagination(keyword: searchController.text.trim(),page: page.value,pagination: pagination.value).then((value) {
+        searchModel.value = value;
+        isDataLoading.value = true;
+        if(value.status == true){
+          if(allowClear == true){
+            searchModel2.clear();
           }
-          loadMore.value = value.link!.next ?? false;
+          searchModel2.addAll(searchModel.value.data!);
+          isDataLoading.value = true;
+        }else{
+          isDataLoading.value = false;
         }
+        load.value = false;
+         searchModel.value.data!.clear();
       });
     }
-  }
+   }
+
 
 }

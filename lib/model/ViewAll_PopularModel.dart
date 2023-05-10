@@ -1,20 +1,20 @@
-class HomePageSearchModel1 {
+class ViewAllPopularModel {
   bool? status;
   String? message;
-  List<SearchModelData>? data;
+  List<Data>? data;
   Meta? meta;
   Link? link;
 
-  HomePageSearchModel1(
+  ViewAllPopularModel(
       {this.status, this.message, this.data, this.meta, this.link});
 
-  HomePageSearchModel1.fromJson(Map<String, dynamic> json) {
+  ViewAllPopularModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <SearchModelData>[];
+      data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new SearchModelData.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
     meta = json['meta'] != null ? new Meta.fromJson(json['meta']) : null;
@@ -38,20 +38,31 @@ class HomePageSearchModel1 {
   }
 }
 
-class SearchModelData {
+class Data {
   int? id;
   String? name;
-  String? distance;
   String? image;
+  String? distance;
+  String? deliveryCharge;
+  bool? wishlist;
   String? avgRating;
 
-  SearchModelData({this.id, this.name, this.distance, this.image, this.avgRating});
+  Data(
+      {this.id,
+        this.name,
+        this.image,
+        this.distance,
+        this.deliveryCharge,
+        this.wishlist,
+        this.avgRating});
 
-  SearchModelData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    distance = json['distance'];
     image = json['image'];
+    distance = json['distance'];
+    deliveryCharge = json['delivery_charge'];
+    wishlist = json['wishlist'];
     avgRating = json['avg_rating'];
   }
 
@@ -59,8 +70,10 @@ class SearchModelData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['distance'] = this.distance;
     data['image'] = this.image;
+    data['distance'] = this.distance;
+    data['delivery_charge'] = this.deliveryCharge;
+    data['wishlist'] = this.wishlist;
     data['avg_rating'] = this.avgRating;
     return data;
   }
