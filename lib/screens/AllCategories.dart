@@ -49,7 +49,7 @@ class _AllCategoriesState extends State<AllCategories> {
     return Obx(() {
       return
         Scaffold(
-            appBar: backAppBar1(title: "Category List", context: context),
+            appBar: backAppBar2(title: "Category List", context: context),
         body: Obx(() {
           return categoryController.isDataLoading.value
               ? Padding(

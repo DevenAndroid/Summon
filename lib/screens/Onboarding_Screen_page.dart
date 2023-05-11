@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/screens/loginScreen2.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/Add_vendor_product.dart';
 import 'package:fresh2_arrive/screens/welcome_screen.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../model/onboardData.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
@@ -152,7 +153,8 @@ class OnboardContent extends StatelessWidget {
                             )),
                       ],
                     ),
-                    const Spacer(),
+                   SizedBox(height: height* .04,),
+                   // const Spacer(),
                     // const Spacer(),
                     // Align(
                     //     alignment: Alignment.topRight,
@@ -178,23 +180,27 @@ class OnboardContent extends StatelessWidget {
                     Text(
                       title,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 25,color: Color(0xff131A38)
-                      ),
+                      style: GoogleFonts.alegreyaSans(fontStyle: FontStyle.italic,
+                          fontSize: 36,
+                          color: Color(0xff131A38),
+                          fontWeight: FontWeight.w400),
                     ),
                     SizedBox(
-                      height: height * .02,
+                      height: height * .04,
                     ),
                     Text(
                       description,
                       textAlign: TextAlign.center,
                       style:
-                      const TextStyle(color: AppTheme.blackcolor, fontSize: 14),
+                       GoogleFonts.alegreyaSans(
+                         height: 1.5,
+                          fontSize: 17,
+                          color: Color(0xff616772),
+                          fontWeight: FontWeight.w400),
                     ),
 
                     SizedBox(
-                      height: height * .07,
+                      height: height * .06,
                     ),
                     Container(
                         height: height * .10,
@@ -218,7 +224,8 @@ class OnboardContent extends StatelessWidget {
                               primary: AppTheme.primaryColor.withOpacity(.80),
                               textStyle: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w500)),
-                          child: Image.asset(AppAssets.arrowIcon,height: 30,width: 30,),
+                          child: Icon(Icons.arrow_forward,size: 40,)
+                          // Image.asset(AppAssets.arrowIcon,height: 30,width: 30,),
                         )),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .02,

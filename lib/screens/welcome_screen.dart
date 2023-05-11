@@ -9,6 +9,7 @@ import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,11 +60,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     children: [
 
 
-                      Text("Welcome to", style: TextStyle(color:Color(0xff111719),fontWeight: FontWeight.w700,fontSize: 45),),
-                      Text("Summon", style: TextStyle(color:AppTheme.primaryColor,fontWeight: FontWeight.w700,fontSize: 45),),
-                      SizedBox(height: 13,),
+                      Text("Welcome to", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff111719),fontWeight: FontWeight.w700,fontSize: 53),),
+                      Text("Summon", style: GoogleFonts.ibmPlexSansArabic(color:AppTheme.primaryColor,fontWeight: FontWeight.w700,fontSize: 53),),
+                      SizedBox(height: 5,),
                       Text("Say no to order fees",
-                        style: TextStyle(color:Color(0xff30384F),fontWeight: FontWeight.w400,fontSize: 18),),
+                        style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff30384F),fontWeight: FontWeight.w400,fontSize: 18),),
                      // SizedBox(height: 250,),
                       // Row(
                       //   children: [
@@ -100,16 +101,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 width: 140,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.circular(40)
+                                    borderRadius: BorderRadius.circular(10)
                                 ),
                                 child:
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-
+                                    SizedBox(width: 15,),
                                     Image.asset('assets/images/superg.png',height: 35,width: 35,),
-                                    SizedBox(width: 3,),
-                                    AddText(text: 'Sign in Google',fontSize: 11,fontWeight: FontWeight.w500,)
+                                    SizedBox(width: 8,),
+                                    Text("Sign in\nGoogle", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
                                   ],
                                 ),
                               ),
@@ -127,16 +128,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 width: 140,
                                decoration: BoxDecoration(
                                  color: Colors.white,
-                                 borderRadius: BorderRadius.circular(40)
+                                 borderRadius: BorderRadius.circular(10)
                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(AppAssets.Apple,height: 35,width: 35,),
-                                    SizedBox(width: 3,),
-                                    AddText(text: 'Sign in Apple',fontSize: 11,fontWeight: FontWeight.w500,)
-                                  ],
-                                ),
+                                child:
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        SizedBox(width: 15,),
+                                        Image.asset(AppAssets.Apple,height: 35,width: 35,),
+                                        SizedBox(width: 8,),
+                                        Text("Sign in\nApple", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
+                                      ],
+                                    ),
+
                               ),
                             ),
                           ),
@@ -167,22 +171,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
         )),
-        Positioned(
-          top: 12,
-          right: -20,
-          child: GestureDetector(
-            onTap: (){
-              Get.toNamed(CustomNavigationBar.customNavigationBar);
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-
-                Image.asset(AppAssets.skipImage,height: 120,width: 120),
-              ],
-            ),
-          ),
-        ),
+        // Positioned(
+        //   top: 12,
+        //   right: -20,
+        //   child: GestureDetector(
+        //     onTap: (){
+        //       Get.toNamed(CustomNavigationBar.customNavigationBar);
+        //     },
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.end,
+        //       children: [
+        //
+        //         Image.asset(AppAssets.skipImage,height: 120,width: 120),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

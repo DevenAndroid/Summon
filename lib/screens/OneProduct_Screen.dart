@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/model/SingleProductModel.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/CartController.dart';
 import '../controller/HomePageController1.dart';
@@ -77,10 +78,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             singleProductController
                                 .model.value.data!.productDetail!.name
                                 .toString(),
-                            style: TextStyle(
+                            style: GoogleFonts.ibmPlexSansArabic(
                                 fontSize: 25,
                                 color: Color(0xff000000),
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
                             height: height * .01,

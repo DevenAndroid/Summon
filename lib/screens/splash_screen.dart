@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../resources/app_assets.dart';
 import 'package:client_information/client_information.dart';
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 2), () async {
+    Timer(const Duration(seconds: 3), () async {
       //_getClientInformation();
       SharedPreferences pref = await SharedPreferences.getInstance();
       print("these are login info...${pref.getString('user_info')}");
@@ -65,11 +66,13 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Column(
                 children: [
                   Image.asset(
-                    AppAssets.splash0,
+                    AppAssets.logoSplash,
                     width: 160,
                     height: 207,
                     fit: BoxFit.cover,
                   ),
+                 // SizedBox(height: 17,),
+                 //  Text("Summon", style: GoogleFonts.aBeeZee(color:Color(0xffFFFFFF),fontWeight: FontWeight.w400,fontSize: 40),),
 
                 ],
               )),

@@ -235,7 +235,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         child: TextField(
                           maxLines: 3,
                           controller:
-                          searchController,
+                          homeSearchController.searchController,
                           style: const TextStyle(fontSize: 17),
                           // textAlignVertical: TextAlignVertical.center,
                           textInputAction: TextInputAction.search,
@@ -367,7 +367,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(vertical: 14),
                                         child: Text(homeController1.model.value.data!.latestCategory![index].name
-                                            .toString(), textAlign:TextAlign.center,style: TextStyle(fontSize: 17,
+                                            .toString(), textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 17,
                                             fontWeight: FontWeight.w400,
                                             color: currentIndex != index ? Color(0xff000000):Color(0xffFFFFFF)),),
                                       ),
@@ -384,7 +384,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Recomended for you",
-                            style: TextStyle(fontSize: 18,
+                            style:  GoogleFonts.ibmPlexSansArabic(fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000)),),
                           GestureDetector(
@@ -392,7 +392,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               Get.toNamed(ViewAllRecommendedPage.viewAllRecommendedPage);
                             },
                             child: Text("View All",
-                              style: TextStyle(fontSize: 14,
+                              style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppTheme.primaryColor.withOpacity(
                                       .80)),),
@@ -477,7 +477,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                   Row(
                                                     children: [
                                                       Text("SR",
-                                                        style: TextStyle(fontSize: 14,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -485,7 +485,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                       Text("${homeController1.model.value
                                                           .data!.recommendedStore![index].deliveryCharge
                                                           .toString()}",
-                                                        style: TextStyle(fontSize: 14,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -494,7 +494,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                           0xff2C4D61)),
                                                       SizedBox(width: 5,),
                                                       Text("KM",
-                                                        style: TextStyle(fontSize: 12,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -503,7 +503,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                           .data!.recommendedStore![index].distance
                                                           .toString(),
 
-                                                        style: TextStyle(fontSize: 14,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -515,7 +515,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
                                                       Text(homeController1.model.value
                                                           .data!.recommendedStore![index].avgRating
-                                                          .toString(), style: TextStyle(
+                                                          .toString(), style:  GoogleFonts.ibmPlexSansArabic(
                                                           fontSize: 14,
                                                           fontWeight: FontWeight.w400,
                                                           color: Color(0xff2C4D61)),),
@@ -569,13 +569,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                   ]);
                           }),
                       SizedBox(
-                        height: height * .01,
+                        height: height * .03,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Popular Products",
-                            style: TextStyle(fontSize: 18,
+                          Text("Popular",
+                            style:  GoogleFonts.ibmPlexSansArabic(fontSize: 17,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xff000000)),),
                           Flexible(child: Container()),
@@ -584,7 +584,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               Get.toNamed(ViewAllPopularPage.viewAllPopularPage);
                             },
                             child: Text("View All",
-                              style: TextStyle(fontSize: 14,
+                              style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppTheme.primaryColor),),
                           ),
@@ -678,7 +678,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                       Text("${homeController1.model.value
                                                           .data!.popularStore![index].deliveryCharge
                                                           .toString()}",
-                                                        style: TextStyle(fontSize: 14,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -687,7 +687,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                           0xff2C4D61)),
                                                       SizedBox(width: 5,),
                                                       Text("KM",
-                                                        style: TextStyle(fontSize: 12,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -696,7 +696,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                           .data!.popularStore![index].distance
                                                           .toString(),
 
-                                                        style: TextStyle(fontSize: 14,
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                             fontWeight: FontWeight
                                                                 .w400,
                                                             color: Color(
@@ -708,7 +708,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                       Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
                                                       Text(homeController1.model.value
                                                           .data!.popularStore![index].avgRating
-                                                          .toString(), style: TextStyle(
+                                                          .toString(), style:  GoogleFonts.ibmPlexSansArabic(
                                                           fontSize: 14,
                                                           fontWeight: FontWeight.w400,
                                                           color: Color(0xff2C4D61)),),

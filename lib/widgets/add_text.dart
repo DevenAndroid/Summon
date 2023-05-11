@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
@@ -182,7 +183,7 @@ disposeController}){
           child: icon ??
               Image.asset(
                 AppAssets.back,
-                height: AddSize.size20,opacity: AlwaysStoppedAnimation(.80)
+                height: AddSize.size20,
 
               )),
     ),
@@ -217,16 +218,55 @@ AppBar backAppBar1(
 
       child: GestureDetector(
           onTap: () {
-            controller.onItemTap(2);
+           controller.currentIndex == 3
+               ?controller.onItemTap(2) :Get.back();
+            if (dispose == "dispose") {}
           },
-          child:  controller.currentIndex == 3 ? icon ??
+          child: icon ??
               Image.asset(
-                  AppAssets.back,
+                AppAssets.back,
+                height: AddSize.size20,
+              )),
+    ),
+  );
+}
 
-              ):Image.asset(
-            AppAssets.back,
+AppBar backAppBar2(
+    {required title,
+      required BuildContext context,
+      String dispose = "",
+      Color? backgroundColor = AppTheme.backgroundcolor,
+      Color? textColor = Colors.black,
+      Widget? icon,
+      disposeController}){
+  final controller = Get.put(MainHomeController());
+  return AppBar(
+    toolbarHeight: 60,
+    elevation: 0,
+    leadingWidth: AddSize.size20 * 2.0,
+    backgroundColor: backgroundColor,
+    title: Text(
+      title,
+      style: GoogleFonts.poppins(fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Color(0xff423E5E)),
+    ),
+    leading: Padding(
 
-          )),
+      padding: EdgeInsets.only(right: AddSize.padding14),
+
+
+
+      child: GestureDetector(
+          onTap: () {
+           controller.onItemTap(2);
+          },
+          child: icon ??
+              Image.asset(
+                AppAssets.back,
+                height: AddSize.size20,
+
+              )),
     ),
   );
 }
