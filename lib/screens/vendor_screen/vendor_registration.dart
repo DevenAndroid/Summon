@@ -203,6 +203,21 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
+                            RegistrationTextField(
+                              controller: businessIdController,
+                              hint: "Select Category",
+                              length: 12,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value!.isEmpty || value.length < 12) {
+                                  return 'Please enter 12 digit Business ID (number)';
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(
+                              height: AddSize.size12,
+                            ),
                             Text(
                               "Store Logo",
                               style: Theme.of(context)
@@ -328,7 +343,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Business ID One Image ",
+                              "Business ID",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -450,6 +465,23 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             }),
                             SizedBox(
                               height: AddSize.size15,
+                            ),
+                            Text(
+                              "Business ID",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: AddSize.font16,color: Color(0xff2F2F2F)),
+                            ),
+                            SizedBox(
+                              height: AddSize.padding12,
+                            ),
+
+                            Image.asset('assets/images/mapimg.png'),
+                            SizedBox(
+                              height: AddSize.padding12,
                             ),
                             Row(
                               children: [

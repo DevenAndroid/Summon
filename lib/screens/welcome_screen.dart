@@ -36,134 +36,124 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-
-        Scaffold(
-
-          body: Stack(
-            children: [
-
-              Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(AppAssets.welcomeIMG),
-                    fit: BoxFit.fill
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30,right: 34,top: 170),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AppAssets.welcomeIMG),
+                fit: BoxFit.fill
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30,right: 34,top: 170),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Welcome to", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff111719),fontWeight: FontWeight.w700,fontSize: 53),),
+                  Text("Summon", style: GoogleFonts.ibmPlexSansArabic(color:AppTheme.primaryColor,fontWeight: FontWeight.w700,fontSize: 53),),
+                  SizedBox(height: 5,),
+                  Text("Say no to order fees",
+                    style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff30384F),fontWeight: FontWeight.w400,fontSize: 18),),
+                 // SizedBox(height: 250,),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: Divider(
+                  //         height: 5,
+                  //         thickness: 2,
+                  //         color: Colors.grey.shade300,
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 7,),
+                  //     Text(" sign in with", style: TextStyle(color:Color(0xff111719),fontWeight: FontWeight.w500,fontSize: 16),),
+                  //     SizedBox(width: 7,),
+                  //     Expanded(
+                  //       child: Divider(
+                  //         height: 5,
+                  //         thickness: 2,
+                  //         color: Colors.grey.shade300,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  SizedBox(height: height * .4,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      InkWell(
+                        onTap: (){
+                          signInWithGoogle();
+                        },
+                        child: Expanded(
+                          child: Container(
+                            height: 60,
+                            width: 140,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(width: 15,),
+                                Image.asset('assets/images/superg.png',height: 35,width: 35,),
+                                SizedBox(width: 8,),
+                                Text("Sign in\nGoogle", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
 
+                      SizedBox(width: 25,),
+                      InkWell(
+                        onTap: (){
 
-                      Text("Welcome to", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff111719),fontWeight: FontWeight.w700,fontSize: 53),),
-                      Text("Summon", style: GoogleFonts.ibmPlexSansArabic(color:AppTheme.primaryColor,fontWeight: FontWeight.w700,fontSize: 53),),
-                      SizedBox(height: 5,),
-                      Text("Say no to order fees",
-                        style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff30384F),fontWeight: FontWeight.w400,fontSize: 18),),
-                     // SizedBox(height: 250,),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //       child: Divider(
-                      //         height: 5,
-                      //         thickness: 2,
-                      //         color: Colors.grey.shade300,
-                      //       ),
-                      //     ),
-                      //     SizedBox(width: 7,),
-                      //     Text(" sign in with", style: TextStyle(color:Color(0xff111719),fontWeight: FontWeight.w500,fontSize: 16),),
-                      //     SizedBox(width: 7,),
-                      //     Expanded(
-                      //       child: Divider(
-                      //         height: 5,
-                      //         thickness: 2,
-                      //         color: Colors.grey.shade300,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      SizedBox(height: height * .4,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            onTap: (){
-                              signInWithGoogle();
-                            },
-                            child: Expanded(
-                              child: Container(
-                                height: 60,
-                                width: 140,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                child:
+                        },
+                        child: Expanded(
+                          child: Container(
+                            height: 60,
+                            width: 140,
+                           decoration: BoxDecoration(
+                             color: Colors.white,
+                             borderRadius: BorderRadius.circular(10)
+                           ),
+                            child:
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(width: 15,),
-                                    Image.asset('assets/images/superg.png',height: 35,width: 35,),
+                                    Image.asset(AppAssets.Apple,height: 35,width: 35,),
                                     SizedBox(width: 8,),
-                                    Text("Sign in\nGoogle", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
+                                    Text("Sign in\nApple", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
                                   ],
                                 ),
-                              ),
-                            ),
+
                           ),
-
-                          SizedBox(width: 25,),
-                          InkWell(
-                            onTap: (){
-
-                            },
-                            child: Expanded(
-                              child: Container(
-                                height: 60,
-                                width: 140,
-                               decoration: BoxDecoration(
-                                 color: Colors.white,
-                                 borderRadius: BorderRadius.circular(10)
-                               ),
-                                child:
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        SizedBox(width: 15,),
-                                        Image.asset(AppAssets.Apple,height: 35,width: 35,),
-                                        SizedBox(width: 8,),
-                                        Text("Sign in\nApple", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
-                                      ],
-                                    ),
-
-                              ),
-                            ),
-                          ),
-                          //Spacer(),
-
-                        ],
-                      )
+                        ),
+                      ),
+                      //Spacer(),
 
                     ],
-                  ),
-                ),
+                  )
+
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        Positioned.fill(child: IgnorePointer(
+           Positioned.fill(child: IgnorePointer(
           ignoring: true,
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.black.withOpacity(.50),
-                  Colors.transparent,
+                  Colors.black,Color.fromARGB(0, 0, 0, 50)
+                 // Colors.transparent,
                 ],
                 begin: Alignment.bottomCenter,
                 end: Alignment.center,
@@ -171,23 +161,24 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
         )),
-        // Positioned(
-        //   top: 12,
-        //   right: -20,
-        //   child: GestureDetector(
-        //     onTap: (){
-        //       Get.toNamed(CustomNavigationBar.customNavigationBar);
-        //     },
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.end,
-        //       children: [
-        //
-        //         Image.asset(AppAssets.skipImage,height: 120,width: 120),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-      ],
+          // Positioned(
+          //   top: 12,
+          //   right: -20,
+          //   child: GestureDetector(
+          //     onTap: (){
+          //       Get.toNamed(CustomNavigationBar.customNavigationBar);
+          //     },
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.end,
+          //       children: [
+          //
+          //         Image.asset(AppAssets.skipImage,height: 120,width: 120),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
     );
   }
 
