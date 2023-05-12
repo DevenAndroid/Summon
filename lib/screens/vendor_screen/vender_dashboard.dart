@@ -79,7 +79,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Store Time: ",
+                          "Today's Hours:",
                           style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: AddSize.font14,
@@ -121,7 +121,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                 ],
               ),
               leading: Padding(
-                padding: EdgeInsets.only(right: AddSize.padding10),
+                padding: EdgeInsets.only(right: AddSize.padding10,bottom: AddSize.size12),
                 child: GestureDetector(
                     onTap: () {
                       Get.back();

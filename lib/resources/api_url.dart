@@ -93,6 +93,7 @@ class ApiUrl {
   static const singleCategoryUrl = "${baseUrl}single-category";
   static const signupUrl = "${baseUrl}register";
   static const loginUrl = "${baseUrl}login";
+  static const VendorCategoryUrl = "${baseUrl}all-store-categories";
 
 }
 
