@@ -71,6 +71,7 @@ dependencies:
   razorpay_flutter:
   url_launcher:
   flutter_html: ^2.2.1
+  dropdown_formfield: ^0.1.4
   flutter_localizations:
     sdk: flutter
   easy_localization: ^3.0.1

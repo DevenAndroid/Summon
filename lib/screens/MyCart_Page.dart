@@ -50,7 +50,6 @@ class _MyCartPageState extends State<MyCartPage> {
         .size
         .width;
     return Directionality(
-
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Color(0xffF2F2F2),
@@ -139,7 +138,8 @@ class _MyCartPageState extends State<MyCartPage> {
           ],
         ),
         //backgroundColor: Color(0xffF2F2F2),
-        body: Obx(() {
+        body: Obx(()
+        {
           return myCartDataController.isDataLoaded.value
               ? SingleChildScrollView(
             scrollDirection: Axis.vertical,
