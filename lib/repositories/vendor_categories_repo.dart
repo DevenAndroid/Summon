@@ -23,7 +23,7 @@ Future<CategoriesModel> vendorCategoryRepo() async {
   try {
     final response =
     await http.get(Uri.parse(ApiUrl.VendorCategoryUrl), headers: headers);
-    print("Category Repository...${response.body}");
+   // print("Category Repository...${response.body}");
     if (response.statusCode == 200) {
       print("Category Repository...${response.body}");
       return CategoriesModel.fromJson(jsonDecode(response.body));

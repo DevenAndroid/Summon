@@ -55,6 +55,7 @@ import '../screens/refer_and_earn.dart';
 import '../screens/store_by_category.dart';
 import '../screens/vendor_screen/Add_vendor_product.dart';
 import '../screens/vendor_screen/addVendorProducts1.dart';
+import '../screens/vendor_screen/add_address_screen.dart';
 import '../screens/vendor_screen/admin_response_screen.dart';
 import '../screens/vendor_screen/store_open_time_screen.dart';
 import '../screens/vendor_screen/thank_you.dart';
@@ -214,5 +215,8 @@ class MyRouter {
     GetPage(
         name: MyCartPage.myCartPage,
         page: () =>  const MyCartPage()),
+    GetPage(
+        name: AddAddressScreen.addAddressScreen,
+        page: () =>  const AddAddressScreen()),
   ];
 }

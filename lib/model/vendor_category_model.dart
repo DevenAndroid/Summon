@@ -50,7 +50,7 @@ class Categories {
   String? name;
   bool? selected =  false;
 
-  Categories({this.id, this.name});
+  Categories({this.id, this.name,this.selected});
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
