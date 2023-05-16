@@ -44,10 +44,9 @@ Future<StoreDetailsModel> storeDetailsRepo(id) async {
 
 
 Future<StoreDetailsModel> storeDetailsRepo1(
-    {required page,
-      required pagination,
+    {
       required id,
-      search,
+
       BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if (context != null) {
@@ -62,13 +61,13 @@ Future<StoreDetailsModel> storeDetailsRepo1(
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
     };
-    log("${ApiUrl.storeDetailsUrl}/$id?page=$page&pagination=$pagination&keyword=$search");
+    // log("${ApiUrl.storeDetailsUrl}/$id?page=$page&pagination=$pagination&keyword=$search");
     http.Response response = await http.get(
-        Uri.parse("${ApiUrl.storeDetailsUrl}/$id?page=$page&pagination=$pagination&keyword=$search"),
+        Uri.parse("${ApiUrl.storeDetailsUrl}/$id"),
         headers: headers);
     Helpers.hideLoader(loader);
-    log("${ApiUrl.storeDetailsUrl}/$id?page=$page&pagination=$pagination&keyword=$search");
-    log("Single store List APi......Response......    ${response.body}");
+
+    log("SINGLE STORE DATA APi......Response......    ${response.body}");
     if (response.statusCode == 200 || response.statusCode == 400) {
       return StoreDetailsModel.fromJson(jsonDecode(response.body));
     } else if (response.statusCode == 404) {

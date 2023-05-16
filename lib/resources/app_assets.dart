@@ -7,6 +7,9 @@ class AppAssets {
   static const String BG1 = "assets/images/BG1.png";
   static const String BG2 = "assets/images/BG2.png";
   static const String BG3 = "assets/images/BG3.png";
+  static const String mapImage = "assets/images/mapImage.png";
+  static const String earnIcon = "assets/images/earnIcon.png";
+  static const String promoIcon = "assets/images/promoIcon.png";
   static const String logoSplash = "assets/images/logoSplash.png";
   static const String mapIcon = "assets/images/mapIcon.png";
   static const String searchIcon = "assets/images/searchIcon.png";
@@ -89,7 +92,7 @@ class AppAssets {
   static const String cashIcon = "assets/images/cash_icon.png";
 //  static const String thankYou = "assets/images/thankyou.png";
   static const String thankYOU = "assets/images/vthankyou.png";
-  static const String walletIcon = "assets/images/wallet.png";
+  static const String moneyIcon = "assets/images/wallet.png";
   static const String store1Icon = "assets/images/store1.png";
   static const String driverIcon = "assets/images/driver.png";
   static const String allIcon = "assets/images/all.png";

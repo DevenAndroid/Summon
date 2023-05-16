@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
@@ -49,7 +50,8 @@ class _AllCategoriesState extends State<AllCategories> {
     return Obx(() {
       return
         Scaffold(
-            appBar: backAppBar2(title: "Category List", context: context),
+          backgroundColor: Color(0xffF6F6F6),
+            appBar: backAppBar2(title: "Categories", context: context),
         body: Obx(() {
           return categoryController.isDataLoading.value
               ? Padding(
@@ -68,7 +70,7 @@ class _AllCategoriesState extends State<AllCategories> {
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4,
                           crossAxisSpacing: 12.0,
-                          mainAxisExtent: 140,
+                          mainAxisExtent: 130,
                           mainAxisSpacing: 14.0),
                       itemBuilder: (context, index) {
                         var itemdata = categoryController.model.value.data![index];
@@ -92,7 +94,7 @@ class _AllCategoriesState extends State<AllCategories> {
                             //       horizontal: AddSize.padding10,
                             //       vertical: AddSize.padding10),
                               decoration: BoxDecoration(
-                                  color: currentIndex == index ? AppTheme.primaryColor.withOpacity(.80): Color(0xffFFFFFF),
+                                  color: currentIndex == index ? AppTheme.primaryColor: Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(20)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -141,13 +143,13 @@ class _AllCategoriesState extends State<AllCategories> {
                                   //   ),
                                   // ),
                                   Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
+                                    padding: const EdgeInsets.only(bottom: 13),
                                     child: Text(
                                       itemdata.name.toString().capitalizeFirst!,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: GoogleFonts.ibmPlexSansArabic(
                                           color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
                                           fontSize: AddSize.font14,
                                           fontWeight: FontWeight.w500),

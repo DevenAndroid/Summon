@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:fresh2_arrive/model/Social_Login_Model.dart';
+import 'package:fresh2_arrive/model/model_common_ressponse.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,7 +38,7 @@ Future<MyCartData> myCartRepo() async {
 
 // MyCart data
 
-Future<MyCartDataModel1> myCartDataRepo() async {
+Future<ModelCommonResponse> myCartDataRepo() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -52,7 +53,7 @@ Future<MyCartDataModel1> myCartDataRepo() async {
 
   if (response.statusCode == 200) {
     print("My Cart Data List...${response.body}");
-    return MyCartDataModel1.fromJson(jsonDecode(response.body));
+    return ModelCommonResponse.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);
   }

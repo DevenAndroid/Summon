@@ -49,18 +49,17 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final homeSearchController = Get.put(HomePageController1());
   final singleProductController = Get.put(SingleProductController());
  // final myCartController = Get.put(MyCartDataListController());
-  final relatedCartController = Get.put(CartRelatedProductController());
   final viewAllController = Get.put(CategoryController());
   final myCartDataController = Get.put(MyCartController());
   final locationController = Get.put(LocationController());
   final controller = Get.put(MainHomeController());
   final homeController1 = Get.put(HomePageController1());
   final nearStoreController = Get.put(NearStoreController());
-  final singleStoreController = Get.put(StoreController());
+  final singleStoreController = Get.put(SingleStoreController());
   final myOrderController = Get.put(MyOrderController());
   final storeCategoryController = Get.put(StoreByCategoryController());
   final profileController = Get.put(ProfileController());
-  final addToCartQtyController = TextEditingController();
+
   final storeController = Get.put(SingleStoreController());
   final notificationController = Get.put(NotificationController());
   TextEditingController searchController=TextEditingController();
@@ -338,7 +337,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 7,horizontal: 7),
-                                child: Row(
+                                child:
+                                Row(
                                   children:[
 
                                   InkWell(
@@ -368,7 +368,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         padding: const EdgeInsets.symmetric(vertical: 14),
                                         child: Text(homeController1.model.value.data!.latestCategory![index].name
                                             .toString(), textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 17,
-                                            fontWeight: FontWeight.w400,
+                                            fontWeight: FontWeight.w700,
                                             color: currentIndex != index ? Color(0xff000000):Color(0xffFFFFFF)),),
                                       ),
                                     ),
@@ -385,7 +385,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         children: [
                           Text("Recomended for you",
                             style:  GoogleFonts.ibmPlexSansArabic(fontSize: 18,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: Color(0xff000000)),),
                           GestureDetector(
                             onTap: (){
@@ -576,7 +576,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         children: [
                           Text("Popular",
                             style:  GoogleFonts.ibmPlexSansArabic(fontSize: 17,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: Color(0xff000000)),),
                           Flexible(child: Container()),
                           GestureDetector(
@@ -614,8 +614,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       onTap:(){
                                         singleStoreController.storeId.value =
                                             homeController1.model.value.data!.popularStore![index].id.toString();
-                                        print(
-                                            singleProductController.id.value);
                                         Get.toNamed(StoreScreen.singleStoreScreen);
                                       },
                                       child: Container(
@@ -768,9 +766,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
               ): Center(child: CircularProgressIndicator(
                 color: AppTheme.primaryColor,)),
             );
-          })
 
+          }),
 
+        // extendBody: true,
+        // bottomNavigationBar: myCartDataController.isDataLoaded.value &&
+        //     myCartDataController.model.value.data!.cartItems!.isNotEmpty
+        //     ? addCartSection()
+        //     : null,
       ),
     );
   }

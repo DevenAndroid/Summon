@@ -1,5 +1,3 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
 class SingleProductModel {
   bool? status;
   String? message;
@@ -27,9 +25,8 @@ class SingleProductModel {
 class Data {
   ProductDetail? productDetail;
   List<SinglePageAddons>? singlePageAddons;
-  int? addonLimit;
 
-  Data({this.productDetail, this.singlePageAddons, this.addonLimit});
+  Data({this.productDetail, this.singlePageAddons});
 
   Data.fromJson(Map<String, dynamic> json) {
     productDetail = json['product_detail'] != null
@@ -41,7 +38,6 @@ class Data {
         singlePageAddons!.add(new SinglePageAddons.fromJson(v));
       });
     }
-    addonLimit = json['addon_limit'];
   }
 
   Map<String, dynamic> toJson() {
@@ -53,7 +49,6 @@ class Data {
       data['single_page_addons'] =
           this.singlePageAddons!.map((v) => v.toJson()).toList();
     }
-    data['addon_limit'] = this.addonLimit;
     return data;
   }
 }
@@ -62,12 +57,12 @@ class ProductDetail {
   dynamic id;
   dynamic name;
   dynamic sKU;
+  dynamic calories;
   dynamic type;
   dynamic content;
   dynamic image;
   bool? status;
   List<Variants>? variants;
-  RxString varientIndex = "".obs;
   List<Addons>? addons;
   dynamic avgRating;
 
@@ -75,6 +70,7 @@ class ProductDetail {
       {this.id,
         this.name,
         this.sKU,
+        this.calories,
         this.type,
         this.content,
         this.image,
@@ -87,6 +83,7 @@ class ProductDetail {
     id = json['id'];
     name = json['name'];
     sKU = json['SKU'];
+    calories = json['calories'];
     type = json['type'];
     content = json['content'];
     image = json['image'];
@@ -111,6 +108,7 @@ class ProductDetail {
     data['id'] = this.id;
     data['name'] = this.name;
     data['SKU'] = this.sKU;
+    data['calories'] = this.calories;
     data['type'] = this.type;
     data['content'] = this.content;
     data['image'] = this.image;
@@ -166,41 +164,55 @@ class Variants {
 class Addons {
   int? id;
   String? name;
+  String? calories;
   String? price;
   int? addonTypeId;
   String? addonType;
+  bool? multiSelect;
 
-  Addons({this.id, this.name, this.price, this.addonTypeId, this.addonType});
+  Addons(
+      {this.id,
+        this.name,
+        this.calories,
+        this.price,
+        this.addonTypeId,
+        this.addonType,
+        this.multiSelect});
 
   Addons.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    calories = json['calories'];
     price = json['price'];
     addonTypeId = json['addon_type_id'];
     addonType = json['addon_type'];
+    multiSelect = json['multi_select'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['calories'] = this.calories;
     data['price'] = this.price;
     data['addon_type_id'] = this.addonTypeId;
     data['addon_type'] = this.addonType;
+    data['multi_select'] = this.multiSelect;
     return data;
   }
 }
 
 class SinglePageAddons {
   String? title;
-  String selectedAddon = "";
+  bool? multiSelectAddons;
   List<AddonData>? addonData;
+  String selectedAddon = "";
 
-
-  SinglePageAddons({this.title, this.addonData});
+  SinglePageAddons({this.title, this.multiSelectAddons, this.addonData});
 
   SinglePageAddons.fromJson(Map<String, dynamic> json) {
     title = json['title'];
+    multiSelectAddons = json['multi_select_addons'];
     if (json['addon_data'] != null) {
       addonData = <AddonData>[];
       json['addon_data'].forEach((v) {
@@ -212,6 +224,7 @@ class SinglePageAddons {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
+    data['multi_select_addons'] = this.multiSelectAddons;
     if (this.addonData != null) {
       data['addon_data'] = this.addonData!.map((v) => v.toJson()).toList();
     }
@@ -222,23 +235,27 @@ class SinglePageAddons {
 class AddonData {
   int? id;
   String? name;
+  String? calories;
   String? price;
-  RxBool editable = false.obs;
-  RxInt qty = 0.obs;
+  bool? multiSelect;
 
-  AddonData({this.id, this.name, this.price});
+  AddonData({this.id, this.name, this.calories, this.price, this.multiSelect});
 
   AddonData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    calories = json['calories'];
     price = json['price'];
+    multiSelect = json['multi_select'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['calories'] = this.calories;
     data['price'] = this.price;
+    data['multi_select'] = this.multiSelect;
     return data;
   }
 }

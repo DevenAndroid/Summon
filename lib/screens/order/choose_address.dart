@@ -15,6 +15,7 @@ import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import '../../controller/MyAddress_controller.dart';
@@ -439,48 +440,37 @@ class _ChooseAddressState extends State<ChooseAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      "Full name",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: AddSize.font14,color: Color(0xffADADB8)),
-                    ),
-                    const SizedBox(
                       height: 9,
                     ),
-                    EditProfileTextFieldWidget(
-                      hint: "Enter Your Full Name",
+                    EditProfileTextFieldWidget1(
+                      hint: "Name",
                       //controller: controller.firstNameController,
                       validator: validateName,
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      "Mobile Number",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: AddSize.font14,color: Color(0xffADADB8)),
-                    ),
+
                     const SizedBox(
                       height: 9,
                     ),
-                    EditProfileTextFieldWidget(
-                      hint: "Enter Your Mobile Number",
+                    EditProfileTextFieldWidget1(
+                      hint: "Phone",
                       //controller: controller.mobileController,
                       validator: validateMobile,
                       keyboardType: TextInputType.number,
                       length: 10,
                       //readOnly: true,
                       //enable: false,
+                    ),
+                    const SizedBox(
+                      height: 9,
+                    ),
+                    EditProfileTextFieldWidget1(
+                      hint: "Note",
+                      //controller: controller.firstNameController,
+                      validator: validateName,
+                    ),
+
+                    const SizedBox(
+                      height: 9,
                     ),
                     const SizedBox(
                       height: 20,
@@ -539,13 +529,14 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               height: AddSize.size10,
                             ),
                             Text(
-                              "Upload Your House image",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline6!
-                                  .copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,color: Color(0xff435960)),
+                              "Upload an image of your house",
+                              style: GoogleFonts
+                          .ibmPlexSansArabic(
+                      fontSize: 16,
+                      fontWeight:
+                      FontWeight.w700,
+                      color: Color(
+                      0xff435960)),
                             ),
                           ],
                         )
@@ -600,125 +591,134 @@ class _ChooseAddressState extends State<ChooseAddress> {
                       height: 20,
                     ),
                     Text(
-                      "Choose Address",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5!
-                          .copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: AddSize.font16,color: Color(0xffADADB8)),
+                      "Choose Location",
+                      style: GoogleFonts
+                          .ibmPlexSansArabic(
+                          fontSize: 16,
+                          fontWeight:
+                          FontWeight.w700,
+                          color: Color(
+                              0xffADADB8)),
                     ),
-                    const SizedBox(
-                      height: 10,
+
+                    SizedBox(
+                      height: height * .20,
+                      width: width,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image(image: AssetImage(AppAssets.mapImage),
+
+                        ),
+                      ),
                     ),
-                    Container(
-                        child: InkWell(
-                            onTap: () async {
-                              var place = await PlacesAutocomplete.show(
-                                  context: context,
-                                  apiKey: googleApikey,
-                                  mode: Mode.overlay,
-                                  types: [],
-                                  strictbounds: false,
-                                  // components: [
-                                  //   Component(Component.country, 'np')
-                                  // ],
-                                  onError: (err) {
-                                    log("error.....   ${err.errorMessage}");
-                                  });
-                              if (place != null) {
-                                setState(() {
-                                  _address = place.description.toString();
-                                });
-                                final plist = GoogleMapsPlaces(
-                                  apiKey: googleApikey,
-                                  apiHeaders:
-                                  await const GoogleApiHeaders().getHeaders(),
-                                );
-                                print(plist);
-                                String placeid = place.placeId ?? "0";
-                                final detail =
-                                await plist.getDetailsByPlaceId(placeid);
-                                final geometry = detail.result.geometry!;
-                                final lat = geometry.location.lat;
-                                final lang = geometry.location.lng;
-                                var newlatlang = LatLng(lat, lang);
-                                setState(() {
-                                  _address = place.description.toString();
-                                  _onAddMarkerButtonPressed(
-                                      LatLng(lat, lang), place.description);
-                                });
-                                mapController?.animateCamera(
-                                    CameraUpdate.newCameraPosition(CameraPosition(
-                                        target: newlatlang, zoom: 17)));
-                                setState(() {});
-                              }
-                            },
-                            child: Card(
-                              child: Container(
-                                  padding: const EdgeInsets.all(0),
-                                 // width: MediaQuery.of(context).size.width - 40,
-                                  child: ListTile(
-                                    leading: Icon(
-                                      Icons.my_location,color: AppTheme.primaryColor,size: 30,
-                                    ),
-                                    title: Text(
-                                      _address.toString(),
-                                      style:
-                                      TextStyle(fontSize: AddSize.font14),
-                                    ),
-                                    trailing: const Icon(Icons.search,color: AppTheme.primaryColor,),
-                                    dense: true,
-                                  )),
-                            ))),
-                    _isValue.value == true
-                        ? const SizedBox()
-                        :
-                   SizedBox(),
+                   //  Container(
+                   //      child: InkWell(
+                   //          onTap: () async {
+                   //            var place = await PlacesAutocomplete.show(
+                   //                context: context,
+                   //                apiKey: googleApikey,
+                   //                mode: Mode.overlay,
+                   //                types: [],
+                   //                strictbounds: false,
+                   //                // components: [
+                   //                //   Component(Component.country, 'np')
+                   //                // ],
+                   //                onError: (err) {
+                   //                  log("error.....   ${err.errorMessage}");
+                   //                });
+                   //            if (place != null) {
+                   //              setState(() {
+                   //                _address = place.description.toString();
+                   //              });
+                   //              final plist = GoogleMapsPlaces(
+                   //                apiKey: googleApikey,
+                   //                apiHeaders:
+                   //                await const GoogleApiHeaders().getHeaders(),
+                   //              );
+                   //              print(plist);
+                   //              String placeid = place.placeId ?? "0";
+                   //              final detail =
+                   //              await plist.getDetailsByPlaceId(placeid);
+                   //              final geometry = detail.result.geometry!;
+                   //              final lat = geometry.location.lat;
+                   //              final lang = geometry.location.lng;
+                   //              var newlatlang = LatLng(lat, lang);
+                   //              setState(() {
+                   //                _address = place.description.toString();
+                   //                _onAddMarkerButtonPressed(
+                   //                    LatLng(lat, lang), place.description);
+                   //              });
+                   //              mapController?.animateCamera(
+                   //                  CameraUpdate.newCameraPosition(CameraPosition(
+                   //                      target: newlatlang, zoom: 17)));
+                   //              setState(() {});
+                   //            }
+                   //          },
+                   //          child: Card(
+                   //            child: Container(
+                   //                padding: const EdgeInsets.all(0),
+                   //               // width: MediaQuery.of(context).size.width - 40,
+                   //                child: ListTile(
+                   //                  leading: Icon(
+                   //                    Icons.my_location,color: AppTheme.primaryColor,size: 30,
+                   //                  ),
+                   //                  title: Text(
+                   //                    _address.toString(),
+                   //                    style:
+                   //                    TextStyle(fontSize: AddSize.font14),
+                   //                  ),
+                   //                  trailing: const Icon(Icons.search,color: AppTheme.primaryColor,),
+                   //                  dense: true,
+                   //                )),
+                   //          ))),
+                   //  _isValue.value == true
+                   //      ? const SizedBox()
+                   //      :
+                   // SizedBox(),
                     const SizedBox(
                       height: 10,
                     ),
                     // google map
-                    Stack(
-                      children: [
-                        Container(
-                          height: height * .25,
-                          //padding: EdgeInsets.all(10),
-                          child:
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: GoogleMap(
-
-                              zoomGesturesEnabled: true,
-                              //enable Zoom in, out on map
-                              initialCameraPosition: const CameraPosition(
-                                target: LatLng(0, 0),
-                                zoom: 14.0, //initial zoom level
-                              ),
-                              mapType: MapType.normal,
-                              //map type
-                              onMapCreated: (controller) {
-                                setState(() async {
-                                  mapController = controller;
-                                });
-                              },
-                              markers: markers,
-
-                              // myLocationEnabled: true,
-                              // myLocationButtonEnabled: true,
-                              // compassEnabled: true,
-                              // markers: Set<Marker>.of(_markers),
-                              onCameraMove: (CameraPosition cameraPositions) {
-                                cameraPosition = cameraPositions;
-                              },
-                              onCameraIdle: () async {},
-                            ),
-                          ),
-                        ),
-
-
-                      ],
-                    ),
+                    // Stack(
+                    //   children: [
+                    //     Container(
+                    //       height: height * .25,
+                    //       //padding: EdgeInsets.all(10),
+                    //       child:
+                    //       ClipRRect(
+                    //         borderRadius: BorderRadius.circular(20),
+                    //         child: GoogleMap(
+                    //
+                    //           zoomGesturesEnabled: true,
+                    //           //enable Zoom in, out on map
+                    //           initialCameraPosition: const CameraPosition(
+                    //             target: LatLng(0, 0),
+                    //             zoom: 14.0, //initial zoom level
+                    //           ),
+                    //           mapType: MapType.normal,
+                    //           //map type
+                    //           onMapCreated: (controller) {
+                    //             setState(() async {
+                    //               mapController = controller;
+                    //             });
+                    //           },
+                    //           markers: markers,
+                    //
+                    //           // myLocationEnabled: true,
+                    //           // myLocationButtonEnabled: true,
+                    //           // compassEnabled: true,
+                    //           // markers: Set<Marker>.of(_markers),
+                    //           onCameraMove: (CameraPosition cameraPositions) {
+                    //             cameraPosition = cameraPositions;
+                    //           },
+                    //           onCameraIdle: () async {},
+                    //         ),
+                    //       ),
+                    //     ),
+                    //
+                    //
+                    //   ],
+                    // ),
                     SizedBox(height: height * .02,),
                     ElevatedButton(
                         onPressed: () {

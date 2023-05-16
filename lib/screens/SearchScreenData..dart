@@ -45,7 +45,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      homeSearchController.searchingData();
+      homeSearchController.searchingData( allowClear: true);
       // controller.searchDataModel.value.data != null
       //     ? controller.searchDataModel.value.data!.clear()
       //     : Container();

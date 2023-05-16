@@ -16,7 +16,7 @@ class MyCartDataListController extends GetxController {
       sum.value = 0;
       for(int i = 0; i<value.data!.cartItems!.length;i++){
         sum.value = sum.value + int.parse(value.data!.cartItems![i].cartItemQty.toString());
-        print("AAAAAAAAA-------${sum.value}");
+        print("Cart item is-------${sum.value}");
       }
     });
   }

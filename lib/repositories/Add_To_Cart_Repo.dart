@@ -45,13 +45,16 @@ Future<AddToCartData> addToCartRepo(
 }
 
 
-Future<AddToCartData> addToCartRepo1(
-    {variant_id, product_id, qty, addons_Id, context}) async {
+Future<ModelCommonResponse> addToCartRepo1(
+    {variant_id, product_id, qty, addons_Id, note, itemPrice, context}) async {
   var map = <String, dynamic>{};
+
   map['variant_id'] = variant_id;
   map['product_id'] = product_id;
   map['qty'] = qty;
   map['addons'] = addons_Id;
+  map['note'] = note;
+  map['item_price'] = itemPrice;
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -70,7 +73,7 @@ Future<AddToCartData> addToCartRepo1(
     if (response.statusCode == 200 ||response.statusCode == 400) {
       Helpers.hideShimmer(loader);
       log("Add To Cart Data...${response.body}");
-      return AddToCartData.fromJson(jsonDecode(response.body));
+      return ModelCommonResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception(response.body);
     }

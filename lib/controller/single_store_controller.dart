@@ -27,49 +27,63 @@ class SingleStoreController extends GetxController {
   TextEditingController searchController = TextEditingController();
   Rx<NearStoreModel> model = NearStoreModel().obs;
   Rx<StoreDetailsModel> storeDetailsModel = StoreDetailsModel().obs;
-Future<dynamic> getStoreDetails({bool? isFirstTime = false, context}) async {
-  if (isFirstTime!) {
-    page.value = 1;
-    isPaginationLoading.value = true;
-    isDataLoading.value = true;
-    if(storeDetailsModel.value.data != null){
-      storeDetailsModel.value = StoreDetailsModel();
-    }
-    // storeDetailsModel.value.data!.latestProducts!.clear();
-  }
-  if ((isPaginationLoading.value && loadMore.value) || isFirstTime) {
-    //log("Anjali");
-    isPaginationLoading.value = false;
+
+
+// Future<dynamic> getStoreDetails({bool? isFirstTime = false, context}) async {
+//   if (isFirstTime!) {
+//     page.value = 1;
+//     isPaginationLoading.value = true;
+//     isDataLoading.value = true;
+//     if(storeDetailsModel.value.data != null){
+//       storeDetailsModel.value = StoreDetailsModel();
+//     }
+//     // storeDetailsModel.value.data!.latestProducts!.clear();
+//   }
+//   if ((isPaginationLoading.value && loadMore.value) || isFirstTime) {
+//     //log("Anjali");
+//     isPaginationLoading.value = false;
+//     isDataLoading.value = false;
+//     await storeDetailsRepo1(
+//         page: page.value,
+//         pagination: pagination.value,
+//         context: context,
+//         id: storeId.value,
+//         search: searchController.text
+//     )
+//         .then((value) {
+//       if (isFirstTime) {
+//         storeDetailsModel.value = value;
+//       }
+//       isPaginationLoading.value = true;
+//       isDataLoading.value = true;
+//       if (value.status!) {
+//         isDataLoading.value = true;
+//         page.value++;
+//         if (!isFirstTime) {
+//           storeDetailsModel.value.data!.latestProducts!.addAll(
+//               value.data!.latestProducts!);
+//         }
+//         loadMore.value = value.link?.next ?? false;
+//       }
+//     });
+//   }
+// }
+
+// single store api without pagination
+   getSingleStoreData() {
     isDataLoading.value = false;
-    await storeDetailsRepo1(
-        page: page.value,
-        pagination: pagination.value,
-        context: context,
-        id: storeId.value,
-        search: searchController.text
-    )
-        .then((value) {
-      if (isFirstTime) {
-        storeDetailsModel.value = value;
-      }
-      isPaginationLoading.value = true;
+    storeDetailsRepo1(id: storeId.value).then((value) {
       isDataLoading.value = true;
-      if (value.status!) {
-        isDataLoading.value = true;
-        page.value++;
-        if (!isFirstTime) {
-          storeDetailsModel.value.data!.latestProducts!.addAll(
-              value.data!.latestProducts!);
-        }
-        loadMore.value = value.link?.next ?? false;
-      }
+      storeDetailsModel.value = value;
+
     });
   }
-}
   @override
   void onInit() {
     super.onInit();
-    getStoreDetails(isFirstTime: true);
+    print("single store data");
+   getSingleStoreData();
+    // getStoreDetails(isFirstTime: true);
   }
 }
 

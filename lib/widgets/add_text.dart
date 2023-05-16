@@ -244,12 +244,12 @@ AppBar backAppBar2(
     toolbarHeight: 60,
     elevation: 0,
     leadingWidth: AddSize.size20 * 2.0,
-    backgroundColor: backgroundColor,
+    backgroundColor: Color(0xffF6F6F6),
     title: Text(
       title,
-      style: GoogleFonts.poppins(fontSize: 18,
+      style: GoogleFonts.ibmPlexSansArabic(fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: Color(0xff423E5E)),
+          color: Color(0xff000000)),
     ),
     leading: Padding(
 

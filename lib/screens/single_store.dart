@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/SingleProductController.dart';
@@ -39,7 +40,7 @@ class _StoreScreenState extends State<StoreScreen> {
       // storeController
       //     .getData(context: context)
       //     .then((value) => setState(() {}));
-      singleStoreController.getStoreDetails();
+
       scrollController.addListener(_scrollListener);
     }
   }
@@ -56,7 +57,8 @@ class _StoreScreenState extends State<StoreScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      singleStoreController.getStoreDetails(isFirstTime: true);
+      singleStoreController.getSingleStoreData();
+      // singleStoreController.getStoreDetails(isFirstTime: true);
     });
   }
 
@@ -127,10 +129,10 @@ class _StoreScreenState extends State<StoreScreen> {
                                            .availability
                                            .toString()
                                            .capitalizeFirst!,
-                                       style: const TextStyle(
-                                           fontSize: 13,
+                                       style:  GoogleFonts.ibmPlexSansArabic(
+                                           fontSize: 14,
                                            color: Color(0xff5DB923),
-                                           fontWeight: FontWeight.w500),
+                                           fontWeight: FontWeight.w700),
                                      ),
                                      Text(
                                        "${singleStoreController
@@ -141,41 +143,52 @@ class _StoreScreenState extends State<StoreScreen> {
                                            .distance
                                            .toString()
                                            .capitalizeFirst!} KM",
-                                       style: const TextStyle(
-                                           fontSize: 12,
+                                       style:  GoogleFonts.ibmPlexSansArabic(
+                                           fontSize: 13,
                                            color: Color(0xff606573),
                                            fontWeight: FontWeight.w400),
                                      ),
                                    ],
                                  ),
-                                  Text(
-                                    singleStoreController
-                                        .storeDetailsModel
-                                        .value
-                                        .data!
-                                        .storeDetails!
-                                        .storeName
-                                        .toString()
-                                        .capitalizeFirst!,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xff293044),
-                                        fontWeight: FontWeight.w500),
-                                  ),
+                                 Row(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Text(
+                                       singleStoreController
+                                           .storeDetailsModel
+                                           .value
+                                           .data!
+                                           .storeDetails!
+                                           .storeName
+                                           .toString()
+                                           .capitalizeFirst!,
+                                       style: GoogleFonts.ibmPlexSansArabic(
+                                           fontSize: 17,
+                                           color: Color(0xff293044),
+                                           fontWeight: FontWeight.w700),
+                                     ),
+                                     Flexible(child: Container()),
+                                     Icon(Icons.star,size: 20,color: Color(0xff606573),),
+                                          SizedBox(width: 5,),
+                                     Text(
+                                       singleStoreController
+                                           .storeDetailsModel
+                                           .value
+                                           .data!
+                                           .storeDetails!
+                                           .avgRating
+                                           .toString(),
+                                       style: GoogleFonts.ibmPlexSansArabic(
+                                           fontSize: 14,
+                                           color: Color(0xff293044),
+                                           fontWeight: FontWeight.w400),
+                                     )
+                                   ],
+                                 ),
+                                  SizedBox(height: 5,),
                                   Row(
-                                    mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                    //mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                     children: [
-                                      singleStoreController
-                                          .storeDetailsModel
-                                          .value
-                                          .data!
-                                          .storeDetails!
-                                          .importedChicken == true ? Text("Imported Chicken",
-                                        style: const TextStyle(
-                                            fontSize: 13,
-                                            color: Color(0xffFE724C),
-                                            fontWeight: FontWeight.w500),
-                                      ):SizedBox(),
                                       InkWell(
                                         onTap: () async {
 
@@ -198,19 +211,37 @@ class _StoreScreenState extends State<StoreScreen> {
                                           image: AssetImage(AppAssets.callImage),
                                         ),
                                       ),
+                                      Flexible(child: Container()),
+                                      ...singleStoreController.storeDetailsModel.value.data!.storeDetails!.storeCategories!.map((e) =>
+                                          InkWell(
+                                        onTap: () {
+                                        },
+                                        child: Expanded(
+                                          child: Container(
+                                            margin: EdgeInsets.all(5.0),
+                                             height: 35,
+                                             width: 70,
+                                            decoration: BoxDecoration(
+                                                color: Color(0xffF2F2F2),
+                                                borderRadius: BorderRadius.circular(
+                                                    6)
+
+                                            ),
+                                            child: Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 7),
+                                                child: Text(e,
+                                                  textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 12,
+                                                      fontWeight: FontWeight.w400,
+                                                      color:Color(0xff000000)),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )).toList()
                                     ],
                                   ),
-                                  singleStoreController
-                                      .storeDetailsModel
-                                      .value
-                                      .data!
-                                      .storeDetails!
-                                      .importedMeat == true ? Text("Imported meat",
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        color: Color(0xffFE724C),
-                                        fontWeight: FontWeight.w500),
-                                  ):SizedBox(),
                                   SizedBox(
                                     height: height * .01,
                                   )
@@ -254,20 +285,12 @@ class _StoreScreenState extends State<StoreScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: height * .015),
-                        const Text(
-                          "Today's Menu",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
+
                         ListView.builder(
                             itemCount: singleStoreController
                                 .storeDetailsModel
                                 .value
-                                .data!
-                                .latestProducts!
-                                .length,
+                                .data!.latestProducts!.length,
                             shrinkWrap: true,
                             padding: EdgeInsets.only(
                               top: height * .015,
@@ -277,208 +300,256 @@ class _StoreScreenState extends State<StoreScreen> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  // singleProductController.id.value =
-                                  //     singleStoreController
-                                  //         .storeDetailsModel
-                                  //         .value
-                                  //         .data!
-                                  //         .latestProducts![index]
-                                  //         .id
-                                  //         .toString();
-                                  // print(
-                                  //     singleProductController.id.value);
-                                  // Get.toNamed(SingleProductPage
-                                  //     .singleProductPage);
                                 },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(10)),
-                                  // height: height * .23,
-                                  child: Card(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              10)),
-                                      child: Stack(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                            EdgeInsets.symmetric(
-                                              horizontal: width * .03,
-                                              vertical: height * .02,
-                                            ),
-                                            child: Row(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .center,
-                                                children: [
-                                                  SizedBox(
-                                                    height:
-                                                    AddSize.size50 *
-                                                        1.5,
-                                                    width:
-                                                    AddSize.size50 *
-                                                        1.6,
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          10),
-                                                      child:
-                                                      CachedNetworkImage(
-                                                        imageUrl: singleStoreController
-                                                            .storeDetailsModel
-                                                            .value
-                                                            .data!
-                                                            .latestProducts![
-                                                        index]
-                                                            .image
-                                                            .toString(),
-                                                        errorWidget: (_,
-                                                            __,
-                                                            ___) =>
-                                                        const SizedBox(),
-                                                        placeholder: (_,
-                                                            __) =>
-                                                        const SizedBox(),
-                                                        fit: BoxFit
-                                                            .cover,
-                                                      ),
-                                                    ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(singleStoreController
+                                        .storeDetailsModel
+                                        .value
+                                        .data!
+                                        .latestProducts![
+                                    index].title.toString(),style: GoogleFonts.ibmPlexSansArabic(
+                                        color: Color(0xff293044),
+                                        fontSize:
+                                        16,
+                                        fontWeight:
+                                        FontWeight.w700),),
+                                    SizedBox(height: height* .01,),
+                                    GestureDetector(
+                                      onTap:(){
+                                        singleProductController.id.value =
+                                            singleStoreController
+                                                .storeDetailsModel
+                                                .value
+                                                .data!
+                                                .latestProducts![index].productData![0]
+                                                .id
+                                                .toString();
+                                        print(
+                                            singleProductController.id.value);
+                                        Get.toNamed(SingleProductPage
+                                            .singleProductPage);
+
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10)),
+                                        // height: height * .23,
+                                        child: Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    10)),
+                                            child: Stack(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  EdgeInsets.symmetric(
+                                                    horizontal: width * .03,
+                                                    vertical: height * .02,
                                                   ),
-                                                  SizedBox(
-                                                    width: width * .04,
-                                                  ),
-                                                  Expanded(
-                                                    child: Column(
+                                                  child: Row(
                                                       crossAxisAlignment:
                                                       CrossAxisAlignment
-                                                          .start,
+                                                          .center,
                                                       children: [
-                                                        Text(
-                                                            singleStoreController
-                                                                .storeDetailsModel
-                                                                .value
-                                                                .data!
-                                                                .latestProducts![
-                                                            index]
-                                                                .name
-                                                                .toString(),
-                                                            maxLines: 2,
-                                                            style: const TextStyle(
-                                                                color: AppTheme
-                                                                    .blackcolor,
-                                                                fontSize:
-                                                                16,
-                                                                fontWeight:
-                                                                FontWeight.w500)),
-                                                        // SizedBox(
-                                                        //   height: height *
-                                                        //       .01,
-                                                        // ),
-                                                        Container(
-                                                          // width: width * .60,
-                                                          padding: EdgeInsets.symmetric(
-                                                              horizontal:
-                                                              width *
-                                                                  .02),
-                                                          decoration: BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.circular(
-                                                                  8.0),
-                                                              color: Colors
-                                                                  .grey
-                                                                  .shade100),
-                                                          child: singleStoreController
-                                                              .storeDetailsModel
-                                                              .value
-                                                              .data!
-                                                              .latestProducts![
-                                                          index]
-                                                              .type ==
-                                                              "Variable"
-                                                              ?
-                                                          buildDropdownButtonFormField(
-                                                              index)
-                                                              : SizedBox(),
-                                                        ),
-                                                        // SizedBox(
-                                                        //   height: height *
-                                                        //       .01,
-                                                        // ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                Text(
-                                                                  "\$" +
-                                                                      (singleStoreController.storeDetailsModel.value.getVariant(index: index).price.toString()),
-                                                                  style: const TextStyle(
-                                                                      fontSize: 15,
-                                                                      color: AppTheme.primaryColor,
-                                                                      fontWeight: FontWeight.w600),
-                                                                ),
-                                                              ],
+                                                         SizedBox(
+                                                          height:
+                                                          AddSize.size50 *
+                                                              1.8,
+                                                          width:
+                                                          AddSize.size50 *
+                                                              1.8,
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                10),
+                                                            child:
+                                                            CachedNetworkImage(
+                                                              imageUrl: singleStoreController
+                                                                  .storeDetailsModel
+                                                                  .value
+                                                                  .data!
+                                                                  .latestProducts![
+                                                              index].productData![0]
+                                                                  .image
+                                                                  .toString(),
+                                                              errorWidget: (_,
+                                                                  __,
+                                                                  ___) =>
+                                                              const SizedBox(),
+                                                              placeholder: (_,
+                                                                  __) =>
+                                                              const SizedBox(),
+                                                              fit: BoxFit
+                                                                  .cover,
                                                             ),
-
-                                                            OutlinedButton(
-                                                              style: OutlinedButton
-                                                                  .styleFrom(
-                                                                shape: const RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                    BorderRadius.all(Radius.circular(6))),
-                                                                minimumSize: Size(
-                                                                    AddSize.size50,
-                                                                    AddSize.size30),
-                                                                side: const BorderSide(
-                                                                    color:
-                                                                    AppTheme.primaryColor,
-                                                                    width: 1),
-                                                                backgroundColor:
-                                                                Color(0xffFFE1D9),
-                                                              ),
-                                                              onPressed:
-                                                                  () {
-                                                                singleProductController.id.value =
-                                                                    singleStoreController
-                                                                        .storeDetailsModel
-                                                                        .value
-                                                                        .data!
-                                                                        .latestProducts![index]
-                                                                        .id
-                                                                        .toString();
-                                                                print(
-                                                                    singleProductController.id.value);
-                                                                Get.toNamed(SingleProductPage
-                                                                    .singleProductPage);
-                                                              },
-                                                              child: Text(
-                                                                  "SELECT",
-                                                                  style: TextStyle(
-                                                                      fontSize: AddSize.font12,
-                                                                      color: AppTheme.primaryColor,
-                                                                      fontWeight: FontWeight.w600)),
-                                                            )
-                                                          ],
+                                                          ),
                                                         ),
-                                                        // this is for dropdown testing code
-                                                        // Text(singleStoreController.storeDetailsModel.value.data!
-                                                        //     .latestProducts![index].variants!.map((e) => e.id.toString()).toList().toString()),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ]),
-                                          ),
-                                        ],
-                                      )),
+                                                        SizedBox(
+                                                          width: width * .05,
+                                                        ),
+                                                        Expanded(
+                                                          child: Column(
+
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                  singleStoreController
+                                                                      .storeDetailsModel
+                                                                      .value
+                                                                      .data!
+                                                                      .latestProducts![
+                                                                  index].productData![0]
+                                                                      .name
+                                                                      .toString(),
+                                                                  maxLines: 2,
+                                                                  style:  GoogleFonts.ibmPlexSansArabic(
+                                                                      color: Color(0xff151515),
+                                                                      fontSize:
+                                                                      16,
+                                                                      fontWeight:
+                                                                      FontWeight.w600)),
+                                                              SizedBox(height: 10,),
+                                                              Text(
+                                                                  singleStoreController
+                                                                      .storeDetailsModel
+                                                                      .value
+                                                                      .data!
+                                                                      .latestProducts![
+                                                                  index].productData![0]
+                                                                      .content
+                                                                      .toString().capitalizeFirst!,
+                                                                 // maxLines: 2,
+                                                                  style:  GoogleFonts.ibmPlexSansArabic(
+                                                                      color: Color(0xff7B7B80),
+                                                                      fontSize:
+                                                                      13,
+                                                                      fontWeight:
+                                                                      FontWeight.w400)),
+                                                              SizedBox(height: 5,),
+
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        "Cal",
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(
+                                                                            fontSize: 12,
+                                                                            color: Color(0xff8E8E8E),
+                                                                            fontWeight: FontWeight.w300),
+                                                                      ),
+                                                                      SizedBox(width: 3,),
+                                                                      Text(
+                                                                        singleStoreController
+                                                                            .storeDetailsModel
+                                                                            .value
+                                                                            .data!
+                                                                            .latestProducts![
+                                                                        index].productData![0].calories
+                                                                            .toString(),
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(
+                                                                            fontSize: 12,
+                                                                            color: Color(0xff8E8E8E),
+                                                                            fontWeight: FontWeight.w300),
+                                                                      ),
+                                                                      SizedBox(width: 6,),
+                                                                      Text(
+                                                                        "SR",
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(
+                                                                            fontSize: 15,
+                                                                            color: AppTheme.primaryColor,
+                                                                            fontWeight: FontWeight.w700),
+                                                                      ),
+                                                                      SizedBox(width: 4,),
+                                                                      Text(
+                                                                        singleStoreController
+                                                                            .storeDetailsModel
+                                                                            .value
+                                                                            .data!
+                                                                            .latestProducts![
+                                                                        index].productData![0]
+                                                                            .variants![0].price
+                                                                            .toString().substring(0,2),
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(
+                                                                            fontSize: 15,
+                                                                            color: AppTheme.primaryColor,
+                                                                            fontWeight: FontWeight.w700),
+                                                                      ),
+
+                                                                    ],
+                                                                  ),
+
+                                                                  // OutlinedButton(
+                                                                  //   style: OutlinedButton
+                                                                  //       .styleFrom(
+                                                                  //     shape: const RoundedRectangleBorder(
+                                                                  //         borderRadius:
+                                                                  //         BorderRadius.all(Radius.circular(6))),
+                                                                  //     minimumSize: Size(
+                                                                  //         AddSize.size50,
+                                                                  //         AddSize.size30),
+                                                                  //     side: const BorderSide(
+                                                                  //         color:
+                                                                  //         AppTheme.primaryColor,
+                                                                  //         width: 1),
+                                                                  //     backgroundColor:
+                                                                  //     Color(0xffFFE1D9),
+                                                                  //   ),
+                                                                  //   onPressed:
+                                                                  //       () {
+                                                                  //     singleProductController.id.value =
+                                                                  //         singleStoreController
+                                                                  //             .storeDetailsModel
+                                                                  //             .value
+                                                                  //             .data!
+                                                                  //             .latestProducts![index].productData![index]
+                                                                  //             .id
+                                                                  //             .toString();
+                                                                  //     print(
+                                                                  //         singleProductController.id.value);
+                                                                  //     Get.toNamed(SingleProductPage
+                                                                  //         .singleProductPage);
+                                                                  //   },
+                                                                  //   child: Text(
+                                                                  //       "SELECT",
+                                                                  //       style: TextStyle(
+                                                                  //           fontSize: AddSize.font12,
+                                                                  //           color: AppTheme.primaryColor,
+                                                                  //           fontWeight: FontWeight.w600)),
+                                                                  // )
+                                                                ],
+                                                              ),
+                                                              // this is for dropdown testing code
+                                                              // Text(singleStoreController.storeDetailsModel.value.data!
+                                                              //     .latestProducts![index].variants!.map((e) => e.id.toString()).toList().toString()),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ]),
+                                                ),
+                                              ],
+                                            )),
+                                      ),
+
+                                    ),
+                                    SizedBox(
+                                      height: height * .01,
+                                    ),
+                                  ],
                                 ),
                               );
                             }),

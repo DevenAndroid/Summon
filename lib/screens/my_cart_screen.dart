@@ -319,7 +319,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                                                             onTap:
                                                                                 () {
                                                                               controller.model.value.data!.cartItems![index].maxQty.toString() != controller.model.value.data!.cartItems![index].cartItemQty.toString()
-                                                                                  ? updateCartRepo(controller.model.value.data!.cartItems![index].id.toString(), int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1, context).then((value) {
+                                                                                  ?
+                                                                              updateCartRepo(controller.model.value.data!.cartItems![index].id.toString(), int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1, context).then((value) {
                                                                                       showToast(value.message);
                                                                                       if (value.status == true) {
                                                                                         controller.model.value.data!.cartItems![index].cartItemQty = int.parse((controller.model.value.data!.cartItems![index].cartItemQty ?? "").toString()) + 1;
