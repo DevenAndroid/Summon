@@ -135,7 +135,7 @@ class OnboardContent extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: height * .40,
+                height: height * .42,
                 child: Column(
                   children: [
 

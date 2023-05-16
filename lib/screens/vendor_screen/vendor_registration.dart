@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:fresh2_arrive/controller/vendor_category_controller.dart';
 import 'package:fresh2_arrive/model/time_model.dart';
+import 'package:fresh2_arrive/repositories/vendor_categories_repo.dart';
 import 'package:fresh2_arrive/repositories/vendor_registration_repo.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
@@ -13,8 +15,10 @@ import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import '../../model/vendor_category_model.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
+import '../../resources/showDialog.dart';
 import '../../widgets/registration_form_textField.dart';
 
 class VendorRegistrationForm extends StatefulWidget {
@@ -25,9 +29,58 @@ class VendorRegistrationForm extends StatefulWidget {
 }
 
 class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
+  final vendorCategoryController = Get.put(VendorCategoryController());
+ // bool _value = false;
+  List multipleSelected = [];
+  /*List checkListItems = [
+    {
+      "id": 0,
+      "value": false,
+      "title": "Sunday",
+    },
+    {
+      "id": 1,
+      "value": false,
+      "title": "Monday",
+    },
+    {
+      "id": 2,
+      "value": false,
+      "title": "Tuesday",
+    },
+    {
+      "id": 3,
+      "value": false,
+      "title": "Wednesday",
+    },
+    {
+      "id": 4,
+      "value": false,
+      "title": "Thursday",
+    },
+    {
+      "id": 5,
+      "value": false,
+      "title": "Friday",
+    },
+    {
+      "id": 6,
+      "value": false,
+      "title": "Saturday",
+    },
+  ];*/
+  @override
+  void initState() {
+
+    super.initState();
+    getCategory();
+  }
   final TextEditingController storeName = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController businessIdController = TextEditingController();
+
+ // final TextEditingController categoryController = TextEditingController();
+
   Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
@@ -46,6 +99,16 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
       return false;
     }
   }
+  Rx<CategoriesModel> model = CategoriesModel().obs;
+  RxBool isDataLoaded = false.obs;
+getCategory(){
+  vendorCategoryRepo().then((value1) {
+    model.value = value1;
+    if(value1.status == true){
+      isDataLoaded.value = true;
+    }
+  });
+}
 
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
   ScrollController _scrollController = ScrollController();
@@ -107,6 +170,22 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
+                            RegistrationTextField(
+                              controller: businessIdController,
+                              hint: "Business ID (number)",
+                              length: 12,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value!.isEmpty || value.length < 12) {
+                                  return 'Please enter 12 digit Business ID (number)';
+                                }
+                                return null;
+                              },
+                            ),
+                            /*SizedBox(
+                              height: AddSize.size12,
+                            ),
+
                             InkWell(
                                 onTap: () async {
                                   var place = await PlacesAutocomplete.show(
@@ -158,16 +237,16 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                             color: Colors.grey.shade50),
                                         // width: MediaQuery.of(context).size.width - 40,
                                         child: ListTile(
-                                          leading: Image.asset(
-                                            AppAssets.drawer_location,
-                                            width: AddSize.size15,
-                                          ),
+                                          leading: Text('Address',style: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14,fontWeight: FontWeight.w700,),),
                                           title: Text(
                                             _address ?? "Location".toString(),
                                             style: TextStyle(
                                                 fontSize: AddSize.font14),
                                           ),
-                                          trailing: const Icon(Icons.search),
+                                          trailing: Image.asset(
+                                            AppAssets.drawer_location,
+                                            width: AddSize.size15,
+                                          ),
                                           dense: true,
                                         )),
                                     checkValidation(
@@ -184,21 +263,29 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     )
                                         : SizedBox()
                                   ],
-                                )),
+                                )),*/
                             SizedBox(
                               height: AddSize.size12,
                             ),
-                            RegistrationTextField(
-                              controller: businessIdController,
-                              hint: "Business ID (number)",
-                              length: 12,
-                              keyboardType: TextInputType.number,
+                            RegistrationTextField(readOnly: true,
+                              controller: vendorCategoryController.categoryController,
+                              hint: "Select Category",
+                              //length: 12,
+                             // keyboardType: TextInputType.number,
                               validator: (value) {
-                                if (value!.isEmpty || value.length < 12) {
-                                  return 'Please enter 12 digit Business ID (number)';
+                                if (value!.isEmpty) {
+                                  return 'Please chose category';
                                 }
                                 return null;
                               },
+                              suffix: InkWell(onTap: (){
+                                showDialog(
+                                    context: context,
+                                    builder: (context){
+                                      return ShowDialogForCategories();
+                                    });
+                              },
+                                  child: Icon(Icons.keyboard_arrow_down_outlined)),
                             ),
                             SizedBox(
                               height: AddSize.size12,
@@ -328,7 +415,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Business ID One Image ",
+                              "Business ID",
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -451,6 +538,59 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.size15,
                             ),
+                            Text(
+                              "Location",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline6!
+                                  .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: AddSize.font16,color: Color(0xff2F2F2F)),
+                            ),
+                            SizedBox(
+                              height: AddSize.padding12,
+                            ),
+
+                            InkWell(onTap: ()  async {
+                              var place = await PlacesAutocomplete.show(
+                                  hint: "Location",
+                                  context: context,
+                                  apiKey: googleApikey,
+                                  mode: Mode.overlay,
+                                  types: [],
+                                  strictbounds: false,
+                                  onError: (err) {
+                                    log("error.....   ${err.errorMessage}");
+                                  });
+                              if (place != null) {
+                                setState(() {
+                                  _address = (place.description ?? "Location")
+                                      .toString();
+                                });
+                                final plist = GoogleMapsPlaces(
+                                    apiKey: googleApikey,
+                                    apiHeaders: await const GoogleApiHeaders()
+                                    .getHeaders(),
+                              );
+                              print(plist);
+                              String placeid = place.placeId ?? "0";
+                              final detail =
+                              await plist.getDetailsByPlaceId(placeid);
+                              final geometry = detail.result.geometry!;
+                              final lat = geometry.location.lat;
+                              final lang = geometry.location.lng;
+                              setState(() {
+                              _address = (place.description ?? "Location")
+                                  .toString();
+                              });
+                            }
+                            },
+                                child:
+                                Image.asset('assets/images/mapimg.png',),
+                           ),
+                            SizedBox(
+                              height: AddSize.padding12,
+                            ),
                             Row(
                               children: [
                                 Checkbox(
@@ -520,8 +660,9 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                     Map<String, String> mapData = {
                                       'store_name': storeName.text,
                                       'phone': phoneController.text,
-                                      'location': _address!,
+                                     'location': _address!,
                                       'business_id': businessIdController.text,
+                                      'category': vendorCategoryController.categoryController.text,
                                     };
                                     vendorRegistrationRepo(
                                             context: context,
@@ -544,12 +685,12 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                       }
                                     });
                                   }
-                                  showValidation.value = true;
+                                  /*showValidation.value = true;
                                   if (_address!.isEmpty) {
                                     scrollNavigation(10);
                                   } else if (storeName.text.trim().isEmpty) {
                                     scrollNavigation(0);
-                                  }
+                                  }*/
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: const Size(double.maxFinite, 60),

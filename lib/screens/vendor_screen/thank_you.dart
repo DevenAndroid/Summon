@@ -78,7 +78,7 @@ class _ThankYouVendorScreenState extends State<ThankYouVendorScreen> {
           child: ElevatedButton(
               onPressed: () {
                 profileController.getData();
-
+                Get.back();
                 Get.back();
                 Get.back();
               },
