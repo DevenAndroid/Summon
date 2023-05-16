@@ -41,6 +41,7 @@ dependencies:
   get:
   firebase_core: ^2.10.0
   firebase_messaging: ^14.2.1
+  permission_handler:
   image_picker:
   file_picker:
   flutter_svg:

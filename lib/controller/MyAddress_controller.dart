@@ -8,6 +8,9 @@ class MyAddressController extends GetxController {
   Rx<MyAddressModel> myAddressModel = MyAddressModel().obs;
   RxString id = "".obs;
 
+  String? latLong1;
+  String? latLong2;
+
   getAddress() {
     myAddressRepo().then((value) {
       isAddressLoad.value = true;

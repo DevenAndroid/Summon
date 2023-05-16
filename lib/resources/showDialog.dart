@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
@@ -20,21 +21,9 @@ class ShowDialogForCategories extends StatefulWidget {
 class _ShowDialogForCategoriesState extends State<ShowDialogForCategories> {
 
   final vendorCategoryController = Get.put(VendorCategoryController());
-  Rx<CategoriesModel> model = CategoriesModel().obs;
-  RxBool isDataLoaded = false.obs;
-  getCategory(){
-    vendorCategoryRepo().then((value1) {
-      model.value = value1;
-      if(value1.status == true){
-        isDataLoaded.value = true;
-      }
-    });
-  }
 
-  void initState() {
-    super.initState();
-    getCategory();
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +33,7 @@ class _ShowDialogForCategoriesState extends State<ShowDialogForCategories> {
           vertical: MediaQuery
               .of(context)
               .size
-              .height * .30,
+              .height * .23,
           horizontal: MediaQuery
               .of(context)
               .size
@@ -55,61 +44,82 @@ class _ShowDialogForCategoriesState extends State<ShowDialogForCategories> {
           BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child:   SingleChildScrollView(
             physics: BouncingScrollPhysics(),
-            child: isDataLoaded.value  ?
-            ListView.builder(
-                itemCount: model.value.data!.categories!.length,
-                scrollDirection: Axis.vertical,
-                physics: BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          CheckboxListTile(
-                            title: Text(
-                              model.value.data!.categories![index].name
-                                  .toString(), style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: AddSize.font14,color: AppTheme.userText,),),
-                            value: model.value.data!.categories![index]
-                                .selected,
-                            onChanged: (_) {
-                              setState(() {
-                                if (model.value.data!.categories![index]
-                                    .selected == false) {
-                                  model.value.data!.categories![index]
-                                      .selected = true; //
-                               vendorCategoryController.categoryController.text  = model.value.data!.categories![index]
-                                      .name.toString();
-                                } else {
-                                  model.value.data!.categories![index]
-                                      .selected = false; // select
-                                  vendorCategoryController.categoryController.clear();
-                                }
-                              });
-                            },
-                            controlAffinity: ListTileControlAffinity.leading,
-                            autofocus: false,
-                            activeColor: Colors.green,
-                            checkColor: Colors.white,
-                            //selected: _value,
-                            // value: _value,
-                            /* onChanged: (value) {
-                                                          */ /*      setState(() {
-                                                                  _isValue1 = value;
-                                                                });*/ /*
-                                                              },*/
+            child: vendorCategoryController.isDataLoaded.value  ?
+            Column(
+              children: [
+                ListView.builder(
+                    itemCount: vendorCategoryController.model.value.data!.categories!.length,
+                    scrollDirection: Axis.vertical,
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              CheckboxListTile(
+                                title: Text(
+                                  vendorCategoryController.model.value.data!.categories![index].name
+                                      .toString(), style: TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: AddSize.font14,color: AppTheme.userText,),),
+                                value: vendorCategoryController.model.value.data!.categories![index]
+                                    .selected,
+                                onChanged: (_) {
+                                  setState(() {
+                                    if (vendorCategoryController.model.value.data!.categories![index]
+                                        .selected == false) {
+                                      vendorCategoryController.model.value.data!.categories![index]
+                                          .selected = true; //
+
+                                    } else {
+                                      vendorCategoryController.model.value.data!.categories![index]
+                                          .selected = false; // select
+                    /*                  vendorCategoryController.categoryController.clear();*/
+                                    }
+                                  });
+                                },
+                                controlAffinity: ListTileControlAffinity.leading,
+                                autofocus: false,
+                                activeColor: AppTheme.primaryColor,
+                                checkColor: Colors.white,
+                                //selected: _value,
+                                // value: _value,
+                                /* onChanged: (value) {
+                                                              */ /*      setState(() {
+                                                                      _isValue1 = value;
+                                                                    });*/ /*
+                                                                  },*/
+                              ),
+                              SizedBox(height: AddSize.size5,),
+
+                              /*  Text(model.value.data!.categories![index].name.toString(),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
+                                                                SizedBox(height: 10,),*/
+
+                            ],
                           ),
-                          /*  Text(model.value.data!.categories![index].name.toString(),style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16),),
-                                                            SizedBox(height: 10,),*/
+                        ),
+                      );
+                    }),
+                SizedBox(height: AddSize.size5,),
+                ElevatedButton(
+                onPressed: (){
+                  vendorCategoryController.categoryController.text  = vendorCategoryController.model.value.data!.categories!.where((element) => element.selected == true).toList().map((e) => e.name.toString()).toList().join(',');
 
-                        ],
-                      ),
-                    ),
-                  );
-                }) :
+                  Get.back();
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(150, 40),
+                    backgroundColor: AppTheme.primaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
+                ),
+                child: Text('Add',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),)),
+                SizedBox(height: AddSize.size5,),
+              ],
+            )
 
-            CircularProgressIndicator()
+                :
+            CupertinoActivityIndicator(radius: 20,)
           ),
         ),
       );

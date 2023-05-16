@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../widgets/add_text.dart';
 import 'app_theme.dart';
 
@@ -187,5 +188,10 @@ class Helpers {
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern.toString());
     return (!regex.hasMatch(value)) ? false : true;
+  }
+}
+extension LatlongCheck on LatLng{
+  LatLng get checkLatLong{
+    return this == const LatLng(0,0) ? const LatLng(33.888630,35.495480) : this;
   }
 }

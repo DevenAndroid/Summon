@@ -357,7 +357,8 @@ class _MapScreenPageState extends State<MapScreenPage> {
                         ],
                       ),
                     ),
-                  ));
+                  )
+              );
             }),
           );
         });

@@ -68,7 +68,7 @@ class RegistrationTextField extends StatelessWidget {
           hintText: hint,
           focusColor: AppTheme.primaryColor,
           hintStyle:
-              TextStyle(color: AppTheme.userText, fontSize: AddSize.font14,fontWeight: FontWeight.w700,),
+              TextStyle(color: AppTheme.userText, fontSize: AddSize.font14,fontWeight: FontWeight.w600,),
           filled: true,
           fillColor: Colors.grey.shade50,
           contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
