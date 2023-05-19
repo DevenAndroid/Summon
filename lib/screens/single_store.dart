@@ -231,8 +231,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                               child: Padding(
                                                 padding: const EdgeInsets.symmetric(vertical: 7),
                                                 child: Text(e,
-                                                  textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 12,
-                                                      fontWeight: FontWeight.w400,
+                                                  textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 13,
+                                                      fontWeight: FontWeight.w700,
                                                       color:Color(0xff000000)),
                                                 ),
                                               ),

@@ -7,7 +7,7 @@ import '../repositories/Cart_Related_Product.Repo.dart';
 import '../repositories/My_Cart_Repo.dart';
 
 class MyCartController extends GetxController {
-  Rx<ModelCommonResponse> model = ModelCommonResponse().obs;
+  Rx<MyCartDataModel1> model = MyCartDataModel1().obs;
   RxBool isDataLoaded = false.obs;
 
   //RxBool isRelatedProductDataLoaded = false.obs;
@@ -18,11 +18,11 @@ class MyCartController extends GetxController {
       isDataLoaded.value = true;
       model.value = value;
       sum.value = 0;
-      // for (int i = 0; i < value.data!.cartItems!.length; i++) {
-      //   sum.value = sum.value +
-      //       int.parse(value.data!.cartItems![i].cartItemQty.toString());
-      //   print("sum of cart value is ..${sum.value}");
-      // }
+      for (int i = 0; i < value.data!.cartItems!.length; i++) {
+        sum.value = sum.value +
+            int.parse(value.data!.cartItems![i].cartItemQty.toString());
+        print("sum of cart value is ..${sum.value}");
+      }
     });
   }
 

@@ -4,11 +4,14 @@ import 'package:fresh2_arrive/screens/order/choose_address.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../resources/app_theme.dart';
+import '../controller/GetSaveAddressController.dart';
 import '../controller/MyAddress_controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
+import 'Update_Address_Screen.dart';
 
 class MyAddress extends StatefulWidget {
   const MyAddress({Key? key}) : super(key: key);
@@ -20,12 +23,15 @@ class MyAddress extends StatefulWidget {
 
 class _MyAddressState extends State<MyAddress> {
   final addressController = Get.put(MyAddressController());
+  final getSaveAddressController = Get.put(GetSaveAddressController());
   final controller = Get.put(MyCartDataListController());
   final mainController = Get.put(MainHomeController());
+  bool isTitle=false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
   }
 
   showUploadWindow(index) {
@@ -96,11 +102,12 @@ class _MyAddressState extends State<MyAddress> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: Color(0xffF9F9F9),
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
             leadingWidth: AddSize.size20 * 1.6,
-            backgroundColor: AppTheme.backgroundcolor,
+            backgroundColor: Color(0xffF9F9F9),
             title: Text(
               "My Address",
               style: Theme.of(context).textTheme.headline6!.copyWith(
@@ -135,9 +142,7 @@ class _MyAddressState extends State<MyAddress> {
                       ),
 
                       addressController.isAddressLoad.value
-                          ? addressController
-                                  .myAddressModel.value.data!.isNotEmpty
-                              ? Column(
+                          ? Column(
                                   children: [
                                     ListView.builder(
                                         itemCount: addressController
@@ -155,20 +160,20 @@ class _MyAddressState extends State<MyAddress> {
                                             // height: height * .23,
                                             child: InkWell(
                                               onTap: () {
-                                                controller.model.value.data!.cartItems!.isNotEmpty ?
-                                                chooseOrderAddress(addressId: addressController.myAddressModel.value.data![index].id
-                                                                .toString(),
-                                                        context: context)
-                                                    .then((value) {
-                                                  if (value.status == true) {
-                                                    controller.getAddToCartList();
-                                                    Get.back();
-                                                    Get.back();
-                                                    Get.back();
-                                                    Get.back();
-                                                    mainController.onItemTap(1);
-                                                  }
-                                                }):null;
+                                                // controller.model.value.data!.cartItems!.isNotEmpty ?
+                                                // chooseOrderAddress(addressId: addressController.myAddressModel.value.data![index].id
+                                                //                 .toString(),
+                                                //         context: context)
+                                                //     .then((value) {
+                                                //   if (value.status == true) {
+                                                //     controller.getAddToCartList();
+                                                //     Get.back();
+                                                //     Get.back();
+                                                //     Get.back();
+                                                //     Get.back();
+                                                //     mainController.onItemTap(1);
+                                                //   }
+                                                // }):null;
                                               },
                                               child: Card(
                                                   elevation: 0,
@@ -187,32 +192,64 @@ class _MyAddressState extends State<MyAddress> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          addressController
-                                                              .myAddressModel
-                                                              .value
-                                                              .data![index]
-                                                              .addressType
-                                                              .toString(),
-                                                          style: const TextStyle(
-                                                              color: AppTheme
-                                                                  .blackcolor,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
+
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  getSaveAddressController.addressId.value =
+                                                                      addressController
+                                                                          .myAddressModel
+                                                                          .value
+                                                                          .data![
+                                                                      index]
+                                                                          .id
+                                                                          .toString();
+                                                                  print(getSaveAddressController.addressId.value);
+                                                                  Get.toNamed(
+                                                                      UpdateAddressScreen
+                                                                          .updateAddressScreen,
+                                                                      arguments: [
+                                                                        addressController
+                                                                            .myAddressModel
+                                                                            .value
+                                                                            .data![index]
+                                                                      ]);
+                                                                },
+                                                                child:  Image(
+                                                                    height: 20,
+                                                                    width: 20,
+                                                                    image: AssetImage(
+                                                                        AppAssets.editIcon)),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                showUploadWindow(
+                                                                    addressController
+                                                                        .myAddressModel
+                                                                        .value
+                                                                        .data![index]);
+                                                              },
+                                                              child:
+                                                              Image(
+                                                                  height: 20,
+                                                                  width: 20,
+                                                                  image: AssetImage(
+                                                                  AppAssets.deleteIcon)),
+                                                            ),
+                                                                Flexible(child: Container()),
+                                                            Text(addressController.myAddressModel.value.data![index].note.toString().capitalizeFirst!,
+                                                                style: GoogleFonts.ibmPlexSansArabic(fontSize: 16,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    color:Color(0xff000000))
+                                                            ),
+
+                                                          ],
                                                         ),
-                                                        Text(
-                                                          "Flat no - ${addressController.myAddressModel.value.data![index].flatNo.toString()}, ${addressController.myAddressModel.value.data![index].street.toString().capitalizeFirst}, ${addressController.myAddressModel.value.data![index].landmark.toString().capitalizeFirst}, ${addressController.myAddressModel.value.data![index].location.toString().capitalizeFirst},",
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .grey.shade600,
-                                                              fontSize:
-                                                                  AddSize.font14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                        ),
+
+
                                                         // Text(
                                                         //   addressController
                                                         //       .myAddressModel
@@ -228,72 +265,7 @@ class _MyAddressState extends State<MyAddress> {
                                                         //           FontWeight
                                                         //               .w500),
                                                         // ),
-                                                        Row(
-                                                          children: [
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                showUploadWindow(
-                                                                    addressController
-                                                                        .myAddressModel
-                                                                        .value
-                                                                        .data![index]);
-                                                              },
-                                                              child: const Text(
-                                                                "Remove",
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .primaryColor,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                                width:
-                                                                    width * .02),
-                                                            Container(
-                                                              color: AppTheme
-                                                                  .primaryColor,
-                                                              height:
-                                                                  height * .012,
-                                                              width: width * .003,
-                                                            ),
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                addressController
-                                                                        .id
-                                                                        .value =
-                                                                    addressController
-                                                                        .myAddressModel
-                                                                        .value
-                                                                        .data![
-                                                                            index]
-                                                                        .id
-                                                                        .toString();
-                                                                Get.toNamed(
-                                                                    ChooseAddress
-                                                                        .chooseAddressScreen,
-                                                                    arguments: [
-                                                                      addressController
-                                                                          .myAddressModel
-                                                                          .value
-                                                                          .data![index]
-                                                                    ]);
-                                                              },
-                                                              child: const Text(
-                                                                "Edit",
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .primaryColor,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
+
                                                       ],
                                                     ),
                                                   )),
@@ -330,41 +302,46 @@ class _MyAddressState extends State<MyAddress> {
 
                                   ],
                                 )
-                              : const SizedBox()
-                          : const Center(
-                              child: CircularProgressIndicator(
-                              color: AppTheme.primaryColor,
-                            )),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.toNamed(ChooseAddress.chooseAddressScreen);
-                          },
-                          style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.all(10),
-                              backgroundColor: AppTheme.primaryColor.withOpacity(.80),
-                              minimumSize:
-                              const Size(double.maxFinite, 50),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(10)),
-                              textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600)),
-                          child: Text(
-                            "ADD NEW",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                color: AppTheme.backgroundcolor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: AddSize.font16),
+                              : const Center(
+                          child: CircularProgressIndicator(
+                            color: AppTheme.primaryColor,
                           )),
+
                     ],
                   ),
                 ));
-          })),
+          }),
+        bottomNavigationBar:  Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+              onPressed: () {
+                Get.toNamed(ChooseAddress.chooseAddressScreen);
+              },
+              style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(10),
+                  backgroundColor: AppTheme.primaryColor.withOpacity(.80),
+                  minimumSize:
+                  const Size(double.maxFinite, 50),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(10)),
+                  textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600)),
+              child: Text(
+                "ADD NEW",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5!
+                    .copyWith(
+                    color: AppTheme.backgroundcolor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: AddSize.font16),
+              )),
+        ),
+      ),
+
     );
   }
 }

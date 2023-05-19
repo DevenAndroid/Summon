@@ -909,7 +909,8 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.size12,
                             ),
-                            RegistrationTextField(readOnly: true,
+                            RegistrationTextField(
+                              readOnly: true,
                               controller: vendorCategoryController.categoryController,
                               hint: "Select Category",
                               //length: 12,
@@ -1392,63 +1393,63 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.padding12,
                             ),
-                            Row(
-                              children: [
-                                Checkbox(
-                                    side: BorderSide(
-                                        color: showValidation == false
-                                            ? AppTheme.primaryColor
-                                            : Colors.red,
-                                        width: 2),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    value: _isValue1,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        _isValue1 = value;
-                                      });
-                                    }),
-                                Expanded(
-                                    child: Text(
-                                      "? Using imported  meats",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,color: Color(0xff1D303A)),
-                                    ))
-                              ],
-                            ),
-
-                            Row(
-                              children: [
-                                Checkbox(
-                                    side: BorderSide(
-                                        color: showValidation == false
-                                            ? AppTheme.primaryColor.withOpacity(.80)
-                                            : Colors.red,
-                                        width: 2),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    value: _isValue2,
-                                    onChanged: (bool? value) {
-                                      setState(() {
-                                        _isValue2 = value;
-                                      });
-                                    }),
-                                Expanded(
-                                    child: Text(
-                                      "? Using imported  Chicken",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 14,color: Color(0xff1D303A)),
-                                    ))
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Checkbox(
+                            //         side: BorderSide(
+                            //             color: showValidation == false
+                            //                 ? AppTheme.primaryColor
+                            //                 : Colors.red,
+                            //             width: 2),
+                            //         shape: RoundedRectangleBorder(
+                            //             borderRadius: BorderRadius.circular(5)),
+                            //         value: _isValue1,
+                            //         onChanged: (bool? value) {
+                            //           setState(() {
+                            //             _isValue1 = value;
+                            //           });
+                            //         }),
+                            //     Expanded(
+                            //         child: Text(
+                            //           "? Using imported  meats",
+                            //           style: Theme.of(context)
+                            //               .textTheme
+                            //               .headline5!
+                            //               .copyWith(
+                            //               fontWeight: FontWeight.w400,
+                            //               fontSize: 14,color: Color(0xff1D303A)),
+                            //         ))
+                            //   ],
+                            // ),
+                            //
+                            // Row(
+                            //   children: [
+                            //     Checkbox(
+                            //         side: BorderSide(
+                            //             color: showValidation == false
+                            //                 ? AppTheme.primaryColor.withOpacity(.80)
+                            //                 : Colors.red,
+                            //             width: 2),
+                            //         shape: RoundedRectangleBorder(
+                            //             borderRadius: BorderRadius.circular(5)),
+                            //         value: _isValue2,
+                            //         onChanged: (bool? value) {
+                            //           setState(() {
+                            //             _isValue2 = value;
+                            //           });
+                            //         }),
+                            //     Expanded(
+                            //         child: Text(
+                            //           "? Using imported  Chicken",
+                            //           style: Theme.of(context)
+                            //               .textTheme
+                            //               .headline5!
+                            //               .copyWith(
+                            //               fontWeight: FontWeight.w400,
+                            //               fontSize: 14,color: Color(0xff1D303A)),
+                            //         ))
+                            //   ],
+                            // ),
                             SizedBox(
                               height: AddSize.size15,
                             ),

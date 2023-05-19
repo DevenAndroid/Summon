@@ -27,6 +27,7 @@ class ApiUrl {
   static const nearStores = "${baseUrl}stores";
   static const storesUrl = "${baseUrl}near-stores";
   static const myCartUrl = "${baseUrl}my-cart";
+  static const orderTypeMyCartUrl = "${baseUrl}order-type";
   static const myCartDataListUrl = "${baseUrl}my-cart";
   static const addCartUrl = "${baseUrl}add-cart";
   static const updateCartUrl = "${baseUrl}update-cart";
@@ -35,6 +36,9 @@ class ApiUrl {
   static const homeSearchUrl = "${baseUrl}search";
   static const storeDetailsUrl = "${baseUrl}store-details";
   static const addAddressUrl = "${baseUrl}add-address";
+  static const getSaveAddressUrl = "${baseUrl}get-address";
+  static const driverUpdateInfoUrl = "${baseUrl}driver-information-edit";
+  static const addAddress1Url = "${baseUrl}add-address";
   static const updateLocationUrl = "${baseUrl}update-location";
   static const myAddressUrl = "${baseUrl}my-address";
   static const myOrdersUrl = "${baseUrl}my-orders";
@@ -44,6 +48,7 @@ class ApiUrl {
   static const removeAddressUrl = "${baseUrl}remove-address";
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
+  static const checkOutMyCartUrl = "${baseUrl}order";
   static const vendorRegister = "${baseUrl}vendor-register";
   static const vendorInformationEditUrl = "${baseUrl}vendor-information-edit";
   static const myWalletUrl = "${baseUrl}wallet";

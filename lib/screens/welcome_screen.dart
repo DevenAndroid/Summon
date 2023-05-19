@@ -80,67 +80,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   //     ),
                   //   ],
                   // ),
-                  SizedBox(height: height * .4,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          signInWithGoogle();
-                        },
-                        child: Expanded(
-                          child: Container(
-                            height: 60,
-                            width: 140,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child:
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(width: 15,),
-                                Image.asset('assets/images/superg.png',height: 35,width: 35,),
-                                SizedBox(width: 8,),
-                                Text("Sign in\nGoogle", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                  // SizedBox(height: height * .4,),
 
-                      SizedBox(width: 25,),
-                      InkWell(
-                        onTap: (){
-
-                        },
-                        child: Expanded(
-                          child: Container(
-                            height: 60,
-                            width: 140,
-                           decoration: BoxDecoration(
-                             color: Colors.white,
-                             borderRadius: BorderRadius.circular(10)
-                           ),
-                            child:
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    SizedBox(width: 15,),
-                                    Image.asset(AppAssets.Apple,height: 35,width: 35,),
-                                    SizedBox(width: 8,),
-                                    Text("Sign in\nApple", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 12),),
-                                  ],
-                                ),
-
-                          ),
-                        ),
-                      ),
-                      //Spacer(),
-
-                    ],
-                  )
 
                 ],
               ),
@@ -161,6 +102,70 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ),
         )),
+
+          Positioned(
+              bottom: 60,
+              left: 40,
+              child:  Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: (){
+                  signInWithGoogle();
+                },
+                child: Expanded(
+                  child: Container(
+                    height: 60,
+                    width: 140,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 12,),
+                        Image.asset('assets/images/superg.png',height: 37,width: 40,),
+                        SizedBox(width: 8,),
+                        Text("Sign in with\n Google", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 13),),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(width: 40,),
+              InkWell(
+                onTap: (){
+
+                },
+                child: Expanded(
+                  child: Container(
+                    height: 60,
+                    width: 140,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 12,),
+                        Image.asset(AppAssets.Apple,height: 37,width: 40,),
+                        SizedBox(width: 8,),
+                        Text("Sign in with\n Apple", style: GoogleFonts.ibmPlexSansArabic(color:Color(0xff000000),fontWeight: FontWeight.w700,fontSize: 13),),
+                      ],
+                    ),
+
+                  ),
+                ),
+              ),
+              //Spacer(),
+
+            ],
+          ))
           // Positioned(
           //   top: 12,
           //   right: -20,

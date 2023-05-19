@@ -11,11 +11,12 @@ import '../repositories/driver_imformation_repo.dart';
 class DriverInformationController extends GetxController {
   RxBool isDataLoading = false.obs;
   Rx<DriverInformationModel> model = DriverInformationModel().obs;
-  final TextEditingController adharNoController = TextEditingController();
-  final TextEditingController panNoController = TextEditingController();
+  final TextEditingController nationalId = TextEditingController();
+  final TextEditingController carYearController = TextEditingController();
   final TextEditingController dateOfBirth = TextEditingController();
-  final TextEditingController vehicleNumber = TextEditingController();
-  final TextEditingController licenceNumber = TextEditingController();
+  final TextEditingController make = TextEditingController();
+  final TextEditingController colorController = TextEditingController();
+  final TextEditingController modelController = TextEditingController();
   @override
   void onInit() {
     super.onInit();

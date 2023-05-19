@@ -57,7 +57,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       homeSearchController.page.value++;
-      homeSearchController.searchingData();
+      homeSearchController.searchingData(context: context);
       print("call");
     }else{
       print("dont call");
@@ -68,7 +68,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
-    homeSearchController.searchingData();
+    homeSearchController.searchingData(context: context);
     scrollController.addListener(_scrollListener);
    // myCartController.getAddToCartList();
   }
@@ -349,7 +349,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       child: GestureDetector(
                                         onTap: (){
                                           //homeSearchController.load=false.obs;
-                                          homeSearchController.searchingData(allowClear: true);
+                                          homeSearchController.searchingData(allowClear: true, context: context);
                                         },
                                         child: const ImageIcon(
                                           AssetImage(AppAssets.searchIcon),

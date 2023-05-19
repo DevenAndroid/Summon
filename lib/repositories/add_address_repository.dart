@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:fresh2_arrive/model/model_common_ressponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/GetAddressModel.dart';
 import '../model/login_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
@@ -132,5 +135,29 @@ Future<ModelCommonResponse> chooseOrderAddress(
     Helpers.createSnackBar(context, response.body.toString());
     Helpers.hideLoader(loader);
     throw Exception(response.body);
+  }
+}
+
+
+Future<GetMyAddressModel> getSaveAddress({required address_id}) async {
+
+
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
+  };
+  http.Response response = await http.get(Uri.parse("${ApiUrl.getSaveAddressUrl}?address_id=$address_id"),
+      headers: headers);
+  log("usrlll..${ApiUrl.getSaveAddressUrl}?address_id=$address_id");
+  log("Get Saved data response..${response.body}");
+  if (response.statusCode == 200 ||response.statusCode == 400) {
+
+    return GetMyAddressModel.fromJson(json.decode(response.body));
+  } else {
+    throw Exception();
   }
 }

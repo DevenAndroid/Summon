@@ -16,6 +16,12 @@ class ThankYouScreen extends StatefulWidget {
 
 class _ThankYouScreenState extends State<ThankYouScreen> {
   final myOrderDetailsController = Get.put(MyOrderDetailsController());
+
+  @override
+  void initState() {
+    super.initState();
+    myOrderDetailsController.getMyOrderDetails();
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -141,7 +147,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Subtotal:",
+                                Text("Payment Type:",
                                     style: TextStyle(
                                         color: AppTheme.blackcolor,
                                         fontSize: AddSize.font16,
@@ -152,53 +158,27 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         fontSize: AddSize.font14,
                                         fontWeight: FontWeight.w500)),
                               ]),
-                          Get.arguments[9] != "" && Get.arguments[10] != ""?
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: height * .01,
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("${Get.arguments[9].toString()}:",
-                                        style: TextStyle(
-                                            color: AppTheme.blackcolor,
-                                            fontSize: AddSize.font16,
-                                            fontWeight: FontWeight.w500)),
-                                    Text("₹${Get.arguments[10]..toString()}",
-                                        style: TextStyle(
-                                            color: Colors.grey.shade500,
-                                            fontSize: AddSize.font14,
-                                            fontWeight: FontWeight.w500)),
-                                  ]),
-                            ],
-                          ):const SizedBox(),
-                          Get.arguments[11] != "" && Get.arguments[12] != ""?
-                          Column(
-                            children: [
-                              SizedBox(
-                                height: height * .01,
-                              ),
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("${Get.arguments[11].toString()}:",
-                                        style: TextStyle(
-                                            color: AppTheme.blackcolor,
-                                            fontSize: AddSize.font16,
-                                            fontWeight: FontWeight.w500)),
-                                    Text("₹${Get.arguments[12]..toString()}",
-                                        style: TextStyle(
-                                            color: Colors.grey.shade500,
-                                            fontSize: AddSize.font14,
-                                            fontWeight: FontWeight.w500)),
-                                  ]),
-                            ],
-                          ):const SizedBox(),
                           SizedBox(
                             height: height * .01,
                           ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Subtotal:",
+                                    style: TextStyle(
+                                        color: AppTheme.blackcolor,
+                                        fontSize: AddSize.font16,
+                                        fontWeight: FontWeight.w500)),
+                                Text("₹${Get.arguments[4].toString()}",
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: AddSize.font14,
+                                        fontWeight: FontWeight.w500)),
+                              ]),
+                          SizedBox(
+                            height: height * .01,
+                          ),
+
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -216,20 +196,6 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                           SizedBox(
                             height: height * .01,
                           ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Packing charges:",
-                                    style: TextStyle(
-                                        color: AppTheme.blackcolor,
-                                        fontSize: AddSize.font16,
-                                        fontWeight: FontWeight.w500)),
-                                Text("₹${Get.arguments[6].toString()}",
-                                    style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: AddSize.font14,
-                                        fontWeight: FontWeight.w500)),
-                              ]),
                           SizedBox(
                             height: height * .01,
                           ),
@@ -241,7 +207,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         color: AppTheme.primaryColor,
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
-                                Text("₹${Get.arguments[7].toString()}",
+                                Text("₹${Get.arguments[6].toString()}",
                                     style: TextStyle(
                                         color: AppTheme.primaryColor,
                                         fontSize: AddSize.font14,
@@ -267,7 +233,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
               onPressed: () {
-                myOrderDetailsController.id.value = Get.arguments[8].toString();
+                 myOrderDetailsController.id.value = Get.arguments[1].toString();
                 Get.toNamed(OrderDetails.orderDetailsScreen);
               },
               child: Text(

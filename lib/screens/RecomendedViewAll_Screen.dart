@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
+import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:get/get.dart';
 
 import '../controller/ViewAllRecommendd_Controller.dart';
+import '../controller/single_store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../widgets/add_text.dart';
@@ -18,6 +20,7 @@ class ViewAllRecommendedPage extends StatefulWidget {
 
 class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
   final viewAllRecommendedController = Get.put(ViewALlRecommendedController());
+  final singleStoreController = Get.put(SingleStoreController());
 
   @override
   void initState() {
@@ -61,104 +64,112 @@ class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
                             return
                               Stack(
                                   children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffFFFFFF),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Column(
+                                    InkWell(
+                                      onTap:(){
+                                        singleStoreController.storeId.value = viewAllRecommendedController.model.value.data![index].id.toString();
 
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                //color: Colors.grey,
-                                                // borderRadius: BorderRadius.only(
-                                                //     topRight: Radius.circular(20),
-                                                //     topLeft: Radius.circular(20)),
-                                              ),
-                                              child: ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                  topRight: Radius.circular(15),
-                                                  topLeft: Radius.circular(15),
+                                        Get.toNamed(StoreScreen.singleStoreScreen);
+
+                            },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffFFFFFF),
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Column(
+
+                                          children: [
+                                            Expanded(
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  //color: Colors.grey,
+                                                  // borderRadius: BorderRadius.only(
+                                                  //     topRight: Radius.circular(20),
+                                                  //     topLeft: Radius.circular(20)),
                                                 ),
-                                                child:
-                                                CachedNetworkImage(
-                                                  imageUrl: viewAllRecommendedController
-                                                      .model.value
-                                                      .data![index].image
-                                                      .toString(),
-                                                  errorWidget: (_, __, ___) =>
-                                                  const SizedBox(),
-                                                  placeholder: (_, __) =>
-                                                  const SizedBox(),
-                                                  fit: BoxFit.cover,
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.only(
+                                                    topRight: Radius.circular(15),
+                                                    topLeft: Radius.circular(15),
+                                                  ),
+                                                  child:
+                                                  CachedNetworkImage(
+                                                    imageUrl: viewAllRecommendedController
+                                                        .model.value
+                                                        .data![index].image
+                                                        .toString(),
+                                                    errorWidget: (_, __, ___) =>
+                                                    const SizedBox(),
+                                                    placeholder: (_, __) =>
+                                                    const SizedBox(),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          //SizedBox(height: 5,),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .start,
-                                              children: [
-                                                Text(
-                                                  viewAllRecommendedController.model
-                                                      .value
-                                                      .data![index].name
-                                                      .toString(),
-                                                  style: TextStyle(fontSize: 15,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Color(0xff08141B)),),
-                                                SizedBox(height: 8,),
-                                                Row(
-                                                  children: [
-                                                    Text("SR",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 2,),
-                                                    if(viewAllRecommendedController
-                                                        .model.value
-                                                        .data![index]
-                                                        .variants != null)
-                                                    Text(
-                                                     "${viewAllRecommendedController
+                                            //SizedBox(height: 5,),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  Text(
+                                                    viewAllRecommendedController.model
+                                                        .value
+                                                        .data![index].name
+                                                        .toString(),
+                                                    style: TextStyle(fontSize: 15,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Color(0xff08141B)),),
+                                                  SizedBox(height: 8,),
+                                                  Row(
+                                                    children: [
+                                                      Text("SR",
+                                                        style: TextStyle(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 2,),
+                                                      if(viewAllRecommendedController
                                                           .model.value
                                                           .data![index]
-                                                          .variants![0].price
-                                                          .toString()}",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 5,),
-                                                    Text("25 mins •",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 3,),
-                                                    Icon(Icons.star,color: AppTheme.primaryColor, size:13,),
-                                                    SizedBox(width: 1,),
-                                                    Text(viewAllRecommendedController.model.value.data![index].avgRating.toString(), style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Color(0xffFE724C)),),
-                                                    // Icon(Icons.star,color: AppTheme.primaryColor, size:15,),
-                                                  ],
-                                                ),
-                                              ],
+                                                          .variants != null)
+                                                      Text(
+                                                       "${viewAllRecommendedController
+                                                            .model.value
+                                                            .data![index]
+                                                            .variants![0].price
+                                                            .toString()}",
+                                                        style: TextStyle(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 5,),
+                                                      Text("25 mins •",
+                                                        style: TextStyle(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 3,),
+                                                      Icon(Icons.star,color: AppTheme.primaryColor, size:13,),
+                                                      SizedBox(width: 1,),
+                                                      Text(viewAllRecommendedController.model.value.data![index].avgRating.toString(), style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xffFE724C)),),
+                                                      // Icon(Icons.star,color: AppTheme.primaryColor, size:15,),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
 
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                     Positioned(
@@ -171,7 +182,7 @@ class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
                                                     .model.value.data![index].id
                                                     .toString()}");
                                             Map<String, dynamic> map = {};
-                                            map['product_id'] =
+                                            map['store_id'] =
                                                 viewAllRecommendedController.model
                                                     .value.data![index].id
                                                     .toString();
@@ -195,10 +206,14 @@ class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
                                                       AppAssets.favIcon),
                                                 )
                                             ),
-                                          ):  Container(
+                                          ): Container(
                                             height: 25,
                                             width: 25,
-                                            child: Icon(Icons.favorite_border,color: Colors.white,),
+                                            decoration:BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color:Colors.white
+                                            ),
+                                            child: Icon(Icons.favorite_border,color: AppTheme.primaryColor,size: 18,),
                                           ),
                                         )),
                                   ]);

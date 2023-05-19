@@ -1,19 +1,14 @@
-class MyAddressModel {
+class GetMyAddressModel {
   bool? status;
   String? message;
-  List<Data>? data;
+  Data? data;
 
-  MyAddressModel({this.status, this.message, this.data});
+  GetMyAddressModel({this.status, this.message, this.data});
 
-  MyAddressModel.fromJson(Map<String, dynamic> json) {
+  GetMyAddressModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -21,22 +16,22 @@ class MyAddressModel {
     data['status'] = this.status;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  int? id;
-  int? userId;
+  dynamic id;
+  dynamic userId;
   dynamic latitude;
   dynamic longitude;
   dynamic name;
   dynamic phone;
   dynamic image;
   dynamic note;
-  int? leaveAtDoor;
+  bool? leaveAtDoor;
 
   Data(
       {this.id,

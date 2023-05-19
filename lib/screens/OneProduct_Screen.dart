@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/CartController.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/SingleProductController.dart';
+import '../controller/main_home_controller.dart';
 import '../model/MyCartDataListModel.dart';
 import '../repositories/Add_To_Cart_Repo.dart';
 import '../repositories/WishList_Repository.dart';
@@ -34,12 +35,16 @@ class _SingleProductPageState extends State<SingleProductPage> {
   final myCartController = Get.put(MyCartController());
   final homeController1 = Get.put(HomePageController1());
   final TextEditingController noteController = TextEditingController();
-  bool isSelectedCheckbox = false;
+  final controller = Get.put(MainHomeController());
+ RxString isSelectedVariants = "".obs;
+ bool value1=false;
 
   @override
   void initState() {
     super.initState();
-    singleProductController.getSingleProductData();
+    singleProductController.getSingleProductData().then((value) {
+      isSelectedVariants.value = singleProductController.model.value.data!.productDetail!.variants![0].id.toString();
+    });
     homeController1.getHomePageData();
   }
 
@@ -122,9 +127,12 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                           if(singleProductController.model.value
                                               .data!.productDetail!.variants !=null)
                                           Text(
-                                            singleProductController.model.value
-                                                .data!.productDetail!.variants![0].price
-                                                .toString(),
+                                            (double.tryParse(singleProductController
+                                                .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
+                                                0) == 0 ? singleProductController
+                                                .model.value.data!.productDetail!.variants![0].price.toString(): (double.tryParse(singleProductController
+                                                .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
+                                                0).toString(),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700,
@@ -221,6 +229,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             height: height * .03,
                           ),
 
+                          if( singleProductController.model.value.data!.productDetail!.variants != null &&
+                              singleProductController.model.value.data!.productDetail!.variants!.isNotEmpty )
+                          singleProductController.model.value.data!.productDetail!.type == "Variable" ? variantUI():SizedBox(),
+
                           ...singleProductController
                               .model.value.data!.singlePageAddons!
                               .map((e) => addonsUI(e))
@@ -310,6 +322,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
         bottomNavigationBar: GestureDetector(
           onTap: () {
             String addonId = "";
+            List<String> ids = [];
             if (singleProductController.model.value.data!.productDetail !=
                 null) {
               if (singleProductController
@@ -317,15 +330,24 @@ class _SingleProductPageState extends State<SingleProductPage> {
                   null &&
                   singleProductController
                       .model.value.data!.productDetail!.addons!.isNotEmpty) {
-                addonId = singleProductController
-                    .model.value.data!.productDetail!.addons![0].id
-                    .toString();
+                ids = singleProductController.model.value.data!.singlePageAddons!.map((element) => element.selectedAddon).toList();
+                for(var item in singleProductController.model.value.data!.singlePageAddons!){
+                  if(item.multiSelectAddons == true){
+                    for(var item1 in item.addonData!){
+                      if(item1.selectedAddOn.isNotEmpty){
+                        ids.add(item1.selectedAddOn);
+                      }
+                    }
+                  }
+                }
               }
             }
+            print(ids);
+            ids.removeWhere((element) => element.isEmpty);
+            print(ids);
+            addonId = ids.join(",");
             addToCartRepo1(
-                variant_id:singleProductController
-                    .model.value.data!.productDetail!.variants![0].id
-                    .toString(),
+                variant_id: isSelectedVariants.value.isEmpty?singleProductController.model.value.data!.productDetail!.variants![0].id.toString(): isSelectedVariants.value,
               product_id: singleProductController
                   .model.value.data!.productDetail!.id
                   .toString(),
@@ -338,7 +360,12 @@ class _SingleProductPageState extends State<SingleProductPage> {
               print("item added successfuly");
               if (value.status == true) {
                 showToast(value.message);
-                Get.toNamed(MyCartPage.myCartPage);
+               Get.back();
+               Get.back();
+               Get.back();
+               Get.back();
+               Get.back();
+                controller.onItemTap(1);
                 myCartController.getCartData();
                 singleProductController.noteController.clear();
               }
@@ -369,13 +396,19 @@ class _SingleProductPageState extends State<SingleProductPage> {
                       ),
                       Text(
                         (((double.tryParse(singleProductController
-                            .model.value.data!.productDetail!.variants![0].price
-                            .toString()) ??
-                            0) * (singleProductController.counter.value)
-                            + singleProductController
+                            .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
+                            0) + (singleProductController
                             .model.value.data!.singlePageAddons!.map(
                                 (element) => (double.tryParse(element.addonData!.firstWhere((element1) => element1.id.toString() ==element.selectedAddon, orElse: ()=> AddonData()).price.toString()) ?? 0)
+                        ).toList().sum) +
+
+                            (singleProductController
+                            .model.value.data!.singlePageAddons!.map(
+                                (element) => element.addonData!.where((e) => e.id.toString() == e.selectedAddOn).toList().map((e) => (double.tryParse(e.price.toString()) ?? 0)).toList().sum
                         ).toList().sum)
+
+
+                        )* (singleProductController.counter.value)
                         )
                             .toString(),
                         style: TextStyle(
@@ -404,65 +437,75 @@ class _SingleProductPageState extends State<SingleProductPage> {
     });
   }
 
-  // Size Ui
-  // Card variantsUI(ProductDetail e1) {
-  //   return Card(
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(5.0),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.only(left: 6),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //               ],
-  //             ),
-  //           ),
-  //           ...e1.variants!
-  //               .map((e2) => Row(
-  //             children: [
-  //
-  //               Radio<String>(
-  //                   value: e2.id.toString(),
-  //                   groupValue: e1.selectedVariants,
-  //                   onChanged: (value) {
-  //                     e1.selectedVariants = value!;
-  //                     setState(() {});
-  //                   }),
-  //               Expanded(
-  //                 child: Text(
-  //                   e2.sizeName!,
-  //                   style: GoogleFonts.ibmPlexSansArabic(
-  //                       color: Color(0xff000000),
-  //                       fontSize: 14,
-  //                       fontWeight: FontWeight.w700),
-  //                 ),
-  //               ),
-  //               SizedBox(
-  //                 width: 80,
-  //               ),
-  //
-  //               Flexible(child: Container()),
-  //               Expanded(
-  //                 child: Text("+${e2.price!} SR",
-  //                   style: GoogleFonts.ibmPlexSansArabic(
-  //                       color: Color(0xff000000),
-  //                       fontSize: 14,
-  //                       fontWeight: FontWeight.w700),
-  //                 ),
-  //               ),
-  //
-  //             ],
-  //           ))
-  //               .toList(),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+
+  //Variants Ui
+  Card variantUI() {
+    final singleProductController = Get.put(SingleProductController());
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+               "Size",
+                style: GoogleFonts.ibmPlexSansArabic(
+                    color: Color(0xff000000),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            ListView.builder(
+              shrinkWrap: true,
+                itemCount: singleProductController.model.value.data!.productDetail!.variants!.length,
+                itemBuilder:(BuildContext, int index){
+              return  Row(
+                children: [
+
+                  Radio<String>(
+                      value: singleProductController.model.value.data!.productDetail!.variants![index].id.toString(),
+                      groupValue: isSelectedVariants.value,
+                      onChanged: (value) {
+                        isSelectedVariants.value = value!;
+                        print(isSelectedVariants.value);
+                        setState(() {});
+                      }),
+                  Expanded(
+                    child: Text(
+                      singleProductController.model.value.data!.productDetail!.variants![index].sizeName.toString(),
+                      style: GoogleFonts.ibmPlexSansArabic(
+                          color: Color(0xff000000),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  Flexible(child: Container()),
+                  Expanded(
+                    child: Text(
+                      singleProductController.model.value.data!.productDetail!.variants![index].price.toString(),
+                      // "+${e.price!} SR",
+                      style: GoogleFonts.ibmPlexSansArabic(
+                          color: Color(0xff000000),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                ],
+              );
+            })
+
+          ],
+        ),
+      ),
+    );
+  }
   //Addons Ui
   Card addonsUI(SinglePageAddons e) {
     return Card(
@@ -484,11 +527,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
               ),
             ),
             ...e.addonData!
-                .map((e2) => Row(
+                .map((e2) =>
+                Row(
                       children: [
-                        singleProductController.model.value.data!
-                                    .singlePageAddons![0].multiSelectAddons ==
-                                false
+                        e.multiSelectAddons == false
                             ? Radio<String>(
                                 value: e2.id.toString(),
                                 groupValue: e.selectedAddon,
@@ -497,21 +539,14 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                   setState(() {});
                                 })
                             : Checkbox(
-                                value: singleProductController
-                                    .model
-                                    .value
-                                    .data!
-                                    .singlePageAddons![0]
-                                    .addonData![0]
-                                    .multiSelect,
-                                onChanged: (value) {
-                                  singleProductController
-                                      .model
-                                      .value
-                                      .data!
-                                      .singlePageAddons![0]
-                                      .addonData![0]
-                                      .multiSelect = value!;
+                                value: e2.selectedAddOn.isNotEmpty,
+                                onChanged: (value11) {
+                                  if(value11 == true){
+                                    e2.selectedAddOn = e2.id.toString();
+                                  } else {
+                                    e2.selectedAddOn = "";
+                                  }
+                                    setState(() {});
                                 }),
                         Expanded(
                           child: Text(

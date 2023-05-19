@@ -10,18 +10,12 @@ class VendorCategoryController extends GetxController{
 
   Rx<CategoriesModel> model = CategoriesModel().obs;
   RxBool isDataLoaded = false.obs;
-  getCategory(){
-    vendorCategoryRepo().then((value1) {
+  Future getCategory() async {
+    await vendorCategoryRepo().then((value1) {
       model.value = value1;
       if(value1.status == true){
         isDataLoaded.value = true;
       }
     });
-  }
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    getCategory();
   }
 }

@@ -36,7 +36,7 @@ class MapScreenPage extends StatefulWidget {
 class _MapScreenPageState extends State<MapScreenPage> {
   final _formKey = GlobalKey<FormState>();
   final addressController = Get.put(MyAddressController());
-  Rx<AddressData> addressModel = AddressData().obs;
+  // Rx<AddressData> addressModel = AddressData().obs;
   final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
   final RxBool _isValue = false.obs;
   RxBool customTip = false.obs;
@@ -126,243 +126,243 @@ class _MapScreenPageState extends State<MapScreenPage> {
   }
 
   final TextEditingController otherController = TextEditingController();
-  showChangeAddressSheet(AddressData addressModel) {
-    final TextEditingController flatNoController =
-    TextEditingController(text: addressModel.flatNo ?? "");
-    final TextEditingController streetController =
-    TextEditingController(text: (addressModel.street ?? ""));
-    final TextEditingController recipientController = TextEditingController();
-    otherController.text = addressModel.addressType ?? "Home";
-    selectedChip.value = addressModel.addressType ?? "Home";
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        enableDrag: false,
-        isDismissible: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: () async {
-              return false;
-            },
-            child: Obx(() {
-              return Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _isValue.value = !_isValue.value;
-                              });
-                              Get.back();
-                              setState(() {});
-                            },
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: const ShapeDecoration(
-                                  color: AppTheme.blackcolor,
-                                  shape: CircleBorder()),
-                              child: Center(
-                                  child: Icon(
-                                    Icons.clear,
-                                    color: AppTheme.backgroundcolor,
-                                    size: AddSize.size30,
-                                  )),
-                            ),
-                          ),
-                          SizedBox(
-                            height: AddSize.size20,
-                          ),
-                          Container(
-                            width: double.maxFinite,
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20))),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: AddSize.padding16,
-                                  vertical: AddSize.padding16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Enter complete address",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline5!
-                                        .copyWith(
-                                        color: AppTheme.blackcolor,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: AddSize.font16),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size12,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: List.generate(
-                                      choiceAddress.length,
-                                          (index) => chipList(choiceAddress[index]),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  if (customTip.value)
-                                    EditProfileTextFieldWidget(
-                                      hint: "Other",
-                                      controller: otherController,
-                                    ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  EditProfileTextFieldWidget(
-                                    controller: flatNoController,
-                                    hint: "Flat, House no, Floor, Tower",
-                                    label: "Flat, House no, Floor, Tower",
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText:
-                                          'Flat, House no, Floor, Tower'),
-                                    ]),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  EditProfileTextFieldWidget(
-                                    controller: streetController,
-                                    hint: "Street, Society, Landmark",
-                                    label: "Street, Society, Landmark",
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText:
-                                          'Street, Society, Landmark'),
-                                    ]),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  EditProfileTextFieldWidget(
-                                    controller: recipientController,
-                                    hint: "Recipient’s name",
-                                    label: "Recipient’s name",
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText: 'Recipient’s name'),
-                                    ]),
-                                  ),
-                                  SizedBox(
-                                    height: AddSize.size20,
-                                  ),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        // if (_formKey.currentState!.validate()) {
-                                        //   addressModel.street != null &&
-                                        //       addressModel.flatNo != null &&
-                                        //       addressModel.landmark != null
-                                        //       ? editAddress(
-                                        //       location: _address,
-                                        //       flat_no:
-                                        //       flatNoController.text,
-                                        //       street:
-                                        //       streetController.text,
-                                        //       landmark:
-                                        //       streetController.text,
-                                        //       address_type:
-                                        //       otherController.text,
-                                        //       context: context,
-                                        //       address_id: addressModel
-                                        //           .id
-                                        //           .toString())
-                                        //       .then((value) {
-                                        //     showToast(value.message);
-                                        //     if (value.status == true) {
-                                        //       Get.toNamed(MyAddress
-                                        //           .myAddressScreen);
-                                        //       addressController
-                                        //           .getAddress();
-                                        //       flatNoController.clear();
-                                        //       streetController.clear();
-                                        //       otherController.clear();
-                                        //       recipientController.clear();
-                                        //       selectedChip.value = "";
-                                        //     }
-                                        //   })
-                                        //       : addAddress(
-                                        //       location: _address,
-                                        //       flat_no:
-                                        //       flatNoController.text,
-                                        //       street:
-                                        //       streetController.text,
-                                        //       landmark:
-                                        //       streetController.text,
-                                        //       address_type:
-                                        //       otherController.text,
-                                        //       context: context)
-                                        //       .then((value) {
-                                        //     showToast(value.message);
-                                        //     if (value.status == true) {
-                                        //       Get.toNamed(MyAddress
-                                        //           .myAddressScreen);
-                                        //       addressController
-                                        //           .getAddress();
-                                        //       flatNoController.clear();
-                                        //       streetController.clear();
-                                        //       otherController.clear();
-                                        //       recipientController.clear();
-                                        //       selectedChip.value = "";
-                                        //     }
-                                        //   });
-                                        // }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        minimumSize:
-                                        const Size(double.maxFinite, 60),
-                                        primary: AppTheme.primaryColor,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.circular(10)),
-                                      ),
-                                      child: Text(
-                                        "SAVE ADDRESS",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline5!
-                                            .copyWith(
-                                            color: AppTheme.backgroundcolor,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: AddSize.font18),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // Obx(() {
-                          //   return SizedBox(
-                          //     height: sizeBoxHeight.value,
-                          //   );
-                          // })
-                        ],
-                      ),
-                    ),
-                  )
-              );
-            }),
-          );
-        });
-  }
+  // showChangeAddressSheet(AddressData addressModel) {
+  //   final TextEditingController flatNoController =
+  //   TextEditingController(text: addressModel.flatNo ?? "");
+  //   final TextEditingController streetController =
+  //   TextEditingController(text: (addressModel.street ?? ""));
+  //   final TextEditingController recipientController = TextEditingController();
+  //   otherController.text = addressModel.addressType ?? "Home";
+  //   selectedChip.value = addressModel.addressType ?? "Home";
+  //   showModalBottomSheet(
+  //       context: context,
+  //       isScrollControlled: true,
+  //       enableDrag: false,
+  //       isDismissible: false,
+  //       backgroundColor: Colors.transparent,
+  //       elevation: 0,
+  //       builder: (context) {
+  //         return WillPopScope(
+  //           onWillPop: () async {
+  //             return false;
+  //           },
+  //           child: Obx(() {
+  //             return Padding(
+  //                 padding: EdgeInsets.only(
+  //                     bottom: MediaQuery.of(context).viewInsets.bottom),
+  //                 child: SingleChildScrollView(
+  //                   child: Form(
+  //                     key: _formKey,
+  //                     child: Column(
+  //                       mainAxisSize: MainAxisSize.min,
+  //                       children: [
+  //                         GestureDetector(
+  //                           onTap: () {
+  //                             setState(() {
+  //                               _isValue.value = !_isValue.value;
+  //                             });
+  //                             Get.back();
+  //                             setState(() {});
+  //                           },
+  //                           child: Container(
+  //                             height: 50,
+  //                             width: 50,
+  //                             decoration: const ShapeDecoration(
+  //                                 color: AppTheme.blackcolor,
+  //                                 shape: CircleBorder()),
+  //                             child: Center(
+  //                                 child: Icon(
+  //                                   Icons.clear,
+  //                                   color: AppTheme.backgroundcolor,
+  //                                   size: AddSize.size30,
+  //                                 )),
+  //                           ),
+  //                         ),
+  //                         SizedBox(
+  //                           height: AddSize.size20,
+  //                         ),
+  //                         Container(
+  //                           width: double.maxFinite,
+  //                           decoration: const BoxDecoration(
+  //                               color: Colors.white,
+  //                               borderRadius: BorderRadius.only(
+  //                                   topRight: Radius.circular(20),
+  //                                   topLeft: Radius.circular(20))),
+  //                           child: Padding(
+  //                             padding: EdgeInsets.symmetric(
+  //                                 horizontal: AddSize.padding16,
+  //                                 vertical: AddSize.padding16),
+  //                             child: Column(
+  //                               crossAxisAlignment: CrossAxisAlignment.start,
+  //                               children: [
+  //                                 Text(
+  //                                   "Enter complete address",
+  //                                   style: Theme.of(context)
+  //                                       .textTheme
+  //                                       .headline5!
+  //                                       .copyWith(
+  //                                       color: AppTheme.blackcolor,
+  //                                       fontWeight: FontWeight.w500,
+  //                                       fontSize: AddSize.font16),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size12,
+  //                                 ),
+  //                                 Row(
+  //                                   mainAxisAlignment:
+  //                                   MainAxisAlignment.spaceBetween,
+  //                                   children: List.generate(
+  //                                     choiceAddress.length,
+  //                                         (index) => chipList(choiceAddress[index]),
+  //                                   ),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size20,
+  //                                 ),
+  //                                 if (customTip.value)
+  //                                   EditProfileTextFieldWidget(
+  //                                     hint: "Other",
+  //                                     controller: otherController,
+  //                                   ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size20,
+  //                                 ),
+  //                                 EditProfileTextFieldWidget(
+  //                                   controller: flatNoController,
+  //                                   hint: "Flat, House no, Floor, Tower",
+  //                                   label: "Flat, House no, Floor, Tower",
+  //                                   validator: MultiValidator([
+  //                                     RequiredValidator(
+  //                                         errorText:
+  //                                         'Flat, House no, Floor, Tower'),
+  //                                   ]),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size20,
+  //                                 ),
+  //                                 EditProfileTextFieldWidget(
+  //                                   controller: streetController,
+  //                                   hint: "Street, Society, Landmark",
+  //                                   label: "Street, Society, Landmark",
+  //                                   validator: MultiValidator([
+  //                                     RequiredValidator(
+  //                                         errorText:
+  //                                         'Street, Society, Landmark'),
+  //                                   ]),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size20,
+  //                                 ),
+  //                                 EditProfileTextFieldWidget(
+  //                                   controller: recipientController,
+  //                                   hint: "Recipient’s name",
+  //                                   label: "Recipient’s name",
+  //                                   validator: MultiValidator([
+  //                                     RequiredValidator(
+  //                                         errorText: 'Recipient’s name'),
+  //                                   ]),
+  //                                 ),
+  //                                 SizedBox(
+  //                                   height: AddSize.size20,
+  //                                 ),
+  //                                 ElevatedButton(
+  //                                     onPressed: () {
+  //                                       // if (_formKey.currentState!.validate()) {
+  //                                       //   addressModel.street != null &&
+  //                                       //       addressModel.flatNo != null &&
+  //                                       //       addressModel.landmark != null
+  //                                       //       ? editAddress(
+  //                                       //       location: _address,
+  //                                       //       flat_no:
+  //                                       //       flatNoController.text,
+  //                                       //       street:
+  //                                       //       streetController.text,
+  //                                       //       landmark:
+  //                                       //       streetController.text,
+  //                                       //       address_type:
+  //                                       //       otherController.text,
+  //                                       //       context: context,
+  //                                       //       address_id: addressModel
+  //                                       //           .id
+  //                                       //           .toString())
+  //                                       //       .then((value) {
+  //                                       //     showToast(value.message);
+  //                                       //     if (value.status == true) {
+  //                                       //       Get.toNamed(MyAddress
+  //                                       //           .myAddressScreen);
+  //                                       //       addressController
+  //                                       //           .getAddress();
+  //                                       //       flatNoController.clear();
+  //                                       //       streetController.clear();
+  //                                       //       otherController.clear();
+  //                                       //       recipientController.clear();
+  //                                       //       selectedChip.value = "";
+  //                                       //     }
+  //                                       //   })
+  //                                       //       : addAddress(
+  //                                       //       location: _address,
+  //                                       //       flat_no:
+  //                                       //       flatNoController.text,
+  //                                       //       street:
+  //                                       //       streetController.text,
+  //                                       //       landmark:
+  //                                       //       streetController.text,
+  //                                       //       address_type:
+  //                                       //       otherController.text,
+  //                                       //       context: context)
+  //                                       //       .then((value) {
+  //                                       //     showToast(value.message);
+  //                                       //     if (value.status == true) {
+  //                                       //       Get.toNamed(MyAddress
+  //                                       //           .myAddressScreen);
+  //                                       //       addressController
+  //                                       //           .getAddress();
+  //                                       //       flatNoController.clear();
+  //                                       //       streetController.clear();
+  //                                       //       otherController.clear();
+  //                                       //       recipientController.clear();
+  //                                       //       selectedChip.value = "";
+  //                                       //     }
+  //                                       //   });
+  //                                       // }
+  //                                     },
+  //                                     style: ElevatedButton.styleFrom(
+  //                                       minimumSize:
+  //                                       const Size(double.maxFinite, 60),
+  //                                       primary: AppTheme.primaryColor,
+  //                                       elevation: 0,
+  //                                       shape: RoundedRectangleBorder(
+  //                                           borderRadius:
+  //                                           BorderRadius.circular(10)),
+  //                                     ),
+  //                                     child: Text(
+  //                                       "SAVE ADDRESS",
+  //                                       style: Theme.of(context)
+  //                                           .textTheme
+  //                                           .headline5!
+  //                                           .copyWith(
+  //                                           color: AppTheme.backgroundcolor,
+  //                                           fontWeight: FontWeight.w500,
+  //                                           fontSize: AddSize.font18),
+  //                                     )),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         // Obx(() {
+  //                         //   return SizedBox(
+  //                         //     height: sizeBoxHeight.value,
+  //                         //   );
+  //                         // })
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 )
+  //             );
+  //           }),
+  //         );
+  //       });
+  // }
 
   @override
   void initState() {
@@ -371,7 +371,7 @@ class _MapScreenPageState extends State<MapScreenPage> {
     //checkGps();
     _getCurrentPosition();
     if (Get.arguments != null) {
-      addressModel.value = Get.arguments[0];
+      // addressModel.value = Get.arguments[0];
     }
   }
 

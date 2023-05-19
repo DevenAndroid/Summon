@@ -7,6 +7,10 @@ class AppAssets {
   static const String BG1 = "assets/images/BG1.png";
   static const String BG2 = "assets/images/BG2.png";
   static const String BG3 = "assets/images/BG3.png";
+  static const String editIcon = "assets/images/editIcon.png";
+  static const String deleteIcon = "assets/images/deleteIcon.png";
+  static const String MapIcon = "assets/images/MapIcon.svg";
+  static const String loctionIcon1 = "assets/images/loctionIcon1.png";
   static const String mapImage = "assets/images/mapImage.png";
   static const String earnIcon = "assets/images/earnIcon.png";
   static const String promoIcon = "assets/images/promoIcon.png";

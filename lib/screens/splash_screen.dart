@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
       SharedPreferences pref = await SharedPreferences.getInstance();
       print("these are login info...${pref.getString('user_info')}");
       if (pref.getString('user_info') != null) {
-        Get.toNamed(CustomNavigationBar.customNavigationBar);
+        Get.offAllNamed(CustomNavigationBar.customNavigationBar);
       }
       else{
         Get.offAllNamed(OnBoardingScreenPage.onBoarding);

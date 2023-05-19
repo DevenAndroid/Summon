@@ -48,8 +48,10 @@ Future<AddToCartData> addToCartRepo(
 Future<ModelCommonResponse> addToCartRepo1(
     {variant_id, product_id, qty, addons_Id, note, itemPrice, context}) async {
   var map = <String, dynamic>{};
+  if(variant_id != ""){
+    map['variant_id'] = variant_id;
+  }
 
-  map['variant_id'] = variant_id;
   map['product_id'] = product_id;
   map['qty'] = qty;
   map['addons'] = addons_Id;

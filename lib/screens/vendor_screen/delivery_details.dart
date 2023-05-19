@@ -187,13 +187,6 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                             .orderItems![index]
                                                             .price
                                                             .toString(),
-                                                        itemQty: vendorOrderListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .orderItems![index]
-                                                            .itemQty
-                                                            .toString(),
                                                         qty: vendorOrderListController
                                                             .model
                                                             .value
@@ -909,7 +902,6 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
       {required name,
       required price,
       required qty,
-      required itemQty,
       required status1,
       required variantId}) {
     var height = MediaQuery.of(context).size.height;
@@ -959,13 +951,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
             SizedBox(
               width: width * .01,
             ),
-            Text(
-              itemQty,
-              style: TextStyle(
-                  fontSize: AddSize.font14,
-                  color: AppTheme.lightblack,
-                  fontWeight: FontWeight.w500),
-            ),
+            // Text(
+            //   itemQty,
+            //   style: TextStyle(
+            //       fontSize: AddSize.font14,
+            //       color: AppTheme.lightblack,
+            //       fontWeight: FontWeight.w500),
+            // ),
           ],
         ),
         SizedBox(

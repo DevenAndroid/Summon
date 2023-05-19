@@ -55,7 +55,7 @@ class _WalletScreenState extends State<WalletScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: AddSize.padding16,
-                        vertical: AddSize.padding10),
+                        vertical: AddSize.padding12),
                     child: Column(
                       children: [
                         Row(
@@ -71,57 +71,60 @@ class _WalletScreenState extends State<WalletScreen> {
                                           BorderRadius.circular(10)),
                                   color: AppTheme.primaryColor,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 18,horizontal: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 12),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                       Row(
-                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                       Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
                                          children: [
+
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "SR",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    fontSize: AddSize.font24,
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                              SizedBox(width: 5,),
+                                              Text(
+                                                '${myWalletController.model.value.data!.totalAmount.toString()}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5!
+                                                    .copyWith(
+                                                    fontWeight:
+                                                    FontWeight.w600,
+                                                    fontSize: AddSize.font24,
+                                                    color: AppTheme
+                                                        .backgroundcolor),
+                                              ),
+                                            ],
+                                          ),
                                            Text(
-                                             "SR",
-                                             style: GoogleFonts.poppins(
-                                                 color: Colors.white,
-                                                 fontSize: AddSize.font24,
-                                                 fontWeight: FontWeight.w600),
-                                           ),
-                                           SizedBox(width: 5,),
-                                           Text(
-                                             '${myWalletController.model.value.data!.totalAmount.toString()}',
+                                             "Total Balance",
                                              style: Theme.of(context)
                                                  .textTheme
                                                  .headline5!
                                                  .copyWith(
                                                  fontWeight:
-                                                 FontWeight.w600,
-                                                 fontSize: AddSize.font24,
+                                                 FontWeight.w400,
+                                                 fontSize: AddSize.font14,
                                                  color: AppTheme
                                                      .backgroundcolor),
                                            ),
-                                           Flexible(child: Container()),
-                                           Expanded(
-                                             child: Image(
-                                               image: const AssetImage(
-                                                   AppAssets.earnIcon),
-                                               height: AddSize.size40,
-                                               width: AddSize.size40,
-                                             ),
-                                           ),
+
                                          ],
                                        ),
-                                        Text(
-                                          "Total Balance",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline5!
-                                              .copyWith(
-                                                  fontWeight:
-                                                      FontWeight.w400,
-                                                  fontSize: AddSize.font14,
-                                                  color: AppTheme
-                                                      .backgroundcolor),
+                                        Image(
+                                          image: const AssetImage(
+                                              AppAssets.earnIcon),
+                                          height: AddSize.size40,
+                                          width: AddSize.size40,
                                         ),
+
                                       ],
                                     ),
                                   ),

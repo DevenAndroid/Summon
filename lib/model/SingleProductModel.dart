@@ -64,6 +64,7 @@ class ProductDetail {
   bool? status;
   List<Variants>? variants;
   List<Addons>? addons;
+  String selectedVariant = "";
   dynamic avgRating;
 
   ProductDetail(
@@ -131,6 +132,7 @@ class Variants {
   dynamic price;
   dynamic minQty;
   dynamic maxQty;
+
 
   Variants(
       {this.id,
@@ -234,6 +236,7 @@ class SinglePageAddons {
 
 class AddonData {
   int? id;
+  String selectedAddOn = "";
   String? name;
   String? calories;
   String? price;

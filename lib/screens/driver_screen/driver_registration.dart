@@ -31,9 +31,6 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   final TextEditingController modelController = TextEditingController();
   // Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
-  Rx<File> image2 = File("").obs;
-  Rx<File> image3 = File("").obs;
-  Rx<File> image4 = File("").obs;
   Rx<File> image5 = File("").obs;
   Rx<File> image6 = File("").obs;
   RxString selectedCAt = "".obs;
@@ -77,7 +74,8 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
           appBar: backAppBar(title: "Delivery Partner Apply", context: context),
-          body: SingleChildScrollView(
+          body:
+          SingleChildScrollView(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             child: Padding(
@@ -643,7 +641,8 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                 ),
               ),
             ),
-          )),
+          )
+      ),
     );
   }
 }

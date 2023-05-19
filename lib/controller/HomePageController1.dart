@@ -1,13 +1,12 @@
+
 import 'package:flutter/cupertino.dart';
-import 'package:fresh2_arrive/model/home_page_model.dart';
 import 'package:get/get.dart';
 import '../model/HomePageModel1.dart';
 import '../model/HomeSearchModel1.dart';
-import '../model/Home_Search_Model.dart';
+
 import '../repositories/HomePage_repository.dart';
 import '../repositories/Homepage_Search_Repo1.dart';
-import '../repositories/Homepage_search_Repo.dart';
-import '../repositories/home_page_repository.dart';
+
 
 class HomePageController1 extends GetxController {
   RxBool isDataLoading = false.obs;
@@ -98,7 +97,7 @@ class HomePageController1 extends GetxController {
   RxBool load = false.obs;
 
   RxList<SearchModelData> searchModel2 = <SearchModelData>[].obs;
- void  searchingData({bool? allowClear}) async {
+ void  searchingData({bool? allowClear,required BuildContext context }) async {
    if(allowClear == true){
      searchModel2.clear();
      load.value = false;
@@ -106,7 +105,7 @@ class HomePageController1 extends GetxController {
    }
     if(load.value == false && searchController.text.trim().isNotEmpty){
       load.value = true;
-       searchHomeDataPagination(keyword: searchController.text.trim(),page: page.value,pagination: pagination.value).then((value) {
+       searchHomeDataPagination(context: context, keyword: searchController.text.trim(),page: page.value,pagination: pagination.value,).then((value) {
         searchModel.value = value;
         isDataLoading.value = true;
         if(value.status == true){

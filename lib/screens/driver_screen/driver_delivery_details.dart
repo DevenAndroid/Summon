@@ -167,15 +167,8 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                     .value
                                                     .data!
                                                     .orderItems![index]
-                                                    .itemQty
-                                                    .toString(),
-                                                myOrderDetailsController
-                                                    .model
-                                                    .value
-                                                    .data!
-                                                    .orderItems![index]
                                                     .qty
-                                                    .toString(),
+                                                    .toString()
                                               ),
                                               SizedBox(
                                                 height: height * .005,
@@ -504,15 +497,15 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                           subTotal: myOrderDetailsController
                               .model.value.data!.itemTotal
                               .toString(),
-                          tax: myOrderDetailsController
-                              .model.value.data!.tax
-                              .toString(),
+                          // tax: myOrderDetailsController
+                          //     .model.value.data!.tax
+                          //     .toString(),
                           delivery: myOrderDetailsController
                               .model.value.data!.deliveryCharges
                               .toString(),
-                          packing: myOrderDetailsController
-                              .model.value.data!.packingFee
-                              .toString(),
+                          // packing: myOrderDetailsController
+                          //     .model.value.data!.packingFee
+                          //     .toString(),
                           orderType: myOrderDetailsController
                               .model.value.data!.orderType
                               .toString(),
@@ -697,20 +690,20 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                               ),
                                               Row(
                                                 children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      (myOrderDetailsController.model
-                                                          .value.data!.vendor!.location??"")
-                                                          .toString(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headline5!
-                                                          .copyWith(
-                                                          fontWeight:
-                                                          FontWeight.w500,
-                                                          fontSize: AddSize.font16),
-                                                    ),
-                                                  ),
+                                                  // Expanded(
+                                                  //   child: Text(
+                                                  //     (myOrderDetailsController.model
+                                                  //         .value.data!.vendor!.location??"")
+                                                  //         .toString(),
+                                                  //     style: Theme.of(context)
+                                                  //         .textTheme
+                                                  //         .headline5!
+                                                  //         .copyWith(
+                                                  //         fontWeight:
+                                                  //         FontWeight.w500,
+                                                  //         fontSize: AddSize.font16),
+                                                  //   ),
+                                                  // ),
                                                   const SizedBox(
                                                     width: 5,
                                                   ),
@@ -745,15 +738,15 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                             subTotal: myOrderDetailsController
                                 .model.value.data!.itemTotal
                                 .toString(),
-                            tax: myOrderDetailsController
-                                .model.value.data!.tax
-                                .toString(),
+                            // tax: myOrderDetailsController
+                            //     .model.value.data!.tax
+                            //     .toString(),
                             delivery: myOrderDetailsController
                                 .model.value.data!.deliveryCharges
                                 .toString(),
-                            packing: myOrderDetailsController
-                                .model.value.data!.packingFee
-                                .toString(),
+                            // packing: myOrderDetailsController
+                            //     .model.value.data!.packingFee
+                            //     .toString(),
                             orderType: myOrderDetailsController
                                 .model.value.data!.orderType
                                 .toString(),
@@ -773,7 +766,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
     });
   }
 
-  orderList(name, price, qty, itemQty) {
+  orderList(name, price, qty) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -821,13 +814,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
             SizedBox(
               width: width * .01,
             ),
-            Text(
-              itemQty,
-              style: TextStyle(
-                  fontSize: AddSize.font14,
-                  color: AppTheme.lightblack,
-                  fontWeight: FontWeight.w500),
-            ),
+
           ],
         ),
       ],
@@ -836,9 +823,9 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
 
   paymentDetails({
     required subTotal,
-    required tax,
+
     required delivery,
-    required packing,
+
     required total,
     required orderType,
   }) {
@@ -860,42 +847,42 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                details("Packing charges:", "₹$packing"),
+                // details("Packing charges:", "₹$packing"),
                 SizedBox(
                   height: AddSize.size5,
                 ),
-                myOrderDetailsController
-                    .model.value.data!.tax !=0 ?
-                Column(children: [
-                  details("Tax & fee:",
-                      "₹${myOrderDetailsController
-                          .model.value.data!.tax ?? ""}"),
-                  SizedBox(
-                    height: AddSize.size5,
-                  ),
-                ],):const SizedBox(),
-                myOrderDetailsController
-                    .model.value.data!.tax1 !=null ?
-                Column(children: [
-                  details("${myOrderDetailsController
-                      .model.value.data!.tax1!.type ?? ""}:",
-                      "₹${myOrderDetailsController
-                          .model.value.data!.tax1!.amount ?? ""}"),
-                  SizedBox(
-                    height: AddSize.size5,
-                  ),
-                ],):const SizedBox(),
-                myOrderDetailsController
-                    .model.value.data!.tax2 !=null ?
-                Column(children: [
-                  details("${myOrderDetailsController
-                      .model.value.data!.tax2!.type ?? ""}:",
-                      "₹${myOrderDetailsController
-                          .model.value.data!.tax2!.amount ?? ""}"),
-                  SizedBox(
-                    height: AddSize.size10,
-                  ),
-                ],):const SizedBox(),
+                // myOrderDetailsController
+                //     .model.value.data!.tax !=0 ?
+                // Column(children: [
+                //   details("Tax & fee:",
+                //       "₹${myOrderDetailsController
+                //           .model.value.data!.tax ?? ""}"),
+                //   SizedBox(
+                //     height: AddSize.size5,
+                //   ),
+                // ],):const SizedBox(),
+                // myOrderDetailsController
+                //     .model.value.data!.tax1 !=null ?
+                // Column(children: [
+                //   details("${myOrderDetailsController
+                //       .model.value.data!.tax1!.type ?? ""}:",
+                //       "₹${myOrderDetailsController
+                //           .model.value.data!.tax1!.amount ?? ""}"),
+                //   SizedBox(
+                //     height: AddSize.size5,
+                //   ),
+                // ],):const SizedBox(),
+                // myOrderDetailsController
+                //     .model.value.data!.tax2 !=null ?
+                // Column(children: [
+                //   details("${myOrderDetailsController
+                //       .model.value.data!.tax2!.type ?? ""}:",
+                //       "₹${myOrderDetailsController
+                //           .model.value.data!.tax2!.amount ?? ""}"),
+                //   SizedBox(
+                //     height: AddSize.size10,
+                //   ),
+                // ],):const SizedBox(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

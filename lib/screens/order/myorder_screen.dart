@@ -8,6 +8,7 @@ import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../controller/MyOrder_Controller.dart';
 import '../../model/time_model.dart';
@@ -366,10 +367,12 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                 width: AddSize
                                                                     .size80,
                                                                 decoration:  BoxDecoration(
-                                                                  border: Border.all(color:Colors.grey.shade300,width: 2),
-                                                                    color: const Color(0xffEAEAEA),
-                                                                    shape: BoxShape
-                                                                        .circle),
+
+                                                                    color: Color(0xffFE724C).withOpacity(.10),
+                                                                  borderRadius: BorderRadius.circular(6),
+
+
+                                                                ),
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
@@ -401,20 +404,15 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                               ),
                                                               Expanded(
                                                                 child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
+
                                                                   crossAxisAlignment:
                                                                       CrossAxisAlignment
                                                                           .start,
                                                                   children: [
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size20,
-                                                                    ),
+                                                                      SizedBox(height: 5,),
                                                                     Text(
                                                                       'Order ID : ${myOrderController.model.value.data![index].orderId.toString()}',
-                                                                      style: TextStyle(
+                                                                      style: GoogleFonts.ibmPlexSansArabic(
                                                                           color: const Color(
                                                                               0xff293044),
                                                                           fontSize: AddSize
@@ -426,99 +424,147 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                               .start,
                                                                     ),
                                                                     SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
+                                                                      height:3,
                                                                     ),
-                                                                    Text(
-                                                                      'Total Amount - ₹${myOrderController.model.value.data![index].grandTotal.toString()}',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              15,
-                                                                          fontWeight:
-                                                                              FontWeight.w500),
-                                                                      textAlign:
+                                                                    Row(
+                                                                      children: [
+                                                                        Text("SR",
+                                                                          style:
+                                                                          GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                              fontWeight: FontWeight
+                                                                                  .w700,
+                                                                              color: Color(
+                                                                                  0xff727786)),),
+                                                                        SizedBox(
+                                                                          height: AddSize
+                                                                              .size5,
+                                                                        ),
+                                                                        Text(
+                                                                          '${myOrderController.model.value.data![index].grandTotal.toString()}',
+                                                                          style:   GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                              fontWeight: FontWeight
+                                                                                  .w700,
+                                                                              color: Color(
+                                                                                  0xff727786)),
+                                                                          textAlign:
                                                                           TextAlign
                                                                               .start,
+                                                                        ),
+                                                                        SizedBox(
+                                                                          width: 3,
+                                                                        ),
+                                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                                            0xff2C4D61)),
+                                                                        SizedBox(
+                                                                          width: 3,
+                                                                        ),
+                                                                        Text(
+                                                                          '${myOrderController.model.value.data![index].placedAt.toString()}',
+                                                                          style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                              fontWeight: FontWeight
+                                                                                  .w700,
+                                                                              color: Color(
+                                                                                  0xff727786)),
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: AddSize
+                                                                              .size5,
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                     SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
+                                                                      height: 8,
                                                                     ),
-                                                                    Text(
-                                                                      ' ${myOrderController.model.value.data![index].itemCount.toString()} Items',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
-                                                                    Text(
-                                                                      'Placed at: ${myOrderController.model.value.data![index].placedAt.toString()}',
-                                                                      style: const TextStyle(
-                                                                          color: Color(
-                                                                              0xff727786),
-                                                                          fontSize:
-                                                                              12,
-                                                                          fontWeight:
-                                                                              FontWeight.w400),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: AddSize
-                                                                          .size5,
-                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        Container(
+                                                                            decoration: BoxDecoration(
+                                                                                borderRadius:
+                                                                                BorderRadius
+                                                                                    .circular(
+                                                                                    5),
+                                                                                color: Color(0xffD3FFD3).withOpacity(.30)),
+                                                                            child: Padding(
+                                                                              padding: EdgeInsets
+                                                                                  .symmetric(
+                                                                                  horizontal:
+                                                                                  width *
+                                                                                      .02,
+                                                                                  vertical:
+                                                                                  height *
+                                                                                      .005),
+                                                                              child: Text(
+                                                                                myOrderController
+                                                                                    .model
+                                                                                    .value
+                                                                                    .data![
+                                                                                index]
+                                                                                    .deliveryStatus
+                                                                                    .toString(),
+                                                                                // 'pending',
+                                                                                style: const TextStyle(
+                                                                                    fontSize:
+                                                                                    12,
+                                                                                    color: AppTheme
+                                                                                        .userActive,
+                                                                                    fontWeight:
+                                                                                    FontWeight
+                                                                                        .w400),
+                                                                              ),
+                                                                            )),
+                                                                        Container(
+                                                                            decoration: BoxDecoration(
+                                                                                borderRadius:
+                                                                                BorderRadius
+                                                                                    .circular(
+                                                                                    5),
+                                                                                color: Color(0xffFE724C)),
+                                                                            child: Padding(
+                                                                              padding: EdgeInsets
+                                                                                  .symmetric(
+                                                                                  horizontal:
+                                                                                  width *
+                                                                                      .02,
+                                                                                  vertical:
+                                                                                  height *
+                                                                                      .004),
+                                                                              child: Text(
+                                                                               "Reorder",
+                                                                                // 'pending',
+                                                                                style:  GoogleFonts.ibmPlexSansArabic(
+                                                                                    fontSize:
+                                                                                    12,
+                                                                                    color: Color(0xffFFFFFF),
+                                                                                    fontWeight:
+                                                                                    FontWeight
+                                                                                        .w500),
+                                                                              ),
+                                                                            )),
+                                                                      ],
+                                                                    )
+                                                                    // Text(
+                                                                    //   ' ${myOrderController.model.value.data![index].itemCount.toString()} Items',
+                                                                    //   style: const TextStyle(
+                                                                    //       color: Color(
+                                                                    //           0xff727786),
+                                                                    //       fontSize:
+                                                                    //           12,
+                                                                    //       fontWeight:
+                                                                    //           FontWeight.w400),
+                                                                    // ),
+                                                                    // SizedBox(
+                                                                    //   height: AddSize
+                                                                    //       .size5,
+                                                                    // ),
+
                                                                   ],
                                                                 ),
                                                               ),
-                                                               Icon(Icons.arrow_forward_ios,size: AddSize.size15)
+                                                               // Icon(Icons.arrow_forward_ios,size: AddSize.size15)
                                                             ]),
                                                       ),
-                                                      Positioned(
-                                                          top: 5,
-                                                          right: 5,
-                                                          child: Container(
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8),
-                                                                  color: AppTheme
-                                                                      .lightGreen),
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            width *
-                                                                                .02,
-                                                                        vertical:
-                                                                            height *
-                                                                                .005),
-                                                                child: Text(
-                                                                  myOrderController
-                                                                      .model
-                                                                      .value
-                                                                      .data![
-                                                                          index]
-                                                                      .deliveryStatus
-                                                                      .toString(),
-                                                                  // 'pending',
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: AppTheme
-                                                                          .userActive,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
-                                                                ),
-                                                              )))
+
                                                     ],
                                                   )),
                                             ),

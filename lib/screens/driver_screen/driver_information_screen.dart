@@ -1,12 +1,17 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../../controller/driver_information_controller.dart';
+import '../../repositories/driver_imformation_repo.dart';
+import '../../repositories/vendor_registration_repo.dart';
 import '../../resources/app_theme.dart';
+import '../../resources/new_helper.dart';
 import '../../widgets/registration_form_textField.dart';
+import '../vendor_screen/thank_you.dart';
 
 class DriverInformation extends StatefulWidget {
   const DriverInformation({Key? key}) : super(key: key);
@@ -21,8 +26,7 @@ class _DriverInformationState extends State<DriverInformation> {
   Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
-  Rx<File> image3 = File("").obs;
-  Rx<File> image4 = File("").obs;
+
   RxString selectedCAt = "".obs;
   final List<String> dropDownList = ["1KM", "2KM", "3KM"];
   final _formKey = GlobalKey<FormState>();
@@ -37,20 +41,23 @@ class _DriverInformationState extends State<DriverInformation> {
           body: Obx(() {
             if (controller.isDataLoading.value &&
                 controller.model.value.data != null) {
-              controller.adharNoController.text =
-                  controller.model.value.data!.aadharNo.toString();
-              controller.panNoController.text =
-                  controller.model.value.data!.panNo.toString();
+              controller.nationalId.text =
+                  controller.model.value.data!.nationalId.toString();
+              controller.make.text =
+                  controller.model.value.data!.make.toString();
               controller.dateOfBirth.text =
                   controller.model.value.data!.dob.toString();
-              controller.vehicleNumber.text =
-                  controller.model.value.data!.vehicleNo.toString();
-              controller.licenceNumber.text =
-                  controller.model.value.data!.licenceNo.toString();
+              controller.modelController.text =
+                  controller.model.value.data!.model.toString();
+              controller.colorController.text =
+                  controller.model.value.data!.color.toString();
+              controller.carYearController.text =
+                  controller.model.value.data!.carYear.toString();
             }
             return controller.isDataLoading.value &&
                     controller.model.value.data != null
-                ? SingleChildScrollView(
+                ?
+            SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -79,39 +86,93 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.size12,
                                     ),
                                     RegistrationTextField(
-                                      controller: controller.adharNoController,
-                                      hint: "Aadhar card number",
-                                      enable: false,
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.size12,
-                                    ),
-                                    RegistrationTextField(
-                                      controller: controller.panNoController,
-                                      hint: "Pan card number",
-                                      enable: false,
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.size12,
-                                    ),
-                                    RegistrationTextField(
-                                      controller: controller.vehicleNumber,
-                                      hint: "Vehicle number",
-                                      enable: false,
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.size12,
-                                    ),
-                                    RegistrationTextField(
-                                      controller: controller.licenceNumber,
-                                      hint: "Licence number",
+                                      controller: controller.nationalId,
+                                      hint: "National Id is Required",
                                       enable: false,
                                     ),
                                     SizedBox(
                                       height: AddSize.size12,
                                     ),
                                     Text(
-                                      "Upload Bank account statement and cancel cheque",
+                                      "Vehicle Details",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6!
+                                          .copyWith(
+                                          fontWeight: FontWeight.w500, fontSize: 16,color: Color(0xff2F2F2F)),
+                                    ),
+                                    SizedBox(
+                                      height: AddSize.size5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: RegistrationTextField(
+                                            controller: controller.carYearController,
+                                            hint: "Car Year",
+                                            length: 10,
+                                            validator: (value) {
+                                              if (value!.isEmpty || value.length < 4) {
+                                                return 'Please enter 10 digit licence card number';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: AddSize.size12,
+                                        ),
+                                        Expanded(
+                                          child: RegistrationTextField(
+                                            controller: controller.make,
+                                            hint: "Make",
+                                            validator: MultiValidator([
+                                              RequiredValidator(
+                                                  errorText: 'Vehicle number is required'),
+                                            ]),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: AddSize.size12,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: RegistrationTextField(
+                                            controller: controller.modelController,
+                                            hint: "Model",
+                                            length: 10,
+                                            validator: (value) {
+                                              if (value!.isEmpty || value.length < 4) {
+                                                return 'Please enter 10 digit licence card number';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: AddSize.size12,
+                                        ),
+                                        Expanded(
+                                          child: RegistrationTextField(
+                                            controller: controller.colorController,
+                                            hint: "Color",
+                                            validator: MultiValidator([
+                                              RequiredValidator(
+                                                  errorText: 'Vehicle number is required'),
+                                            ]),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(
+                                      height: AddSize.size12,
+                                    ),
+                                    Text(
+                                      "License plate",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -123,36 +184,86 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.padding12,
                                     ),
                                     Obx(() {
-                                      return Container(
+                                      return image.value.path == ""
+                                          ? Stack(
+                                        children: [
+                                          SizedBox(
+                                            height: AddSize.size125,
+                                            width: AddSize.screenWidth,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(16),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                controller
+                                                    .model
+                                                    .value
+                                                    .data!
+                                                    .numberPlate
+                                                    .toString(),
+                                                errorWidget: (_, __, ___) =>
+                                                const SizedBox(),
+                                                placeholder: (_, __) =>
+                                                const SizedBox(),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          Positioned(
+                                            right: AddSize.padding10,
+                                            top: AddSize.padding10,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                NewHelper()
+                                                    .addFilePicker()
+                                                    .then((value) {
+                                                  image.value = value;
+                                                });
+                                              },
+                                              child: Container(
+                                                height: AddSize.size30,
+                                                width: AddSize.size30,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: AppTheme
+                                                            .backgroundcolor),
+                                                    color:
+                                                    AppTheme.primaryColor,
+                                                    borderRadius:
+                                                    BorderRadius.circular(
+                                                        50)),
+                                                child: const Center(
+                                                    child: Icon(
+                                                      Icons.edit,
+                                                      color: AppTheme
+                                                          .backgroundcolor,
+                                                      size: 20,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                          : Container(
+                                        width: double.maxFinite,
+                                        height: AddSize.size100,
                                         padding: EdgeInsets.symmetric(
                                             horizontal: AddSize.padding16,
                                             vertical: AddSize.padding16),
-                                        width: AddSize.screenWidth,
                                         decoration: BoxDecoration(
                                             color: Colors.grey.shade50,
                                             borderRadius:
-                                                BorderRadius.circular(10),
+                                            BorderRadius.circular(10),
                                             border: Border.all(
-                                              color: showValidation.value == false
-                                                  ? Colors.grey.shade300
-                                                  : Colors.red,
-                                            )),
+                                                color: Colors.grey.shade300)),
                                         child: SizedBox(
                                           height: AddSize.size125,
-                                          width: AddSize.size125,
+                                          width: AddSize.screenWidth,
                                           child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            child: CachedNetworkImage(
-                                              imageUrl: controller
-                                                  .model.value.data!.bankStatement
-                                                  .toString(),
-                                              errorWidget: (_, __, ___) =>
-                                                  const SizedBox(),
-                                              placeholder: (_, __) =>
-                                                  const SizedBox(),
-                                            ),
-                                          ),
+                                              borderRadius:
+                                              BorderRadius.circular(16),
+                                              child: Image.file(image.value)),
                                         ),
                                       );
                                     }),
@@ -160,7 +271,7 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.padding12,
                                     ),
                                     Text(
-                                      "Upload Driving Licence",
+                                      "Upload Driver Licence",
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -176,76 +287,176 @@ class _DriverInformationState extends State<DriverInformation> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
-                                          child: Obx(() {
-                                            return Container(
+                                          child:
+                                          Obx(() {
+                                            return image1.value.path == ""
+                                                ? Stack(
+                                              children: [
+                                                SizedBox(
+                                                  height: AddSize.size125,
+                                                  width: AddSize.screenWidth,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.circular(16),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                      controller
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .licenceFrontImage
+                                                          .toString(),
+                                                      errorWidget: (_, __, ___) =>
+                                                      const SizedBox(),
+                                                      placeholder: (_, __) =>
+                                                      const SizedBox(),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: AddSize.padding10,
+                                                  top: AddSize.padding10,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      NewHelper()
+                                                          .addFilePicker()
+                                                          .then((value) {
+                                                        image1.value = value;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: AddSize.size30,
+                                                      width: AddSize.size30,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 1,
+                                                              color: AppTheme
+                                                                  .backgroundcolor),
+                                                          color:
+                                                          AppTheme.primaryColor,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              50)),
+                                                      child: const Center(
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color: AppTheme
+                                                                .backgroundcolor,
+                                                            size: 20,
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                                : Container(
+                                              width: double.maxFinite,
+                                              height: AddSize.size100,
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: AddSize.padding16,
                                                   vertical: AddSize.padding16),
-                                              width: AddSize.size50 * 3,
                                               decoration: BoxDecoration(
                                                   color: Colors.grey.shade50,
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  BorderRadius.circular(10),
                                                   border: Border.all(
-                                                    color: showValidation.value ==
-                                                            false
-                                                        ? Colors.grey.shade300
-                                                        : Colors.red,
-                                                  )),
+                                                      color: Colors.grey.shade300)),
                                               child: SizedBox(
                                                 height: AddSize.size125,
-                                                width: AddSize.size100,
+                                                width: AddSize.screenWidth,
                                                 child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: controller.model.value
-                                                        .data!.licenceFrontImage
-                                                        .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
+                                                    borderRadius:
+                                                    BorderRadius.circular(16),
+                                                    child: Image.file(image1.value)),
                                               ),
                                             );
                                           }),
                                         ),
                                         SizedBox(width: AddSize.size10,),
                                         Expanded(
-                                          child: Obx(() {
-                                            return Container(
+                                          child:
+                                          Obx(() {
+                                            return image2.value.path == ""
+                                                ? Stack(
+                                              children: [
+                                                SizedBox(
+                                                  height: AddSize.size125,
+                                                  width: AddSize.screenWidth,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                    BorderRadius.circular(16),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                      controller
+                                                          .model
+                                                          .value
+                                                          .data!
+                                                          .licenceBackImage
+                                                          .toString(),
+                                                      errorWidget: (_, __, ___) =>
+                                                      const SizedBox(),
+                                                      placeholder: (_, __) =>
+                                                      const SizedBox(),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  right: AddSize.padding10,
+                                                  top: AddSize.padding10,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      NewHelper()
+                                                          .addFilePicker()
+                                                          .then((value) {
+                                                        image2.value = value;
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      height: AddSize.size30,
+                                                      width: AddSize.size30,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 1,
+                                                              color: AppTheme
+                                                                  .backgroundcolor),
+                                                          color:
+                                                          AppTheme.primaryColor,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              50)),
+                                                      child: const Center(
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color: AppTheme
+                                                                .backgroundcolor,
+                                                            size: 20,
+                                                          )),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                                : Container(
+                                              width: double.maxFinite,
+                                              height: AddSize.size100,
                                               padding: EdgeInsets.symmetric(
                                                   horizontal: AddSize.padding16,
                                                   vertical: AddSize.padding16),
-                                              width: AddSize.size50 * 3,
                                               decoration: BoxDecoration(
                                                   color: Colors.grey.shade50,
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  BorderRadius.circular(10),
                                                   border: Border.all(
-                                                    color: showValidation.value ==
-                                                            false
-                                                        ? Colors.grey.shade300
-                                                        : Colors.red,
-                                                  )),
+                                                      color: Colors.grey.shade300)),
                                               child: SizedBox(
                                                 height: AddSize.size125,
-                                                width: AddSize.size100,
+                                                width: AddSize.screenWidth,
                                                 child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: controller.model.value
-                                                        .data!.licenceBackImage
-                                                        .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
+                                                    borderRadius:
+                                                    BorderRadius.circular(16),
+                                                    child: Image.file(image2.value)),
                                               ),
                                             );
                                           }),
@@ -255,189 +466,69 @@ class _DriverInformationState extends State<DriverInformation> {
                                     SizedBox(
                                       height: AddSize.size15,
                                     ),
-                                    Text(
-                                      "Upload Pan Card",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: AddSize.font16),
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.padding12,
-                                    ),
-                                    Obx(() {
-                                      return Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: AddSize.padding16,
-                                            vertical: AddSize.padding16),
-                                        width: AddSize.screenWidth,
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey.shade50,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(
-                                              color: showValidation.value == false
-                                                  ? Colors.grey.shade300
-                                                  : Colors.red,
-                                            )),
-                                        child: SizedBox(
-                                          height: AddSize.size125,
-                                          width: AddSize.size125,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(16),
-                                            child: CachedNetworkImage(
-                                              imageUrl: controller
-                                                  .model.value.data!.panCardImage
-                                                  .toString(),
-                                              errorWidget: (_, __, ___) =>
-                                                  const SizedBox(),
-                                              placeholder: (_, __) =>
-                                                  const SizedBox(),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                    SizedBox(
-                                      height: AddSize.padding12,
-                                    ),
-                                    Text(
-                                      "Upload Adhar Card",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: AddSize.font16),
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.padding12,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Obx(() {
-                                            return Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: AddSize.padding16,
-                                                  vertical: AddSize.padding16),
-                                              width: AddSize.size50 * 3,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey.shade50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                    color: showValidation.value ==
-                                                            false
-                                                        ? Colors.grey.shade300
-                                                        : Colors.red,
-                                                  )),
-                                              child: SizedBox(
-                                                height: AddSize.size125,
-                                                width: AddSize.size100,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: controller.model.value
-                                                        .data!.aadharFrontImage
-                                                        .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                        SizedBox(width: AddSize.size10,),
-                                        Expanded(
-                                          child: Obx(() {
-                                            return Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: AddSize.padding16,
-                                                  vertical: AddSize.padding16),
-                                              width: AddSize.size50 * 3,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.grey.shade50,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  border: Border.all(
-                                                    color: showValidation.value ==
-                                                            false
-                                                        ? Colors.grey.shade300
-                                                        : Colors.red,
-                                                  )),
-                                              child: SizedBox(
-                                                height: AddSize.size125,
-                                                width: AddSize.size100,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: controller.model.value
-                                                        .data!.aadharFrontImage
-                                                        .toString(),
-                                                    errorWidget: (_, __, ___) =>
-                                                        const SizedBox(),
-                                                    placeholder: (_, __) =>
-                                                        const SizedBox(),
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                      ],
-                                    ),
+
                                     SizedBox(
                                       height: AddSize.size15,
                                     ),
-                                    // ElevatedButton(
-                                    //     onPressed: () {
-                                    //       if (_formKey.currentState!.validate()) {
-                                    //         Get.toNamed(ThankYouVendorScreen
-                                    //             .thankYouVendorScreen);
-                                    //       }
-                                    //       //         selectedCAt.value == "" &&
-                                    //       //         image.value == null ||
-                                    //       //     image1.value == null ||
-                                    //       //     image2.value == null ||
-                                    //       //     image3.value == null ||
-                                    //       //     image4.value == null) {
-                                    //       //   Get.toNamed(ThankYouVendorScreen
-                                    //       //       .thankYouVendorScreen);
-                                    //       // } else {
-                                    //       //   showValidation.value = true;
-                                    //       //   setState(() {});
-                                    //       // }
-                                    //     },
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       minimumSize:
-                                    //           const Size(double.maxFinite, 60),
-                                    //       primary: AppTheme.primaryColor,
-                                    //       elevation: 0,
-                                    //       shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(10)),
-                                    //     ),
-                                    //     child: Text(
-                                    //       "APPLY",
-                                    //       style: Theme.of(context)
-                                    //           .textTheme
-                                    //           .headline5!
-                                    //           .copyWith(
-                                    //               color: AppTheme.backgroundcolor,
-                                    //               fontWeight: FontWeight.w500,
-                                    //               fontSize: 18),
-                                    //     )),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState!.validate()) {
+                                            Map<String, String> mapData = {
+                                              'national_id': controller.nationalId.text
+                                                  .trim().toString(),
+                                              'car_year': controller.carYearController.text
+                                                  .trim().toString(),
+                                              'make':
+                                              controller.make.text
+                                                  .trim(),
+                                              'model': controller.modelController.text
+                                                  .trim(),
+                                              'color': controller.colorController.text
+                                                  .trim(),
+                                              'dob': controller.dateOfBirth.text
+                                                  .trim(),
+
+
+                                            };
+                                            driverUpdateInformationRepo(
+                                              context: context,
+                                                mapData: mapData,
+                                                fieldName1: "number_plate",
+                                                fieldName2: "licence_front_image",
+                                                fieldName3: "licence_back_image",
+                                                file1:image.value,
+                                                file2: image1.value,
+                                                file3: image2.value,
+                                              )
+                                                .then((value) {
+                                              if (value.status == true) {
+                                                showToast(value.message);
+                                                controller.getData();
+                                              } else {
+                                                showToast(value.message);
+                                              }
+                                            });
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize:
+                                              const Size(double.maxFinite, 60),
+                                          primary: AppTheme.primaryColor,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                        ),
+                                        child: Text(
+                                          "APPLY",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5!
+                                              .copyWith(
+                                                  color: AppTheme.backgroundcolor,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 18),
+                                        )),
                                     SizedBox(
                                       height: AddSize.size15,
                                     ),

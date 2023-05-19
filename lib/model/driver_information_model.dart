@@ -8,13 +8,13 @@ class DriverInformationModel {
   DriverInformationModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['message'] = message;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -23,58 +23,54 @@ class DriverInformationModel {
 }
 
 class Data {
+  int? id;
   String? dob;
-  String? aadharNo;
-  String? panNo;
-  String? vehicleNo;
-  String? licenceNo;
-  String? bankStatement;
-  String? panCardImage;
-  String? aadharFrontImage;
-  String? aadharBackImage;
+  String? nationalId;
+  String? carYear;
+  String? make;
+  String? model;
+  String? color;
+  String? numberPlate;
   String? licenceFrontImage;
   String? licenceBackImage;
 
   Data(
-      {this.dob,
-        this.aadharNo,
-        this.panNo,
-        this.vehicleNo,
-        this.licenceNo,
-        this.bankStatement,
-        this.panCardImage,
-        this.aadharFrontImage,
-        this.aadharBackImage,
+      {this.id,
+        this.dob,
+        this.nationalId,
+        this.carYear,
+        this.make,
+        this.model,
+        this.color,
+        this.numberPlate,
         this.licenceFrontImage,
         this.licenceBackImage});
 
   Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     dob = json['dob'];
-    aadharNo = json['aadhar_no'];
-    panNo = json['pan_no'];
-    vehicleNo = json['vehicle_no'];
-    licenceNo = json['licence_no'];
-    bankStatement = json['bank_statement'];
-    panCardImage = json['pan_card_image'];
-    aadharFrontImage = json['aadhar_front_image'];
-    aadharBackImage = json['aadhar_back_image'];
+    nationalId = json['national_id'];
+    carYear = json['car_year'];
+    make = json['make'];
+    model = json['model'];
+    color = json['color'];
+    numberPlate = json['number_plate'];
     licenceFrontImage = json['licence_front_image'];
     licenceBackImage = json['licence_back_image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['dob'] = dob;
-    data['aadhar_no'] = aadharNo;
-    data['pan_no'] = panNo;
-    data['vehicle_no'] = vehicleNo;
-    data['licence_no'] = licenceNo;
-    data['bank_statement'] = bankStatement;
-    data['pan_card_image'] = panCardImage;
-    data['aadhar_front_image'] = aadharFrontImage;
-    data['aadhar_back_image'] = aadharBackImage;
-    data['licence_front_image'] = licenceFrontImage;
-    data['licence_back_image'] = licenceBackImage;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['dob'] = this.dob;
+    data['national_id'] = this.nationalId;
+    data['car_year'] = this.carYear;
+    data['make'] = this.make;
+    data['model'] = this.model;
+    data['color'] = this.color;
+    data['number_plate'] = this.numberPlate;
+    data['licence_front_image'] = this.licenceFrontImage;
+    data['licence_back_image'] = this.licenceBackImage;
     return data;
   }
 }

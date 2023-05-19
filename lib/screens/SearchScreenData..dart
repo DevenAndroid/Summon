@@ -9,9 +9,6 @@ import '../controller/HomePageController1.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/home_page_controller.dart';
 import '../controller/store_controller.dart';
-import '../repositories/Add_To_Cart_Repo.dart';
-import '../repositories/Homepage_Search_Repo1.dart';
-import '../repositories/Remove_CartItem_Repo.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
@@ -33,7 +30,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       homeSearchController.page.value++;
-      homeSearchController.searchingData();
+      homeSearchController.searchingData(context: context);
       print("call");
     }else{
       print("dont call");
@@ -45,7 +42,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      homeSearchController.searchingData( allowClear: true);
+      homeSearchController.searchingData( allowClear: true, context: context);
       // controller.searchDataModel.value.data != null
       //     ? controller.searchDataModel.value.data!.clear()
       //     : Container();
@@ -135,7 +132,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                     textInputAction: TextInputAction.search,
                     onChanged: (value) {
 
-                      homeSearchController.searchingData(allowClear: true);
+                      homeSearchController.searchingData(allowClear: true,context: context);
                     },
                     decoration: InputDecoration(
                         focusedBorder: const OutlineInputBorder(
@@ -149,7 +146,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             print("hello");
-                            homeSearchController.searchingData(allowClear: true);
+                            homeSearchController.searchingData(allowClear: true, context: context);
 
                           },
                           icon: const Icon(

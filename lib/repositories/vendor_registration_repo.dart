@@ -100,9 +100,13 @@ Future<http.MultipartFile> multipartFile(String? fieldName, File file1) async {
 Future<ModelCommonResponse> vendorInformationEditRepo({
   mapData,
   required fieldName1,
+  required fieldName2,
   required File file1,
+  required File file2,
   required context,
 }) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context).insert(loader);
   try {
     var request =
     http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorInformationEditUrl));
@@ -118,14 +122,16 @@ Future<ModelCommonResponse> vendorInformationEditRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "") {
+    if (file1.path != "" && file2.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
+      request.files.add(await multipartFile(fieldName2, file2));
     }
 
     log(request.fields.toString());
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 400) {
+      Helpers.hideLoader(loader);
       return ModelCommonResponse.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {

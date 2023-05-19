@@ -42,6 +42,7 @@ import '../screens/Popular_Homepage_Product_screen.dart';
 import '../screens/RecomendedViewAll_Screen.dart';
 import '../screens/SetPassword_Screen.dart';
 import '../screens/SingleProdct_Screen.dart';
+import '../screens/Update_Address_Screen.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
@@ -218,5 +219,8 @@ class MyRouter {
     GetPage(
         name: AddAddressScreen.addAddressScreen,
         page: () =>  const AddAddressScreen()),
+    GetPage(
+        name: UpdateAddressScreen.updateAddressScreen,
+        page: () =>  const UpdateAddressScreen()),
   ];
 }

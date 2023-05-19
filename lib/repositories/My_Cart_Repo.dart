@@ -38,7 +38,7 @@ Future<MyCartData> myCartRepo() async {
 
 // MyCart data
 
-Future<ModelCommonResponse> myCartDataRepo() async {
+Future<MyCartDataModel1> myCartDataRepo() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -53,6 +53,33 @@ Future<ModelCommonResponse> myCartDataRepo() async {
 
   if (response.statusCode == 200) {
     print("My Cart Data List...${response.body}");
+    return MyCartDataModel1.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception(response.body);
+  }
+  // }
+  // catch (e) {
+  //   throw Exception(e.toString());
+  // }
+}
+// Order type api
+Future<ModelCommonResponse> orderTypeRepo({required orderType}) async {
+  var map = <String, dynamic>{};
+  map['order_type']=orderType;
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
+  final headers = {
+    HttpHeaders.contentTypeHeader: 'application/json',
+    HttpHeaders.acceptHeader: 'application/json',
+    HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
+  };
+  // try {
+  final response =
+  await http.post(Uri.parse(ApiUrl.orderTypeMyCartUrl), headers: headers,body: jsonEncode(map));
+
+  if (response.statusCode == 200) {
+    print("order type repo...${response.body}");
     return ModelCommonResponse.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);

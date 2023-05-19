@@ -31,9 +31,9 @@ class SingleProductController extends GetxController {
 
   }
 
-  getSingleProductData() {
+  Future getSingleProductData() async {
     isDataLoading.value = false;
-    singleProductRepo(id: id.value).then((value) {
+    await singleProductRepo(id: id.value).then((value) {
       isDataLoading.value = true;
       model.value = value;
       // print the model value
