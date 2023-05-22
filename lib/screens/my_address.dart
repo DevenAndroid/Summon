@@ -31,6 +31,7 @@ class _MyAddressState extends State<MyAddress> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    addressController.getAddress();
 
   }
 

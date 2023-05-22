@@ -11,6 +11,8 @@ class VendorAddProductController extends GetxController {
   final TextEditingController productNameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController skuController = TextEditingController();
+  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController categoryController = TextEditingController();
   final TextEditingController sizeController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController minQtyController = TextEditingController();

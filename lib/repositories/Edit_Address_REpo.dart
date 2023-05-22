@@ -3,14 +3,14 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../model/Social_Login_Model.dart';
 import '../model/model_common_ressponse.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<ModelCommonResponse> addAddress1Repo({
+Future<ModelCommonResponse> editAddressREpo({
   map,
   required fieldName1,
   required File file1,
@@ -21,7 +21,7 @@ Future<ModelCommonResponse> addAddress1Repo({
   Overlay.of(context).insert(loader);
   try {
     var request =
-    http.MultipartRequest('POST', Uri.parse(ApiUrl.addAddress1Url));
+    http.MultipartRequest('POST', Uri.parse(ApiUrl.editAddressUrl1));
     SharedPreferences pref = await SharedPreferences.getInstance();
     SocialLoginModel? user =
     SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -68,6 +68,3 @@ Future<http.MultipartFile> multipartFile(String? fieldName, File file1) async {
     filename: file1.path.split('/').last,
   );
 }
-
-// edit address repository
-

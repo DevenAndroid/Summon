@@ -23,23 +23,23 @@ class MyOrdersDetailsModel {
 }
 
 class Data {
-  int? orderId;
-  int? itemTotal;
-  int? deliveryCharges;
-  int? walletSaving;
-  Null? couponDiscount;
-  int? commissionDriver;
-  int? commissionAdmin;
-  int? grandTotal;
+  dynamic orderId;
+  dynamic itemTotal;
+  dynamic deliveryCharges;
+  dynamic walletSaving;
+  dynamic couponDiscount;
+  dynamic commissionDriver;
+  dynamic commissionAdmin;
+  dynamic grandTotal;
   User? user;
   Vendor? vendor;
-  Null? driver;
+  dynamic driver;
   Address? address;
   String? orderType;
   String? paymentType;
   String? deliveryStatus;
   List<OrderItems>? orderItems;
-  String? placedAt;
+  dynamic placedAt;
 
   Data(
       {this.orderId,

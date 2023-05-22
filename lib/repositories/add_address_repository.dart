@@ -152,8 +152,8 @@ Future<GetMyAddressModel> getSaveAddress({required address_id}) async {
   };
   http.Response response = await http.get(Uri.parse("${ApiUrl.getSaveAddressUrl}?address_id=$address_id"),
       headers: headers);
-  log("usrlll..${ApiUrl.getSaveAddressUrl}?address_id=$address_id");
-  log("Get Saved data response..${response.body}");
+  // log("usrlll..${ApiUrl.getSaveAddressUrl}?address_id=$address_id");
+   log("Get Saved data response..${response.body}");
   if (response.statusCode == 200 ||response.statusCode == 400) {
 
     return GetMyAddressModel.fromJson(json.decode(response.body));

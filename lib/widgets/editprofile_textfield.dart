@@ -142,7 +142,7 @@ class EditProfileTextFieldWidget1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: onTap,
-      readOnly: readOnly!,
+     //readOnly: readOnly!,
       controller: controller,
       obscureText: hint == hint ? obscureText! : false,
       autofillHints: autofillHints,

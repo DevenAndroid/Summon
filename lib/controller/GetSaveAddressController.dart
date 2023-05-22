@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/repositories/myAddress_repo.dart';
 import 'package:get/get.dart';
 
@@ -6,6 +7,9 @@ import '../model/MyAddressModel.dart';
 import '../repositories/add_address_repository.dart';
 
 class GetSaveAddressController extends GetxController {
+  TextEditingController nameController=TextEditingController();
+  TextEditingController phoneController=TextEditingController();
+  TextEditingController noteController=TextEditingController();
 
   RxBool isSaveAddressLoad = false.obs;
 
@@ -23,7 +27,7 @@ class GetSaveAddressController extends GetxController {
 @override
   void onInit() {
     super.onInit();
-    saveAddressData();
+    //saveAddressData();
   }
 
 }

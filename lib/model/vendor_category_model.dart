@@ -47,7 +47,7 @@ class Data {
 
 class Categories {
   int? id;
-  String? name;
+  dynamic name;
   bool? selected =  false;
 
   Categories({this.id, this.name,this.selected});

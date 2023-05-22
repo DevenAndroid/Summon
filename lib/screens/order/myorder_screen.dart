@@ -334,6 +334,9 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                     myOrderController.model.value
                                                         .data![index].orderId
                                                         .toString();
+                                                print(myOrderController.model.value
+                                                    .data![index].orderId
+                                                    .toString());
                                                 Get.toNamed(OrderDetails
                                                     .orderDetailsScreen);
                                               },

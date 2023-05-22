@@ -43,6 +43,7 @@ class ApiUrl {
   static const myAddressUrl = "${baseUrl}my-address";
   static const myOrdersUrl = "${baseUrl}my-orders";
   static const searchUrlPagination = "${baseUrl}search";
+  static const editAddressUrl1 = "${baseUrl}edit-address";
   static const myOrderDetailsUrl = "${baseUrl}order-details";
   static const editAddressUrl = "${baseUrl}edit-address";
   static const removeAddressUrl = "${baseUrl}remove-address";

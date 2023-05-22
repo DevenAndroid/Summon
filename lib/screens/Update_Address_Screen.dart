@@ -1,33 +1,26 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:fresh2_arrive/generated/assets.dart';
-import 'package:fresh2_arrive/repositories/add_address_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/add_address_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
 import '../../controller/GetSaveAddressController.dart';
 import '../../controller/MyAddress_controller.dart';
-import '../../model/MyAddressModel.dart';
 import '../../repositories/Add_Address1_repo.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../repositories/Edit_Address_REpo.dart';
 import 'my_address.dart';
 
 class UpdateAddressScreen extends StatefulWidget {
@@ -42,15 +35,10 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   final _formKey = GlobalKey<FormState>();
   final addressController = Get.put(MyAddressController());
   final getSaveAddressController = Get.put(GetSaveAddressController());
-  // Rx<AddressData> addressModel = AddressData().obs;
   final RxBool _isValue = false.obs;
   bool chooseOption = false;
   RxBool customTip = false.obs;
   RxString selectedChip = "Home".obs;
-  final TextEditingController searchController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController noteController = TextEditingController();
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
   Rx<File> image = File("").obs;
@@ -58,6 +46,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   String? _address = "";
   Position? _currentPosition;
   RxBool showValidation = false.obs;
+
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
       return true;
@@ -124,9 +113,11 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
       Placemark place = placemarks[0];
       setState(() {
         _currentAddress =
-        '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        '${place.street}, ${place.subLocality}, ${place
+            .subAdministrativeArea}, ${place.postalCode}';
         _address =
-        '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        '${place.subLocality}, ${place.subAdministrativeArea}, ${place
+            .postalCode}';
       });
     }).catchError((e) {
       debugPrint(e.toString());
@@ -143,9 +134,9 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
     //checkGps();
     getSaveAddressController.saveAddressData();
     _getCurrentPosition();
-    if (Get.arguments != null) {
-      // addressModel.value = Get.arguments[0];
-    }
+    // if (Get.arguments != null) {
+    //   // addressModel.value = Get.arguments[0];
+    // }
   }
 
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
@@ -153,6 +144,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   CameraPosition? cameraPosition;
   String location = "Search Location";
   final Set<Marker> markers = {};
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
@@ -186,8 +178,14 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var height=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return WillPopScope(
       onWillPop: () async {
         mapController!.dispose();
@@ -198,161 +196,125 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         child: Scaffold(
             backgroundColor: Color(0xffF9F9F9),
             appBar: backAppBar(
-                title: _isValue.value == true
-                    ? "Complete Address"
-                    : "Add new address",
+                title: "Update Address",
                 context: context,
                 dispose: "dispose",
                 disposeController: () {
                   mapController!.dispose();
-
                 }),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 28,right: 24),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      EditProfileTextFieldWidget1(
-                        hint: "Name",
-                        controller: nameController,
-                        validator: validateName,
-                      ),
+            body: Obx(() {
+              if (getSaveAddressController.isSaveAddressLoad.value &&
+                  getSaveAddressController.getSaveAddressModel.value.data != null){
+    getSaveAddressController.nameController.text =
+    getSaveAddressController.getSaveAddressModel.value.data!.name.toString();
+    getSaveAddressController.phoneController.text =
+    getSaveAddressController.getSaveAddressModel.value.data!.phone.toString();
+    getSaveAddressController.noteController.text =
+    getSaveAddressController.getSaveAddressModel.value.data!.note.toString();
+              }
+              return  getSaveAddressController.isSaveAddressLoad.value &&
+                  getSaveAddressController.getSaveAddressModel.value.data != null ?
+               SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 28, right: 24),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        EditProfileTextFieldWidget1(
+                          hint: "Name",
+                          controller: getSaveAddressController.nameController,
+                          //enable: true,
+                          validator: validateName,
+                        ),
 
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      EditProfileTextFieldWidget1(
-                        hint: "Phone",
-                        controller: phoneController,
-                        validator: validateMobile,
-                        keyboardType: TextInputType.number,
-                        length: 10,
-                        //readOnly: true,
-                        //enable: false,
-                      ),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      EditProfileTextFieldWidget1(
-                        hint: "Note",
-                        controller: noteController,
-                        validator: validateName,
-                      ),
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        EditProfileTextFieldWidget1(
+                          hint: "Phone",
+                          controller: getSaveAddressController.phoneController,
+                          validator: validateMobile,
+                          keyboardType: TextInputType.number,
+                          length: 10,
+                          //readOnly: true,
+                          //enable: false,
+                        ),
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        EditProfileTextFieldWidget1(
+                          hint: "Note",
+                          controller: getSaveAddressController.noteController,
+                          validator: validateName,
+                        ),
 
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Checkbox(
-                              side: BorderSide(
-                                  color: showValidation == false
-                                      ? AppTheme.primaryColor
-                                      : Colors.red,
-                                  width: 2),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)),
-                              value: chooseOption,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  chooseOption = value!;
-                                });
-                              }),
-                          Expanded(
-                              child: Text(
-                                "Leave orders at the door",
-                                style: GoogleFonts.ibmPlexSansArabic(color: Color(0xffACACB7),
-                                    fontSize: AddSize.font14,fontWeight:FontWeight.w700),
-                              ))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Obx(() {
-                        return Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: AddSize.padding16,
-                              vertical: AddSize.padding16),
-                          width: AddSize.screenWidth,
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: !checkValidation(
-                                    showValidation.value,
-                                    image.value.path == "")
-                                    ? Colors.grey.shade300
-                                    : Colors.red,
-                              )),
-                          child: image.value.path == ""
-                              ?
-                          Column(
-                            children: [
-
-                              GestureDetector(
-                                onTap: () {
-                                  NewHelper()
-                                      .addFilePicker()
-                                      .then((value) {
-                                    image.value = value;
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Checkbox(
+                                side: BorderSide(
+                                    color: showValidation == false
+                                        ? AppTheme.primaryColor
+                                        : Colors.red,
+                                    width: 2),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5)),
+                                value: chooseOption,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    chooseOption = value!;
                                   });
-                                },
-                                child: Container(
-                                  height: AddSize.size45,
-                                  width: AddSize.size45,
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey.shade50,
-                                      borderRadius:
-                                      BorderRadius.circular(30),
-                                      border: Border.all(
-                                          color: Colors
-                                              .grey.shade300)),
-                                  child: Center(
-                                      child: Image(
-                                          height: AddSize.size25,
-                                          width: AddSize.size25,
-                                          color:
-                                          Colors.grey.shade500,
-                                          image: const AssetImage(
-                                              AppAssets
-                                                  .camaraImage))),
+                                }),
+                            Expanded(
+                                child: Text(
+                                  "Leave orders at the door",
+                                  style: GoogleFonts.ibmPlexSansArabic(
+                                      color: Color(0xffACACB7),
+                                      fontSize: AddSize.font14,
+                                      fontWeight: FontWeight.w700),
+                                ))
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Obx(() {
+                          return image.value.path == ""
+                              ? Stack(
+                            children: [
+                              SizedBox(
+                                height: AddSize.size125,
+                                width: AddSize.screenWidth,
+                                child: ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(16),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    getSaveAddressController
+                                        .getSaveAddressModel
+                                        .value
+                                        .data!
+                                        .image
+                                        .toString(),
+                                    errorWidget: (_, __, ___) =>
+                                    const SizedBox(),
+                                    placeholder: (_, __) =>
+                                    const SizedBox(),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                height: AddSize.size10,
-                              ),
-                              Text(
-                                "Upload an image of your house",
-                                style: GoogleFonts
-                                    .ibmPlexSansArabic(
-                                    fontSize: 16,
-                                    fontWeight:
-                                    FontWeight.w700,
-                                    color: Color(
-                                        0xff435960)),
-                              ),
-                            ],
-                          )
-
-                              :
-                          Stack(
-                            children: [
-                              SizedBox(
-                                  width: double.maxFinite,
-                                  height: AddSize.size100,
-                                  child: Image.file(image.value)),
-
                               Positioned(
-                                right: 0,
-                                top: 0,
+                                right: AddSize.padding10,
+                                top: AddSize.padding10,
                                 child: GestureDetector(
                                   onTap: () {
                                     NewHelper()
@@ -385,222 +347,150 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                                 ),
                               ),
                             ],
-                          ),
-                        );
-                      }),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Choose Location",
-                        style: GoogleFonts
-                            .ibmPlexSansArabic(
-                            fontSize: 16,
-                            fontWeight:
-                            FontWeight.w700,
-                            color: Color(
-                                0xffADADB8)),
-                      ),
+                          )
+                              : Container(
+                            width: double.maxFinite,
+                            height: AddSize.size100,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: AddSize.padding16,
+                                vertical: AddSize.padding16),
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade50,
+                                borderRadius:
+                                BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: Colors.grey.shade300)),
+                            child: SizedBox(
+                              height: AddSize.size125,
+                              width: AddSize.screenWidth,
+                              child: ClipRRect(
+                                  borderRadius:
+                                  BorderRadius.circular(16),
+                                  child: Image.file(image.value)),
+                            ),
+                          );
+                        }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Choose Location",
+                          style: GoogleFonts
+                              .ibmPlexSansArabic(
+                              fontSize: 16,
+                              fontWeight:
+                              FontWeight.w700,
+                              color: Color(
+                                  0xffADADB8)),
+                        ),
 
-                      Stack(
-                        children: [
+                        Stack(
+                          children: [
 
-                          SizedBox(
-                            height: height * .20,
-                            width: width,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(image: AssetImage(AppAssets.mapImage),
+                            SizedBox(
+                              height: height * .20,
+                              width: width,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image(
+                                  image: AssetImage(AppAssets.mapImage),
 
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(top: 50,
-                            right: 150,
-                            child: InkWell(onTap: (){
-                              Get.toNamed(AddAddressScreen.addAddressScreen);
-                            },
-                                child:
-                                CircleAvatar(backgroundColor: Colors.white,
-                                    radius: 22,
-                                    child: Icon((Icons.telegram),size: 30,color: Color(0xFFFE724C),))
+                            Positioned(top: 50,
+                              right: 150,
+                              child: InkWell(onTap: () {
+                                Get.toNamed(AddAddressScreen.addAddressScreen);
+                              },
+                                  child:
+                                  CircleAvatar(backgroundColor: Colors.white,
+                                      radius: 22,
+                                      child: Icon((Icons.telegram), size: 30,
+                                        color: Color(0xFFFE724C),))
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      //  Container(
-                      //      child: InkWell(
-                      //          onTap: () async {
-                      //            var place = await PlacesAutocomplete.show(
-                      //                context: context,
-                      //                apiKey: googleApikey,
-                      //                mode: Mode.overlay,
-                      //                types: [],
-                      //                strictbounds: false,
-                      //                // components: [
-                      //                //   Component(Component.country, 'np')
-                      //                // ],
-                      //                onError: (err) {
-                      //                  log("error.....   ${err.errorMessage}");
-                      //                });
-                      //            if (place != null) {
-                      //              setState(() {
-                      //                _address = place.description.toString();
-                      //              });
-                      //              final plist = GoogleMapsPlaces(
-                      //                apiKey: googleApikey,
-                      //                apiHeaders:
-                      //                await const GoogleApiHeaders().getHeaders(),
-                      //              );
-                      //              print(plist);
-                      //              String placeid = place.placeId ?? "0";
-                      //              final detail =
-                      //              await plist.getDetailsByPlaceId(placeid);
-                      //              final geometry = detail.result.geometry!;
-                      //              final lat = geometry.location.lat;
-                      //              final lang = geometry.location.lng;
-                      //              var newlatlang = LatLng(lat, lang);
-                      //              setState(() {
-                      //                _address = place.description.toString();
-                      //                _onAddMarkerButtonPressed(
-                      //                    LatLng(lat, lang), place.description);
-                      //              });
-                      //              mapController?.animateCamera(
-                      //                  CameraUpdate.newCameraPosition(CameraPosition(
-                      //                      target: newlatlang, zoom: 17)));
-                      //              setState(() {});
-                      //            }
-                      //          },
-                      //          child: Card(
-                      //            child: Container(
-                      //                padding: const EdgeInsets.all(0),
-                      //               // width: MediaQuery.of(context).size.width - 40,
-                      //                child: ListTile(
-                      //                  leading: Icon(
-                      //                    Icons.my_location,color: AppTheme.primaryColor,size: 30,
-                      //                  ),
-                      //                  title: Text(
-                      //                    _address.toString(),
-                      //                    style:
-                      //                    TextStyle(fontSize: AddSize.font14),
-                      //                  ),
-                      //                  trailing: const Icon(Icons.search,color: AppTheme.primaryColor,),
-                      //                  dense: true,
-                      //                )),
-                      //          ))),
-                      //  _isValue.value == true
-                      //      ? const SizedBox()
-                      //      :
-                      // SizedBox(),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      // google map
-                      // Stack(
-                      //   children: [
-                      //     Container(
-                      //       height: height * .25,
-                      //       //padding: EdgeInsets.all(10),
-                      //       child:
-                      //       ClipRRect(
-                      //         borderRadius: BorderRadius.circular(20),
-                      //         child: GoogleMap(
-                      //
-                      //           zoomGesturesEnabled: true,
-                      //           //enable Zoom in, out on map
-                      //           initialCameraPosition: const CameraPosition(
-                      //             target: LatLng(0, 0),
-                      //             zoom: 14.0, //initial zoom level
-                      //           ),
-                      //           mapType: MapType.normal,
-                      //           //map type
-                      //           onMapCreated: (controller) {
-                      //             setState(() async {
-                      //               mapController = controller;
-                      //             });
-                      //           },
-                      //           markers: markers,
-                      //
-                      //           // myLocationEnabled: true,
-                      //           // myLocationButtonEnabled: true,
-                      //           // compassEnabled: true,
-                      //           // markers: Set<Marker>.of(_markers),
-                      //           onCameraMove: (CameraPosition cameraPositions) {
-                      //             cameraPosition = cameraPositions;
-                      //           },
-                      //           onCameraIdle: () async {},
-                      //         ),
-                      //       ),
-                      //     ),
-                      //
-                      //
-                      //   ],
-                      // ),
-                      SizedBox(height: height * .02,),
-                      ElevatedButton(
-                          onPressed: () {
+                          ],
+                        ),
 
-                            if(_formKey.currentState!.validate()
-                                && image.value.path != "" && chooseOption==true){
-                              print("hellloo");
-                              var map = <String, String>{
-                                'latitude':addressController.latLong1.toString(),
-                                'longitude': addressController.latLong2.toString(),
-                                'name':nameController.text.toString(),
-                                'phone':phoneController.text,
-                                'note':noteController.text,
-                                'leave_at_door':chooseOption.toString(),
-                              };
-                              print(map);
-                              addAddress1Repo(
-                                map:map,
-                                fieldName1: "image",
-                                file1: image.value,
-                                context:context,
-                              ).then((value){
-                                if(value.status==true){
-                                  showToast(value.message);
-                                  Get.toNamed(MyAddress
-                                      .myAddressScreen);
-                                  addressController
-                                      .getAddress();
-                                }
-                              });
-                            }
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.maxFinite, 60),
-                            primary: AppTheme.primaryColor.withOpacity(.80),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: Text(
-                            "Update",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline5!
-                                .copyWith(
-                                color: AppTheme.backgroundcolor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: AddSize.font16),
-                          )),
-                      SizedBox(height: height * .02,),
-                    ],
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(height: height * .02,),
+                        ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()
+                                  && image.value.path != "" &&
+                                  chooseOption == true) {
+                                print("hellloo");
+                                var map = <String, dynamic>{
+                                  'latitude': addressController.latLong1,
+                                  'longitude': addressController.latLong2,
+                                  'name': getSaveAddressController
+                                      .nameController.text.toString(),
+                                  'phone': getSaveAddressController
+                                      .phoneController.text,
+                                  'note': getSaveAddressController
+                                      .noteController.text,
+                                  'leave_at_door': chooseOption.toString(),
+                                  'address_id': getSaveAddressController.getSaveAddressModel.value.data!.id.toString(),
+                                };
+                                print(map);
+                                editAddressREpo(
+                                  map: map,
+                                  fieldName1: "image",
+                                  file1: image.value,
+                                  context: context,
+                                ).then((value) {
+                                  if (value.status == true) {
+                                    showToast(value.message);
+                                    Get.toNamed(MyAddress
+                                        .myAddressScreen);
+                                    addressController
+                                        .getAddress();
+                                  }
+                                });
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.maxFinite, 60),
+                              primary: AppTheme.primaryColor.withOpacity(.80),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                            child: Text(
+                              "Update",
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(
+                                  color: AppTheme.backgroundcolor,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: AddSize.font16),
+                            )),
+                        SizedBox(height: height * .02,),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )),
+              ):Center(child: CircularProgressIndicator());
+            })
+  ),
       ),
     );
   }
 
-  chipList(
-      title,
-      ) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
+  chipList(title,) {
+    var height = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var width = MediaQuery
+        .of(context)
+        .size
+        .width;
     return Obx(() {
       return Column(
         children: [

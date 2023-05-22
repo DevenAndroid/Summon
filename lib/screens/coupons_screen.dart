@@ -204,7 +204,10 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                             if(value.status == true){
                                                               myCartController.getAddToCartList();
                                                               controller.onItemTap(1);
-                                                              Get.back();
+                                                             Get.back();
+                                                              setState(() {
+
+                                                              });
                                                             }
                                                           });
                                                         },

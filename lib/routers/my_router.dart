@@ -54,6 +54,7 @@ import '../screens/onboardingScreen.dart';
 import '../screens/payment_method.dart';
 import '../screens/refer_and_earn.dart';
 import '../screens/store_by_category.dart';
+import '../screens/vendor_screen/Add_Option_Addons_Page.dart';
 import '../screens/vendor_screen/Add_vendor_product.dart';
 import '../screens/vendor_screen/addVendorProducts1.dart';
 import '../screens/vendor_screen/add_address_screen.dart';
@@ -88,6 +89,11 @@ class MyRouter {
       name: MapScreenPage.mapScreen,
       page: () => const MapScreenPage(),
     ),
+    GetPage(
+      name: AddOptionScreen.addOptionScreen,
+      page: () => const AddOptionScreen(),
+    ),
+
     GetPage(
       name: ViewAllPopularPage.viewAllPopularPage,
       page: () => const ViewAllPopularPage(),
