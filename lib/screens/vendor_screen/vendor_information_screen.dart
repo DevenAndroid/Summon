@@ -291,7 +291,8 @@ class _VendorInformationState extends State<VendorInformation> {
                                           child: ClipRRect(
                                             borderRadius:
                                             BorderRadius.circular(16),
-                                            child: CachedNetworkImage(
+                                            child:
+                                            CachedNetworkImage(
                                               imageUrl:
                                               vendorInformationController
                                                   .model

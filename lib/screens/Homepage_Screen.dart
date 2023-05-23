@@ -49,9 +49,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final homeSearchController = Get.put(HomePageController1());
   final singleProductController = Get.put(SingleProductController());
  // final myCartController = Get.put(MyCartDataListController());
-  final viewAllController = Get.put(CategoryController());
+ //  final viewAllController = Get.put(CategoryController());
   final myCartDataController = Get.put(MyCartController());
-  final locationController = Get.put(LocationController());
+  // final locationController = Get.put(LocationController());
   final controller = Get.put(MainHomeController());
   final homeController1 = Get.put(HomePageController1());
   final nearStoreController = Get.put(NearStoreController());
@@ -60,8 +60,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final storeCategoryController = Get.put(StoreByCategoryController());
   final profileController = Get.put(ProfileController());
 
-  final storeController = Get.put(SingleStoreController());
-  final notificationController = Get.put(NotificationController());
+  // final storeController = Get.put(SingleStoreController());
+  // final notificationController = Get.put(NotificationController());
   TextEditingController searchController=TextEditingController();
 
   int currentIndex = -1;

@@ -23,7 +23,11 @@ class _ShowDialogForCategoriesState extends State<ShowDialogForCategories> {
   final vendorCategoryController = Get.put(VendorCategoryController());
 
 
-
+@override
+  void initState() {
+    super.initState();
+    vendorCategoryController.getCategory();
+  }
 
   @override
   Widget build(BuildContext context) {

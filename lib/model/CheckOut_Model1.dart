@@ -25,8 +25,8 @@ class CheckOutModel1 {
 class Data {
   dynamic orderId;
   dynamic itemTotal;
-  dynamic tax;
   dynamic deliveryCharges;
+  dynamic walletSaving;
   dynamic couponDiscount;
   dynamic commissionDriver;
   dynamic commissionAdmin;
@@ -39,13 +39,13 @@ class Data {
   String? paymentType;
   String? deliveryStatus;
   List<OrderItems>? orderItems;
-  dynamic placedAt;
+  String? placedAt;
 
   Data(
       {this.orderId,
         this.itemTotal,
-        this.tax,
         this.deliveryCharges,
+        this.walletSaving,
         this.couponDiscount,
         this.commissionDriver,
         this.commissionAdmin,
@@ -63,8 +63,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     itemTotal = json['item_total'];
-    tax = json['tax'];
     deliveryCharges = json['delivery_charges'];
+    walletSaving = json['wallet_saving'];
     couponDiscount = json['coupon_discount'];
     commissionDriver = json['commission_driver'];
     commissionAdmin = json['commission_admin'];
@@ -90,8 +90,8 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['order_id'] = this.orderId;
     data['item_total'] = this.itemTotal;
-    data['tax'] = this.tax;
     data['delivery_charges'] = this.deliveryCharges;
+    data['wallet_saving'] = this.walletSaving;
     data['coupon_discount'] = this.couponDiscount;
     data['commission_driver'] = this.commissionDriver;
     data['commission_admin'] = this.commissionAdmin;
@@ -116,7 +116,7 @@ class Data {
 }
 
 class User {
-  int? id;
+  dynamic id;
   bool? isDriver;
   bool? isVendor;
   dynamic latitude;
@@ -205,23 +205,17 @@ class User {
 }
 
 class Vendor {
-  int? storeId;
-  Null? id;
-  String? storeName;
-  String? phone;
-  String? storeImage;
-  String? address;
-  String? location;
-  String? latitude;
-  String? longitude;
-  String? aadharNo;
-  String? panNo;
-  String? deliveryRange;
-  String? bankStatement;
-  String? panCardImage;
-  String? aadharFrontImage;
-  String? aadharBackImage;
-  String? remark;
+  dynamic storeId;
+  dynamic id;
+  dynamic storeName;
+  dynamic phone;
+  dynamic businessId;
+  dynamic latitude;
+  dynamic longitude;
+  List<Null>? storeCategory;
+  dynamic storeImage;
+  dynamic businessIdImage;
+  dynamic remark;
   bool? status;
 
   Vendor(
@@ -229,18 +223,12 @@ class Vendor {
         this.id,
         this.storeName,
         this.phone,
-        this.storeImage,
-        this.address,
-        this.location,
+        this.businessId,
         this.latitude,
         this.longitude,
-        this.aadharNo,
-        this.panNo,
-        this.deliveryRange,
-        this.bankStatement,
-        this.panCardImage,
-        this.aadharFrontImage,
-        this.aadharBackImage,
+        this.storeCategory,
+        this.storeImage,
+        this.businessIdImage,
         this.remark,
         this.status});
 
@@ -249,18 +237,17 @@ class Vendor {
     id = json['id'];
     storeName = json['store_name'];
     phone = json['phone'];
-    storeImage = json['storeImage'];
-    address = json['address'];
-    location = json['location'];
+    businessId = json['businessId'];
     latitude = json['latitude'];
     longitude = json['longitude'];
-    aadharNo = json['aadharNo'];
-    panNo = json['panNo'];
-    deliveryRange = json['delivery_range'];
-    bankStatement = json['bank_statement'];
-    panCardImage = json['pan_card_image'];
-    aadharFrontImage = json['aadhar_front_image'];
-    aadharBackImage = json['aadhar_back_image'];
+    if (json['store_category'] != null) {
+      storeCategory = <Null>[];
+      json['store_category'].forEach((v) {
+        // storeCategory!.add(new Null.fromJson(v));
+      });
+    }
+    storeImage = json['storeImage'];
+    businessIdImage = json['business_id_image'];
     remark = json['remark'];
     status = json['status'];
   }
@@ -271,18 +258,15 @@ class Vendor {
     data['id'] = this.id;
     data['store_name'] = this.storeName;
     data['phone'] = this.phone;
-    data['storeImage'] = this.storeImage;
-    data['address'] = this.address;
-    data['location'] = this.location;
+    data['businessId'] = this.businessId;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
-    data['aadharNo'] = this.aadharNo;
-    data['panNo'] = this.panNo;
-    data['delivery_range'] = this.deliveryRange;
-    data['bank_statement'] = this.bankStatement;
-    data['pan_card_image'] = this.panCardImage;
-    data['aadhar_front_image'] = this.aadharFrontImage;
-    data['aadhar_back_image'] = this.aadharBackImage;
+    if (this.storeCategory != null) {
+      // data['store_category'] =
+          // this.storeCategory!.map((v) => v.toJson()).toList();
+    }
+    data['storeImage'] = this.storeImage;
+    data['business_id_image'] = this.businessIdImage;
     data['remark'] = this.remark;
     data['status'] = this.status;
     return data;
@@ -290,14 +274,14 @@ class Vendor {
 }
 
 class OrderItems {
-  int? id;
-  int? productId;
-  String? productName;
-  int? variantId;
-  int? price;
+  dynamic id;
+  dynamic productId;
+  dynamic productName;
+  dynamic variantId;
+  dynamic price;
   List<Null>? addons;
-  int? qty;
-  int? totalPrice;
+  dynamic qty;
+  dynamic totalPrice;
   String? note;
   String? status;
 

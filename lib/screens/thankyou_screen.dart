@@ -178,7 +178,42 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                           SizedBox(
                             height: height * .01,
                           ),
-
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Coupon Discount:",
+                                    style: TextStyle(
+                                        color: AppTheme.blackcolor,
+                                        fontSize: AddSize.font16,
+                                        fontWeight: FontWeight.w500)),
+                                Text("₹${Get.arguments[5].toString()}",
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: AddSize.font14,
+                                        fontWeight: FontWeight.w500)),
+                              ]),
+                          SizedBox(
+                            height: height * .01,
+                          ),
+                          if((myOrderDetailsController.model.value.data?.walletSaving ?? 0) > 0)
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Wallet Savings:",
+                                    style: TextStyle(
+                                        color: AppTheme.blackcolor,
+                                        fontSize: AddSize.font16,
+                                        fontWeight: FontWeight.w500)),
+                                Text("₹${Get.arguments[6].toString()}",
+                                    style: TextStyle(
+                                        color: Colors.grey.shade500,
+                                        fontSize: AddSize.font14,
+                                        fontWeight: FontWeight.w500)),
+                              ]),
+                          SizedBox(
+                            height: height * .01,
+                          ),
+                            if((myOrderDetailsController.model.value.data?.deliveryCharges ?? 0) > 0)
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -187,7 +222,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         color: AppTheme.blackcolor,
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
-                                Text("₹${Get.arguments[5].toString()}",
+                                Text("₹${Get.arguments[7].toString()}",
                                     style: TextStyle(
                                         color: Colors.grey.shade500,
                                         fontSize: AddSize.font14,
@@ -207,7 +242,7 @@ class _ThankYouScreenState extends State<ThankYouScreen> {
                                         color: AppTheme.primaryColor,
                                         fontSize: AddSize.font16,
                                         fontWeight: FontWeight.w500)),
-                                Text("₹${Get.arguments[6].toString()}",
+                                Text("₹${Get.arguments[8].toString()}",
                                     style: TextStyle(
                                         color: AppTheme.primaryColor,
                                         fontSize: AddSize.font14,

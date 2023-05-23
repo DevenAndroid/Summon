@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -21,6 +22,8 @@ import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
 import '../../model/RepetedItem_Model.dart';
+import '../../model/VendorAddProduct_Model.dart';
+import '../../model/model_addons.dart';
 import '../../repositories/Vendor_SaveProduct_Repo.dart';
 
 import '../../resources/app_assets.dart';
@@ -48,8 +51,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
   final _formKey = GlobalKey<FormState>();
   RxList<ListModel1> listModelData = <ListModel1>[].obs;
   RxList<RepetItemData> repetedData = <RepetItemData>[].obs;
-  String? selectedType;
-  String? selectedTypeAddons;
+
   String? chooseOptionType;
   String? chooseCategory;
   final List<String> optionMenu = ["Simple", "Variable"];
@@ -62,6 +64,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
     "dozen",
     "piece"
   ];
+
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
       return true;
@@ -69,6 +72,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
       return false;
     }
   }
+
   ScrollController _scrollController = ScrollController();
 
   scrollNavigation(double offset) {
@@ -117,7 +121,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                         },
                         child: Text(
                           "Take picture",
-                          style: Theme.of(context)
+                          style: Theme
+                              .of(context)
                               .textTheme
                               .headlineSmall!
                               .copyWith(
@@ -147,7 +152,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                         },
                         child: Text(
                           "Choose From Gallery",
-                          style: Theme.of(context)
+                          style: Theme
+                              .of(context)
                               .textTheme
                               .headlineSmall!
                               .copyWith(
@@ -172,7 +178,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                           ),
                           child: Text(
                             "Cancel".toUpperCase(),
-                            style: Theme.of(context)
+                            style: Theme
+                                .of(context)
                                 .textTheme
                                 .headlineSmall!
                                 .copyWith(
@@ -194,16 +201,23 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
   @override
   void initState() {
     super.initState();
-    vendorAllCategoryController.getVendorAllCategory();
+    // vendorAllCategoryController.getVendorAllCategory();
+    vendorAddProductController.productNameController.clear();
+    vendorAddProductController.skuController.clear();
+    vendorAddProductController.caloriesController.clear();
+    vendorAddProductController.minQtyController.clear();
+    vendorAddProductController.maxQtyController.clear();
+    vendorAddProductController.descriptionController.clear();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       vendorAddProductController.getVendorSearchProductList().then((value) {
-        if (listModelData.isEmpty && addOnsController.isDataLoading.value) {
-          listModelData.add(ListModel1(
-              name: "".obs,
-              price: "".obs,
-              calories: "".obs,
-              addonType: "".obs,
-              addonTypeId: "".obs),
+        if (listModelData.isEmpty) {
+          listModelData.add(
+            ListModel1(
+                name: "".obs,
+                price: "".obs,
+                calories: "".obs,
+                addonType: "".obs,
+                addonTypeId: "".obs),
           );
           setState(() {});
         }
@@ -218,10 +232,53 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
         ));
         setState(() {});
       }
-
+      vendorAllCategoryController.getVendorAllCategory();
     });
+    if(vendorAddProductController.productId.value.isNotEmpty){
+      vendorAddProductController.getVendorAddProduct().then((value){
+        if (vendorAddProductController.isDataLoading.value &&
+            vendorAddProductController.vendorAddProductModel.value.data != null) {
+          vendorAddProductController.productNameController.text =
+              (vendorAddProductController
+                  .vendorAddProductModel.value.data!.productDetail!.name ??
+                  "")
+                  .toString();
+          vendorAddProductController.skuController.text =
+              (vendorAddProductController
+                  .vendorAddProductModel.value.data!.productDetail!.sKU ??
+                  "")
+                  .toString();
+          vendorAddProductController.descriptionController.text =
+              (vendorAddProductController
+                  .vendorAddProductModel.value.data!.productDetail!.content ??
+                  "")
+                  .toString();
+          vendorAddProductController.caloriesController.text =
+              (vendorAddProductController
+                  .vendorAddProductModel.value.data!.productDetail!. calories??
+                  "")
+                  .toString();
+          // chooseOptionType=chooseOptionType.toString();
+          // vendorAddProductController.priceController.text =
+          //     (vendorAddProductController
+          //         .vendorAddProductModel.value.data!.productDetail!.variants![0].price ??
+          //         "")
+          //         .toString();
+          chooseCategory=vendorAllCategoryController.model.value.data!.categories![0].id.toString();
+          // chooseOptionType=chooseOptionType.toString();
+          repetedData.clear();
+          vendorAddProductController.vendorAddProductModel.value.data!.productDetail!.variants!.forEach((element) {
+            repetedData.value.add(RepetItemData(itemSize: element.size.toString().obs, price: element.price.toString().obs, minQty: element.minQty.toString().obs, maxQty: element.maxQty.toString().obs, id: element.id.toString().obs));
+          });
 
-    vendorAddProductController.getVendorAddProduct();
+        }
+        setState(() {
+
+        });
+
+      });
+    }
+
     // addOnsController.getAddonsData().then((va) {
     //   if (listModelData.isEmpty && addOnsController.isDataLoading.value) {
     //     listModelData.add(ListModel1(
@@ -312,8 +369,10 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                     SizedBox(
                       height: AddSize.size10,
                     ),
-                    chooseOptionType == "Variable" ?
-                    Row(
+
+
+                    chooseOptionType == "Variable"
+                        ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
@@ -338,7 +397,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                     setState(() {});
                                   },
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
                                     children: [
                                       Icon(
                                         Icons.add,
@@ -351,11 +411,12 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                           ),
                         )
                       ],
-                    ):SizedBox(),
+                    )
+                        : SizedBox(),
                     SizedBox(
                       height: AddSize.size10,
                     ),
-                   // for Addons repeated data fields
+                    // for Addons repeated data fields
                     Obx(() {
                       return ListView.builder(
                           shrinkWrap: true,
@@ -365,6 +426,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                             return GestureDetector(
                               onTap: () {},
                               child: Stack(children: [
+
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -437,92 +499,36 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                     //     )
                     //   ],
                     // ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)
+                      IconButton(
+                          onPressed: () {
+                            Get.toNamed(AddOptionScreen.addOptionScreen);
+                          },
+                          icon: Icon(Icons.add)
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Choice of Add On",style: GoogleFonts
-                                    .ibmPlexSansArabic(
-                                    fontSize: 18,
-                                    fontWeight:
-                                    FontWeight.w600,
-                                    color: Color(
-                                        0xff000000)),),
 
-                                GestureDetector(
-                                  onTap: (){
-                                    Get.toNamed(AddOptionScreen.addOptionScreen);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: AppTheme.primaryColor,
-                                    ),
-                                    child: Icon(Icons.add,size: 38,color: Colors.white,),
-                                  ),
-                                ),
-                                // Image(
-                                //   height: 90,
-                                //   width: 90,
-                                //   image:
-                                //   AssetImage(
-                                //       AppAssets.AddButton),
-                                //
-                                // ),
-                              ],
-
-                            ),
-                            SizedBox(height: 10,),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Protien",
-                                    style: GoogleFonts.ibmPlexSansArabic(fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color:Color(0xff000000))
-                                ),
-                                Flexible(child: Container()),
-                                SizedBox(width: 150,),
-                                Expanded(
-                                  child: TextButton(
-                                    onPressed: () {
-                                    },
-                                    child:
-                                    Image(
-                                        height: 20,
-                                        width: 20,
-                                        image: AssetImage(
-                                            AppAssets.deleteIcon)),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextButton(
-                                    onPressed: () {
-
-                                    },
-                                    child:  Image(
-                                        height: 20,
-                                        width: 20,
-                                        image: AssetImage(
-                                            AppAssets.editIcon)),
-                                  ),
-                                ),
-
-
-                              ],
-                            ),
-                          ],
+                    Obx(() {
+                      if(vendorAddProductController.refreshInt.value > 0){}
+                      return Column(
+                        children: List.generate(
+                            vendorAddProductController.vendorAddProductModel
+                                .value
+                                .data!.singlePageAddons!.length,
+                                (index) =>
+                                addonCard(
+                                    vendorAddProductController
+                                        .vendorAddProductModel
+                                        .value
+                                        .data!
+                                        .singlePageAddons![index], index
+                                )
                         ),
-                      ),
-                    ),
+                      );
+                    }),
+
+                    // ...vendorAddProductController
+                    //     .vendorAddProductModel.value.data!.singlePageAddons!
+                    //     .map((e) => addonCard(e))
+                    //     .toList(),
 
 
                     SizedBox(
@@ -531,9 +537,21 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                     ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate() &&
-                              image.value.path != "") {
+                              (image.value.path != ""||vendorAddProductController.vendorAddProductModel.value.data != null)) {
                             print("hello");
                             Map<String, String> map = {};
+                            if(vendorAddProductController.productId.value.isNotEmpty) {
+                              map['id'] = vendorAddProductController
+                                  .vendorAddProductModel.value.data!
+                                  .productDetail!.id.toString();
+                              // map['product_variant_id'] =repetedData.map((element) => element.id.value).toList().where((element) =>element.isNotEmpty).toList().join(",");
+                              // map['product_addon_id'] = vendorAddProductController
+                              //     .productNameController.text;
+                            }
+                            map['product_variant_id'] = vendorAddProductController
+                                .productNameController.text;
+                            map['product_addon_id'] = vendorAddProductController
+                                .productNameController.text;
 
                             map['name'] = vendorAddProductController
                                 .productNameController.text;
@@ -544,7 +562,11 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                             map['SKU'] =
                                 vendorAddProductController.skuController.text;
                             map['type'] = chooseOptionType.toString();
-                            map['category'] = chooseCategory.toString();
+                            map['category'] =vendorAllCategoryController.model.value.data!.categories![0].id.toString();
+                            map['calories'] = vendorAddProductController
+                                .caloriesController.text;
+                            map['price'] =
+                                vendorAddProductController.priceController.text;
                             // print(map);
                             //map['image'] = image.value;
 
@@ -557,16 +579,63 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                   repetedData[i].maxQty.value.toString();
                               map["variants[$i][price]"] =
                                   repetedData[i].price.value.toString();
+
                             }
-                            for (var i = 0; i < listModelData.length; i++) {
-                              map["addons[$i][name]"] =
-                                  listModelData[i].name.value.toString();
-                              map["addons[$i][price]"] =
-                                  listModelData[i].price.value.toString();
-                              map["addons[$i][addon_id]"] =
-                                  listModelData[i].addonType.value.toString();
-                            }
+                            List<AddonsModel> gg = [];
+
+                            vendorAddProductController.vendorAddProductModel.value.data!.singlePageAddons!.forEach((element) {
+                              AddonsModel addons = AddonsModel(addonData: []);
+                              element.addonData!.forEach((element1) {
+                                addons.addonData!.add(
+                                    AddonDataaa(
+                                      title: element.title,
+                                      multiSelect: (element.multiSelectAddons ?? false) ? "1" : "0",
+                                      price: element1.price,
+                                      name: element1.name,
+                                      calories: element1.calories
+                                    )
+                                );
+                              });
+                              gg.add(addons);
+                            });
+                            map["addons"] = gg.map((e) => jsonEncode(e)).toList().toString();
                             print(map);
+
+                            // [
+                            //   {
+                            //     "addon_data": [
+                            //       {
+                            //         "title": "protein",
+                            //         "multi_select": 0,
+                            //         "name": "pepsi1",
+                            //         "calories": 1200,
+                            //         "price": 15
+                            //       },
+                            //       {
+                            //         "title": "protein",
+                            //         "multi_select": 0,
+                            //         "name": "pepsi test",
+                            //         "calories": 1200,
+                            //         "price": 12
+                            //       }]
+                            //   },
+                            //   {
+                            //     "addon_data": [
+                            //       {
+                            //         "title": "protein",
+                            //         "multi_select": 0,
+                            //         "name": "pepsi",
+                            //         "calories": 1200,
+                            //         "price": 10
+                            //       },
+                            //       {
+                            //         "title": "protein",
+                            //         "multi_select": 0,
+                            //         "name": "pepsi2",
+                            //         "calories": 1200,
+                            //         "price": 20
+                            //       }]
+                            //   }]
 
                             vendorSaveProductRepo(
                                 context: context,
@@ -584,31 +653,34 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 showToast(value.message);
                               }
                             });
-                          } else {
+                          } 
+                          else {
                             showValidation.value = true;
                             if (image.value.path.isEmpty) {
                               scrollNavigation(10);
-                            } else if ( vendorAddProductController
-                                .productNameController.text.trim().isEmpty) {
+                            } else if (vendorAddProductController
+                                .productNameController.text
+                                .trim()
+                                .isEmpty) {
                               scrollNavigation(0);
-                            } else if ( vendorAddProductController
+                            } else if (vendorAddProductController
                                 .descriptionController.text
                                 .trim()
                                 .isEmpty) {
                               scrollNavigation(50);
-                            } else if ( vendorAddProductController
+                            } else if (vendorAddProductController
                                 .skuController.text
                                 .trim()
                                 .isEmpty) {
                               scrollNavigation(50);
-                            }
-                            else if (chooseOptionType=="") {
+                            } else if (chooseOptionType == "") {
                               scrollNavigation(50);
                             }
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size(double.maxFinite, AddSize.size30 * 2),
+                          minimumSize:
+                          Size(double.maxFinite, AddSize.size30 * 2),
                           backgroundColor: AppTheme.primaryColor,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
@@ -616,7 +688,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                         ),
                         child: Text(
                           "SAVE",
-                          style: Theme.of(context)
+                          style: Theme
+                              .of(context)
                               .textTheme
                               .headlineSmall!
                               .copyWith(
@@ -629,6 +702,92 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               ),
             ),
           )),
+    );
+  }
+
+  Card addonCard(SinglePageAddons item, int index) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Choice of Add On",
+                  style: GoogleFonts.ibmPlexSansArabic(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xff000000)),
+                ),
+
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(
+                        AddOptionScreen.addOptionScreen, arguments: index);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppTheme.primaryColor,
+                    ),
+                    child: Icon(
+                      Icons.add,
+                      size: 38,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                // Image(
+                //   height: 90,
+                //   width: 90,
+                //   image:
+                //   AssetImage(
+                //       AppAssets.AddButton),
+                //
+                // ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(item.title!,
+                    style: GoogleFonts.ibmPlexSansArabic(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff000000))),
+                Flexible(child: Container()),
+                SizedBox(
+                  width: 150,
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Image(
+                        height: 20,
+                        width: 20,
+                        image: AssetImage(AppAssets.deleteIcon)),
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Image(
+                        height: 20,
+                        width: 20,
+                        image: AssetImage(AppAssets.editIcon)),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -646,8 +805,9 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               radius: const Radius.circular(10),
               borderType: BorderType.RRect,
               dashPattern: const [3, 5],
-              color: !checkValidation(
-                  showValidation.value, image.value.path == "")
+              color:
+              !checkValidation(showValidation.value, image.value.path == "") &&
+                  vendorAddProductController.vendorAddProductModel.value.data == null
                   ? Colors.grey.shade400
                   : Colors.red,
               strokeWidth: 1,
@@ -661,41 +821,56 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                       color: Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: image.value.path == ""
-                        ? Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              NewHelper()
-                                  .addFilePicker()
-                                  .then((value) {
-                                image.value = value;
-                              });
+                    child:
+
+                    GestureDetector(
+                      onTap: () {
+                        NewHelper().addFilePicker().then((value) {
+                          image.value = value;
+                        });
+                      },
+                      child: SizedBox(
+                          width: double.maxFinite,
+                          height: AddSize.size100,
+                          child: Image.file(
+                              image.value,
+                            errorBuilder: (_,__,___){
+                                return vendorAddProductController.vendorAddProductModel.value.data != null &&
+                                    vendorAddProductController.vendorAddProductModel.value.data!.productDetail != null ?
+                                CachedNetworkImage(
+                                  imageUrl:
+                                  vendorAddProductController.vendorAddProductModel.value.data!.productDetail!.image.toString(),
+                                  errorWidget: (_, __, ___) =>
+                                  const SizedBox(),
+                                  placeholder: (_, __) =>
+                                  const SizedBox(),
+                                  fit: BoxFit.cover,
+                                ) : Column(children: [
+                                  Center(
+                                      child: Icon(
+                                        Icons.file_upload_outlined,
+                                        size: AddSize.size30,
+                                      )),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  Text(
+                                    "Upload product image",
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .headline6!
+                                        .copyWith(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 14,
+                                        color: const Color(0xff555654)),
+                                  ),
+                                ]);
                             },
-                            child: Center(
-                                child: Icon(Icons.file_upload_outlined,size: AddSize.size30,)),
-                          ),
-                          SizedBox(
-                            height: AddSize.size10,
-                          ),
-                          Text(
-                            "Upload product image",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .copyWith(
-                                fontWeight: FontWeight.w300,
-                                fontSize: 14,
-                                color: const Color(
-                                    0xff555654)),
-                          ),
-                        ]
-                    )
-                        : SizedBox(
-                        width: double.maxFinite,
-                        height: AddSize.size100,
-                        child: Image.file(image.value)));
-              }),),
+                          )),
+                    ));
+              }),
+            ),
             SizedBox(
               height: AddSize.size10,
             ),
@@ -721,19 +896,30 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               children: [
                 Expanded(
                   child: RegistrationTextField(
-                    hint: "Price",
-                    controller: vendorAddProductController.priceController,
+                    hint: "SKU",
+                    controller: vendorAddProductController.skuController,
                     validator: MultiValidator(
-                        [RequiredValidator(errorText: "Please enter Price")]),
+                        [RequiredValidator(errorText: "Please enter SKU")]),
                   ),
                 ),
-                SizedBox(width: 4,),
+                // Expanded(
+                //   child: RegistrationTextField(
+                //     hint: "Price",
+                //     controller: vendorAddProductController.priceController,
+                //     validator: MultiValidator(
+                //         [RequiredValidator(errorText: "Please enter Price")]),
+                //   ),
+                // ),
+                SizedBox(
+                  width: 4,
+                ),
                 Expanded(
                   child: RegistrationTextField(
                     hint: "Calories",
                     controller: vendorAddProductController.caloriesController,
-                    validator: MultiValidator(
-                        [RequiredValidator(errorText: "Please enter Calories")]),
+                    validator: MultiValidator([
+                      RequiredValidator(errorText: "Please enter Calories")
+                    ]),
                   ),
                 ),
               ],
@@ -743,21 +929,124 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
             ),
             Row(
               children: [
+
+              ],
+            ),
+            SizedBox(
+              height: AddSize.size10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Expanded(
-                  child: RegistrationTextField(
-                    hint: "SKU",
-                    controller: vendorAddProductController.skuController,
-                    validator: MultiValidator(
-                        [RequiredValidator(errorText: "Please enter SKU")]),
-                  ),
-                ),
-                SizedBox(width: 4,),
-                Expanded(
-                  child: RegistrationTextField(
-                    hint: "Categories",
-                    controller: vendorAddProductController.categoryController,
-                    validator: MultiValidator(
-                        [RequiredValidator(errorText: "Please enter Category")]),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Colors.grey.shade50,
+                    ),
+                    child:
+                    Row(
+                      //mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: DropdownButtonFormField(
+                              focusColor: Colors.grey.shade50,
+                              isExpanded: true,
+                              iconEnabledColor: AppTheme.primaryColor,
+                              hint: Text(
+                                'All Category',
+                                style: TextStyle(
+                                    color: AppTheme.userText,
+                                    fontSize: AddSize.font14),
+                                textAlign: TextAlign.start,
+                              ),
+                              decoration: InputDecoration(
+                                fillColor: Colors.grey.shade50,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 18),
+                                // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Colors.grey.shade300, width: 3.0),
+                                    borderRadius: BorderRadius.circular(15.0)),
+                              ),
+                              value:chooseCategory,
+                              items: vendorAllCategoryController.model.value.data?.categories!.toList()
+                                  .map((value) {
+                                return DropdownMenuItem(
+                                  value: value.id.toString(),
+                                  child: Text(
+                                    value.name.toString(),
+                                    style: TextStyle(
+                                        color: AppTheme.userText,
+                                        fontSize: AddSize.font14),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                chooseCategory =
+                                    newValue.toString();
+                              },
+                              validator: (valid) {
+                                if (chooseCategory!.isEmpty) {
+                                  return "Addon Type is required";
+                                } else {
+                                  return null;
+                                }
+                              }),
+                        ),
+                        // const VerticalDivider(width: 1.0),
+                        // Obx(() {
+                        //return
+                        //   Expanded(
+                        //   child: DropdownButtonFormField(
+                        //     isExpanded: true,
+                        //     dropdownColor: Colors.grey.shade50,
+                        //     iconEnabledColor: AppTheme.primaryColor,
+                        //     hint: Text(
+                        //       'Type',
+                        //       style: TextStyle(
+                        //           color: AppTheme.userText,
+                        //           fontSize: AddSize.font14,
+                        //           fontWeight: FontWeight.w500),
+                        //       textAlign: TextAlign.start,
+                        //     ),
+                        //     decoration: const InputDecoration(
+                        //         enabled: true, border: InputBorder.none),
+                        //     value: listModelData[index].price.value == ""
+                        //         ? null
+                        //         : listModelData[index].price.value,
+                        //     items: qtyType.map((value) {
+                        //       return DropdownMenuItem(
+                        //         value: value.key.toString(),
+                        //         child: Text(
+                        //           value.value,
+                        //           style: TextStyle(
+                        //               color: Colors.black,
+                        //               fontSize: AddSize.font14,
+                        //               fontWeight: FontWeight.w500),
+                        //         ),
+                        //       );
+                        //     }).toList(),
+                        //     onChanged: (newValue) {
+                        //       listModelData[index].addOn.value =
+                        //           newValue as String;
+                        //     },
+                        //   ),
+                        // );
+                        //}),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -765,125 +1054,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
             SizedBox(
               height: AddSize.size10,
             ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Expanded(
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(8.0),
-            //           color: Colors.grey.shade50,
-            //         ),
-            //         child:
-            //         Row(
-            //           //mainAxisSize: MainAxisSize.min,
-            //           children: [
-            //             Expanded(
-            //               child: DropdownButtonFormField(
-            //                   focusColor: Colors.grey.shade50,
-            //                   isExpanded: true,
-            //                   iconEnabledColor: AppTheme.primaryColor,
-            //                   hint: Text(
-            //                     'All Category',
-            //                     style: TextStyle(
-            //                         color: AppTheme.userText,
-            //                         fontSize: AddSize.font14),
-            //                     textAlign: TextAlign.start,
-            //                   ),
-            //                   decoration: InputDecoration(
-            //                     fillColor: Colors.grey.shade50,
-            //                     contentPadding: const EdgeInsets.symmetric(
-            //                         horizontal: 10, vertical: 18),
-            //                     // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
-            //                     focusedBorder: OutlineInputBorder(
-            //                       borderSide:
-            //                       BorderSide(color: Colors.grey.shade300),
-            //                       borderRadius: BorderRadius.circular(10.0),
-            //                     ),
-            //                     enabledBorder: OutlineInputBorder(
-            //                       borderSide:
-            //                       BorderSide(color: Colors.grey.shade300),
-            //                       borderRadius: BorderRadius.circular(10.0),
-            //                     ),
-            //                     border: OutlineInputBorder(
-            //                         borderSide: BorderSide(
-            //                             color: Colors.grey.shade300, width: 3.0),
-            //                         borderRadius: BorderRadius.circular(15.0)),
-            //                   ),
-            //                   value:chooseCategory,
-            //                   items: vendorAllCategoryController.model.value.data?.categories!.toList()
-            //                       .map((value) {
-            //                     return DropdownMenuItem(
-            //                       value: value.id.toString(),
-            //                       child: Text(
-            //                         value.name.toString(),
-            //                         style: TextStyle(
-            //                             color: AppTheme.userText,
-            //                             fontSize: AddSize.font14),
-            //                       ),
-            //                     );
-            //                   }).toList(),
-            //                   onChanged: (newValue) {
-            //                     chooseCategory =
-            //                         newValue.toString();
-            //                   },
-            //                   validator: (valid) {
-            //                     if (chooseCategory!.isEmpty) {
-            //                       return "Addon Type is required";
-            //                     } else {
-            //                       return null;
-            //                     }
-            //                   }),
-            //             ),
-            //             // const VerticalDivider(width: 1.0),
-            //             // Obx(() {
-            //             //return
-            //             //   Expanded(
-            //             //   child: DropdownButtonFormField(
-            //             //     isExpanded: true,
-            //             //     dropdownColor: Colors.grey.shade50,
-            //             //     iconEnabledColor: AppTheme.primaryColor,
-            //             //     hint: Text(
-            //             //       'Type',
-            //             //       style: TextStyle(
-            //             //           color: AppTheme.userText,
-            //             //           fontSize: AddSize.font14,
-            //             //           fontWeight: FontWeight.w500),
-            //             //       textAlign: TextAlign.start,
-            //             //     ),
-            //             //     decoration: const InputDecoration(
-            //             //         enabled: true, border: InputBorder.none),
-            //             //     value: listModelData[index].price.value == ""
-            //             //         ? null
-            //             //         : listModelData[index].price.value,
-            //             //     items: qtyType.map((value) {
-            //             //       return DropdownMenuItem(
-            //             //         value: value.key.toString(),
-            //             //         child: Text(
-            //             //           value.value,
-            //             //           style: TextStyle(
-            //             //               color: Colors.black,
-            //             //               fontSize: AddSize.font14,
-            //             //               fontWeight: FontWeight.w500),
-            //             //         ),
-            //             //       );
-            //             //     }).toList(),
-            //             //     onChanged: (newValue) {
-            //             //       listModelData[index].addOn.value =
-            //             //           newValue as String;
-            //             //     },
-            //             //   ),
-            //             // );
-            //             //}),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(
-            //   height: AddSize.size10,
-            // ),
+
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -896,6 +1068,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                     child: Row(
                       //mainAxisSize: MainAxisSize.min,
                       children: [
+
                         Expanded(
                           child: DropdownButtonFormField(
                               focusColor: Colors.grey.shade50,
@@ -1165,128 +1338,128 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
           SizedBox(
             height: AddSize.size15,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.grey.shade50,
-                  ),
-                  child:
-                  Row(
-                    //mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: DropdownButtonFormField(
-                            focusColor: Colors.grey.shade50,
-                            isExpanded: true,
-                            iconEnabledColor: AppTheme.primaryColor,
-                            hint: Text(
-                              'Complementary inclusions',
-                              style: TextStyle(
-                                  color: AppTheme.userText,
-                                  fontSize: AddSize.font14),
-                              textAlign: TextAlign.start,
-                            ),
-                            decoration: InputDecoration(
-                              fillColor: Colors.grey.shade50,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 18),
-                              // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.grey.shade300),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.grey.shade300),
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade300, width: 3.0),
-                                  borderRadius: BorderRadius.circular(15.0)),
-                            ),
-                            value: listModelData[index].addonType.value == ""
-                                ? null
-                                : listModelData[index].addonType.value,
-                            items: addOnsController.model.value.data?.addons!
-                                .toList()
-                                .map((value) {
-                              return DropdownMenuItem(
-                                value: value.id.toString(),
-                                child: Text(
-                                  value.name.toString(),
-                                  style: TextStyle(
-                                      color: AppTheme.userText,
-                                      fontSize: AddSize.font14),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (newValue) {
-                              listModelData[index].addonType.value =
-                                  newValue.toString();
-                            },
-                            validator: (valid) {
-                              if (listModelData[index]
-                                  .addonType
-                                  .value
-                                  .isEmpty) {
-                                return "Addon Type is required";
-                              } else {
-                                return null;
-                              }
-                            }),
-                      ),
-                      // const VerticalDivider(width: 1.0),
-                      // Obx(() {
-                      //return
-                      //   Expanded(
-                      //   child: DropdownButtonFormField(
-                      //     isExpanded: true,
-                      //     dropdownColor: Colors.grey.shade50,
-                      //     iconEnabledColor: AppTheme.primaryColor,
-                      //     hint: Text(
-                      //       'Type',
-                      //       style: TextStyle(
-                      //           color: AppTheme.userText,
-                      //           fontSize: AddSize.font14,
-                      //           fontWeight: FontWeight.w500),
-                      //       textAlign: TextAlign.start,
-                      //     ),
-                      //     decoration: const InputDecoration(
-                      //         enabled: true, border: InputBorder.none),
-                      //     value: listModelData[index].price.value == ""
-                      //         ? null
-                      //         : listModelData[index].price.value,
-                      //     items: qtyType.map((value) {
-                      //       return DropdownMenuItem(
-                      //         value: value.key.toString(),
-                      //         child: Text(
-                      //           value.value,
-                      //           style: TextStyle(
-                      //               color: Colors.black,
-                      //               fontSize: AddSize.font14,
-                      //               fontWeight: FontWeight.w500),
-                      //         ),
-                      //       );
-                      //     }).toList(),
-                      //     onChanged: (newValue) {
-                      //       listModelData[index].addOn.value =
-                      //           newValue as String;
-                      //     },
-                      //   ),
-                      // );
-                      //}),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   children: [
+          //     Expanded(
+          //       child: Container(
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(8.0),
+          //           color: Colors.grey.shade50,
+          //         ),
+          //         child:
+          //         Row(
+          //           //mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             Expanded(
+          //               child: DropdownButtonFormField(
+          //                   focusColor: Colors.grey.shade50,
+          //                   isExpanded: true,
+          //                   iconEnabledColor: AppTheme.primaryColor,
+          //                   hint: Text(
+          //                     'Complementary inclusions',
+          //                     style: TextStyle(
+          //                         color: AppTheme.userText,
+          //                         fontSize: AddSize.font14),
+          //                     textAlign: TextAlign.start,
+          //                   ),
+          //                   decoration: InputDecoration(
+          //                     fillColor: Colors.grey.shade50,
+          //                     contentPadding: const EdgeInsets.symmetric(
+          //                         horizontal: 10, vertical: 18),
+          //                     // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+          //                     focusedBorder: OutlineInputBorder(
+          //                       borderSide:
+          //                       BorderSide(color: Colors.grey.shade300),
+          //                       borderRadius: BorderRadius.circular(10.0),
+          //                     ),
+          //                     enabledBorder: OutlineInputBorder(
+          //                       borderSide:
+          //                       BorderSide(color: Colors.grey.shade300),
+          //                       borderRadius: BorderRadius.circular(10.0),
+          //                     ),
+          //                     border: OutlineInputBorder(
+          //                         borderSide: BorderSide(
+          //                             color: Colors.grey.shade300, width: 3.0),
+          //                         borderRadius: BorderRadius.circular(15.0)),
+          //                   ),
+          //                   value: listModelData[index].addonType.value == ""
+          //                       ? null
+          //                       : listModelData[index].addonType.value,
+          //                   items: addOnsController.model.value.data?.addons!
+          //                       .toList()
+          //                       .map((value) {
+          //                     return DropdownMenuItem(
+          //                       value: value.id.toString(),
+          //                       child: Text(
+          //                         value.name.toString(),
+          //                         style: TextStyle(
+          //                             color: AppTheme.userText,
+          //                             fontSize: AddSize.font14),
+          //                       ),
+          //                     );
+          //                   }).toList(),
+          //                   onChanged: (newValue) {
+          //                     listModelData[index].addonType.value =
+          //                         newValue.toString();
+          //                   },
+          //                   validator: (valid) {
+          //                     if (listModelData[index]
+          //                         .addonType
+          //                         .value
+          //                         .isEmpty) {
+          //                       return "Addon Type is required";
+          //                     } else {
+          //                       return null;
+          //                     }
+          //                   }),
+          //             ),
+          //             // const VerticalDivider(width: 1.0),
+          //             // Obx(() {
+          //             //return
+          //             //   Expanded(
+          //             //   child: DropdownButtonFormField(
+          //             //     isExpanded: true,
+          //             //     dropdownColor: Colors.grey.shade50,
+          //             //     iconEnabledColor: AppTheme.primaryColor,
+          //             //     hint: Text(
+          //             //       'Type',
+          //             //       style: TextStyle(
+          //             //           color: AppTheme.userText,
+          //             //           fontSize: AddSize.font14,
+          //             //           fontWeight: FontWeight.w500),
+          //             //       textAlign: TextAlign.start,
+          //             //     ),
+          //             //     decoration: const InputDecoration(
+          //             //         enabled: true, border: InputBorder.none),
+          //             //     value: listModelData[index].price.value == ""
+          //             //         ? null
+          //             //         : listModelData[index].price.value,
+          //             //     items: qtyType.map((value) {
+          //             //       return DropdownMenuItem(
+          //             //         value: value.key.toString(),
+          //             //         child: Text(
+          //             //           value.value,
+          //             //           style: TextStyle(
+          //             //               color: Colors.black,
+          //             //               fontSize: AddSize.font14,
+          //             //               fontWeight: FontWeight.w500),
+          //             //         ),
+          //             //       );
+          //             //     }).toList(),
+          //             //     onChanged: (newValue) {
+          //             //       listModelData[index].addOn.value =
+          //             //           newValue as String;
+          //             //     },
+          //             //   ),
+          //             // );
+          //             //}),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           SizedBox(
             height: AddSize.size20,
           ),
@@ -1311,6 +1484,9 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
           horizontal: AddSize.padding18, vertical: AddSize.padding22),
       child: Column(
         children: [
+          // Text(varientSizeController
+          //     .model.value.data!.variants!.map((e) => e.size.toString()).toList().toString()),
+          // Text(repetedData[index].itemSize.value.toString()),
           SizedBox(
             height: AddSize.size10,
           ),
@@ -1326,8 +1502,12 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                   child: Row(
                     //mainAxisSize: MainAxisSize.min,
                     children: [
+              // Text(repetedData[index].itemSize.value),
+              // Text( varientSizeController
+              //     .model.value.data!.variants!
+              //     .toList().map((e) => e.id.toString()).toString()),
                       Expanded(
-                        child: DropdownButtonFormField(
+                        child: DropdownButtonFormField<dynamic>(
                             focusColor: Colors.grey.shade50,
                             isExpanded: true,
                             iconEnabledColor: AppTheme.primaryColor,
@@ -1360,11 +1540,12 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                   borderRadius:
                                   BorderRadius.circular(15.0)),
                             ),
-                            value: repetedData[index].itemSize.value == ""
+                            value:
+                            repetedData[index].itemSize.value == ""
                                 ? null
                                 : repetedData[index].itemSize.value,
                             items: varientSizeController
-                                .model.value.data?.variants!
+                                .model.value.data!.variants!
                                 .toList()
                                 .map((value) {
                               return DropdownMenuItem(

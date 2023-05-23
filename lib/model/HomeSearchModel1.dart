@@ -42,15 +42,17 @@ class SearchModelData {
   int? id;
   String? name;
   String? distance;
+  String?  deliveryCharge;
   String? image;
   String? avgRating;
 
-  SearchModelData({this.id, this.name, this.distance, this.image, this.avgRating});
+  SearchModelData({this.id, this.name, this.distance, this.deliveryCharge, this.image, this.avgRating});
 
   SearchModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     distance = json['distance'];
+    deliveryCharge = json['delivery_charge'];
     image = json['image'];
     avgRating = json['avg_rating'];
   }
@@ -60,6 +62,7 @@ class SearchModelData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['distance'] = this.distance;
+    data['delivery_charge'] = this.deliveryCharge;
     data['image'] = this.image;
     data['avg_rating'] = this.avgRating;
     return data;

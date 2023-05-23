@@ -9,6 +9,7 @@ class ApiUrl {
   static const socialLogin = "${baseUrl}social-login";
   static const otpApi = "${baseUrl}verify-otp";
   static const wishListUrl = "${baseUrl}add-remove-wishlist";
+  static const getWishListUrl = "${baseUrl}list";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
   static const couponsUrl = "${baseUrl}coupons";
@@ -91,7 +92,7 @@ class ApiUrl {
   static const addMoneyUrl = "${baseUrl}add-money";
   static const singleProductUrl = "${baseUrl}product/";
   static const onlineSuccessPaymentUrl = "${baseUrl}online-success-payment";
-  static const vendorEditProductUrl = "${baseUrl}vendor-product/";
+  static const vendorEditProductUrl = "${baseUrl}product/";
   static const vendorBankDetailsUrl = "${baseUrl}account-details";
   static const vendorBankListUrl = "${baseUrl}banks-list";
   static const vendorAddBankDetailsUrl = "${baseUrl}add-account-details";

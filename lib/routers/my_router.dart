@@ -36,6 +36,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
+import '../screens/Add_NewCard_Page.dart';
 import '../screens/Onboarding_Screen_page.dart';
 import '../screens/OneProduct_Screen.dart';
 import '../screens/Popular_Homepage_Product_screen.dart';
@@ -43,6 +44,7 @@ import '../screens/RecomendedViewAll_Screen.dart';
 import '../screens/SetPassword_Screen.dart';
 import '../screens/SingleProdct_Screen.dart';
 import '../screens/Update_Address_Screen.dart';
+import '../screens/WishList_Screen.dart';
 import '../screens/admin_response_screen.dart';
 import '../screens/driver_screen/delivery_address.dart';
 import '../screens/driver_screen/driver_delivery_details.dart';
@@ -153,9 +155,9 @@ class MyRouter {
     GetPage(
         name: VendorProductScreen.vendorProductScreen,
         page: () => const VendorProductScreen()),
-    GetPage(
-        name: AddVendorProduct.addVendorProduct,
-        page: () => const AddVendorProduct()),
+    // GetPage(
+    //     name: AddVendorProduct.addVendorProduct,
+    //     page: () => const AddVendorProduct()),
     GetPage(
         name: VendorOrderList.vendorOrderList,
         page: () => const VendorOrderList()),
@@ -228,5 +230,11 @@ class MyRouter {
     GetPage(
         name: UpdateAddressScreen.updateAddressScreen,
         page: () =>  const UpdateAddressScreen()),
+    GetPage(
+        name: WishListScreen.wishListScreen,
+        page: () =>  const WishListScreen()),
+    GetPage(
+        name: AddNewCardScreen.addNewCardPage,
+        page: () =>  const AddNewCardScreen()),
   ];
 }

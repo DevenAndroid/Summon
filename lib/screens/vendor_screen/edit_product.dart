@@ -1,3 +1,6 @@
+import 'dart:convert';
+import '../../controller/Varient_Size_controller.dart';
+import '../../model/model_addons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +12,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../../controller/Edit_Products_Controller.dart';
+import '../../controller/VendorAllCategoryController.dart';
 import '../../controller/vendor_productList_controller.dart';
+
 import '../../model/ListModel.dart';
+import '../../model/RepetedItem_Model.dart';
 import '../../model/VendorEditProduct_model.dart';
+import '../../model/model_addons.dart';
 import '../../model/time_model.dart';
 import '../../repositories/Vendor_SaveProduct_Repo.dart';
 import '../../resources/new_helper.dart';
@@ -26,12 +33,22 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
+  final vendorAllCategoryController = Get.put(VendorAllCategoryController());
   final editProductController = Get.put(EditProductsController());
   final vendorProductListController = Get.put(VendorProductListController());
   Rx<VendorEditProductModel> editModel = VendorEditProductModel().obs;
+  final varientSizeController = Get.put(VarientSizeController());
+  RxList<RepetItemData> repetedData = <RepetItemData>[].obs;
   Rx<File> image = File("").obs;
   final _formKey = GlobalKey<FormState>();
+  bool chooseOptionType=false;
+  RxBool showValidation = false.obs;
   //RxList<ListModel> listModelData = <ListModel>[].obs;
+  ScrollController _scrollController = ScrollController();
+  scrollNavigation(double offset) {
+    _scrollController.animateTo(offset,
+        duration: Duration(seconds: 1), curve: Curves.easeOutSine);
+  }
 
   showChangeAddressSheet() {
     showModalBottomSheet(
@@ -152,8 +169,42 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void initState() {
     super.initState();
-    editProductController.getEditProductData();
+    editProductController.getEditProductData().then((value){
+      if (editProductController.isDataLoading.value &&
+          editProductController.editModel.value.data != null) {
+        editProductController.productNameController.text =
+            (editProductController
+                .editModel.value.data!.productDetail!.name ??
+                "")
+                .toString();
+        editProductController.skuController.text =
+            (editProductController
+                .editModel.value.data!.productDetail!.sKU ??
+                "")
+                .toString();
+        editProductController.descriptionController.text =
+            (editProductController
+                .editModel.value.data!.productDetail!.content ??
+                "")
+                .toString();
+        editProductController.caloryController.text =
+            (editProductController
+                .editModel.value.data!.productDetail!. calories??
+                "")
+                .toString();
+        editProductController.priceController.text =
+            (editProductController
+                .editModel.value.data!.productDetail!.variants![0].price ??
+                "")
+                .toString();
+
+      }
+      setState(() {
+
+      });
+    });
     print(editProductController.id.value);
+    vendorAllCategoryController.getVendorAllCategory();
   }
 
   @override
@@ -164,52 +215,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
         child: Scaffold(
           appBar: backAppBar(title: "Edit Products", context: context),
           body: editProductController.isDataLoading.value
-              ? Obx(() {
-                  if (editProductController.isDataLoading.value &&
-                      editProductController.editModel.value.data != null) {
-                    editProductController.productNameController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.name ??
-                                "")
-                            .toString();
-                    print("product name isssss....{productNameController.text}");
-                    editProductController.skuController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.sKU ??
-                                "")
-                            .toString();
-                    editProductController.marketPriceController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.marketPrice ??
-                                "")
-                            .toString();
-                    editProductController.qtyController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.qty ??
-                                "")
-                            .toString();
-                    editProductController.qtyTypeController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.qtyType ??
-                                "")
-                            .toString();
-                    editProductController.priceController.text =
-                        (editProductController.editModel.value.data!.product!
-                                    .regularPrice ??
-                                "")
-                            .toString();
-                    editProductController.minQtyController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.minQty ??
-                                "")
-                            .toString();
-                    editProductController.maxQtyController.text =
-                        (editProductController
-                                    .editModel.value.data!.product!.maxQty ??
-                                "")
-                            .toString();
-                  }
-                  return SingleChildScrollView(
+              ?
+
+                    SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
@@ -251,12 +259,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                                     width: AddSize.size40,
                                                     child: CachedNetworkImage(
                                                       imageUrl:
-                                                          editProductController
+                                                          (editProductController
                                                               .editModel
                                                               .value
-                                                              .data!
-                                                              .image
-                                                              .toString(),
+                                                              .data?.productDetail!.image ?? "").toString(),
                                                       errorWidget: (_, __, ___) =>
                                                           const SizedBox(),
                                                       placeholder: (_, __) =>
@@ -284,18 +290,59 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   SizedBox(
                                     height: AddSize.size10,
                                   ),
-                                  // RegistrationTextField(
-                                  //   hint: "SKU",
-                                  //   controller:
-                                  //       editProductController.skuController,
-                                  //   validator: MultiValidator([
-                                  //     RequiredValidator(
-                                  //         errorText: "Please enter SKU")
-                                  //   ]),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: AddSize.size10,
-                                  // ),
+                                  RegistrationTextField(
+                                    hint: "SKU",
+                                    controller:
+                                        editProductController.skuController,
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: "Please enter SKU")
+                                    ]),
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  RegistrationTextField(
+                                    hint: "Description",
+                                    controller:
+                                    editProductController.descriptionController,
+                                    validator: MultiValidator([
+                                      RequiredValidator(
+                                          errorText: "Please enter SKU")
+                                    ]),
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: RegistrationTextField(
+                                          hint: "Price",
+                                          controller:
+                                          editProductController.priceController,
+                                          validator: MultiValidator([
+                                            RequiredValidator(
+                                                errorText: "Please enter SKU")
+                                          ]),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: AddSize.size10,
+                                      ),
+                                      Expanded(
+                                        child: RegistrationTextField(
+                                          hint: "Calories",
+                                          controller:
+                                          editProductController.caloryController,
+                                          validator: MultiValidator([
+                                            RequiredValidator(
+                                                errorText: "Please enter SKU")
+                                          ]),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Obx(() {
                                     return ListView.builder(
                                         shrinkWrap: true,
@@ -371,77 +418,132 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             ),
                             ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate() &&
+                                      image.value.path != "") {
+                                    print("hello");
                                     Map<String, String> map = {};
-                                    map['id'] = editProductController
-                                        .editModel.value.data!.id
-                                        .toString();
-                                    map['product_id'] = editProductController
-                                        .editModel.value.data!.product!.id
-                                        .toString();
-                                    map['category_id'] = editProductController
-                                        .editModel
-                                        .value
-                                        .data!
-                                        .product!
-                                        .category!
-                                        .id
-                                        .toString();
-                                    map['imageOld'] = editProductController
-                                        .editModel.value.data!.image
-                                        .toString();
-                                    print("Map data...$map");
-                                    map['product_variant_id'] =
-                                        editProductController.listModelData
-                                            .where((element) => element.varientId.value != "")
-                                            .toList()
-                                            .map((e) => e.varientId.value)
-                                            .join(",");
-                                    print("Map data...$map");
-                                    for (var i = 0;
-                                        i <
-                                            editProductController
-                                                .listModelData.length;
-                                        i++) {
-                                      map["variants[$i][market_price]"] =
-                                          editProductController
-                                              .listModelData[i].marketPrice!.value
-                                              .toString();
-                                      map["variants[$i][variant_qty]"] =
-                                          editProductController
-                                              .listModelData[i].qty.value
-                                              .toString();
-                                      map["variants[$i][variant_qty_type]"] =
-                                          editProductController
-                                              .listModelData[i].qtyType.value
-                                              .toString();
+
+                                    map['name'] = editProductController
+                                        .productNameController.text;
+
+                                    map['description'] = editProductController
+                                        .descriptionController.text;
+
+                                    map['SKU'] =
+                                        editProductController.skuController.text;
+                                    map['type'] = chooseOptionType.toString();
+                                    map['category'] =vendorAllCategoryController.model.value.data!.categories![0].id.toString();
+                                    map['calories'] = editProductController.caloryController.text;
+                                    map['price'] =
+                                        editProductController.priceController.text;
+                                    // print(map);
+                                    //map['image'] = image.value;
+
+                                    for (var i = 0; i < repetedData.length; i++) {
+                                      map["variants[$i][size_id]"] =
+                                          repetedData[i].itemSize.value.toString();
                                       map["variants[$i][min_qty]"] =
-                                          editProductController
-                                              .listModelData[i].minQty.value
-                                              .toString();
+                                          repetedData[i].minQty.value.toString();
                                       map["variants[$i][max_qty]"] =
-                                          editProductController
-                                              .listModelData[i].maxQty.value
-                                              .toString();
+                                          repetedData[i].maxQty.value.toString();
                                       map["variants[$i][price]"] =
-                                          editProductController
-                                              .listModelData[i].price.value
-                                              .toString();
+                                          repetedData[i].price.value.toString();
                                     }
-                                    print("Map data...$map");
+                                    List<AddonsModel> gg = [];
+
+                                    editProductController.editModel.value.data!.singlePageAddons!.forEach((element) {
+                                      AddonsModel addons = AddonsModel(addonData: []);
+                                      element.addonData!.forEach((element1) {
+                                        addons.addonData!.add(
+                                            AddonDataaa(
+                                                title: element.title,
+                                                multiSelect: (element.multiSelectAddons ?? false) ? "1" : "0",
+                                                price: element1.price,
+                                                name: element1.name,
+                                                calories: element1.calories
+                                            )
+                                        );
+                                      });
+                                      gg.add(addons);
+                                    });
+                                    map["addons"] = gg.map((e) => jsonEncode(e)).toList().toString();
+                                    print(map);
+
+                                    // [
+                                    //   {
+                                    //     "addon_data": [
+                                    //       {
+                                    //         "title": "protein",
+                                    //         "multi_select": 0,
+                                    //         "name": "pepsi1",
+                                    //         "calories": 1200,
+                                    //         "price": 15
+                                    //       },
+                                    //       {
+                                    //         "title": "protein",
+                                    //         "multi_select": 0,
+                                    //         "name": "pepsi test",
+                                    //         "calories": 1200,
+                                    //         "price": 12
+                                    //       }]
+                                    //   },
+                                    //   {
+                                    //     "addon_data": [
+                                    //       {
+                                    //         "title": "protein",
+                                    //         "multi_select": 0,
+                                    //         "name": "pepsi",
+                                    //         "calories": 1200,
+                                    //         "price": 10
+                                    //       },
+                                    //       {
+                                    //         "title": "protein",
+                                    //         "multi_select": 0,
+                                    //         "name": "pepsi2",
+                                    //         "calories": 1200,
+                                    //         "price": 20
+                                    //       }]
+                                    //   }]
 
                                     vendorSaveProductRepo(
-                                            fieldName1: "image",
-                                            mapData: map,
-                                            context: context,
-                                            file1: image.value)
+                                        context: context,
+                                        mapData: map,
+                                        fieldName1: "image",
+                                        file1: image.value)
                                         .then((value) {
+                                      showToast(value.message);
                                       if (value.status == true) {
-                                        showToast(value.message);
-                                        vendorProductListController.getVendorProductList();
+                                        vendorProductListController
+                                            .getVendorProductList();
+                                        // homeController.getData();
                                         Get.back();
+                                      } else {
+                                        showToast(value.message);
                                       }
                                     });
+                                  }
+                                  else {
+                                    showValidation.value = true;
+                                    if (image.value.path.isEmpty) {
+                                      scrollNavigation(10);
+                                    } else if (editProductController
+                                        .productNameController.text
+                                        .trim()
+                                        .isEmpty) {
+                                      scrollNavigation(0);
+                                    } else if (editProductController
+                                        .descriptionController.text
+                                        .trim()
+                                        .isEmpty) {
+                                      scrollNavigation(50);
+                                    } else if (editProductController
+                                        .skuController.text
+                                        .trim()
+                                        .isEmpty) {
+                                      scrollNavigation(50);
+                                    } else if (chooseOptionType == "") {
+                                      scrollNavigation(50);
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -466,8 +568,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                       ),
                     ),
-                  );
-                })
+                  )
               : const Center(child: CircularProgressIndicator()),
         ),
       );
@@ -653,6 +754,188 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     RequiredValidator(errorText: "Please enter the Max qty")
                   ]),
                 ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding repeatUnit2({
+    required String minQt1,
+    required String price1,
+    required String maxQt1,
+    required int index,
+  }) {
+    //final TextEditingController nameCon = TextEditingController(text: minQt1);
+    final TextEditingController priceCon = TextEditingController(text: price1);
+    final TextEditingController minCon = TextEditingController(text: minQt1);
+    final TextEditingController maxQtCon = TextEditingController(text: maxQt1);
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: AddSize.padding18, vertical: AddSize.padding22),
+      child: Column(
+        children: [
+          SizedBox(
+            height: AddSize.size10,
+          ),
+          Row(
+            children: [
+              chooseOptionType == "Variable"
+                  ? Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.grey.shade50,
+                  ),
+                  child: Row(
+                    //mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField(
+                            focusColor: Colors.grey.shade50,
+                            isExpanded: true,
+                            iconEnabledColor: AppTheme.primaryColor,
+                            hint: Text(
+                              'Size',
+                              style: TextStyle(
+                                  color: AppTheme.userText,
+                                  fontSize: AddSize.font14),
+                              textAlign: TextAlign.start,
+                            ),
+                            decoration: InputDecoration(
+                              fillColor: Colors.grey.shade50,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 18),
+                              // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey.shade300,
+                                      width: 3.0),
+                                  borderRadius:
+                                  BorderRadius.circular(15.0)),
+                            ),
+                            value: repetedData[index].itemSize.value == ""
+                                ? null
+                                : repetedData[index].itemSize.value,
+                            items: varientSizeController
+                                .model.value.data?.variants!
+                                .toList()
+                                .map((value) {
+                              return DropdownMenuItem(
+                                value: value.id.toString(),
+                                child: Text(
+                                  value.size.toString(),
+                                  style: TextStyle(
+                                      color: AppTheme.userText,
+                                      fontSize: AddSize.font14),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (newValue) {
+                              repetedData[index].itemSize.value =
+                                  newValue.toString();
+                            },
+                            validator: (valid) {
+                              if (repetedData[index]
+                                  .itemSize
+                                  .value
+                                  .isEmpty) {
+                                return "Size is required";
+                              } else {
+                                return null;
+                              }
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+                  : SizedBox(),
+              chooseOptionType == "Variable"
+                  ? SizedBox(
+                width: AddSize.size10,
+              )
+                  : SizedBox(),
+              Expanded(
+                child: RegistrationTextField1(
+                  onChanged: (value) {
+                    repetedData[index].price.value = value;
+                  },
+                  hint: "Price",
+                  lableText: "Price",
+                  controller: priceCon,
+                  keyboardType: TextInputType.number,
+                  validator: MultiValidator(
+                      [RequiredValidator(errorText: "Please enter price")]),
+                ),
+              ),
+              SizedBox(
+                height: AddSize.size10,
+              ),
+            ],
+          ),
+          SizedBox(
+            height: AddSize.size10,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: RegistrationTextField1(
+                    hint: "Min Qty",
+                    lableText: "Min Qty",
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      repetedData[index].minQty.value = value;
+                    },
+                    controller: minCon,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter the Min Qty";
+                      } else if (int.parse(minCon.text) < 1) {
+                        return "Enter at least one Qty";
+                      } else if (int.parse(minCon.text) >
+                          int.parse(maxQtCon.text)) {
+                        return "Min Qty should be less than Max Qty";
+                      }
+                      return null;
+                    }),
+              ),
+              SizedBox(
+                width: AddSize.size10,
+              ),
+              Expanded(
+                child: RegistrationTextField1(
+                    hint: "Max Qty",
+                    lableText: "Max Qty",
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      repetedData[index].maxQty.value = value;
+                    },
+                    controller: maxQtCon,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Enter the Min Qty";
+                      } else if (int.parse(maxQtCon.text) < 1) {
+                        return "Enter at least one Qty";
+                      } else if (int.parse(maxQtCon.text) <
+                          int.parse(minCon.text)) {
+                        return "Min Qty should be less than Max Qty";
+                      }
+                      return null;
+                    }),
               ),
             ],
           ),

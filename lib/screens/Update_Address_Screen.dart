@@ -432,7 +432,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                                       .phoneController.text,
                                   'note': getSaveAddressController
                                       .noteController.text,
-                                  'leave_at_door': chooseOption.toString(),
+                                  'leave_at_door': chooseOption,
                                   'address_id': getSaveAddressController.getSaveAddressModel.value.data!.id.toString(),
                                 };
                                 print(map);
@@ -482,51 +482,51 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
     );
   }
 
-  chipList(title,) {
-    var height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    return Obx(() {
-      return Column(
-        children: [
-          ChoiceChip(
-            padding: EdgeInsets.symmetric(
-                horizontal: width * .01, vertical: height * .01),
-            backgroundColor: AppTheme.backgroundcolor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
-                    color: title != selectedChip.value
-                        ? Colors.grey.shade300
-                        : const Color(0xff4169E2))),
-            label: Text("$title",
-                style: TextStyle(
-                    color: title != selectedChip.value
-                        ? Colors.grey.shade600
-                        : const Color(0xff4169E2),
-                    fontSize: AddSize.font14,
-                    fontWeight: FontWeight.w500)),
-            selected: title == selectedChip.value,
-            selectedColor: const Color(0xff4169E2).withOpacity(.3),
-            onSelected: (value) {
-              selectedChip.value = title;
-              if (title == "Other") {
-                customTip.value = true;
-                otherController.text = "";
-              } else {
-                customTip.value = false;
-                otherController.text = title;
-              }
-              setState(() {});
-            },
-          )
-        ],
-      );
-    });
-  }
+  // chipList(title,) {
+  //   var height = MediaQuery
+  //       .of(context)
+  //       .size
+  //       .height;
+  //   var width = MediaQuery
+  //       .of(context)
+  //       .size
+  //       .width;
+  //   return Obx(() {
+  //     return Column(
+  //       children: [
+  //         ChoiceChip(
+  //           padding: EdgeInsets.symmetric(
+  //               horizontal: width * .01, vertical: height * .01),
+  //           backgroundColor: AppTheme.backgroundcolor,
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(10),
+  //               side: BorderSide(
+  //                   color: title != selectedChip.value
+  //                       ? Colors.grey.shade300
+  //                       : const Color(0xff4169E2))),
+  //           label: Text("$title",
+  //               style: TextStyle(
+  //                   color: title != selectedChip.value
+  //                       ? Colors.grey.shade600
+  //                       : const Color(0xff4169E2),
+  //                   fontSize: AddSize.font14,
+  //                   fontWeight: FontWeight.w500)),
+  //           selected: title == selectedChip.value,
+  //           selectedColor: const Color(0xff4169E2).withOpacity(.3),
+  //           onSelected: (value) {
+  //             selectedChip.value = title;
+  //             if (title == "Other") {
+  //               customTip.value = true;
+  //               otherController.text = "";
+  //             } else {
+  //               customTip.value = false;
+  //               otherController.text = title;
+  //             }
+  //             setState(() {});
+  //           },
+  //         )
+  //       ],
+  //     );
+  //   });
+  // }
 }

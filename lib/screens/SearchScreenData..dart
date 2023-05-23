@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/home_page_controller.dart';
@@ -186,12 +187,13 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                           if(index < homeSearchController.searchModel2.length){
                             return InkWell(
                                 onTap: () {
-                                  Get.toNamed(StoreScreen
-                                      .singleStoreScreen);
+
                                   storeController
                                       .storeId.value =
                                       homeSearchController.searchModel2[index].id
                                           .toString();
+                                  Get.toNamed(StoreScreen
+                                      .singleStoreScreen);
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(
@@ -247,9 +249,8 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                             index]
                                                 .name
                                                 .toString(),
-                                            style: TextStyle(
-                                                color: AppTheme
-                                                    .blackcolor,
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                                color:Color(0xff08141B),
                                                 fontSize:
                                                 AddSize
                                                     .font14,
@@ -258,29 +259,48 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                                                     .w500),
                                           ),
                                           Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
                                             children: [
+                                              Text("SR",
+                                                style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                    fontWeight: FontWeight
+                                                        .w700,
+                                                    color: Color(
+                                                        0xff2C4D61)),), SizedBox(width: 3,),
+                                              Text("${homeSearchController.searchModel2[index].deliveryCharge.toString()}",
+                                                style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                    fontWeight: FontWeight
+                                                        .w700,
+                                                    color: Color(
+                                                        0xff2C4D61)),), SizedBox(width: 5,),
+                                              Icon(Icons.circle,size: 5,color: Color(
+                                                  0xff2C4D61)),
+                                              SizedBox(width: 5,),
+                                              Text("KM",
+                                                style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                    fontWeight: FontWeight
+                                                        .w700,
+                                                    color: Color(
+                                                        0xff2C4D61)),), SizedBox(width: 3,),
+                                              Text("${homeSearchController.searchModel2[index].distance.toString()}",
+                                                style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                    fontWeight: FontWeight
+                                                        .w700,
+                                                    color: Color(
+                                                        0xff2C4D61)),), SizedBox(width: 5,),
+                                              Icon(Icons.circle,size: 5,color: Color(
+                                                  0xff2C4D61)),
+                                              SizedBox(width: 5,),
 
-                                              Row(
-                                                children: [
-
-                                                  Text(
-                                                    "${homeSearchController.searchModel2[index].distance.toString()} KM",
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .blackcolor,
-                                                        fontSize:
-                                                        AddSize
-                                                            .font12,
-                                                        fontWeight:
-                                                        FontWeight.w400),
-                                                  ),
-                                                ],
-                                              ),
+                                              Text("${homeSearchController.searchModel2[index].avgRating.toString()}",
+                              style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                    fontWeight: FontWeight
+                                                        .w700,
+                                                    color: Color(
+                                                        0xff2C4D61)),),
+                                              SizedBox(width: 5,),
                                             ],
                                           ),
+
                                         ],
                                       ),
                                     )));

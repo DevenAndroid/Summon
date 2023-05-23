@@ -214,7 +214,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                       },
                                       icon: ImageIcon(
                                         const AssetImage(AppAssets.filterImage),
-                                        color: Colors.white,
+                                        color: AppTheme.primaryColor,
                                         size: AddSize.size30,
                                       )),
                                 )

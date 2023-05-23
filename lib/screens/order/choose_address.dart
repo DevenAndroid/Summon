@@ -103,7 +103,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
         .then((Position position) {
       setState(() => _currentPosition = position);
       _getAddressFromLatLng(_currentPosition!);
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+      mapController?.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
               target: LatLng(
                   _currentPosition!.latitude, _currentPosition!.longitude),

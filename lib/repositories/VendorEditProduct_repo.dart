@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:fresh2_arrive/model/Social_Login_Model.dart';
+import 'package:fresh2_arrive/model/VendorAddProduct_Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -6,10 +8,10 @@ import '../model/VendorEditProduct_model.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
-Future<VendorEditProductModel> vendorEditProductRepo({required id}) async {
+Future<VendorAddProductModel> vendorEditProductRepo({required id}) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
-  ModelVerifyOtp? user =
-      ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+  SocialLoginModel? user =
+  SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
   final headers = {
     HttpHeaders.contentTypeHeader: 'application/json',
     HttpHeaders.acceptHeader: 'application/json',
@@ -23,7 +25,7 @@ Future<VendorEditProductModel> vendorEditProductRepo({required id}) async {
 
   if (response.statusCode == 200 ||response.statusCode == 400) {
     print("Vendor Edit Product repo Repository...${response.body}");
-    return VendorEditProductModel.fromJson(jsonDecode(response.body));
+    return VendorAddProductModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception(response.body);
   }

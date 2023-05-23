@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../controller/Addons_Controller.dart';
+import '../../controller/vendorAddProductController.dart';
 import '../../model/ListDataModel.dart';
+import '../../model/VendorAddProduct_Model.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/registration_form_textField.dart';
@@ -18,30 +22,40 @@ class AddOptionScreen extends StatefulWidget {
 }
 
 class _AddOptionScreenState extends State<AddOptionScreen> {
-  TextEditingController titleController=TextEditingController();
-  final addOnsController = Get.put(AddonsController());
-  RxList<ListModel1> listModelData = <ListModel1>[].obs;
-  bool isMultiSelect=false;
+  TextEditingController titleController = TextEditingController();
+  final vendorAddProductController = Get.put(VendorAddProductController());
+  // RxList<ListModel1> listModelData = <ListModel1>[].obs;
+  bool isMultiSelect = false;
+
+  int currentIndex = 0;
+
+  bool emptyList = false;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    addOnsController.getAddonsData().then((va) {
-      if (listModelData.isEmpty && addOnsController.isDataLoading.value) {
-        listModelData.add(ListModel1(
-            name: "".obs,
-            price: "".obs,
-            calories: "".obs,
-            addonType: "".obs,
-            addonTypeId: "".obs));
-        setState(() {});
-      }
-    });
-
-
+    if (Get.arguments != null) {
+      currentIndex = Get.arguments;
+      titleController.text = vendorAddProductController.vendorAddProductModel.value
+          .data!.singlePageAddons![currentIndex].title ?? "";
+      isMultiSelect = vendorAddProductController.vendorAddProductModel.value
+          .data!.singlePageAddons![currentIndex].multiSelectAddons ?? false;
+      tempList = vendorAddProductController.vendorAddProductModel.value
+          .data!.singlePageAddons![currentIndex].addonData ?? [];
+    } else {
+      emptyList = true;
+      createOneForMe();
+    }
   }
+  List<AddonData> tempList = [];
 
+  createOneForMe() {
+    tempList.add(AddonData(
+        calories: "",
+        name: "",
+        price: ""
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +72,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
           backgroundColor: Color(0xffF5F5F5),
           title: Text(
             "Add Options",
-            style: Theme.of(context).textTheme.headline6!.copyWith(
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w500,
                 fontSize: 20,
                 color: AppTheme.blackcolor),
@@ -76,195 +90,191 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
           ),
         ),
         // backAppBar(title: "My Address", context: context),
-        body:
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: titleController,
+                  style: const TextStyle(fontSize: 17),
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xffC0CCD4)),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      borderSide: BorderSide(color: Color(0xffC0CCD4)),
+                    ),
+                    border: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xffC0CCD4)),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: width * .05, vertical: height * .03),
+                    hintText: 'Title',
+                    hintStyle: GoogleFonts.ibmPlexSansArabic(
+                        fontSize: 16,
+                        color: Color(0xffACACB7),
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+                SizedBox(
+                  height: height * .01,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      height: height * .09,
-                      child: TextField(
-                        maxLines: 3,
-                        controller: titleController,
-                        style: const TextStyle(fontSize: 17),
-                        // textAlignVertical: TextAlignVertical.center,
-                        textInputAction: TextInputAction.search,
-                        onSubmitted: (value) => {},
-                        decoration: InputDecoration(
-                          //filled: true,
-                          focusedBorder: OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xffC0CCD4)),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15))),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(15)),
-                            borderSide:
-                            BorderSide(color: Color(0xffC0CCD4)),
-                          ),
-                          border: const OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Color(0xffC0CCD4)),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(15))),
-                          //fillColor: Colors.white,
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: width * .05,
-                              vertical: height * .03),
-                          hintText: 'Title',
-                          hintStyle: GoogleFonts.ibmPlexSansArabic(
-                              fontSize: 16,
-                              color: Color(0xffACACB7),
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: height * .01,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Checkbox(
-                            side: BorderSide(
-                                color:  AppTheme.primaryColor,
-                                width: 2),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5)),
-                            value: isMultiSelect,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isMultiSelect = value!;
-                              });
-                            }),
-                        Text(
-                          "100Cal+",
-                          style: GoogleFonts.ibmPlexSansArabic(
-                              color: Color(0xff909090),
-                              fontSize: AddSize.font14,
-                              fontWeight: FontWeight.w700),
-                        ),
-                        Expanded(
-                            child: Text(
-                              "Multi-select (optional item)",
-                              style: GoogleFonts.ibmPlexSansArabic(
-                                  color: Color(0xff000000),
-                                  fontSize: AddSize.font14,
-                                  fontWeight: FontWeight.w700),
-                            )),
-
-                      ],
-                    ),
-                    SizedBox(height: height * .01,),
-                    SingleChildScrollView(
-                      child: Card(
+                    Checkbox(
+                        side:
+                            BorderSide(color: AppTheme.primaryColor, width: 2),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text("Choice of Add On",style: GoogleFonts
-                                      .ibmPlexSansArabic(
-                                      fontSize: 18,
-                                      fontWeight:
-                                      FontWeight.w600,
-                                      color: Color(
-                                          0xff000000)),),
-
-                                  InkWell(
-                                    onTap: () {
-                                      listModelData.add(ListModel1(
-                                                            name: "".obs,
-                                                            price: "".obs,
-                                                            calories: "".obs,
-                                                            addonType: "".obs,
-                                                            addonTypeId: "".obs,
-                                                          ));
-                                                          setState(() {});
-
-                                    },
-
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color: AppTheme.primaryColor,
-                                      ),
-                                      child: Icon(Icons.add,size: 38,color: Colors.white,),
-                                    ),
-                                  ),
-                                  // Image(
-                                  //   height: 90,
-                                  //   width: 90,
-                                  //   image:
-                                  //   AssetImage(
-                                  //       AppAssets.AddButton),
-                                  //
-                                  // ),
-                                ],
-
-                              ),
-                              Obx(() {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: listModelData.length,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return GestureDetector(
-                                        onTap: () {},
-                                        child: Stack(children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                                color: Colors.white),
-                                            child: repeatUnit(
-                                                name1: listModelData[index].name.value,
-                                                price1: listModelData[index].price.value,
-                                                cal1: listModelData[index].calories.value,
-                                                addOn1:
-                                                listModelData[index].addonType.value,
-                                                index: index),
-                                          ),
-                                          Positioned(
-                                            top: -5,
-                                            right: -2,
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  listModelData.removeAt(index);
-                                                  setState(() {});
-                                                },
-                                                icon: const Icon(
-                                                  Icons.clear,
-                                                  color: AppTheme.primaryColor,
-                                                  size: 25,
-                                                )),
-                                          ),
-                                        ]),
-                                      );
-                                    });
-                              }),
-
-
-
-                                ],
-                              ),
-                          ),
-                        ),
+                            borderRadius: BorderRadius.circular(5)),
+                        value: isMultiSelect,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            isMultiSelect = value!;
+                          });
+                        }),
+                    Text(
+                      "100Cal+",
+                      style: GoogleFonts.ibmPlexSansArabic(
+                          color: Color(0xff909090),
+                          fontSize: AddSize.font14,
+                          fontWeight: FontWeight.w700),
                     ),
+                    Expanded(
+                        child: Text(
+                      "Multi-select (optional item)",
+                      style: GoogleFonts.ibmPlexSansArabic(
+                          color: Color(0xff000000),
+                          fontSize: AddSize.font14,
+                          fontWeight: FontWeight.w700),
+                    )),
                   ],
                 ),
-              ),
-            ),
+                SizedBox(
+                  height: height * .01,
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Choice of Add On",
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xff000000)),
+                            ),
 
-        bottomNavigationBar:  Padding(
+                            InkWell(
+                              onTap: () {
+                                tempList.add(AddonData(
+                                  calories: "",
+                                  name: "",
+                                  price: ""
+                                ));
+                                // listModelData.add(ListModel1(
+                                //   name: "".obs,
+                                //   price: "".obs,
+                                //   calories: "".obs,
+                                //   addonType: "".obs,
+                                //   addonTypeId: "".obs,
+                                // ));
+                                setState(() {});
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: AppTheme.primaryColor,
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 38,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            // Image(
+                            //   height: 90,
+                            //   width: 90,
+                            //   image:
+                            //   AssetImage(
+                            //       AppAssets.AddButton),
+                            //
+                            // ),
+                          ],
+                        ),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: tempList.length,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index1) {
+                              return GestureDetector(
+                                onTap: () {},
+                                child: Stack(children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                        color: Colors.white),
+                                    child: repeatUnit(
+                                        item: tempList[index1],
+                                        index: index1
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: -5,
+                                    right: -2,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          tempList.removeAt(index1);
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(
+                                          Icons.clear,
+                                          color: AppTheme.primaryColor,
+                                          size: 25,
+                                        )),
+                                  ),
+                                ]),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        bottomNavigationBar: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
               onPressed: () {
-
+                if(emptyList){
+                  vendorAddProductController
+                      .vendorAddProductModel.value.data!.singlePageAddons!
+                      .add(SinglePageAddons(
+                          addonData: tempList, multiSelectAddons: isMultiSelect, title: titleController.text.trim()));
+                } else {
+                  vendorAddProductController.vendorAddProductModel.value.data!.singlePageAddons![currentIndex].title = titleController.text.trim();
+                  vendorAddProductController.vendorAddProductModel.value.data!.singlePageAddons![currentIndex].multiSelectAddons = isMultiSelect;
+                  vendorAddProductController.vendorAddProductModel.value.data!.singlePageAddons![currentIndex].addonData = tempList;
+                }
+                Get.back();
+                Future.delayed(Duration(milliseconds: 300)).then((value) {
+                  vendorAddProductController.refreshInt.value = DateTime.now().microsecondsSinceEpoch;
+                });
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.maxFinite, AddSize.size30 * 2),
@@ -275,30 +285,23 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
               ),
               child: Text(
                 "SAVE",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: AppTheme.backgroundcolor,
                     fontWeight: FontWeight.w600,
                     fontSize: AddSize.font18),
               )),
         ),
       ),
-
     );
   }
+
   Padding repeatUnit({
-    required String name1,
-    required String price1,
-    required String cal1,
-    required String addOn1,
-    required int index,
-  }) {
-    final TextEditingController name = TextEditingController(text: name1);
-    final TextEditingController price = TextEditingController(text: price1);
-    final TextEditingController cal = TextEditingController(text: cal1);
-    // final TextEditingController addOn = TextEditingController(text: addOn1);
+    required AddonData item,
+    required int index
+}) {
+    final TextEditingController name = TextEditingController(text: item.name);
+    final TextEditingController price = TextEditingController(text: item.price);
+    final TextEditingController cal = TextEditingController(text: item.calories);
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -315,131 +318,13 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                   hint: "Name",
                   lableText: "Name",
                   onChanged: (value) {
-                    listModelData[index].name.value = value;
+                    tempList[index].name = value;
                   },
                   controller: name,
                   validator: MultiValidator(
                       [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
-
-              // Expanded(
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(8.0),
-              //       color: Colors.grey.shade50,
-              //     ),
-              //     child:
-              //     Row(
-              //       //mainAxisSize: MainAxisSize.min,
-              //       children: [
-              //         Expanded(
-              //           child: DropdownButtonFormField(
-              //               focusColor: Colors.grey.shade50,
-              //               isExpanded: true,
-              //               iconEnabledColor: AppTheme.primaryColor,
-              //               hint: Text(
-              //                 'Complementary inclusions',
-              //                 style: TextStyle(
-              //                     color: AppTheme.userText,
-              //                     fontSize: AddSize.font14),
-              //                 textAlign: TextAlign.start,
-              //               ),
-              //               decoration: InputDecoration(
-              //                 fillColor: Colors.grey.shade50,
-              //                 contentPadding: const EdgeInsets.symmetric(
-              //                     horizontal: 10, vertical: 18),
-              //                 // .copyWith(top: maxLines! > 4 ? AddSize.size18 : 0),
-              //                 focusedBorder: OutlineInputBorder(
-              //                   borderSide:
-              //                   BorderSide(color: Colors.grey.shade300),
-              //                   borderRadius: BorderRadius.circular(10.0),
-              //                 ),
-              //                 enabledBorder: OutlineInputBorder(
-              //                   borderSide:
-              //                   BorderSide(color: Colors.grey.shade300),
-              //                   borderRadius: BorderRadius.circular(10.0),
-              //                 ),
-              //                 border: OutlineInputBorder(
-              //                     borderSide: BorderSide(
-              //                         color: Colors.grey.shade300, width: 3.0),
-              //                     borderRadius: BorderRadius.circular(15.0)),
-              //               ),
-              //               value: listModelData[index].addonType.value == ""
-              //                   ? null
-              //                   : listModelData[index].addonType.value,
-              //               items: addOnsController.model.value.data?.addons!
-              //                   .toList()
-              //                   .map((value) {
-              //                 return DropdownMenuItem(
-              //                   value: value.id.toString(),
-              //                   child: Text(
-              //                     value.name.toString(),
-              //                     style: TextStyle(
-              //                         color: AppTheme.userText,
-              //                         fontSize: AddSize.font14),
-              //                   ),
-              //                 );
-              //               }).toList(),
-              //               onChanged: (newValue) {
-              //                 listModelData[index].addonType.value =
-              //                     newValue.toString();
-              //               },
-              //               validator: (valid) {
-              //                 if (listModelData[index]
-              //                     .addonType
-              //                     .value
-              //                     .isEmpty) {
-              //                   return "Addon Type is required";
-              //                 } else {
-              //                   return null;
-              //                 }
-              //               }),
-              //         ),
-              //         // const VerticalDivider(width: 1.0),
-              //         // Obx(() {
-              //         //return
-              //         //   Expanded(
-              //         //   child: DropdownButtonFormField(
-              //         //     isExpanded: true,
-              //         //     dropdownColor: Colors.grey.shade50,
-              //         //     iconEnabledColor: AppTheme.primaryColor,
-              //         //     hint: Text(
-              //         //       'Type',
-              //         //       style: TextStyle(
-              //         //           color: AppTheme.userText,
-              //         //           fontSize: AddSize.font14,
-              //         //           fontWeight: FontWeight.w500),
-              //         //       textAlign: TextAlign.start,
-              //         //     ),
-              //         //     decoration: const InputDecoration(
-              //         //         enabled: true, border: InputBorder.none),
-              //         //     value: listModelData[index].price.value == ""
-              //         //         ? null
-              //         //         : listModelData[index].price.value,
-              //         //     items: qtyType.map((value) {
-              //         //       return DropdownMenuItem(
-              //         //         value: value.key.toString(),
-              //         //         child: Text(
-              //         //           value.value,
-              //         //           style: TextStyle(
-              //         //               color: Colors.black,
-              //         //               fontSize: AddSize.font14,
-              //         //               fontWeight: FontWeight.w500),
-              //         //         ),
-              //         //       );
-              //         //     }).toList(),
-              //         //     onChanged: (newValue) {
-              //         //       listModelData[index].addOn.value =
-              //         //           newValue as String;
-              //         //     },
-              //         //   ),
-              //         // );
-              //         //}),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           SizedBox(
@@ -447,13 +332,12 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
           ),
           Row(
             children: [
-
               Expanded(
                 child: RegistrationTextField1(
                   hint: "Calories",
                   lableText: "Calories",
                   onChanged: (value) {
-                    listModelData[index].calories.value = value;
+                    tempList[index].calories = value;
                   },
                   controller: cal,
                   validator: MultiValidator(
@@ -466,11 +350,12 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
               Expanded(
                 child: RegistrationTextField1(
                   onChanged: (value) {
-                    listModelData[index].price.value = value;
+                    log(value);
+                    tempList[index].price = value.toString();
                   },
                   hint: "Price",
                   lableText: "Price",
-                  keyboardType: TextInputType.number,
+                  // keyboardType: TextInputType.number,
                   controller: price,
                   validator: MultiValidator(
                       [RequiredValidator(errorText: "Please enter qty")]),
@@ -481,7 +366,6 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
           SizedBox(
             height: AddSize.size15,
           ),
-
         ],
       ),
     );

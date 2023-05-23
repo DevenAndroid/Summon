@@ -24,7 +24,8 @@ class VendorAddProductController extends GetxController {
   RxBool isDataLoading = false.obs;
   RxList<ListModel> listModelData = <ListModel>[].obs;
   Rx<VendorSearchProductModel> model = VendorSearchProductModel().obs;
-  Rx<VendorAddProductModel> vendorAddProductModel = VendorAddProductModel().obs;
+  Rx<VendorAddProductModel> vendorAddProductModel = VendorAddProductModel(data: VendorAddProductData(singlePageAddons: [])).obs;
+  RxInt refreshInt = 0.obs;
   final TextEditingController vendorSearchProductController =
   TextEditingController();
 
@@ -40,8 +41,8 @@ class VendorAddProductController extends GetxController {
 
   bool initialSelect = false;
 
-  getVendorAddProduct() {
-    vendorAddProductRepo(id: productId.value).then((value) {
+  Future getVendorAddProduct() async {
+   await vendorAddProductRepo(id: productId.value).then((value) {
       isDataLoading.value = true;
       vendorAddProductModel.value = value;
       initialSelect = false;

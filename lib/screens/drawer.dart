@@ -3,6 +3,7 @@ import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/screens/Popular_Homepage_Product_screen.dart';
 import 'package:fresh2_arrive/screens/admin_response_screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivery_dashboard.dart';
@@ -30,11 +31,13 @@ import 'package:fresh2_arrive/screens/wallet_screen.dart';
 import 'package:fresh2_arrive/screens/welcome_screen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../controller/MyOrder_Controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
+import 'WishList_Screen.dart';
 import 'driver_screen/withdraw_moeny.dart';
 import 'loginScreen2.dart';
 
@@ -273,26 +276,46 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         const Divider(
                           height: 1,
                         ),
-                        _drawerTile(
-                            active: true,
-                            title: "Refer and Earn",
-                            icon: const ImageIcon(
-                              AssetImage(AppAssets.drawer_refer),
-                              size: 22,
-                              color: AppTheme.primaryColor,
+                        // _drawerTile(
+                        //     active: true,
+                        //     title: "Wishlist",
+                        //     icon:  ImageIcon(
+                        //       Icon(Icons.favorite_border),
+                        //       size: 22,
+                        //       // color: AppTheme.primaryColor,
+                        //     ),
+                        //     onTap: () async {
+                        //       // SharedPreferences pref =
+                        //       //     await SharedPreferences.getInstance();
+                        //       // if (pref.getString('user') != null) {
+                        //       //   Get.back();
+                        //       //   // Get.toNamed(MyRouter.notificationScreen,
+                        //       //   //     arguments: [savedLanguage.toString()]);
+                        //       // } else {
+                        //       //   Get.back();
+                        //       Get.toNamed(ReferAndEarn.referAndEarnScreen);
+                        //       // }
+                        //     }),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15,top: 12,bottom: 12),
+                          child: InkWell(
+                            onTap: (){
+                              Get.toNamed(WishListScreen.wishListScreen);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // SizedBox(height: 10,),
+                                Icon(Icons.favorite_border, color: AppTheme.primaryColor,),
+                                SizedBox(width: 25,),
+                                Text("Wishlist", style: GoogleFonts.ibmPlexSansArabic(
+                                  color: AppTheme.primaryColor,fontSize: 15
+                                ),),
+                              ],
                             ),
-                            onTap: () async {
-                              // SharedPreferences pref =
-                              //     await SharedPreferences.getInstance();
-                              // if (pref.getString('user') != null) {
-                              //   Get.back();
-                              //   // Get.toNamed(MyRouter.notificationScreen,
-                              //   //     arguments: [savedLanguage.toString()]);
-                              // } else {
-                              //   Get.back();
-                              Get.toNamed(ReferAndEarn.referAndEarnScreen);
-                              // }
-                            }),
+                          ),
+                        ),
+
                         const Divider(
                           height: 1,
                         ),

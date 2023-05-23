@@ -692,7 +692,7 @@ class _OrderDetailsState extends State<OrderDetails>
 
           bottomNavigationBar:  Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
+            child:  myOrderDetailsController.model.value.data?.orderType != "Pickup" ?ElevatedButton(
                 onPressed: () async {
 
                 },
@@ -707,7 +707,7 @@ class _OrderDetailsState extends State<OrderDetails>
                         fontSize: 18, fontWeight: FontWeight.w600)),
                 child: const Text(
                   "Track Order",
-                )),
+                )):SizedBox(),
           ),
         ),
       );

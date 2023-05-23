@@ -6,8 +6,10 @@ import 'package:fresh2_arrive/screens/vendor_screen/edit_product.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../../controller/Edit_Products_Controller.dart';
+import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
 import '../../model/ListModel.dart';
+import '../../model/VendorAddProduct_Model.dart';
 import '../../repositories/ToggleStatus_Repo.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
@@ -25,7 +27,7 @@ class VendorProductScreen extends StatefulWidget {
 
 class _VendorProductScreenState extends State<VendorProductScreen> {
   final vendorProductListController = Get.put(VendorProductListController());
-  final editProductsController = Get.put(EditProductsController());
+  final vendorAddProductController = Get.put(VendorAddProductController());
   // final TextEditingController searchController = TextEditingController();
   final RxList<bool> _store = <bool>[].obs;
   RxList<ListModel> listModelData = <ListModel>[].obs;
@@ -113,6 +115,9 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              vendorAddProductController
+                                  .productId.value="";
+                              vendorAddProductController.vendorAddProductModel.value = VendorAddProductModel(data: VendorAddProductData(singlePageAddons: []));
                               Get.toNamed(AddVendorProduct1.addVendorProduct1);
                             },
                             child: Container(
@@ -211,17 +216,19 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  editProductsController
-                                                      .id.value =
+                                                  vendorAddProductController
+                                                      .productId.value =
                                                       vendorProductListController
                                                           .model
                                                           .value
                                                           .data![index]
                                                           .id
                                                           .toString();
+                                                  vendorAddProductController.vendorAddProductModel.value = VendorAddProductModel(data: VendorAddProductData(singlePageAddons: []));
+                                                  vendorAddProductController.getVendorAddProduct();
                                                   Get.toNamed(
-                                                    EditProductScreen
-                                                        .editProductScreen,
+                                                    AddVendorProduct1
+                                                        .addVendorProduct1,
                                                   );
                                                 },
                                                 child: Container(

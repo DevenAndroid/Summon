@@ -113,7 +113,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
           print("Address is empty...........");
           await _getAddressFromLatLng(
               LatLng(position.latitude, position.longitude));
-          mapController!.animateCamera(
+          mapController?.animateCamera(
               CameraUpdate.newCameraPosition(
                   CameraPosition(
                       target: LatLng(position.latitude, position.longitude),
@@ -146,9 +146,6 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
             setState(() {});
           }
         }
-      })
-          .catchError((e) {
-        debugPrint(e);
       });
     }
     else {

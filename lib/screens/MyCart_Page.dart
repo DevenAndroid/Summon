@@ -22,6 +22,7 @@ import '../repositories/apply_coupons_repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
+import 'Add_NewCard_Page.dart';
 import 'coupons_screen.dart';
 
 class MyCartPage extends StatefulWidget {
@@ -932,11 +933,16 @@ class _MyCartPageState extends State<MyCartPage> {
                                           color: Color(0xff000000),
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700)),
-                                  Text("..",
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          color: AppTheme.primaryColor,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w700)),
+                                  GestureDetector(
+                                    onTap: (){
+                                      Get.toNamed(AddNewCardScreen.addNewCardPage);
+                                    },
+                                    child: Text("..",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            color: AppTheme.primaryColor,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w700)),
+                                  ),
                                 ],
                               ),
                               Row(
@@ -1007,6 +1013,9 @@ class _MyCartPageState extends State<MyCartPage> {
                                   value.data!.placedAt,
                                   value.data!.paymentType,
                                   value.data!.itemTotal,
+                                  value.data!.couponDiscount != null ?
+                                  value.data!.couponDiscount["discounted_price"]: 0,
+                                  value.data!.walletSaving,
                                   value.data!.deliveryCharges,
                                   value.data!.grandTotal,
 
