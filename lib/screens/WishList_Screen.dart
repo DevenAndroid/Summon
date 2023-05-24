@@ -51,7 +51,9 @@ class _WishListScreenState extends State<WishListScreen> {
             return getWishListProductController.isDataLoading.value ? SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 15),
-                child: Column(
+                child:
+                getWishListProductController.model.value.data!.reviews!.isNotEmpty ?
+                Column(
                   children: [
                     GridView.builder(
                         shrinkWrap: true,
@@ -198,7 +200,7 @@ class _WishListScreenState extends State<WishListScreen> {
                         }),
                     SizedBox(height: height * .05,)
                   ],
-                ),
+                ):Center(child: Text("No Item in WishList"),),
               ),
             ):Center(child: CircularProgressIndicator());
           }),

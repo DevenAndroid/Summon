@@ -13,6 +13,7 @@ class ApiUrl {
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
   static const couponsUrl = "${baseUrl}coupons";
+  static const nearStoreLocationUrl = "${baseUrl}near-store";
   static const applyCouponsUrl = "${baseUrl}coupon-apply";
   static const removeCouponsUrl = "${baseUrl}remove-coupon";
   static const orderTipUrl = "${baseUrl}order-tip";

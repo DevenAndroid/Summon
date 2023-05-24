@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../repositories/update_location_repository.dart';
+import 'HomePageController1.dart';
 import 'near_store_controller.dart';
 
 class LocationController extends GetxController {
@@ -100,12 +101,12 @@ class LocationController extends GetxController {
       ).then((value) {
         log("+++++++++${value.message!}");
         if(value.status == true){
-            final homeController = Get.put(HomePageController());
-            homeController.getData().then((value) {
-              final nearStoreController = Get.put(NearStoreController());
-              nearStoreController.isPaginationLoading.value = true;
-              nearStoreController.loadMore.value = true;
-              nearStoreController.getData(isFirstTime: true);
+            final homepageController1 = Get.put(HomePageController1());
+            homepageController1.getHomePageData().then((value) {
+              // final nearStoreController = Get.put(NearStoreController());
+              // nearStoreController.isPaginationLoading.value = true;
+              // nearStoreController.loadMore.value = true;
+              // nearStoreController.getData(isFirstTime: true);
 
               final storeController = Get.put(StoreController());
               storeController.isPaginationLoading.value = true;

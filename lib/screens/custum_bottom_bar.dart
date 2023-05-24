@@ -18,6 +18,7 @@ import '../controller/main_home_controller.dart';
 import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/store_controller.dart';
+import '../repositories/GetNearByStores_Repo.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -363,7 +364,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       padding: const EdgeInsets.symmetric(vertical: 08),
                                       child: GestureDetector(
                                         onTap: () async {
-                                           // await profileController.getData();
+                                          getNearByStores();
                                         },
                                         child: const ImageIcon(
                                           AssetImage(AppAssets.mapIcon),

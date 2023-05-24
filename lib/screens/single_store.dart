@@ -285,7 +285,10 @@ class _StoreScreenState extends State<StoreScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: height * .015),
-
+                        singleStoreController
+                            .storeDetailsModel
+                            .value
+                            .data!.latestProducts!.isNotEmpty ?
                         ListView.builder(
                             itemCount: singleStoreController
                                 .storeDetailsModel
@@ -552,7 +555,15 @@ class _StoreScreenState extends State<StoreScreen> {
                                   ],
                                 ),
                               );
-                            }),
+                            }):
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Center(child: Text("Products is not available",style: GoogleFonts.ibmPlexSansArabic(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700
+                          ),),),
+                        ),
                         SizedBox(
                           height: height * .13,
                         ),
