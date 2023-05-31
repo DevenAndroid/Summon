@@ -7,7 +7,7 @@ import '../model/MyAddressModel.dart';
 import '../repositories/add_address_repository.dart';
 
 class GetSaveAddressController extends GetxController {
-  TextEditingController nameController=TextEditingController();
+  final TextEditingController nameController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
   TextEditingController noteController=TextEditingController();
 
@@ -18,8 +18,8 @@ class GetSaveAddressController extends GetxController {
 
 
 
-  saveAddressData() {
-    getSaveAddress(address_id: addressId.value).then((value) {
+ Future saveAddressData() async {
+   await getSaveAddress(address_id: addressId.value).then((value) {
       isSaveAddressLoad.value = true;
       getSaveAddressModel.value = value;
     });

@@ -19,6 +19,7 @@ Future<MyOrdersDetailsModel> myOrderDetailsRepo({required id}) async {
   };
 
   // try {
+  print("${ApiUrl.myOrderDetailsUrl}?order_id=$id");
     final response = await http.get(
         Uri.parse("${ApiUrl.myOrderDetailsUrl}?order_id=$id"),
         headers: headers);

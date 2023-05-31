@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/MyOrder_Details_Controller.dart';
 import 'package:fresh2_arrive/routers/my_router.dart';
+import 'package:fresh2_arrive/screens/my_cart_screen.dart';
 import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
@@ -12,8 +13,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../controller/MyOrder_Controller.dart';
 import '../../model/time_model.dart';
+import '../../repositories/MyOrders_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
+import '../MyCart_Page.dart';
 
 class MyOrderScreen extends StatefulWidget {
   const MyOrderScreen({Key? key}) : super(key: key);
@@ -516,34 +519,46 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                                                         .w400),
                                                                               ),
                                                                             )),
-                                                                        Container(
-                                                                            decoration: BoxDecoration(
-                                                                                borderRadius:
-                                                                                BorderRadius
-                                                                                    .circular(
-                                                                                    5),
-                                                                                color: Color(0xffFE724C)),
-                                                                            child: Padding(
-                                                                              padding: EdgeInsets
-                                                                                  .symmetric(
-                                                                                  horizontal:
-                                                                                  width *
-                                                                                      .02,
-                                                                                  vertical:
-                                                                                  height *
-                                                                                      .004),
-                                                                              child: Text(
-                                                                               "Reorder",
-                                                                                // 'pending',
-                                                                                style:  GoogleFonts.ibmPlexSansArabic(
-                                                                                    fontSize:
-                                                                                    12,
-                                                                                    color: Color(0xffFFFFFF),
-                                                                                    fontWeight:
-                                                                                    FontWeight
-                                                                                        .w500),
-                                                                              ),
-                                                                            )),
+                                                                        InkWell(
+                                                                          onTap: (){
+                                                                            reOrderRepo(id: myOrderController.model.value.data![index].orderId.toString(),context: context).then((value){
+                                                                              if(value.status==true){
+                                                                                showToast(value.message);
+                                                                                Get.toNamed(MyCartPage.myCartPage);
+
+
+                                                                              }
+                                                                            });
+                                                                          },
+                                                                          child: Container(
+                                                                              decoration: BoxDecoration(
+                                                                                  borderRadius:
+                                                                                  BorderRadius
+                                                                                      .circular(
+                                                                                      5),
+                                                                                  color: Color(0xffFE724C)),
+                                                                              child: Padding(
+                                                                                padding: EdgeInsets
+                                                                                    .symmetric(
+                                                                                    horizontal:
+                                                                                    width *
+                                                                                        .02,
+                                                                                    vertical:
+                                                                                    height *
+                                                                                        .004),
+                                                                                child: Text(
+                                                                                 "Reorder",
+                                                                                  // 'pending',
+                                                                                  style:  GoogleFonts.ibmPlexSansArabic(
+                                                                                      fontSize:
+                                                                                      12,
+                                                                                      color: Color(0xffFFFFFF),
+                                                                                      fontWeight:
+                                                                                      FontWeight
+                                                                                          .w500),
+                                                                                ),
+                                                                              )),
+                                                                        ),
                                                                       ],
                                                                     )
                                                                     // Text(

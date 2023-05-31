@@ -14,6 +14,7 @@ import '../widgets/add_text.dart';
 
 class StoreListScreen extends StatefulWidget {
   const StoreListScreen({Key? key}) : super(key: key);
+  static var storeListScreen = "/storeListScreen";
 
   @override
   State<StoreListScreen> createState() => _StoreListScreenState();
@@ -138,7 +139,8 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                           height: height * .01,
                                         ),
                                         Obx(() {
-                                          return ListView.builder(
+                                          return
+                                            ListView.builder(
                                             shrinkWrap: true,
                                             physics:
                                                 const NeverScrollableScrollPhysics(),

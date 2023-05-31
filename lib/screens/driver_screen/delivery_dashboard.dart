@@ -4,6 +4,7 @@ import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
 import 'package:fresh2_arrive/screens/driver_screen/order_decline_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../controller/assigned_order_list_controller.dart';
 import '../../controller/delivery_order_list_controller.dart';
@@ -77,7 +78,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                       activeColor: AppTheme.primaryColor,
                       toggleSize: AddSize.size5 * 2.5,
                       value: deliveryOrderListController.isDataLoading.value
-                          ? deliveryOrderListController.model.value.data!.deliveryMode
+                          ? (deliveryOrderListController.model.value.data!.deliveryMode ??  false)
                           : _store.value,
                       onToggle: (val) {
                         deliveryModeUpdateRepo().then((value) {
@@ -132,12 +133,12 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                               fontSize: AddSize.font20,
                               color: AppTheme.blackcolor),
                         ),
-                        Text(intl.DateFormat("EEEE, dd MMM, yyyy").format(DateTime.now()).toString(),
-                          style: Theme.of(context).textTheme.headline6!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: AddSize.font14,
-                              color: AppTheme.blackcolor),
-                        ),
+                        // Text(intl.DateFormat("EEEE, dd MMM, yyyy").format(DateTime.now()).toString(),
+                        //   style: Theme.of(context).textTheme.headline6!.copyWith(
+                        //       fontWeight: FontWeight.w500,
+                        //       fontSize: AddSize.font14,
+                        //       color: AppTheme.blackcolor),
+                        // ),
                         SizedBox(
                           height: AddSize.size15,
                         ),
@@ -212,7 +213,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                           ),
                                           Text(
                                             deliveryOrderListController
-                                                .model.value.data!.pendingOrders
+                                                .model.value.data!.earningBalance
                                                 .toString(),
                                             style: Theme.of(context)
                                                 .textTheme
@@ -224,7 +225,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                     fontSize: 30),
                                           ),
                                           Text(
-                                            "Pending",
+                                            "Balance",
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!
@@ -269,10 +270,6 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                         .model.value.data!.list![index];
                                     return GestureDetector(
                                       onTap: () {
-                                        // orderController.id.value =
-                                        //     item.orderId.toString();
-                                        // Get.toNamed(DriverDeliveryOrderDetails
-                                        //     .driverDeliveryOrderDetails);
                                       },
                                       child: Container(
                                           padding: EdgeInsets.symmetric(
@@ -286,275 +283,74 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                   BorderRadius.circular(10)),
                                           child: Column(
                                             children: [
+
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  ElevatedButton(
-                                                      onPressed: () {
-                                                        // Get.toNamed(MyRouter.editProfileScreen);
-                                                      },
-                                                      style: ElevatedButton
-                                                          .styleFrom(
-                                                        minimumSize: Size(
-                                                            AddSize.size50,
-                                                            AddSize.size25),
-                                                        primary:
-                                                            AppTheme.primaryColor,
-                                                        elevation: 0,
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            6)),
+
+                                                  Container(
+                                                      height: 40,
+                                                      width: 40,
+
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+
                                                       ),
-                                                      child: Text(
-                                                        item.paymentMethod
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .backgroundcolor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font12),
-                                                      )),
-                                                  SizedBox(
-                                                    width: AddSize.size10,
+                                                      child: Image(image: AssetImage(
+                                                          AppAssets.loctionIcon1),)
                                                   ),
                                                   Text(
-                                                    "₹${item.orderTotal.toString()}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            color: AppTheme
-                                                                .primaryColor,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize:
-                                                                AddSize.font14),
-                                                  )
-                                                ],
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.date_range,
-                                                    color: AppTheme.primaryColor,
+                                                    "${item.vendorLocation!.storeName.toString()}",
+                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                        color:Color(0xff3E525A),
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w700,
+                                                        fontSize: AddSize
+                                                            .font18),
                                                   ),
-                                                  SizedBox(
-                                                    width: AddSize.size15,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "Date and time:",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .blackcolor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                      Text(
-                                                        item.date.toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .lightblack,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                    ],
-                                                  )
                                                 ],
                                               ),
                                               SizedBox(
                                                 height: AddSize.size10,
                                               ),
                                               Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Image(
-                                                    image: const AssetImage(
-                                                        AppAssets.orderList),
-                                                    height: AddSize.size20,
-                                                    width: AddSize.size20,
-                                                  ),
-                                                  SizedBox(
-                                                    width: AddSize.size15,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "Order ID:",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .blackcolor,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                      Text(
-                                                        "#${item.orderId.toString()}",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .lightblack,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: AddSize.size10,
-                                              ),
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.location_on_outlined,
-                                                    color: AppTheme.primaryColor,
-                                                  ),
-                                                  SizedBox(
-                                                    width: AddSize.size15,
+                                                  Text(
+                                                    "KM",
+                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                        color:Color(0xff3E525A),
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500,
+                                                        fontSize: AddSize
+                                                            .font16),
                                                   ),
                                                   Expanded(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          "Customer Address:",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  color: AppTheme
-                                                                      .blackcolor,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: AddSize
-                                                                      .font14),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: item.location != null ?Text(
-                                                                // "",
-                                                                "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .headline5!
-                                                                    .copyWith(
-                                                                        color: AppTheme
-                                                                            .lightblack,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .w400,
-                                                                        fontSize:
-                                                                            AddSize
-                                                                                .font14),
-                                                              ):Text(""),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        SizedBox(height: AddSize.size10,),
-                                                        Text(
-                                                          "Store Address:",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                              color: AppTheme
-                                                                  .blackcolor,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                              fontSize: AddSize
-                                                                  .font14),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                          children: [
-                                                            Expanded(
-                                                              child: item.location != null ?Text(
-                                                                // "",
-                                                                "${item.location!.location??""}, ${item.location!.flatNo??""}, ${item.location!.street??""},",
-                                                                style: Theme.of(
-                                                                    context)
-                                                                    .textTheme
-                                                                    .headline5!
-                                                                    .copyWith(
-                                                                    color: AppTheme
-                                                                        .lightblack,
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                    fontSize:
-                                                                    AddSize
-                                                                        .font14),
-                                                              ):Text(""),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
+                                                    child: Text(
+                                                      "${item.distance.toString()}",
+                                                      style: GoogleFonts.ibmPlexSansArabic(
+                                                          color:Color(0xff3E525A),
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w700,
+                                                          fontSize: AddSize
+                                                              .font18),
                                                     ),
-                                                  )
+                                                  ),
+
+                                                  Text(
+                                                    "${item.orderItem![0].qty.toString()} x ${item.orderItem![0].productName.toString()}",
+                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                        color:Color(0xff3E525A),
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w500,
+                                                        fontSize: AddSize
+                                                            .font14),
+                                                  ),
                                                 ],
-                                              ),
-                                              SizedBox(
-                                                height: AddSize.size10,
                                               ),
                                               Row(
                                                 mainAxisAlignment:
@@ -572,11 +368,11 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                               true) {
                                                             deliveryOrderListController
                                                                 .getData();
-                                                            assignedController
-                                                                .getData();
-                                                            Get.toNamed(
-                                                                AssignedOrder
-                                                                    .assignedOrder);
+                                                            // assignedController
+                                                            //     .getData();
+                                                            // Get.toNamed(
+                                                            //     AssignedOrder
+                                                            //         .assignedOrder);
                                                           }
                                                         });
                                                       },
@@ -622,11 +418,11 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                             .then((value) {
                                                           if (value.status ==
                                                               true) {
-                                                            assignedController
-                                                                .getData();
-                                                            Get.offAndToNamed(
-                                                                OrderDeclineScreen
-                                                                    .orderDeclineScreen);
+                                                            // assignedController
+                                                            //     .getData();
+                                                            // Get.offAndToNamed(
+                                                            //     OrderDeclineScreen
+                                                            //         .orderDeclineScreen);
                                                           }
                                                         });
                                                       },

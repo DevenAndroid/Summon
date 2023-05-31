@@ -6,6 +6,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../resources/app_theme.dart';
+import '../controller/CartController.dart';
 import '../controller/GetSaveAddressController.dart';
 import '../controller/MyAddress_controller.dart';
 import '../controller/My_cart_controller.dart';
@@ -24,7 +25,8 @@ class MyAddress extends StatefulWidget {
 class _MyAddressState extends State<MyAddress> {
   final addressController = Get.put(MyAddressController());
   final getSaveAddressController = Get.put(GetSaveAddressController());
-  final controller = Get.put(MyCartDataListController());
+  final myCartDataController = Get.put(MyCartController());
+  // final controller = Get.put(MyCartDataListController());
   final mainController = Get.put(MainHomeController());
   bool isTitle=false;
   @override
@@ -161,20 +163,20 @@ class _MyAddressState extends State<MyAddress> {
                                             // height: height * .23,
                                             child: InkWell(
                                               onTap: () {
-                                                // controller.model.value.data!.cartItems!.isNotEmpty ?
-                                                // chooseOrderAddress(addressId: addressController.myAddressModel.value.data![index].id
-                                                //                 .toString(),
-                                                //         context: context)
-                                                //     .then((value) {
-                                                //   if (value.status == true) {
-                                                //     controller.getAddToCartList();
-                                                //     Get.back();
-                                                //     Get.back();
-                                                //     Get.back();
-                                                //     Get.back();
-                                                //     mainController.onItemTap(1);
-                                                //   }
-                                                // }):null;
+                                                myCartDataController.model.value.data!.cartItems!.isNotEmpty ?
+                                                chooseOrderAddress(addressId: addressController.myAddressModel.value.data![index].id
+                                                                .toString(),
+                                                        context: context)
+                                                    .then((value) {
+                                                  if (value.status == true) {
+                                                    myCartDataController.getCartData();
+                                                    Get.back();
+                                                    Get.back();
+                                                    Get.back();
+                                                    Get.back();
+                                                    mainController.onItemTap(1);
+                                                  }
+                                                }):null;
                                               },
                                               child: Card(
                                                   elevation: 0,
@@ -241,7 +243,7 @@ class _MyAddressState extends State<MyAddress> {
                                                                   AppAssets.deleteIcon)),
                                                             ),
                                                                 Flexible(child: Container()),
-                                                            Text(addressController.myAddressModel.value.data![index].note.toString().capitalizeFirst!,
+                                                            Text(addressController.myAddressModel.value.data![index].name.toString().capitalizeFirst!,
                                                                 style: GoogleFonts.ibmPlexSansArabic(fontSize: 16,
                                                                     fontWeight: FontWeight.w600,
                                                                     color:Color(0xff000000))
@@ -250,22 +252,6 @@ class _MyAddressState extends State<MyAddress> {
                                                           ],
                                                         ),
 
-
-                                                        // Text(
-                                                        //   addressController
-                                                        //       .myAddressModel
-                                                        //       .value
-                                                        //       .data![index]
-                                                        //       .location
-                                                        //       .toString(),
-                                                        //   style: const TextStyle(
-                                                        //       color: AppTheme
-                                                        //           .blackcolor,
-                                                        //       fontSize: 16,
-                                                        //       fontWeight:
-                                                        //           FontWeight
-                                                        //               .w500),
-                                                        // ),
 
                                                       ],
                                                     ),
@@ -276,30 +262,6 @@ class _MyAddressState extends State<MyAddress> {
                                     SizedBox(
                                       height: height * .05,
                                     ),
-                                    // ElevatedButton(
-                                    //     onPressed: () {
-                                    //       Get.toNamed(
-                                    //           ChooseAddress.chooseAddressScreen);
-                                    //     },
-                                    //     style: ElevatedButton.styleFrom(
-                                    //       minimumSize:
-                                    //           const Size(double.maxFinite, 60),
-                                    //       primary: AppTheme.primaryColor,
-                                    //       elevation: 0,
-                                    //       shape: RoundedRectangleBorder(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(10)),
-                                    //     ),
-                                    //     child: Text(
-                                    //       "ADD NEW",
-                                    //       style: Theme.of(context)
-                                    //           .textTheme
-                                    //           .headline5!
-                                    //           .copyWith(
-                                    //               color: AppTheme.backgroundcolor,
-                                    //               fontWeight: FontWeight.w500,
-                                    //               fontSize: 18),
-                                    //     )),
 
                                   ],
                                 )

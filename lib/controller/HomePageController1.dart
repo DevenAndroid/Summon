@@ -97,13 +97,13 @@ class HomePageController1 extends GetxController {
   RxBool load = false.obs;
 
   RxList<SearchModelData> searchModel2 = <SearchModelData>[].obs;
- void  searchingData({bool? allowClear,required BuildContext context }) async {
+ void  searchingData({bool? allowClear, BuildContext? context  }) async {
    if(allowClear == true){
-     searchModel2.clear();
+     //searchModel2.clear();
      load.value = false;
      page.value = 1;
    }
-    if(load.value == false && searchController.text.trim().isNotEmpty){
+    if(load.value == false){
       load.value = true;
        searchHomeDataPagination(context: context, keyword: searchController.text.trim(),page: page.value,pagination: pagination.value,).then((value) {
         searchModel.value = value;

@@ -27,6 +27,7 @@ import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/screens/privacy_policy.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/splash_screen.dart';
+import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/screens/thankyou_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/bank_details.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/delivery_details.dart';
@@ -236,5 +237,8 @@ class MyRouter {
     GetPage(
         name: AddNewCardScreen.addNewCardPage,
         page: () =>  const AddNewCardScreen()),
+    GetPage(
+        name: StoreListScreen.storeListScreen,
+        page: () =>  const StoreListScreen()),
   ];
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -407,6 +408,14 @@ class _VendorInformationState extends State<VendorInformation> {
                                   ElevatedButton(
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
+
+                                          var item= vendorCategoryController.model.value.data!.categories!.where((element) => element.selected == true)
+                                              .map((e) => e.id.toString()).toList();
+                                          Map<String, dynamic> map1={};
+                                          for(var i=0; i<item.length; i++){
+                                            map1[i.toString()]=item[i];
+                                          }
+
                                           Map<String, String> mapData = {
                                             'store_name':
                                             vendorInformationController
@@ -417,10 +426,10 @@ class _VendorInformationState extends State<VendorInformation> {
                                                 .phoneController.text
                                                 .trim(),
                                             'latitude':
-                                                myAddressController.latLong1 ?? '',
-                                            'longitude': myAddressController.latLong2 ?? '',
+                                                myAddressController.latLong2 ?? '',
+                                            'longitude': myAddressController.latLong1 ?? '',
                                             'business_id': vendorInformationController.businessIdController.text,
-                                            'category': vendorCategoryController.categoryController.text,
+                                            'category': jsonEncode(map1),
 
                                           };
                                           vendorInformationEditRepo(

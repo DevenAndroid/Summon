@@ -19,12 +19,15 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
   required File file2,
   required context,
 }) async {
+
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
   try {
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiUrl.vendorRegister));
     SharedPreferences pref = await SharedPreferences.getInstance();
-    ModelVerifyOtp? user =
-        ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
+    SocialLoginModel? user =
+    SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
     final headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
       HttpHeaders.acceptHeader: 'application/json',
@@ -44,6 +47,7 @@ Future<ModelCommonResponse> vendorRegistrationRepo({
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
     if (response.statusCode == 200 || response.statusCode == 400) {
+      Helpers.hideLoader(loader);
       return ModelCommonResponse.fromJson(
           jsonDecode(await response.stream.bytesToString()));
     } else {
@@ -122,8 +126,11 @@ Future<ModelCommonResponse> vendorInformationEditRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "" && file2.path != "") {
+    if (file1.path != "" ) {
       request.files.add(await multipartFile(fieldName1, file1));
+    }
+
+    if (file2.path != "") {
       request.files.add(await multipartFile(fieldName2, file2));
     }
 

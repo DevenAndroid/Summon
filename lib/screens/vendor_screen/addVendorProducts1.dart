@@ -257,8 +257,12 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               (vendorAddProductController
                   .vendorAddProductModel.value.data!.productDetail!. calories??
                   "")
-                  .toString();
-          // chooseOptionType=chooseOptionType.toString();
+                  .toString().replaceAll(",", "");
+
+          chooseOptionType= (vendorAddProductController
+              .vendorAddProductModel.value.data!.productDetail!.type??
+              "")
+              .toString();
           // vendorAddProductController.priceController.text =
           //     (vendorAddProductController
           //         .vendorAddProductModel.value.data!.productDetail!.variants![0].price ??
@@ -335,6 +339,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                             return GestureDetector(
                               onTap: () {},
                               child: Stack(children: [
+                            // if( repetedData != null)
                                 Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
@@ -499,12 +504,28 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                     //     )
                     //   ],
                     // ),
-                      IconButton(
-                          onPressed: () {
-                            Get.toNamed(AddOptionScreen.addOptionScreen);
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                              Get.toNamed(AddOptionScreen.addOptionScreen);
                           },
-                          icon: Icon(Icons.add)
-                      ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: AppTheme.primaryColor,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 38,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
 
                     Obx(() {
                       if(vendorAddProductController.refreshInt.value > 0){}
@@ -544,9 +565,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                               map['id'] = vendorAddProductController
                                   .vendorAddProductModel.value.data!
                                   .productDetail!.id.toString();
-                              // map['product_variant_id'] =repetedData.map((element) => element.id.value).toList().where((element) =>element.isNotEmpty).toList().join(",");
-                              // map['product_addon_id'] = vendorAddProductController
-                              //     .productNameController.text;
                             }
                             map['product_variant_id'] = vendorAddProductController
                                 .productNameController.text;
@@ -592,7 +610,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                       multiSelect: (element.multiSelectAddons ?? false) ? "1" : "0",
                                       price: element1.price,
                                       name: element1.name,
-                                      calories: element1.calories
+                                      calories: element1.calories.toString().replaceAll(",", "")
+
                                     )
                                 );
                               });
@@ -601,41 +620,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                             map["addons"] = gg.map((e) => jsonEncode(e)).toList().toString();
                             print(map);
 
-                            // [
-                            //   {
-                            //     "addon_data": [
-                            //       {
-                            //         "title": "protein",
-                            //         "multi_select": 0,
-                            //         "name": "pepsi1",
-                            //         "calories": 1200,
-                            //         "price": 15
-                            //       },
-                            //       {
-                            //         "title": "protein",
-                            //         "multi_select": 0,
-                            //         "name": "pepsi test",
-                            //         "calories": 1200,
-                            //         "price": 12
-                            //       }]
-                            //   },
-                            //   {
-                            //     "addon_data": [
-                            //       {
-                            //         "title": "protein",
-                            //         "multi_select": 0,
-                            //         "name": "pepsi",
-                            //         "calories": 1200,
-                            //         "price": 10
-                            //       },
-                            //       {
-                            //         "title": "protein",
-                            //         "multi_select": 0,
-                            //         "name": "pepsi2",
-                            //         "calories": 1200,
-                            //         "price": 20
-                            //       }]
-                            //   }]
 
                             vendorSaveProductRepo(
                                 context: context,
@@ -653,7 +637,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 showToast(value.message);
                               }
                             });
-                          } 
+                          }
                           else {
                             showValidation.value = true;
                             if (image.value.path.isEmpty) {
@@ -723,23 +707,23 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                       color: Color(0xff000000)),
                 ),
 
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(
-                        AddOptionScreen.addOptionScreen, arguments: index);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: AppTheme.primaryColor,
-                    ),
-                    child: Icon(
-                      Icons.add,
-                      size: 38,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Get.toNamed(
+                //         AddOptionScreen.addOptionScreen, arguments: index);
+                //   },
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(15),
+                //       color: AppTheme.primaryColor,
+                //     ),
+                //     child: Icon(
+                //       Icons.add,
+                //       size: 38,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
                 // Image(
                 //   height: 90,
                 //   width: 90,
@@ -776,7 +760,11 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                      Get.toNamed(
+                          AddOptionScreen.addOptionScreen, arguments: index);
+                    },
                     child: Image(
                         height: 20,
                         width: 20,
@@ -961,6 +949,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 textAlign: TextAlign.start,
                               ),
                               decoration: InputDecoration(
+
                                 fillColor: Colors.grey.shade50,
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 18),
@@ -985,11 +974,17 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                   .map((value) {
                                 return DropdownMenuItem(
                                   value: value.id.toString(),
-                                  child: Text(
-                                    value.name.toString(),
-                                    style: TextStyle(
-                                        color: AppTheme.userText,
-                                        fontSize: AddSize.font14),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        value.name.toString(),
+                                        //textAlign:TextAlign.left,
+                                        style: TextStyle(
+                                            color: AppTheme.userText,
+                                            fontSize: AddSize.font14),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }).toList(),
@@ -1005,46 +1000,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 }
                               }),
                         ),
-                        // const VerticalDivider(width: 1.0),
-                        // Obx(() {
-                        //return
-                        //   Expanded(
-                        //   child: DropdownButtonFormField(
-                        //     isExpanded: true,
-                        //     dropdownColor: Colors.grey.shade50,
-                        //     iconEnabledColor: AppTheme.primaryColor,
-                        //     hint: Text(
-                        //       'Type',
-                        //       style: TextStyle(
-                        //           color: AppTheme.userText,
-                        //           fontSize: AddSize.font14,
-                        //           fontWeight: FontWeight.w500),
-                        //       textAlign: TextAlign.start,
-                        //     ),
-                        //     decoration: const InputDecoration(
-                        //         enabled: true, border: InputBorder.none),
-                        //     value: listModelData[index].price.value == ""
-                        //         ? null
-                        //         : listModelData[index].price.value,
-                        //     items: qtyType.map((value) {
-                        //       return DropdownMenuItem(
-                        //         value: value.key.toString(),
-                        //         child: Text(
-                        //           value.value,
-                        //           style: TextStyle(
-                        //               color: Colors.black,
-                        //               fontSize: AddSize.font14,
-                        //               fontWeight: FontWeight.w500),
-                        //         ),
-                        //       );
-                        //     }).toList(),
-                        //     onChanged: (newValue) {
-                        //       listModelData[index].addOn.value =
-                        //           newValue as String;
-                        //     },
-                        //   ),
-                        // );
-                        //}),
                       ],
                     ),
                   ),
@@ -1106,11 +1061,16 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                               items: optionMenu.map((value) {
                                 return DropdownMenuItem(
                                   value: value.toString(),
-                                  child: Text(
-                                    value.toString(),
-                                    style: TextStyle(
-                                        color: AppTheme.userText,
-                                        fontSize: AddSize.font14),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        value.toString(),
+                                        style: TextStyle(
+                                            color: AppTheme.userText,
+                                            fontSize: AddSize.font14),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }).toList(),

@@ -66,6 +66,8 @@ class _ChooseAddressState extends State<ChooseAddress> {
     }
   }
 
+
+
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -134,242 +136,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
   }
 
   final TextEditingController otherController = TextEditingController();
-  // showChangeAddressSheet(AddressData addressModel) {
-  //   final TextEditingController flatNoController =
-  //       TextEditingController(text: addressModel.flatNo ?? "");
-  //   final TextEditingController streetController =
-  //       TextEditingController(text: (addressModel.street ?? ""));
-  //   final TextEditingController recipientController = TextEditingController();
-  //   otherController.text = addressModel.addressType ?? "Home";
-  //   selectedChip.value = addressModel.addressType ?? "Home";
-  //   showModalBottomSheet(
-  //       context: context,
-  //       isScrollControlled: true,
-  //       enableDrag: false,
-  //       isDismissible: false,
-  //       backgroundColor: Colors.transparent,
-  //       elevation: 0,
-  //       builder: (context) {
-  //         return WillPopScope(
-  //           onWillPop: () async {
-  //             return false;
-  //           },
-  //           child: Obx(() {
-  //             return Padding(
-  //                 padding: EdgeInsets.only(
-  //                     bottom: MediaQuery.of(context).viewInsets.bottom),
-  //                 child: SingleChildScrollView(
-  //                   child: Form(
-  //                     key: _formKey,
-  //                     child: Column(
-  //                       mainAxisSize: MainAxisSize.min,
-  //                       children: [
-  //                         GestureDetector(
-  //                           onTap: () {
-  //                             setState(() {
-  //                               _isValue.value = !_isValue.value;
-  //                             });
-  //                             Get.back();
-  //                             setState(() {});
-  //                           },
-  //                           child: Container(
-  //                             height: 50,
-  //                             width: 50,
-  //                             decoration: const ShapeDecoration(
-  //                                 color: AppTheme.blackcolor,
-  //                                 shape: CircleBorder()),
-  //                             child: Center(
-  //                                 child: Icon(
-  //                               Icons.clear,
-  //                               color: AppTheme.backgroundcolor,
-  //                               size: AddSize.size30,
-  //                             )),
-  //                           ),
-  //                         ),
-  //                         SizedBox(
-  //                           height: AddSize.size20,
-  //                         ),
-  //                         Container(
-  //                           width: double.maxFinite,
-  //                           decoration: const BoxDecoration(
-  //                               color: Colors.white,
-  //                               borderRadius: BorderRadius.only(
-  //                                   topRight: Radius.circular(20),
-  //                                   topLeft: Radius.circular(20))),
-  //                           child: Padding(
-  //                             padding: EdgeInsets.symmetric(
-  //                                 horizontal: AddSize.padding16,
-  //                                 vertical: AddSize.padding16),
-  //                             child: Column(
-  //                               crossAxisAlignment: CrossAxisAlignment.start,
-  //                               children: [
-  //                                 Text(
-  //                                   "Enter complete address",
-  //                                   style: Theme.of(context)
-  //                                       .textTheme
-  //                                       .headline5!
-  //                                       .copyWith(
-  //                                           color: AppTheme.blackcolor,
-  //                                           fontWeight: FontWeight.w500,
-  //                                           fontSize: AddSize.font16),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size12,
-  //                                 ),
-  //                                 Row(
-  //                                   mainAxisAlignment:
-  //                                       MainAxisAlignment.spaceBetween,
-  //                                   children: List.generate(
-  //                                     choiceAddress.length,
-  //                                     (index) => chipList(choiceAddress[index]),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size20,
-  //                                 ),
-  //                                 if (customTip.value)
-  //                                   EditProfileTextFieldWidget(
-  //                                     hint: "Other",
-  //                                     controller: otherController,
-  //                                   ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size20,
-  //                                 ),
-  //                                 EditProfileTextFieldWidget(
-  //                                   controller: flatNoController,
-  //                                   hint: "Flat, House no, Floor, Tower",
-  //                                   label: "Flat, House no, Floor, Tower",
-  //                                   validator: MultiValidator([
-  //                                     RequiredValidator(
-  //                                         errorText:
-  //                                             'Flat, House no, Floor, Tower'),
-  //                                   ]),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size20,
-  //                                 ),
-  //                                 EditProfileTextFieldWidget(
-  //                                   controller: streetController,
-  //                                   hint: "Street, Society, Landmark",
-  //                                   label: "Street, Society, Landmark",
-  //                                   validator: MultiValidator([
-  //                                     RequiredValidator(
-  //                                         errorText:
-  //                                             'Street, Society, Landmark'),
-  //                                   ]),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size20,
-  //                                 ),
-  //                                 EditProfileTextFieldWidget(
-  //                                   controller: recipientController,
-  //                                   hint: "Recipient’s name",
-  //                                   label: "Recipient’s name",
-  //                                   validator: MultiValidator([
-  //                                     RequiredValidator(
-  //                                         errorText: 'Recipient’s name'),
-  //                                   ]),
-  //                                 ),
-  //                                 SizedBox(
-  //                                   height: AddSize.size20,
-  //                                 ),
-  //                                 ElevatedButton(
-  //                                     onPressed: () {
-  //                                       // if (_formKey.currentState!.validate()) {
-  //                                       //   addressModel.street != null &&
-  //                                       //           addressModel.flatNo != null &&
-  //                                       //           addressModel.landmark != null
-  //                                       //       ? editAddress(
-  //                                       //               location: _address,
-  //                                       //               flat_no:
-  //                                       //                   flatNoController.text,
-  //                                       //               street:
-  //                                       //                   streetController.text,
-  //                                       //               landmark:
-  //                                       //                   streetController.text,
-  //                                       //               address_type:
-  //                                       //                   otherController.text,
-  //                                       //               context: context,
-  //                                       //               address_id: addressModel
-  //                                       //                   .id
-  //                                       //                   .toString())
-  //                                       //           .then((value) {
-  //                                       //           showToast(value.message);
-  //                                       //           if (value.status == true) {
-  //                                       //             Get.toNamed(MyAddress
-  //                                       //                 .myAddressScreen);
-  //                                       //             addressController
-  //                                       //                 .getAddress();
-  //                                       //             flatNoController.clear();
-  //                                       //             streetController.clear();
-  //                                       //             otherController.clear();
-  //                                       //             recipientController.clear();
-  //                                       //             selectedChip.value = "";
-  //                                       //           }
-  //                                       //         })
-  //                                       //       : addAddress(
-  //                                       //               location: _address,
-  //                                       //               flat_no:
-  //                                       //                   flatNoController.text,
-  //                                       //               street:
-  //                                       //                   streetController.text,
-  //                                       //               landmark:
-  //                                       //                   streetController.text,
-  //                                       //               address_type:
-  //                                       //                   otherController.text,
-  //                                       //               context: context)
-  //                                       //           .then((value) {
-  //                                       //           showToast(value.message);
-  //                                       //           if (value.status == true) {
-  //                                       //             Get.toNamed(MyAddress
-  //                                       //                 .myAddressScreen);
-  //                                       //             addressController
-  //                                       //                 .getAddress();
-  //                                       //             flatNoController.clear();
-  //                                       //             streetController.clear();
-  //                                       //             otherController.clear();
-  //                                       //             recipientController.clear();
-  //                                       //             selectedChip.value = "";
-  //                                       //           }
-  //                                       //         });
-  //                                       // }
-  //                                     },
-  //                                     style: ElevatedButton.styleFrom(
-  //                                       minimumSize:
-  //                                           const Size(double.maxFinite, 60),
-  //                                       primary: AppTheme.primaryColor,
-  //                                       elevation: 0,
-  //                                       shape: RoundedRectangleBorder(
-  //                                           borderRadius:
-  //                                               BorderRadius.circular(10)),
-  //                                     ),
-  //                                     child: Text(
-  //                                       "SAVE ADDRESS",
-  //                                       style: Theme.of(context)
-  //                                           .textTheme
-  //                                           .headline5!
-  //                                           .copyWith(
-  //                                               color: AppTheme.backgroundcolor,
-  //                                               fontWeight: FontWeight.w500,
-  //                                               fontSize: AddSize.font18),
-  //                                     )),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         ),
-  //                         // Obx(() {
-  //                         //   return SizedBox(
-  //                         //     height: sizeBoxHeight.value,
-  //                         //   );
-  //                         // })
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ));
-  //           }),
-  //         );
-  //       });
-  // }
+
 
   @override
   void initState() {
@@ -488,9 +255,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         children: [
                           Checkbox(
                               side: BorderSide(
-                                  color: showValidation == false
-                                      ? AppTheme.primaryColor
-                                      : Colors.red,
+                                  color:AppTheme.primaryColor,
                                   width: 2),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
@@ -663,114 +428,10 @@ class _ChooseAddressState extends State<ChooseAddress> {
                           ),
                         ],
                       ),
-                     //  Container(
-                     //      child: InkWell(
-                     //          onTap: () async {
-                     //            var place = await PlacesAutocomplete.show(
-                     //                context: context,
-                     //                apiKey: googleApikey,
-                     //                mode: Mode.overlay,
-                     //                types: [],
-                     //                strictbounds: false,
-                     //                // components: [
-                     //                //   Component(Component.country, 'np')
-                     //                // ],
-                     //                onError: (err) {
-                     //                  log("error.....   ${err.errorMessage}");
-                     //                });
-                     //            if (place != null) {
-                     //              setState(() {
-                     //                _address = place.description.toString();
-                     //              });
-                     //              final plist = GoogleMapsPlaces(
-                     //                apiKey: googleApikey,
-                     //                apiHeaders:
-                     //                await const GoogleApiHeaders().getHeaders(),
-                     //              );
-                     //              print(plist);
-                     //              String placeid = place.placeId ?? "0";
-                     //              final detail =
-                     //              await plist.getDetailsByPlaceId(placeid);
-                     //              final geometry = detail.result.geometry!;
-                     //              final lat = geometry.location.lat;
-                     //              final lang = geometry.location.lng;
-                     //              var newlatlang = LatLng(lat, lang);
-                     //              setState(() {
-                     //                _address = place.description.toString();
-                     //                _onAddMarkerButtonPressed(
-                     //                    LatLng(lat, lang), place.description);
-                     //              });
-                     //              mapController?.animateCamera(
-                     //                  CameraUpdate.newCameraPosition(CameraPosition(
-                     //                      target: newlatlang, zoom: 17)));
-                     //              setState(() {});
-                     //            }
-                     //          },
-                     //          child: Card(
-                     //            child: Container(
-                     //                padding: const EdgeInsets.all(0),
-                     //               // width: MediaQuery.of(context).size.width - 40,
-                     //                child: ListTile(
-                     //                  leading: Icon(
-                     //                    Icons.my_location,color: AppTheme.primaryColor,size: 30,
-                     //                  ),
-                     //                  title: Text(
-                     //                    _address.toString(),
-                     //                    style:
-                     //                    TextStyle(fontSize: AddSize.font14),
-                     //                  ),
-                     //                  trailing: const Icon(Icons.search,color: AppTheme.primaryColor,),
-                     //                  dense: true,
-                     //                )),
-                     //          ))),
-                     //  _isValue.value == true
-                     //      ? const SizedBox()
-                     //      :
-                     // SizedBox(),
                       const SizedBox(
                         height: 10,
                       ),
-                      // google map
-                      // Stack(
-                      //   children: [
-                      //     Container(
-                      //       height: height * .25,
-                      //       //padding: EdgeInsets.all(10),
-                      //       child:
-                      //       ClipRRect(
-                      //         borderRadius: BorderRadius.circular(20),
-                      //         child: GoogleMap(
-                      //
-                      //           zoomGesturesEnabled: true,
-                      //           //enable Zoom in, out on map
-                      //           initialCameraPosition: const CameraPosition(
-                      //             target: LatLng(0, 0),
-                      //             zoom: 14.0, //initial zoom level
-                      //           ),
-                      //           mapType: MapType.normal,
-                      //           //map type
-                      //           onMapCreated: (controller) {
-                      //             setState(() async {
-                      //               mapController = controller;
-                      //             });
-                      //           },
-                      //           markers: markers,
-                      //
-                      //           // myLocationEnabled: true,
-                      //           // myLocationButtonEnabled: true,
-                      //           // compassEnabled: true,
-                      //           // markers: Set<Marker>.of(_markers),
-                      //           onCameraMove: (CameraPosition cameraPositions) {
-                      //             cameraPosition = cameraPositions;
-                      //           },
-                      //           onCameraIdle: () async {},
-                      //         ),
-                      //       ),
-                      //     ),
-                      //
-                      //
-                      //   ],
-                      // ),
+
                       SizedBox(height: height * .02,),
                       ElevatedButton(
                           onPressed: () {
@@ -779,19 +440,21 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                     && image.value.path != "" && chooseOption==true){
                               print("hellloo");
                               var map = <String, String>{
-                           'latitude':addressController.latLong1.toString(),
-                           'longitude': addressController.latLong2.toString(),
+                           'latitude':addressController.latLong2!,
+                           'longitude': addressController.latLong1!,
                            'name':nameController.text.toString(),
                            'phone':phoneController.text,
                            'note':noteController.text,
-                           'leave_at_door':chooseOption.toString(),
+                           'note':noteController.text,
+                                'leave_at_door': chooseOption ? "1" : "0",
+
                             };
                               print(map);
                               addAddress1Repo(
                                 map:map,
                                 fieldName1: "image",
                                 file1: image.value,
-                                context:context,
+                                 context:context,
                               ).then((value){
                                 if(value.status==true){
                                   showToast(value.message);

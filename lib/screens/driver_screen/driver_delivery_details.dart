@@ -446,8 +446,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                                           .model
                                                           .value
                                                           .data!
-                                                          .address!
-                                                          .location ?? "")
+                                                          .address! ?? "")
                                                           .toString(),
                                                       style: Theme.of(
                                                           context)
@@ -715,7 +714,7 @@ class _DriverDeliveryOrderDetailsState extends State<DriverDeliveryOrderDetails>
                                       ])),
                                   GestureDetector(
                                     onTap: (){
-                                      openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
+                                      openMap(double.parse(myOrderDetailsController.model.value.data!.address!.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.toString()));
                                     },
                                     child: Container(
                                       height: AddSize.size45,

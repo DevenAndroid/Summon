@@ -43,15 +43,16 @@ Future<ModelCommonResponse> editAddressREpo({
     log(request.fields.toString());
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
-    // print("this iss reponses.${await response.stream.bytesToString()}");
+    String gotResponse = await response.stream.bytesToString();
+    print("this iss reponses.${gotResponse}");
     if (response.statusCode == 200 || response.statusCode == 400) {
       Helpers.hideLoader(loader);
       return ModelCommonResponse.fromJson(
-          jsonDecode(await response.stream.bytesToString()));
+          jsonDecode(gotResponse));
 
     } else {
       return ModelCommonResponse.fromJson(
-          jsonDecode(await response.stream.bytesToString()));
+          jsonDecode(gotResponse));
     }
   } on SocketException {
     return ModelCommonResponse(message: "No Internet Access", status: false);

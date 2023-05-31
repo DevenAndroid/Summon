@@ -82,33 +82,33 @@ class _AssignedOrderState extends State<AssignedOrder> {
                           color: AppTheme.blackcolor),
                     ),
                     SizedBox(width: AddSize.size10),
-                    FlutterSwitch(
-                      height: AddSize.size20,
-                      width: AddSize.size40,
-                      activeColor: AppTheme.primaryColor,
-                      toggleSize: AddSize.size5 * 2.5,
-                      value: deliveryOrderListController.isDataLoading.value
-                          ? deliveryOrderListController
-                              .model.value.data!.deliveryMode
-                          : _store.value,
-                      onToggle: (val) {
-                        deliveryModeUpdateRepo().then((value) {
-                          if (value.status == true) {
-                            deliveryOrderListController.getData();
-                            print(val);
-                            deliveryOrderListController
-                                .model.value.data!.deliveryMode = val;
-                            if (deliveryOrderListController
-                                    .model.value.data!.deliveryMode ==
-                                true) {
-                              showToast("Delivery mode on");
-                            } else {
-                              showToast("Delivery mode off");
-                            }
-                          }
-                        });
-                      },
-                    )
+                    // FlutterSwitch(
+                    //   height: AddSize.size20,
+                    //   width: AddSize.size40,
+                    //   activeColor: AppTheme.primaryColor,
+                    //   toggleSize: AddSize.size5 * 2.5,
+                    //   value: deliveryOrderListController.isDataLoading.value
+                    //       ? deliveryOrderListController
+                    //           .model.value.data!.deliveryMode
+                    //       : _store.value,
+                    //   onToggle: (val) {
+                    //     deliveryModeUpdateRepo().then((value) {
+                    //       if (value.status == true) {
+                    //         deliveryOrderListController.getData();
+                    //         print(val);
+                    //         deliveryOrderListController
+                    //             .model.value.data!.deliveryMode = val;
+                    //         if (deliveryOrderListController
+                    //                 .model.value.data!.deliveryMode ==
+                    //             true) {
+                    //           showToast("Delivery mode on");
+                    //         } else {
+                    //           showToast("Delivery mode off");
+                    //         }
+                    //       }
+                    //     });
+                    //   },
+                    // )
                   ],
                 );
               }),

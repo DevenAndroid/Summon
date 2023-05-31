@@ -35,7 +35,7 @@ class NearStoreController extends GetxController {
           if (!isFirstTime) {
             model.value.data!.addAll(value.data!);
           }
-          loadMore.value = value.link!.next ?? false;
+          loadMore.value = value.link?.next ?? false;
         }
       });
     }

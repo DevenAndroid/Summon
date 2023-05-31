@@ -17,7 +17,7 @@ Future<ModelCommonResponse> addAddress1Repo({
   required context,
 }) async {
 
-  OverlayEntry loader = Helpers.overlayLoader(context);
+   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context).insert(loader);
   try {
     var request =
@@ -30,6 +30,7 @@ Future<ModelCommonResponse> addAddress1Repo({
       HttpHeaders.acceptHeader: 'application/json',
       HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
     };
+
     request.headers.addAll(headers);
 
     request.fields.addAll(map);
@@ -37,13 +38,14 @@ Future<ModelCommonResponse> addAddress1Repo({
 
     if (file1.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
+      print("getting");
 
     }
 
     log(request.fields.toString());
     log(request.files.map((e) => e.filename).toList().toString());
     final response = await request.send();
-    // print("this iss reponses.${await response.stream.bytesToString()}");
+     // log("this iss reponses.${await response.stream.bytesToString()}");
     if (response.statusCode == 200 || response.statusCode == 400) {
       Helpers.hideLoader(loader);
       return ModelCommonResponse.fromJson(

@@ -1,11 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart' hide Badge;
-import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/thankyou_screen.dart';
 import 'package:get/get.dart';
-import 'package:badges/badges.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -77,7 +75,11 @@ class _MyCartPageState extends State<MyCartPage> {
             padding: EdgeInsets.only(left: 25, right: 20),
             child: GestureDetector(
               onTap: () {
-                // Get.back();
+                Get.back();
+                Get.back();
+                Get.back();
+                Get.back();
+                Get.back();
                 controller.onItemTap(2);
                 // Navigator.pop(context);
               },
@@ -97,43 +99,11 @@ class _MyCartPageState extends State<MyCartPage> {
                 color: Color(0xff000000),
                 fontWeight: FontWeight.w500),
           ),
-          // actions: [
-          //   Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 12),
-          //     child: IconButton(
-          //
-          //       icon:
-          //       Badge(
-          //         badgeStyle: const BadgeStyle(
-          //             badgeColor: Color(0xffFFC529)),
-          //         badgeContent: Obx(() {
-          //           return Text(
-          //             myCartDataController.isDataLoaded.value
-          //                 ? myCartDataController.sum.value.toString()
-          //                 : "0",
-          //             style: TextStyle(
-          //                 color: Colors.white,
-          //                 fontSize: AddSize.font12),
-          //           );
-          //         }),
-          //         child: Image.asset(
-          //           height: 50,
-          //           width: 50,
-          //           AppAssets.cartIcon,
-          //           //opacity: AlwaysStoppedAnimation(.80)
-          //         ),
-          //
-          //
-          //       ), onPressed: () {},),
-          //   ),
-          //
-          //
-          // ],
         ),
         //backgroundColor: Color(0xffF2F2F2),
         body:
         Obx(() {
-          return myCartDataController.isDataLoaded.value
+          return  myCartDataController.isDataLoaded.value
               ? SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Padding(
@@ -781,10 +751,15 @@ class _MyCartPageState extends State<MyCartPage> {
                                           selectedValue1.value = value!;
                                           orderTypeRepo(
                                               orderType: selectedValue1.value
-                                                  .toString());
-                                          setState(() {
+                                                  .toString()).then((value){
+                                            if(value.status==true){
+                                              myCartDataController.getCartData();
+                                              setState(() {
 
+                                              });
+                                            }
                                           });
+
                                           print(selectedValue1.value);
                                         }),
                                   ],
@@ -810,12 +785,25 @@ class _MyCartPageState extends State<MyCartPage> {
                                           fontWeight: FontWeight.w700,
                                           color: Color(0xff000000)),),
                                     Flexible(child: Container()),
-                                    Text("..",
+
+                                    InkWell(
+                                      onTap: (){
+                                        Get.toNamed(MyAddress.myAddressScreen);
+                                      },
+                                      child: Text("..",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppTheme.primaryColor),),
+                                    ),
+                                    SizedBox(width: 10,),
+
+                                    myCartDataController.model.value.data!.orderAddress != null ?
+                                    Text("Deliver to ${myCartDataController.model.value.data!.orderAddress?.name.toString()}",
                                       style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 20,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.w700,
-                                          color: AppTheme.primaryColor),),
-                                    Text("Deliver to Home",
+                                          color: Color(0xff000000)),): Text("Deliver to ",
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -1006,6 +994,9 @@ class _MyCartPageState extends State<MyCartPage> {
                             context: context).then((value) {
                           if (value.status == true) {
                             showToast(value.message);
+                            print("coupons is////// ${value.data!.couponDiscount}");
+                            myCartDataController.getCartData();
+                            dynamic discount = value.data!.couponDiscount!['discounted_price'] ?? "";
                             Get.toNamed(ThankYouScreen.thankYouScreen,
                                 arguments: [
                                   value.data!.orderType,
@@ -1013,8 +1004,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                   value.data!.placedAt,
                                   value.data!.paymentType,
                                   value.data!.itemTotal,
-                                  value.data!.couponDiscount != null ?
-                                  value.data!.couponDiscount["discounted_price"]: 0,
+                                  discount,
                                   value.data!.walletSaving,
                                   value.data!.deliveryCharges,
                                   value.data!.grandTotal,

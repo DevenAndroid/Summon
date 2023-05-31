@@ -8,6 +8,7 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
@@ -208,7 +209,14 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                                 .data!
                                                                 .orderItems![index]
                                                                 .id
-                                                                .toString()),
+                                                                .toString(),
+                                                        note: vendorOrderListController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .orderItems![index]
+                                                            .note
+                                                            .toString()),
                                                     SizedBox(
                                                       height: height * .005,
                                                     ),
@@ -226,8 +234,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                         ),
                                       )),
                                   Positioned(
-                                      top: 10,
-                                      left: 10,
+                                      top: 16,
+                                      left: 15,
                                       child: Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
@@ -252,580 +260,191 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                               SizedBox(
                                 height: AddSize.size14,
                               ),
-                              Card(
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.02,
-                                        vertical: height * .005),
-                                    child: TabBar(
-                                      physics: const BouncingScrollPhysics(),
-                                      unselectedLabelColor: AppTheme.blackcolor,
-                                      labelColor: AppTheme.backgroundcolor,
-                                      tabs: [
-                                        Tab(
-                                          child: Text(
-                                            "Customer Detail",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: AddSize.font16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Tab(
-                                          child: Text(
-                                            "Driver Information",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: AddSize.font16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        )
-                                      ],
-                                      labelStyle: const TextStyle(
-                                          color: AppTheme.blackcolor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                      unselectedLabelStyle: const TextStyle(
-                                          color: AppTheme.blackcolor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                      controller: tabController,
-                                      indicatorSize: TabBarIndicatorSize.tab,
-                                      indicator: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: AppTheme.primaryColor,
-                                      ),
-                                    ),
-                                  ))
                             ],
                           ),
                         ),
                       ),
                     ];
                   },
-                  body: TabBarView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: tabController,
-                    children: [
-                      SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AddSize.padding16,
-                          ),
-                          child: Column(
-                            children: [
-                              Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  elevation: 0,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: AddSize.padding15,
-                                        vertical: AddSize.padding15),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Customer Name",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            color: AppTheme
-                                                                .lightblack,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize:
-                                                                AddSize.font14),
-                                                  ),
-                                                  Text(
-                                                    (vendorOrderListController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .user!
-                                                                .name ??
-                                                            "")
-                                                        .toString(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            height: 1.5,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize:
-                                                                AddSize.font16),
-                                                  ),
-                                                ],
-                                              ),
-                                            ]),
-                                            Container(
-                                              height: AddSize.size45,
-                                              width: AddSize.size45,
-                                              decoration: const ShapeDecoration(
-                                                  color: Colors.orange,
-                                                  shape: CircleBorder()),
-                                              child: const Center(
-                                                  child: Icon(
-                                                Icons.person_rounded,
-                                                color: AppTheme.backgroundcolor,
-                                              )),
-                                            ),
-                                          ],
+            body: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                children: [
+                  Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      elevation: 0,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AddSize.padding15,
+                            vertical: AddSize.padding15),
+                        child: Column(
+                          children: [
+                            vendorOrderListController
+                                .model
+                                .value
+                                .data!
+                                .driver != null ?
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Delivery by",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                          fontSize: 14,
+                                          color: Color(0xff797F90),
+                                          fontWeight: FontWeight.w700
                                         ),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Customer Number",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            color: AppTheme
-                                                                .lightblack,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize:
-                                                                AddSize.font14),
-                                                  ),
-                                                  Text(
-                                                    (vendorOrderListController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .user!
-                                                                .phone ??
-                                                            "")
-                                                        .toString(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            height: 1.5,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize:
-                                                                AddSize.font16),
-                                                  ),
-                                                ],
-                                              ),
-                                            ]),
-                                            GestureDetector(
-                                              onTap: () {
-                                                _makingPhoneCall(
-                                                    "tel:+91${vendorOrderListController.model.value.data!.user!.phone ?? ""}"
-                                                        .toString());
-                                              },
-                                              child: Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration:
-                                                      const ShapeDecoration(
-                                                          color: AppTheme
-                                                              .primaryColor,
-                                                          shape: CircleBorder()),
-                                                  child: const Center(
-                                                      child: Icon(
-                                                    Icons.phone,
-                                                    color:
-                                                        AppTheme.backgroundcolor,
-                                                  ))),
-                                            ),
-                                          ],
-                                        ),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Expanded(
-                                              child: Row(children: [
-                                                Expanded(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "Customer Address",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .lightblack,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                      Text(
-                                                        (vendorOrderListController
-                                                                    .model
-                                                                    .value
-                                                                    .data!
-                                                                    .user!
-                                                                    .location ??
-                                                                "")
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font16),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ]),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                print("okay");
-                                                openMap(
-                                                    double.parse(
-                                                        vendorOrderListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .user!
-                                                            .latitude
-                                                            .toString()),
-                                                    double.parse(
-                                                        vendorOrderListController
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .user!
-                                                            .longitude
-                                                            .toString()));
-                                              },
-                                              child: Container(
-                                                height: AddSize.size45,
-                                                width: AddSize.size45,
-                                                decoration: const ShapeDecoration(
-                                                    color: AppTheme.lightYellow,
-                                                    shape: CircleBorder()),
-                                                child: const Center(
-                                                    child: Icon(
-                                                  Icons.location_on,
-                                                  color: AppTheme.backgroundcolor,
-                                                )),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                              paymentDetails()
-                            ],
-                          ),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AddSize.padding16,
-                          ),
-                          child: Column(
-                            children: [
-                              if (vendorOrderListController
-                                      .model.value.data!.driver !=
-                                  null)
-                                Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    elevation: 0,
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: AddSize.padding15,
-                                          vertical: AddSize.padding15),
-                                      child: Column(
-                                        children: [
-                                          ...[
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "Diver Name",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .lightblack,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                      Text(
-                                                        (vendorOrderListController
-                                                                    .model
-                                                                    .value
-                                                                    .data!
-                                                                    .driver!
-                                                                    .name ??
-                                                                "")
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font16),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ]),
-                                                Container(
-                                                  height: AddSize.size45,
-                                                  width: AddSize.size45,
-                                                  decoration:
-                                                      const ShapeDecoration(
-                                                          color: Colors.orange,
-                                                          shape: CircleBorder()),
-                                                  child: const Center(
-                                                      child: Icon(
-                                                    Icons.person_rounded,
-                                                    color:
-                                                        AppTheme.backgroundcolor,
-                                                  )),
-                                                ),
-                                              ],
-                                            ),
-                                            const Divider(),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "Driver Number",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                color: AppTheme
-                                                                    .lightblack,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                fontSize: AddSize
-                                                                    .font14),
-                                                      ),
-                                                      Text(
-                                                        (vendorOrderListController
-                                                                    .model
-                                                                    .value
-                                                                    .data!
-                                                                    .driver!
-                                                                    .phone ??
-                                                                "")
-                                                            .toString(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .headline5!
-                                                            .copyWith(
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                fontSize: AddSize
-                                                                    .font16),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ]),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    _makingPhoneCall(
-                                                        "tel:+91${vendorOrderListController.model.value.data!.driver!.phone ?? ""}"
-                                                            .toString());
-                                                  },
-                                                  child: Container(
-                                                      height: AddSize.size45,
-                                                      width: AddSize.size45,
-                                                      decoration:
-                                                          const ShapeDecoration(
-                                                              color: AppTheme
-                                                                  .primaryColor,
-                                                              shape:
-                                                                  CircleBorder()),
-                                                      child: const Center(
-                                                          child: Icon(
-                                                        Icons.phone,
-                                                        color: AppTheme
-                                                            .backgroundcolor,
-                                                      ))),
-                                                ),
-                                              ],
-                                            ),
-                                            const Divider(),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Row(children: [
-                                                    Expanded(
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            "Delivery Address",
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .headline5!
-                                                                .copyWith(
-                                                                    color: AppTheme
-                                                                        .lightblack,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    fontSize: AddSize
-                                                                        .font14),
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Text(
-                                                                  (vendorOrderListController
-                                                                              .model
-                                                                              .value
-                                                                              .data!
-                                                                              .driver!
-                                                                              .location ??
-                                                                          "")
-                                                                      .toString(),
-                                                                  maxLines: 2,
-                                                                  style: Theme.of(
-                                                                          context)
-                                                                      .textTheme
-                                                                      .headline5!
-                                                                      .copyWith(
-                                                                          height:
-                                                                              1.5,
-                                                                          fontWeight:
-                                                                              FontWeight
-                                                                                  .w500,
-                                                                          overflow:
-                                                                              TextOverflow
-                                                                                  .ellipsis,
-                                                                          fontSize:
-                                                                              AddSize.font16),
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ]),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    print("okay");
-                                                    openMap(
-                                                        double.parse(
-                                                            vendorOrderListController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .address!
-                                                                .latitude
-                                                                .toString()),
-                                                        double.parse(
-                                                            vendorOrderListController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .address!
-                                                                .longitude
-                                                                .toString()));
-                                                  },
-                                                  child: Container(
-                                                    height: AddSize.size45,
-                                                    width: AddSize.size45,
-                                                    decoration:
-                                                        const ShapeDecoration(
-                                                            color: AppTheme
-                                                                .lightYellow,
-                                                            shape:
-                                                                CircleBorder()),
-                                                    child: const Center(
-                                                        child: Icon(
-                                                      Icons.location_on,
-                                                      color: AppTheme
-                                                          .backgroundcolor,
-                                                    )),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ]
-                                        ],
+
                                       ),
-                                    )),
-                              paymentDetails()
-                            ],
-                          ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        (vendorOrderListController
+                                            .model
+                                            .value
+                                            .data!
+                                            .driver!
+                                            .name ??
+                                            "")
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                            height: 1.5,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            fontSize:
+                                            AddSize.font16),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        (vendorOrderListController
+                                            .model
+                                            .value
+                                            .data!
+                                            .driver!
+                                            .phone ??
+                                            "")
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                            height: 1.5,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            fontSize:
+                                            AddSize.font16),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                                GestureDetector(
+                                    onTap: () async {
+                                      // _makingPhoneCall(vendorOrderListController.model.value.data!.driver!.phone.toString());
+                                      Uri phoneno = Uri.parse(
+                                          "tel:${vendorOrderListController.model.value.data!.driver!.phone.toString()}");
+                                      if (await launchUrl(phoneno)) {
+                                      } else {}
+                                      },
+                                    child: Image(
+                                      height: 50,
+                                      width: 50,
+                                      image: AssetImage(AppAssets.callIcon),)
+                                ),
+                              ],
+                            ): SizedBox(),
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Delivery To",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                          fontSize: 14,
+                                          color: Color(0xff797F90),
+                                          fontWeight: FontWeight.w700
+                                        ),
+
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        (vendorOrderListController
+                                            .model
+                                            .value
+                                            .data!
+                                            .user!
+                                            .name ??
+                                            "")
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                            height: 1.5,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            fontSize:
+                                            AddSize.font16),
+                                      ),
+                                      SizedBox(height: 5,),
+                                      Text(
+                                        (vendorOrderListController
+                                            .model
+                                            .value
+                                            .data!
+                                            .user!
+                                            .phone ??
+                                            "")
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline5!
+                                            .copyWith(
+                                            height: 1.5,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            fontSize:
+                                            AddSize.font16),
+                                      ),
+                                    ],
+                                  ),
+                                ]),
+                                GestureDetector(
+                                    onTap: (){
+                                      openMap(double.parse(vendorOrderListController.model.value.data!.address!.toString()),double.parse(vendorOrderListController.model.value.data!.address!.toString()));
+                                    },
+                                    child: Image(
+                                      height: 50,
+                                      width: 50,
+                                      image: AssetImage(AppAssets.loctionIcon1),)
+                                ),
+                              ],
+                            ),
+
+
+
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
+                      )),
+                  paymentDetails()
+                ],
+              ),
+            ),
+
                 )
               : const Center(child: CircularProgressIndicator()),
           bottomNavigationBar: Padding(
@@ -850,7 +469,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(10),
                     minimumSize: Size(double.maxFinite, AddSize.size50),
-                    primary: AppTheme.primaryColor,
+                    primary: vendorOrderListController.model
+                        .value.data!.deliveryStatus == "Accepted" ? Colors.grey: AppTheme.primaryColor,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -862,7 +482,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                       color: AppTheme.backgroundcolor,
                       fontWeight: FontWeight.w500,
                       fontSize: AddSize.font16),
-                )): ElevatedButton(
+                )):
+            ElevatedButton(
                 onPressed: () {
                   // orderAcceptRepo(vendorOrderListController
                   //     .model.value.data!.orderId
@@ -903,7 +524,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
       required price,
       required qty,
       required status1,
-      required variantId}) {
+      required variantId,
+      required note}) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Column(
@@ -913,6 +535,14 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Text(
+                "x ${qty}",
+                style: TextStyle(
+                    fontSize: AddSize.font14,
+                    color: AppTheme.lightblack,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(width: 5,),
               Expanded(
                 child: Text(
                   name,
@@ -923,82 +553,79 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 ),
               ),
               Text(
-                "₹" + price,
+                "SR",
                 style: TextStyle(
                     fontSize: AddSize.font16,
                     color: AppTheme.primaryColor,
                     fontWeight: FontWeight.w500),
               ),
+              SizedBox(width: 5,),
+              Text(
+                price,
+                style: TextStyle(
+                    fontSize: AddSize.font16,
+                    color: AppTheme.primaryColor,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                width: width * .01,
+              ),
+              status1 != "R"
+                  ? ElevatedButton(
+                  onPressed: () {
+                    vendorRejectVariantRepo(order_variant_id: variantId)
+                        .then((value) {
+                      if (value.status == true) {
+                        log(variantId);
+                        showToast(value.message);
+                        vendorOrderListController.getMyOrderDetails();
+                      }
+                    });
+                    // Get.toNamed(MyRouter.editProfileScreen);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: AddSize.padding20, vertical: AddSize.size5),
+                    // minimumSize: Size(double.maxFinite, AddSize.size50),
+                    primary: const Color(0xffF04148),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6)),
+                  ),
+                  child: Text(
+                    "REJECT".toUpperCase(),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: AppTheme.backgroundcolor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AddSize.font16),
+                  ))
+                  : Container(
+                height: 30,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor,
+                      borderRadius: BorderRadius.circular(5)
+                    ),
+                    child: Center(
+                      child: Text(
+                "REJECTED",
+                style: Theme.of(context).textTheme.headline5!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AddSize.font14),
+              ),
+                    ),
+                  ),
             ],
           ),
         ),
-        SizedBox(
-          height: height * .01,
+        Text(
+          note,
+          style: GoogleFonts.ibmPlexSansArabic(
+              fontSize: AddSize.font14,
+              color: Color(0xff6A8289),
+              fontWeight: FontWeight.w700),
         ),
-        Row(
-          children: [
-            Text(
-              qty,
-              style: TextStyle(
-                  fontSize: AddSize.font14,
-                  color: AppTheme.lightblack,
-                  fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              width: width * .01,
-            ),
-            const Text("*"),
-            SizedBox(
-              width: width * .01,
-            ),
-            // Text(
-            //   itemQty,
-            //   style: TextStyle(
-            //       fontSize: AddSize.font14,
-            //       color: AppTheme.lightblack,
-            //       fontWeight: FontWeight.w500),
-            // ),
-          ],
-        ),
-        SizedBox(
-          height: height * .01,
-        ),
-        status1 != "R"
-            ? ElevatedButton(
-                onPressed: () {
-                  vendorRejectVariantRepo(order_variant_id: variantId)
-                      .then((value) {
-                    if (value.status == true) {
-                      log(variantId);
-                      showToast(value.message);
-                      vendorOrderListController.getMyOrderDetails();
-                    }
-                  });
-                  // Get.toNamed(MyRouter.editProfileScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AddSize.padding20, vertical: AddSize.size5),
-                  // minimumSize: Size(double.maxFinite, AddSize.size50),
-                  primary: const Color(0xffF04148),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)),
-                ),
-                child: Text(
-                  "REJECT".toUpperCase(),
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: AppTheme.backgroundcolor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: AddSize.font16),
-                ))
-            : Text(
-                "REJECTED",
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                    color: const Color(0xffF04148),
-                    fontWeight: FontWeight.w500,
-                    fontSize: AddSize.font16),
-              )
       ],
     );
   }

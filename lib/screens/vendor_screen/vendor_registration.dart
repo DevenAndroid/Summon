@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -176,7 +177,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
         setState(() {
           myAddressController.latLong1 = latLong.longitude.toString();
           myAddressController.latLong2 = latLong.latitude.toString();
-          _currentAddress =
+          print("THIS IS LONGITUDE...${latLong.longitude.toString()}");
           '${addressController.place.street}, ${addressController.place
               .subLocality}, ${addressController.place
               .subAdministrativeArea}, ${addressController.place.postalCode}';
@@ -1274,14 +1275,20 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                   //_address!.isNotEmpty &&
                                       image.value.path != "" &&
                                       image1.value.path != "") {
+                                    var item= vendorCategoryController.model.value.data!.categories!.where((element) => element.selected == true)
+                                        .map((e) => e.id.toString()).toList();
+                                    Map<String, dynamic> map1={};
+                                    for(var i=0; i<item.length; i++){
+                                      map1[i.toString()]=item[i];
+                                    }
                                     Map<String, String> mapData = {
                                       'store_name': storeName.text,
                                       'phone': phoneController.text,
-                                      'latitude': myAddressController.latLong1!,
-                                      'longitude': myAddressController.latLong2!,
+                                      'latitude': myAddressController.latLong2.toString(),
+                                      'longitude': myAddressController.latLong1.toString(),
                                     // 'location': _address!,
                                       'business_id': businessIdController.text,
-                                      'category': vendorCategoryController.categoryController.text,
+                                      'category': jsonEncode(map1),
                                     };
                                     vendorRegistrationRepo(
                                             context: context,

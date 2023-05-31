@@ -25,7 +25,7 @@ class MyCartDataModel1 {
 class Data {
   List<CartItems>? cartItems;
   CartPaymentSummary? cartPaymentSummary;
-  Null? orderAddress;
+  OrderAddress? orderAddress;
 
   Data({this.cartItems, this.cartPaymentSummary, this.orderAddress});
 
@@ -39,7 +39,9 @@ class Data {
     cartPaymentSummary = json['cartPaymentSummary'] != null
         ? new CartPaymentSummary.fromJson(json['cartPaymentSummary'])
         : null;
-    orderAddress = json['orderAddress'];
+    orderAddress = json['orderAddress'] != null
+        ? new OrderAddress.fromJson(json['orderAddress'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -50,7 +52,9 @@ class Data {
     if (this.cartPaymentSummary != null) {
       data['cartPaymentSummary'] = this.cartPaymentSummary!.toJson();
     }
-    data['orderAddress'] = this.orderAddress;
+    if (this.orderAddress != null) {
+      data['orderAddress'] = this.orderAddress!.toJson();
+    }
     return data;
   }
 }
@@ -68,7 +72,7 @@ class CartItems {
   dynamic cartItemQty;
   List<Addons>? addons;
   dynamic totalPrice;
-  String? image;
+  dynamic image;
   dynamic note;
 
   CartItems(
@@ -132,41 +136,37 @@ class CartItems {
 }
 
 class Addons {
-  dynamic id;
+  int? id;
+  dynamic title;
   dynamic name;
   dynamic calories;
   dynamic price;
-  dynamic addonTypeId;
-  dynamic addonType;
   bool? multiSelect;
 
   Addons(
       {this.id,
+        this.title,
         this.name,
         this.calories,
         this.price,
-        this.addonTypeId,
-        this.addonType,
         this.multiSelect});
 
   Addons.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    title = json['title'];
     name = json['name'];
     calories = json['calories'];
     price = json['price'];
-    addonTypeId = json['addon_type_id'];
-    addonType = json['addon_type'];
     multiSelect = json['multi_select'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['title'] = this.title;
     data['name'] = this.name;
     data['calories'] = this.calories;
     data['price'] = this.price;
-    data['addon_type_id'] = this.addonTypeId;
-    data['addon_type'] = this.addonType;
     data['multi_select'] = this.multiSelect;
     return data;
   }
@@ -205,6 +205,55 @@ class CartPaymentSummary {
     data['deliveryCharge'] = this.deliveryCharge;
     data['walletSaving'] = this.walletSaving;
     data['total'] = this.total;
+    return data;
+  }
+}
+
+class OrderAddress {
+  dynamic id;
+  dynamic userId;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic name;
+  dynamic phone;
+  dynamic image;
+  dynamic note;
+  bool? leaveAtDoor;
+
+  OrderAddress(
+      {this.id,
+        this.userId,
+        this.latitude,
+        this.longitude,
+        this.name,
+        this.phone,
+        this.image,
+        this.note,
+        this.leaveAtDoor});
+
+  OrderAddress.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    name = json['name'];
+    phone = json['phone'];
+    image = json['image'];
+    note = json['note'];
+    leaveAtDoor = json['leave_at_door'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user_id'] = this.userId;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+    data['name'] = this.name;
+    data['phone'] = this.phone;
+    data['image'] = this.image;
+    data['note'] = this.note;
+    data['leave_at_door'] = this.leaveAtDoor;
     return data;
   }
 }

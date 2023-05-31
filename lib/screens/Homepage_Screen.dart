@@ -16,12 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/CartController.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/MyOrder_Controller.dart';
-import '../controller/My_cart_controller.dart';
 import '../controller/SingleProductController.dart';
-import '../controller/cart_related_product_controller.dart';
-import '../controller/category_controller.dart';
-import '../controller/home_page_controller.dart';
-import '../controller/location_controller.dart';
+
 import '../controller/main_home_controller.dart';
 import '../controller/near_store_controller.dart';
 import '../controller/notification_controller.dart';
@@ -216,7 +212,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 myOrderController.getMyOrder();
                 myCartDataController.getCartData();
               },
-              child:  homeController1.isDataLoading.value ?  SingleChildScrollView(
+              child:  homeController1.isDataLoading.value ?
+              SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 //physics: ScrollPhysics(),
                 child: Padding(
@@ -288,7 +285,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       SizedBox(
                         height: height * .01,
                       ),
-
+                      if(homeController1.model.value.data != null)
                       CarouselSlider(
                         options: CarouselOptions(
                             viewportFraction: 1,
@@ -327,7 +324,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     ))
                         ),
                       ),
-
+                      if(homeController1.model.value.data !=null)
                       SizedBox(
                         height: 120,
                         child: ListView.builder(
@@ -356,8 +353,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     },
                                     child: Container(
                                      // margin: EdgeInsets.symmetric(vertical: 5),
-                                      height: 51,
-                                      width: 110,
+                                      height: 42,
+                                      // width: 110,
                                       decoration: BoxDecoration(
                                           color: currentIndex != index ? Color(0xffF2F2F2): Color(0xffFE724C),
                                           borderRadius: BorderRadius.circular(
@@ -365,11 +362,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 14),
-                                        child: Text(homeController1.model.value.data!.latestCategory![index].name
-                                            .toString(), textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 17,
-                                            fontWeight: FontWeight.w700,
-                                            color: currentIndex != index ? Color(0xff000000):Color(0xffFFFFFF)),),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Center(
+                                          child: Text(homeController1.model.value.data!.latestCategory![index].name
+                                              .toString(), textAlign:TextAlign.center,style: GoogleFonts.ibmPlexSansArabic(fontSize: 17,
+                                              fontWeight: FontWeight.w700,
+                                              color: currentIndex != index ? Color(0xff000000):Color(0xffFFFFFF)),),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -403,6 +402,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       SizedBox(
                         height: height * .01,
                       ),
+                      if(homeController1.model.value.data != null)
                       GridView.builder(
                           shrinkWrap: true,
                           itemCount: homeController1.model.value.data!.recommendedStore!.length,
@@ -436,10 +436,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                             Expanded(
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  //color: Colors.grey,
-                                                  // borderRadius: BorderRadius.only(
-                                                  //     topRight: Radius.circular(20),
-                                                  //     topLeft: Radius.circular(20)),
                                                 ),
                                                 child: ClipRRect(
                                                   borderRadius: BorderRadius.only(
@@ -596,6 +592,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       SizedBox(
                         height: height * .01,
                       ),
+                      if(homeController1.model.value.data != null)
                       GridView.builder(
                           shrinkWrap: true,
                           itemCount: homeController1.model.value.data!.popularStore!.length,
@@ -759,12 +756,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                         )),
                                   ]);
                           }),
-                      SizedBox(height: height * .01,),
+                      SizedBox(height: height * .02,),
                     ],
                   ) ,
                 ),
-              ): Center(child: CircularProgressIndicator(
-                color: AppTheme.primaryColor,)),
+              ): SizedBox.shrink(),
             );
 
           }),

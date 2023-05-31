@@ -27,14 +27,14 @@ class Data {
   dynamic itemTotal;
   dynamic deliveryCharges;
   dynamic walletSaving;
-  dynamic couponDiscount;
+  Map? couponDiscount;
   dynamic commissionDriver;
   dynamic commissionAdmin;
   dynamic grandTotal;
   User? user;
   Vendor? vendor;
-  Null? driver;
-  Null? address;
+  dynamic driver;
+  dynamic address;
   String? orderType;
   String? paymentType;
   String? deliveryStatus;
@@ -65,7 +65,7 @@ class Data {
     itemTotal = json['item_total'];
     deliveryCharges = json['delivery_charges'];
     walletSaving = json['wallet_saving'];
-    couponDiscount = json['coupon_discount'];
+    couponDiscount = json['coupon_discount'].toString().length<10 ? {} :json['coupon_discount'];
     commissionDriver = json['commission_driver'];
     commissionAdmin = json['commission_admin'];
     grandTotal = json['grand_total'];

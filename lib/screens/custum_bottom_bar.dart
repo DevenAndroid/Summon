@@ -10,6 +10,7 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
 import '../controller/CartController.dart';
+import '../controller/GetNearStoresOnMapController.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/MyOrder_Controller.dart';
 import '../controller/My_cart_controller.dart';
@@ -51,9 +52,10 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
   final locationController = Get.put(LocationController());
   final myCartController = Get.put(MyCartController());
   final notificationController = Get.put(NotificationController());
-  final storeController = Get.put(StoreController());
+
   final controller1 = Get.put(ProfileController());
   final scrollController = ScrollController();
+  final getStoreOnMapController = Get.put(GetStoresOnMapController());
 
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
@@ -69,7 +71,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
-    homeSearchController.searchingData(context: context);
+    homeSearchController.searchingData();
     scrollController.addListener(_scrollListener);
    // myCartController.getAddToCartList();
   }
@@ -364,7 +366,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       padding: const EdgeInsets.symmetric(vertical: 08),
                                       child: GestureDetector(
                                         onTap: () async {
-                                          getNearByStores();
+                                          getStoreOnMapController.getStoresOnMap();
                                         },
                                         child: const ImageIcon(
                                           AssetImage(AppAssets.mapIcon),

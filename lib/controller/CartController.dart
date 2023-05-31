@@ -12,6 +12,7 @@ class MyCartController extends GetxController {
 
   //RxBool isRelatedProductDataLoaded = false.obs;
   RxInt sum = 0.obs;
+  RxInt refreshInt = 0.obs;
 
   getCartData() {
     myCartDataRepo().then((value) {

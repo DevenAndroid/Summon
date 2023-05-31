@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -10,11 +11,13 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/generated/assets.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import '../../controller/MyAddress_controller.dart';
@@ -24,8 +27,9 @@ import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../controller/GetNearStoresOnMapController.dart';
+import '../controller/single_store_controller.dart';
 import '../repositories/GetNearByStores_Repo.dart';
-
 
 class MapScreenPage extends StatefulWidget {
   const MapScreenPage({Key? key}) : super(key: key);
@@ -36,151 +40,79 @@ class MapScreenPage extends StatefulWidget {
 }
 
 class _MapScreenPageState extends State<MapScreenPage> {
-  final _formKey = GlobalKey<FormState>();
-  final addressController = Get.put(MyAddressController());
-  // Rx<AddressData> addressModel = AddressData().obs;
-  final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
-  final RxBool _isValue = false.obs;
-  RxBool customTip = false.obs;
-  RxString selectedChip = "Home".obs;
-  final TextEditingController searchController = TextEditingController();
+  final getStoreOnMapController = Get.put(GetStoresOnMapController());
+  final singleStoreController = Get.put(SingleStoreController());
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
-  Rx<File> image = File("").obs;
-  String? _currentAddress;
-  String? _address = "";
-  Position? _currentPosition;
-  RxBool showValidation = false.obs;
-  bool checkValidation(bool bool1, bool2) {
-    if (bool1 == true && bool2 == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
-  Future<bool> _handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services')));
-      return false;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
-        return false;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.')));
-      return false;
-    }
-    return true;
-  }
-
-  Future<void> _getCurrentPosition() async {
-    final hasPermission = await _handleLocationPermission();
-
-    if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
-      setState(() => _currentPosition = position);
-      _getAddressFromLatLng(_currentPosition!);
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: LatLng(
-                  _currentPosition!.latitude, _currentPosition!.longitude),
-              zoom: 15)));
-      _onAddMarkerButtonPressed(
-          LatLng(_currentPosition!.latitude, _currentPosition!.longitude),
-          "current location");
-      setState(() {});
-      // location = _currentAddress!;
-    }).catchError((e) {
-      debugPrint(e);
-    });
-  }
-
-  Future<void> _getAddressFromLatLng(Position position) async {
-    await placemarkFromCoordinates(
-        _currentPosition!.latitude, _currentPosition!.longitude)
-        .then((List<Placemark> placemarks) {
-      Placemark place = placemarks[0];
-      setState(() {
-        _currentAddress =
-        '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-        _address =
-        '${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
-      });
-    }).catchError((e) {
-      debugPrint(e.toString());
-    });
-  }
-
-  final TextEditingController otherController = TextEditingController();
+  PageController pageViewController = PageController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    //checkGps();
-    _getCurrentPosition();
-    getNearByStores();
-    if (Get.arguments != null) {
-      // addressModel.value = Get.arguments[0];
-    }
+    getStoreOnMapController.getStoresOnMap().then((value) {
+      if(getStoreOnMapController.model.value.data != null){
+        markers.clear();
+        // getStoreOnMapController.model.value.data!.forEach((element) {
+          for(var i = 0; i < getStoreOnMapController.model.value.data!.length; i++) {
+            var element = getStoreOnMapController.model.value.data![i];
+            double? lat = double.tryParse(element.latitude.toString());
+            double? long = double.tryParse(element.longitude.toString());
+            if (lat != null && long != null) {
+              _onAddMarkerButtonPressed(
+                  lastMapPosition: LatLng(lat, long),
+                  markerTitle: element.name.toString(),
+                  id: element.id.toString(),
+                index: i
+              );
+            }
+          }
+        // });
+        if(getStoreOnMapController.model.value.data!.isNotEmpty) {
+          var element = getStoreOnMapController.model.value.data![0];
+          double? lat = double.tryParse(element.latitude.toString());
+          double? long = double.tryParse(element.longitude.toString());
+          if(lat != null && long != null) {
+            if (mapController != null) {
+              mapController!.animateCamera(
+                  CameraUpdate.newCameraPosition(
+                      CameraPosition(target: LatLng(lat, long),zoom: 15)));
+            }
+          }
+        }
+        setState(() {});
+      }
+    });
   }
-
-  String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
-  GoogleMapController? mapController1; //contrller for Google map
-  CameraPosition? cameraPosition;
-  String location = "Search Location";
   final Set<Marker> markers = {};
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
 
-  Future<void> _onAddMarkerButtonPressed(LatLng lastMapPosition, markerTitle,
-      {allowZoomIn = true}) async {
-    final Uint8List markerIcon =
-    await getBytesFromAsset(AppAssets.locationMarker, 100);
-    markers.clear();
+  _onAddMarkerButtonPressed({
+    required LatLng lastMapPosition,
+    markerTitle,
+    required String id,
+    required int index,
+  }) async {
     markers.add(Marker(
         markerId: MarkerId(lastMapPosition.toString()),
         position: lastMapPosition,
-        infoWindow: const InfoWindow(
-          title: "",
+        onTap: (){
+          print(id);
+          pageViewController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+          },
+        infoWindow: InfoWindow(
+          title: markerTitle,
+          onTap: (){
+            print(id);
+            pageViewController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+          }
         ),
-        icon: BitmapDescriptor.fromBytes(markerIcon)));
-    // BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan,)));
-    if (googleMapController.isCompleted) {
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-              target: lastMapPosition, zoom: allowZoomIn ? 14 : 11)));
-    }
-    setState(() {});
+        icon: BitmapDescriptor.defaultMarker));
   }
 
   @override
   Widget build(BuildContext context) {
-    var height=MediaQuery.of(context).size.height;
-    var width=MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async {
         mapController!.dispose();
@@ -197,203 +129,179 @@ class _MapScreenPageState extends State<MapScreenPage> {
                 disposeController: () {
                   mapController!.dispose();
                 }),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  Container(
-                      child: InkWell(
-                          onTap: () async {
-                            var place = await PlacesAutocomplete.show(
-                                context: context,
-                                apiKey: googleApikey,
-                                mode: Mode.overlay,
-                                types: [],
-                                strictbounds: false,
-                                // components: [
-                                //   Component(Component.country, 'np')
-                                // ],
-                                onError: (err) {
-                                  log("error.....   ${err.errorMessage}");
-                                });
-                            if (place != null) {
-                              setState(() {
-                                _address = place.description.toString();
-                                print( "Current Location is..${_address.toString()}");
-                              });
-                              final plist = GoogleMapsPlaces(
-                                apiKey: googleApikey,
-                                apiHeaders:
-                                await const GoogleApiHeaders().getHeaders(),
-                              );
-                              print(plist);
-                              String placeid = place.placeId ?? "0";
-                              final detail =
-                              await plist.getDetailsByPlaceId(placeid);
-                              final geometry = detail.result.geometry!;
-                              final lat = geometry.location.lat;
-                              final lang = geometry.location.lng;
-                              var newlatlang = LatLng(lat, lang);
-                              setState(() {
-                                _address = place.description.toString();
-                                _onAddMarkerButtonPressed(
-                                    LatLng(lat, lang), place.description);
-                              });
-                              mapController?.animateCamera(
-                                  CameraUpdate.newCameraPosition(CameraPosition(
-                                      target: newlatlang, zoom: 17)));
-                              setState(() {});
-                            }
+            body: Stack(
+              children: [
+                GoogleMap(
+                  zoomGesturesEnabled: true,
+                  initialCameraPosition: const CameraPosition(
+                    target: LatLng(0, 0),
+                    zoom: 14.0, //initial zoom level
+                  ),
+                  mapType: MapType.normal,
+                  //map type
+                  onMapCreated: (controller) {
+                    setState(() async {
+                      mapController = controller;
+                    });
+                  },
+                  markers: markers,
+                  myLocationButtonEnabled: true,
+                  onTap: (value) {},
+                  onCameraMove: (CameraPosition cameraPositions) {
+                  },
+                  onCameraIdle: () async {},
+                ),
+                Positioned(
+                    bottom: 10,
+                    child: Obx(() {
+                      return getStoreOnMapController.model.value.data != null ?
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 250,
+                        child: PageView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          controller: pageViewController,
+                          itemCount:
+                              getStoreOnMapController.model.value.data!.length,
+                          onPageChanged: (value){
+                              var element = getStoreOnMapController.model.value.data![value];
+                              double? lat = double.tryParse(element.latitude.toString());
+                              double? long = double.tryParse(element.longitude.toString());
+                              if(lat != null && long != null) {
+                                if (mapController != null) {
+                                  mapController!.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          CameraPosition(target: LatLng(lat, long),zoom: 14)));
+                                }
+                              }
+                            setState(() {});
                           },
-                          child: Card(
-                            child: Container(
-                                padding: const EdgeInsets.all(0),
-                                // width: MediaQuery.of(context).size.width - 40,
-                                child: ListTile(
-                                  leading: Icon(
-                                    Icons.my_location,color: AppTheme.primaryColor,size: 30,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                                onTap: () {
+                                  singleStoreController.storeId.value= getStoreOnMapController.model.value.data![index].id.toString();
+                                  print("store id is..${singleStoreController.storeId.value}");
+                                  Get.toNamed(StoreScreen.singleStoreScreen);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                      height: 300,
+                                     // margin: const EdgeInsets.only(top: 20),
+                                      decoration: BoxDecoration(
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //       color: Colors.grey.shade200,
+                                          //       blurRadius: 3)
+                                          // ],
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: height * .19,
+                                            width: width,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: CachedNetworkImage(
+                                                  imageUrl:
+                                                      getStoreOnMapController
+                                                          .model
+                                                          .value
+                                                          .data![index]
+                                                          .image
+                                                          .toString(),
+                                                  errorWidget: (_, __, ___) =>
+                                                      const SizedBox(),
+                                                  placeholder: (_, __) =>
+                                                      const SizedBox(),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          addHeight(10),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 15,),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  getStoreOnMapController.model
+                                                      .value.data![index].name
+                                                      .toString(),
+                                                  style: TextStyle(
+                                                      color: Color(0xff21283D),
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                  Row(
+                                    children: [
+                                      Text("SR",
+                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w400,
+                                              color: Color(
+                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                      Text("${getStoreOnMapController.model.value.data![index].deliveryCharge}",
+                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w400,
+                                              color: Color(
+                                                  0xff2C4D61)),), SizedBox(width: 5,),
+                                      Icon(Icons.circle,size: 5,color: Color(
+                                            0xff2C4D61)),
+                                      SizedBox(width: 5,),
+                                      Text("KM",
+                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
+                                              fontWeight: FontWeight
+                                                  .w400,
+                                              color: Color(
+                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                      Text(getStoreOnMapController.model.value.data![index].distance
+                                            .toString(),
+
+                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                              fontWeight: FontWeight
+                                                  .w400,
+                                              color: Color(
+                                                  0xff2C4D61)),),
+                                      SizedBox(width: 5,),
+                                      Icon(Icons.circle,size: 5,color: Color(
+                                            0xff2C4D61)),
+                                      SizedBox(width: 5,),
+                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                      Text(getStoreOnMapController.model.value.data![index].avgRating
+                                            .toString(), style:  GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff2C4D61)),),
+                                    ],
                                   ),
-                                  title: Text(
-                                    _address.toString(),
-                                    style:
-                                    TextStyle(fontSize: AddSize.font14),
-                                  ),
-                                  trailing: const Icon(Icons.search,color: AppTheme.primaryColor,),
-                                  dense: true,
-                                )),
-                          ))),
-                  _isValue.value == true
-                      ? const SizedBox()
-                      :
-                  SizedBox(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  // google map
-                  Stack(
-                    children: [
-                      Container(
-                        height: height * .7,
-                        //padding: EdgeInsets.all(10),
-                        child:
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: GoogleMap(
+                                              ],
+                                            ),
+                                          ),
 
-                            zoomGesturesEnabled: true,
-                            //enable Zoom in, out on map
-                            initialCameraPosition: const CameraPosition(
-                              target: LatLng(0, 0),
-                              zoom: 14.0, //initial zoom level
-                            ),
-                            mapType: MapType.normal,
-                            //map type
-                            onMapCreated: (controller) {
-                              setState(() async {
-                                mapController = controller;
-                              });
-                            },
-                            // markers: markers,
-                            myLocationButtonEnabled: true,
-                            onTap: (value){
-
-                            },
-
-                            // myLocationEnabled: true,
-                            // myLocationButtonEnabled: true,
-                            // compassEnabled: true,
-                            //  markers: Set<Marker>.of(Mar),
-                            onCameraMove: (CameraPosition cameraPositions) {
-                              cameraPosition = cameraPositions;
-                            },
-                            onCameraIdle: () async {},
-                          ),
+                                        ],
+                                      )),
+                                ));
+                          },
                         ),
-                      ),
-
-
-                    ],
-                  ),
-                  // SizedBox(height: height * .02,),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       // setState(() {
-                  //       //   _isValue.value = !_isValue.value;
-                  //       //   selectedChip.value = "Home";
-                  //       // });
-                  //       // showChangeAddressSheet(addressModel.value);
-                  //       // Get.toNamed(MyRouter.chooseAddressScreen);
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       minimumSize: const Size(double.maxFinite, 60),
-                  //       primary: AppTheme.primaryColor.withOpacity(.80),
-                  //       elevation: 0,
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(10)),
-                  //     ),
-                  //     child: Text(
-                  //       "Save",
-                  //       style: Theme.of(context)
-                  //           .textTheme
-                  //           .headline5!
-                  //           .copyWith(
-                  //           color: AppTheme.backgroundcolor,
-                  //           fontWeight: FontWeight.w500,
-                  //           fontSize: AddSize.font16),
-                  //     )),
-                  // SizedBox(height: height * .02,),
-                ],
-              ),
+                      ) : SizedBox();
+                    }))
+              ],
             )),
       ),
     );
-  }
-
-  chipList(
-      title,
-      ) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return Obx(() {
-      return Column(
-        children: [
-          ChoiceChip(
-            padding: EdgeInsets.symmetric(
-                horizontal: width * .01, vertical: height * .01),
-            backgroundColor: AppTheme.backgroundcolor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
-                    color: title != selectedChip.value
-                        ? Colors.grey.shade300
-                        : const Color(0xff4169E2))),
-            label: Text("$title",
-                style: TextStyle(
-                    color: title != selectedChip.value
-                        ? Colors.grey.shade600
-                        : const Color(0xff4169E2),
-                    fontSize: AddSize.font14,
-                    fontWeight: FontWeight.w500)),
-            selected: title == selectedChip.value,
-            selectedColor: const Color(0xff4169E2).withOpacity(.3),
-            onSelected: (value) {
-              selectedChip.value = title;
-              if (title == "Other") {
-                customTip.value = true;
-                otherController.text = "";
-              } else {
-                customTip.value = false;
-                otherController.text = title;
-              }
-              setState(() {});
-            },
-          )
-        ],
-      );
-    });
   }
 }

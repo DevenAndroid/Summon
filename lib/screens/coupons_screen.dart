@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/controller/coupon_controller.dart';
 import 'package:fresh2_arrive/repositories/apply_coupons_repository.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
+import '../controller/CartController.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
@@ -22,6 +23,7 @@ class CouponsScreen extends StatefulWidget {
 class _CouponsScreenState extends State<CouponsScreen> {
   final controller = Get.put(MainHomeController());
   final couponController = Get.put(CouponController());
+  final cartController = Get.put(MyCartController());
   final myCartController = Get.put(MyCartDataListController());
   final TextEditingController codeController = TextEditingController();
 
@@ -47,66 +49,19 @@ class _CouponsScreenState extends State<CouponsScreen> {
                     horizontal: width * 0.03, vertical: height * .01),
                 child: Column(
                   children: [
-                    // Container(
-                    //   decoration: BoxDecoration(
-                    //     color: AppTheme.backgroundcolor,
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   child: TextField(
-                    //     maxLines: 1,
-                    //     controller: codeController,
-                    //     style: const TextStyle(fontSize: 17),
-                    //     textAlignVertical: TextAlignVertical.center,
-                    //     textInputAction: TextInputAction.search,
-                    //     onSubmitted: (value) => {},
-                    //     decoration: InputDecoration(
-                    //         filled: true,
-                    //         suffixIcon: TextButton(
-                    //             onPressed: () {
-                    //               applyCoupons(couponCode: codeController.text
-                    //                   .toString(), context: context).
-                    //               then((value){
-                    //                 showToast(value.message);
-                    //                 if(value.status == true){
-                    //                   myCartController.getAddToCartList();
-                    //                   controller.onItemTap(1);
-                    //                   Get.back();
-                    //                 }
-                    //               });
-                    //             },
-                    //             child: Text(
-                    //               "Apply  ".toUpperCase(),
-                    //               style: TextStyle(
-                    //                   fontSize: AddSize.font16,
-                    //                   color: AppTheme.blackcolor,
-                    //                   fontWeight: FontWeight.w500),
-                    //             )),
-                    //         border: const OutlineInputBorder(
-                    //             borderSide: BorderSide.none,
-                    //             borderRadius:
-                    //                 BorderRadius.all(Radius.circular(10))),
-                    //         fillColor: Colors.white,
-                    //         contentPadding: EdgeInsets.symmetric(
-                    //             horizontal: AddSize.padding20,
-                    //             vertical: AddSize.padding20),
-                    //         hintText: 'Enter coupon code',
-                    //         hintStyle: TextStyle(
-                    //             fontSize: AddSize.font14,
-                    //             color: AppTheme.blackcolor,
-                    //             fontWeight: FontWeight.w400)),
-                    //   ),
-                    // ),
                     Obx(() {
                       return couponController.isDataLoading.value
                           ? couponController.model.value.data!.isEmpty ?
-                           Text("! Coupons Not Available",
-                            style: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .copyWith(
-                              fontWeight:
-                              FontWeight.w500,
-                              fontSize: AddSize.font16),)
+                           Center(
+                             child: Text("! Coupons Not Available",
+                              style: Theme.of(context)
+                                .textTheme
+                                .headline5!
+                                .copyWith(
+                                fontWeight:
+                                FontWeight.w500,
+                                fontSize: AddSize.font16),),
+                           )
                       :ListView.builder(
                               itemCount:
                                   couponController.model.value.data!.length,
@@ -203,6 +158,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                             showToast(value.message);
                                                             if(value.status == true){
                                                               myCartController.getAddToCartList();
+                                                              cartController.getCartData();
                                                               controller.onItemTap(1);
                                                              Get.back();
                                                               setState(() {

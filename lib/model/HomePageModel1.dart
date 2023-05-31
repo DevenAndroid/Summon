@@ -82,10 +82,10 @@ class Data {
 }
 
 class SliderData {
-  int? id;
-  String? title;
-  String? link;
-  String? image;
+  dynamic id;
+  dynamic title;
+  dynamic link;
+  dynamic image;
 
   SliderData({this.id, this.title, this.link, this.image});
 
@@ -126,13 +126,13 @@ class LatestCategory {
 }
 
 class RecommendedStore {
-  int? id;
-  String? name;
-  String? image;
-  String? distance;
-  String? deliveryCharge;
+  dynamic id;
+  dynamic name;
+  dynamic image;
+  dynamic distance;
+  dynamic deliveryCharge;
   bool? wishlist;
-  String? avgRating;
+  dynamic avgRating;
 
   RecommendedStore(
       {this.id,
@@ -166,13 +166,13 @@ class RecommendedStore {
   }
 }
 class PopularStore {
-  int? id;
-  String? name;
-  String? image;
-  String? distance;
-  String? deliveryCharge;
+  dynamic id;
+  dynamic name;
+  dynamic image;
+  dynamic distance;
+  dynamic deliveryCharge;
   bool? wishlist;
-  String? avgRating;
+  dynamic avgRating;
 
   PopularStore(
       {this.id,

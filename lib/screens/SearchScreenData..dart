@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/home_page_controller.dart';
+import '../controller/single_store_controller.dart';
 import '../controller/store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -22,11 +23,10 @@ class SearchScreenData extends StatefulWidget {
 }
 
 class _SearchScreenDataState extends State<SearchScreenData> {
-  final controller = Get.put(HomePageController());
   final homeSearchController = Get.put(HomePageController1());
   final myCartController = Get.put(MyCartDataListController());
-  final storeController = Get.put(StoreController());
   final scrollController = ScrollController();
+  final singleStoreController = Get.put(SingleStoreController());
   final TextEditingController searchController=TextEditingController();
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
@@ -47,8 +47,10 @@ class _SearchScreenDataState extends State<SearchScreenData> {
       // controller.searchDataModel.value.data != null
       //     ? controller.searchDataModel.value.data!.clear()
       //     : Container();
+      // homeSearchController.searchingData(allowClear: true,context: context);
     });
     scrollController.addListener(_scrollListener);
+
 
   }
 
@@ -188,10 +190,12 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                             return InkWell(
                                 onTap: () {
 
-                                  storeController
+                                  singleStoreController
                                       .storeId.value =
                                       homeSearchController.searchModel2[index].id
                                           .toString();
+                                  print(homeSearchController.searchModel2[index].id
+                                      .toString());
                                   Get.toNamed(StoreScreen
                                       .singleStoreScreen);
                                 },

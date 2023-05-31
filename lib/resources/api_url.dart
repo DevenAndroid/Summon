@@ -10,6 +10,7 @@ class ApiUrl {
   static const otpApi = "${baseUrl}verify-otp";
   static const wishListUrl = "${baseUrl}add-remove-wishlist";
   static const getWishListUrl = "${baseUrl}list";
+  static const privacyPagesUrl = "${baseUrl}pages";
   static const resendApi = "${baseUrl}resend-otp";
   static const categoriesUrl = "${baseUrl}categories";
   static const couponsUrl = "${baseUrl}coupons";
@@ -51,6 +52,7 @@ class ApiUrl {
   static const removeAddressUrl = "${baseUrl}remove-address";
   static const chooseOrderAddressUrl = "${baseUrl}choose-order-address";
   static const checkOutUrl = "${baseUrl}order";
+  static const reOrderUrl = "${baseUrl}re-order/";
   static const checkOutMyCartUrl = "${baseUrl}order";
   static const vendorRegister = "${baseUrl}vendor-register";
   static const vendorInformationEditUrl = "${baseUrl}vendor-information-edit";

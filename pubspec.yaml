@@ -72,13 +72,13 @@ dependencies:
   razorpay_flutter:
   url_launcher:
   flutter_html: ^2.2.1
-  dropdown_formfield: ^0.1.4
+#  dropdown_formfield: ^0.1.4
   flutter_localizations:
     sdk: flutter
   easy_localization: ^3.0.1
   google_sign_in: ^6.1.0
-  flutter_facebook_login: ^3.0.0
-  flutter_facebook_auth: ^5.0.7
+#  flutter_facebook_login: ^3.0.0
+#  flutter_facebook_auth: ^5.0.7
   google_fonts:
 dev_dependencies:
   flutter_test:

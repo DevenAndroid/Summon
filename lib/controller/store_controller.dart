@@ -53,6 +53,6 @@ class StoreController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getData(isFirstTime: true);
+   // getData(isFirstTime: true);
   }
 }

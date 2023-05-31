@@ -12,14 +12,13 @@ import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
 Future<HomePageSearchModel1> searchHomeDataPagination(
-    {required BuildContext context, required keyword, required page, required pagination, }) async {
-  // var map = <String, dynamic>{};
-  // if (keyword != "") {
-  //   map['keyword'] = keyword;
-  // }
-  //log(map.toString());
+    {required BuildContext? context, required keyword, required page, required pagination, }) async {
+
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context).insert(loader);
+  if(context != null){
+    Overlay.of(context).insert(loader);
+  }
+
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -32,15 +31,18 @@ Future<HomePageSearchModel1> searchHomeDataPagination(
   try {
     final response = await http.get(Uri.parse("${ApiUrl.searchUrlPagination}?keyword=$keyword&pagination=4&page=$page"),headers: headers);
     log(response.body.toString());
+    // Helpers.hideLoader(loader);
     if (response.statusCode == 200) {
       //Helpers.hideShimmer(loader);
        Helpers.hideLoader(loader);
       log("Homepage Search Data with pagination...${response.body}");
       return HomePageSearchModel1.fromJson(jsonDecode(response.body));
     } else {
+      Helpers.hideLoader(loader);
       throw Exception(response.body);
     }
   } catch (e) {
+    Helpers.hideLoader(loader);
     throw Exception(e.toString());
   }
 }

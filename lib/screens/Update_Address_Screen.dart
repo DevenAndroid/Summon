@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/add_address_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -21,6 +22,7 @@ import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../repositories/Edit_Address_REpo.dart';
+import '../widgets/registration_form_textField.dart';
 import 'my_address.dart';
 
 class UpdateAddressScreen extends StatefulWidget {
@@ -37,8 +39,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   final getSaveAddressController = Get.put(GetSaveAddressController());
   final RxBool _isValue = false.obs;
   bool chooseOption = false;
-  RxBool customTip = false.obs;
-  RxString selectedChip = "Home".obs;
+
   final Completer<GoogleMapController> googleMapController = Completer();
   GoogleMapController? mapController;
   Rx<File> image = File("").obs;
@@ -92,7 +93,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         .then((Position position) {
       setState(() => _currentPosition = position);
       _getAddressFromLatLng(_currentPosition!);
-      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+      mapController?.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
               target: LatLng(
                   _currentPosition!.latitude, _currentPosition!.longitude),
@@ -124,16 +125,27 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
     });
   }
 
-  final TextEditingController otherController = TextEditingController();
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     //checkGps();
-    getSaveAddressController.saveAddressData();
+
     _getCurrentPosition();
+    getSaveAddressController.saveAddressData().then((value){
+      if (getSaveAddressController.isSaveAddressLoad.value &&
+          getSaveAddressController.getSaveAddressModel.value.data != null){
+        getSaveAddressController.nameController.text =
+            getSaveAddressController.getSaveAddressModel.value.data!.name.toString();
+        getSaveAddressController.phoneController.text =
+            getSaveAddressController.getSaveAddressModel.value.data!.phone.toString();
+        getSaveAddressController.noteController.text =
+            getSaveAddressController.getSaveAddressModel.value.data!.note.toString();
+        chooseOption= getSaveAddressController.getSaveAddressModel.value.data!.leaveAtDoor!;
+
+      }
+    });
     // if (Get.arguments != null) {
     //   // addressModel.value = Get.arguments[0];
     // }
@@ -203,15 +215,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                   mapController!.dispose();
                 }),
             body: Obx(() {
-              if (getSaveAddressController.isSaveAddressLoad.value &&
-                  getSaveAddressController.getSaveAddressModel.value.data != null){
-    getSaveAddressController.nameController.text =
-    getSaveAddressController.getSaveAddressModel.value.data!.name.toString();
-    getSaveAddressController.phoneController.text =
-    getSaveAddressController.getSaveAddressModel.value.data!.phone.toString();
-    getSaveAddressController.noteController.text =
-    getSaveAddressController.getSaveAddressModel.value.data!.note.toString();
-              }
+
               return  getSaveAddressController.isSaveAddressLoad.value &&
                   getSaveAddressController.getSaveAddressModel.value.data != null ?
                SingleChildScrollView(
@@ -225,32 +229,41 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                         const SizedBox(
                           height: 9,
                         ),
-                        EditProfileTextFieldWidget1(
+                        RegistrationTextField1(
                           hint: "Name",
                           controller: getSaveAddressController.nameController,
-                          //enable: true,
-                          validator: validateName,
+                          keyboardType: TextInputType.name,
+                          validator: MultiValidator([
+                            RequiredValidator(
+                                errorText: "Please enter the Name")
+                          ]),
+
                         ),
 
                         const SizedBox(
                           height: 9,
                         ),
-                        EditProfileTextFieldWidget1(
+                        RegistrationTextField1(
                           hint: "Phone",
                           controller: getSaveAddressController.phoneController,
-                          validator: validateMobile,
                           keyboardType: TextInputType.number,
                           length: 10,
-                          //readOnly: true,
-                          //enable: false,
+                          validator: MultiValidator([
+                            RequiredValidator(
+                                errorText: "Please enter the Phone")
+                          ]),
+
                         ),
                         const SizedBox(
                           height: 9,
                         ),
-                        EditProfileTextFieldWidget1(
+                        RegistrationTextField1(
                           hint: "Note",
                           controller: getSaveAddressController.noteController,
-                          validator: validateName,
+                          validator: MultiValidator([
+                            RequiredValidator(
+                                errorText: "Please enter the NOte")
+                          ]),
                         ),
 
                         const SizedBox(
@@ -419,28 +432,29 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                         SizedBox(height: height * .02,),
                         ElevatedButton(
                             onPressed: () {
-                              if (_formKey.currentState!.validate()
-                                  && image.value.path != "" &&
-                                  chooseOption == true) {
-                                print("hellloo");
-                                var map = <String, dynamic>{
-                                  'latitude': addressController.latLong1,
-                                  'longitude': addressController.latLong2,
+                              print("hello");
+                              if (_formKey.currentState!.validate() && chooseOption == true
+                                  ) {
+                                var map = <String, String>{
                                   'name': getSaveAddressController
-                                      .nameController.text.toString(),
+                                      .nameController.text,
                                   'phone': getSaveAddressController
                                       .phoneController.text,
+                                  'address_id': getSaveAddressController.getSaveAddressModel.value.data!.id.toString(),
+                                  'latitude': addressController.latLong2.toString(),
+                                  'longitude': addressController.latLong1.toString(),
                                   'note': getSaveAddressController
                                       .noteController.text,
-                                  'leave_at_door': chooseOption,
-                                  'address_id': getSaveAddressController.getSaveAddressModel.value.data!.id.toString(),
+                                  'leave_at_door': chooseOption ? "1" : "0"
+
                                 };
+                                print("Addresss id is..${getSaveAddressController.getSaveAddressModel.value.data!.id.toString()}");
                                 print(map);
                                 editAddressREpo(
                                   map: map,
+                                  context: context,
                                   fieldName1: "image",
                                   file1: image.value,
-                                  context: context,
                                 ).then((value) {
                                   if (value.status == true) {
                                     showToast(value.message);
@@ -448,6 +462,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                                         .myAddressScreen);
                                     addressController
                                         .getAddress();
+                                    // Get.back();
                                   }
                                 });
                               }
@@ -482,51 +497,5 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
     );
   }
 
-  // chipList(title,) {
-  //   var height = MediaQuery
-  //       .of(context)
-  //       .size
-  //       .height;
-  //   var width = MediaQuery
-  //       .of(context)
-  //       .size
-  //       .width;
-  //   return Obx(() {
-  //     return Column(
-  //       children: [
-  //         ChoiceChip(
-  //           padding: EdgeInsets.symmetric(
-  //               horizontal: width * .01, vertical: height * .01),
-  //           backgroundColor: AppTheme.backgroundcolor,
-  //           shape: RoundedRectangleBorder(
-  //               borderRadius: BorderRadius.circular(10),
-  //               side: BorderSide(
-  //                   color: title != selectedChip.value
-  //                       ? Colors.grey.shade300
-  //                       : const Color(0xff4169E2))),
-  //           label: Text("$title",
-  //               style: TextStyle(
-  //                   color: title != selectedChip.value
-  //                       ? Colors.grey.shade600
-  //                       : const Color(0xff4169E2),
-  //                   fontSize: AddSize.font14,
-  //                   fontWeight: FontWeight.w500)),
-  //           selected: title == selectedChip.value,
-  //           selectedColor: const Color(0xff4169E2).withOpacity(.3),
-  //           onSelected: (value) {
-  //             selectedChip.value = title;
-  //             if (title == "Other") {
-  //               customTip.value = true;
-  //               otherController.text = "";
-  //             } else {
-  //               customTip.value = false;
-  //               otherController.text = title;
-  //             }
-  //             setState(() {});
-  //           },
-  //         )
-  //       ],
-  //     );
-  //   });
-  // }
+
 }

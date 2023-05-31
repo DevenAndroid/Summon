@@ -7,6 +7,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vender_orderList.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart' as intl;
 import '../../controller/VendorDashboard_Controller.dart';
 import '../../controller/profile_controller.dart';
@@ -56,19 +57,20 @@ class _VenderDashboardState extends State<VenderDashboard> {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
+          backgroundColor: Color(0xffF5F5F5),
             appBar: AppBar(
-
+              toolbarHeight: 100,
               elevation: 0,
               leadingWidth: AddSize.size20 * 1.8,
-              backgroundColor: AppTheme.backgroundcolor,
+              backgroundColor: Color(0xffF5F5F5),
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Hi, ${profileController.isDataLoading.value ? (profileController.model.value.data!.name ?? "").toString() : ""}",
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.w500, fontSize: AddSize.font16),
+                    style:GoogleFonts.ibmPlexSansArabic(
+                        fontWeight: FontWeight.w500, fontSize: AddSize.font16,color: Color(0xff292F45)),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -78,33 +80,32 @@ class _VenderDashboardState extends State<VenderDashboard> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Today's Hours:",
-                          style: Theme.of(context).textTheme.headline6!.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: AddSize.font14,
-                              color: Colors.grey),
+                        Expanded(
+                          child: Text(
+                            "Today's Hours:",
+                            style: GoogleFonts.ibmPlexSansArabic(
+                                fontWeight: FontWeight.w500,
+                                fontSize: AddSize.font14,
+                                color: Color(0xff737A8A)),
+                          ),
                         ),
                         vendorDashboardController.isDataLoading.value ? vendorDashboardController.model.value.data!.storeStatus == 1
                             ?
                         Text(
-                                "${vendorDashboardController.isDataLoading.value ? (intl.DateFormat("hh:mm a").format(time!) ?? "").toString() : ""} to ${vendorDashboardController.isDataLoading.value ? (intl.DateFormat("hh:mm a").format(time1!) ?? "").toString() : ""}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline6!
-                                    .copyWith(
+                                " ${vendorDashboardController.isDataLoading.value ? (intl.DateFormat("hh:mm a").format(time!) ?? "").toString() : ""} to ${vendorDashboardController.isDataLoading.value ? (intl.DateFormat("hh:mm a").format(time1!) ?? "").toString() : ""}",
+                                style: GoogleFonts.ibmPlexSansArabic(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: AddSize.font12,
+                                        fontSize: AddSize.font14,
                                         color: AppTheme.primaryColor),
                               )
                             : Text(
-                                "Closed",
+                                "10am to 9pm",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6!
                                     .copyWith(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: AddSize.font12,
+                                        fontSize: AddSize.font14,
                                         color: AppTheme.primaryColor),
                               ):SizedBox(),
                         SizedBox(
@@ -138,37 +139,40 @@ class _VenderDashboardState extends State<VenderDashboard> {
                   ),
                   child: Stack(
                     children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 30,
-                        child: Container(
-                            height: AddSize.size45,
-                            width: AddSize.size45,
-                            clipBehavior: Clip.antiAlias,
-                            // margin: EdgeInsets.all(1),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(color: Colors.grey.shade400)
-                                // color: Colors.brown
-                                ),
-                            child: CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: profileController.isDataLoading.value
-                                  ? profileController
-                                      .model.value.data!.profileImage!
-                                  : '',
-                              height: AddSize.size30,
-                              width: AddSize.size30,
-                              errorWidget: (_, __, ___) => const SizedBox(),
-                              placeholder: (_, __) => const SizedBox(),
-                            )),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 18),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 30,
+                          child: Container(
+                              height: AddSize.size45,
+                              width: AddSize.size45,
+                              clipBehavior: Clip.antiAlias,
+                              // margin: EdgeInsets.all(1),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  border: Border.all(color: Colors.grey.shade400)
+                                  // color: Colors.brown
+                                  ),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: profileController.isDataLoading.value
+                                    ? profileController
+                                        .model.value.data!.profileImage!
+                                    : '',
+                                height: AddSize.size30,
+                                width: AddSize.size30,
+                                errorWidget: (_, __, ___) => const SizedBox(),
+                                placeholder: (_, __) => const SizedBox(),
+                              )),
+                        ),
                       ),
                       Positioned(
-                          top: 10,
+                          top: 22,
                           left: 05,
                           child: Container(
-                            height: 10,
-                            width: 10,
+                            height: 12,
+                            width: 12,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
                               color: profileController.isDataLoading.value
@@ -205,7 +209,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                 ? Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: AddSize.padding16,
-                        vertical: AddSize.padding10),
+                        ),
                     child: CustomScrollView(
                       physics: const BouncingScrollPhysics(),
                       slivers: <Widget>[
@@ -216,15 +220,26 @@ class _VenderDashboardState extends State<VenderDashboard> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "This Month Report",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline5!
-                                      .copyWith(
+                                Row(
+                                  children: [
+                                    Text(
+                                      "vs previous 30 days",
+                                      style: GoogleFonts.ibmPlexSansArabic(
                                           fontWeight: FontWeight.w500,
+                                          color: Color(0xff8B8B8B),
                                           fontSize: AddSize.font16),
-                                )
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Text(
+                                      "Last 30 days",
+                                      style: GoogleFonts.ibmPlexSansArabic(
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xff292F45),
+                                          fontSize: AddSize.font18),
+                                    ),
+
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -233,99 +248,50 @@ class _VenderDashboardState extends State<VenderDashboard> {
                             crossAxisSpacing: AddSize.size12,
                             mainAxisSpacing: AddSize.size12,
                             crossAxisCount: 2,
-                            childAspectRatio: AddSize.size15 / AddSize.size12,
+                            childAspectRatio: AddSize.size10 / AddSize.size5,
                             children: List.generate(
-                              4,
+                              2,
                               (index) => Container(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: AddSize.padding16,
                                     vertical: AddSize.padding16),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(15),
                                     color: AppTheme.backgroundcolor),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          height: AddSize.size40,
-                                          width: AddSize.size40,
-                                          decoration: ShapeDecoration(
-                                              color: index == 0
-                                                  ? Colors.green.shade600
-                                                  : index == 1
-                                                      ? Colors.orange
-                                                      : index == 2
-                                                          ? AppTheme.primaryColor
-                                                          : Colors.cyan,
-                                              shape: const CircleBorder()),
-                                          child: Center(
-                                              child: Image(
-                                                  height: AddSize.size25,
-                                                  width: AddSize.size25,
-                                                  image: const AssetImage(
-                                                      AppAssets
-                                                          .vendorDashboard))),
-                                        ),
-                                        SizedBox(width: 5,),
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Expanded(
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 15),
-                                                  child: Text(
-                                                    index == 0
-                                                        ? "${vendorDashboardController.model.value.data!.grossSalesPercent.toString()} %"
-                                                        : index == 1
-                                                            ? "${vendorDashboardController.model.value.data!.earningPercent.toString()} %"
-                                                            : index == 2
-                                                                ? "${vendorDashboardController.model.value.data!.soldItemsPercent.toString()} %"
-                                                                : "${vendorDashboardController.model.value.data!.orderReceivedPercent.toString()} %",
-                                                    //"10%",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .headline5!
-                                                        .copyWith(
-                                                            height: 1.5,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            fontSize:
-                                                                AddSize.font14,
-                                                            color: Colors.green),
-                                                  ),
-                                                ),
-                                              ),
-                                              // vendorDashboardController
-                                              //             .model
-                                              //             .value
-                                              //             .data!
-                                              //             .grossSalesPercent!.
-
-                                              Icon(
-                                                Icons.arrow_upward_sharp,
-                                                color: Colors.green,
-                                                size: AddSize.size15,
-                                              )
-                                              // : Icon(
-                                              //     Icons.arrow_downward,
-                                              //     color: Colors.red,
-                                              //     size: AddSize.size15,
-                                              //   )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: AddSize.size10,
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Container(
+                                    //       height: AddSize.size40,
+                                    //       width: AddSize.size40,
+                                    //       decoration: ShapeDecoration(
+                                    //           color: index == 0
+                                    //               ? Colors.green.shade600
+                                    //               : index == 1
+                                    //                   ? Colors.orange
+                                    //                   : index == 2
+                                    //                       ? AppTheme.primaryColor
+                                    //                       : Colors.cyan,
+                                    //           shape: const CircleBorder()),
+                                    //       child: Center(
+                                    //           child: Image(
+                                    //               height: AddSize.size25,
+                                    //               width: AddSize.size25,
+                                    //               image: const AssetImage(
+                                    //                   AppAssets
+                                    //                       .vendorDashboard))),
+                                    //     ),
+                                    //     SizedBox(width: 5,),
+                                    //
+                                    //   ],
+                                    // ),
+                                    // SizedBox(
+                                    //   height: AddSize.size10,
+                                    // ),
                                     Text(
                                       index == 0
                                           ? vendorDashboardController
@@ -333,7 +299,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                               .toString()
                                           : index == 1
                                               ? vendorDashboardController
-                                                  .model.value.data!.earning
+                                                  .model.value.data!.orderReceived
                                                   .toString()
                                               : index == 2
                                                   ? vendorDashboardController
@@ -343,7 +309,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                       .model
                                                       .value
                                                       .data!
-                                                      .orderReceived
+                                                      .earning
                                                       .toString(),
                                       style: Theme.of(context)
                                           .textTheme
@@ -354,22 +320,48 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                               fontSize: AddSize.font20,
                                               color: AppTheme.blackcolor),
                                     ),
-                                    Text(
-                                      index == 0
-                                          ? "Gross Sales"
-                                          : index == 1
-                                              ? "Earning"
-                                              : index == 2
-                                                  ? "Sold items"
-                                                  : "Order Received",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline5!
-                                          .copyWith(
-                                              height: 1.5,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: AddSize.font12,
-                                              color: AppTheme.subText),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          index == 0
+                                              ? "Sales(SR)"
+                                              : index == 1
+                                                  ? "Order"
+                                                  : index == 2
+                                                      ? "Sold items"
+                                                      : "",
+                                          style: GoogleFonts.ibmPlexSansArabic(
+                                                  height: 1.5,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: AddSize.font14,
+                                                  color: Color(0xff8C9BB2)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 15),
+                                          child: Text(
+                                            index == 0
+                                                ? "${vendorDashboardController.model.value.data!.grossSalesPercent.toString()} %"
+                                                : index == 1
+                                                ?"${vendorDashboardController.model.value.data!.orderReceivedPercent.toString()} %"
+                                                : index == 2
+                                                ? "${vendorDashboardController.model.value.data!.soldItemsPercent.toString()} %"
+                                                : "${vendorDashboardController.model.value.data!.earningPercent.toString()} %",
+                                            //"10%",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5!
+                                                .copyWith(
+                                                height: 1.5,
+                                                fontWeight:
+                                                FontWeight.w600,
+                                                fontSize:
+                                                AddSize.font14,
+                                                color: Colors.green),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -405,7 +397,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                     .textTheme
                                                     .headline5!
                                                     .copyWith(
-                                                        height: 1.5,
+                                                        height: 1.2,
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: AddSize.font14),
@@ -463,11 +455,11 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                           )),
                                     ),
                                     Container(
-                                      height: AddSize.size80,
+                                      height: 65,
                                       decoration: BoxDecoration(
                                           color: AppTheme.backgroundcolor,
                                           borderRadius:
-                                              BorderRadius.circular(20)),
+                                              BorderRadius.circular(12)),
                                       child: Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: AddSize.padding16,
@@ -566,13 +558,11 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Latest Sales",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
+                                            "Open Orders",
+                                            style:GoogleFonts.ibmPlexSansArabic(
                                                     height: 1.5,
-                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xff454B5C),
+                                                    fontWeight: FontWeight.w600,
                                                     fontSize: AddSize.font16),
                                           ),
                                           TextButton(
@@ -597,48 +587,48 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                               ))
                                         ],
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Order No.",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    height: 1.5,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: AddSize.font14,
-                                                    color:
-                                                        const Color(0xff52AC1A)),
-                                          ),
-                                          Text(
-                                            "                      Status",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    height: 1.5,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: AddSize.font14,
-                                                    color:
-                                                        const Color(0xff52AC1A)),
-                                          ),
-                                          Text(
-                                            "Earning",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline5!
-                                                .copyWith(
-                                                    height: 1.5,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: AddSize.font14,
-                                                    color:
-                                                        const Color(0xff52AC1A)),
-                                          )
-                                        ],
-                                      ),
+                                      // Row(
+                                      //   mainAxisAlignment:
+                                      //       MainAxisAlignment.spaceBetween,
+                                      //   children: [
+                                      //     Text(
+                                      //       "Order No.",
+                                      //       style: Theme.of(context)
+                                      //           .textTheme
+                                      //           .headline5!
+                                      //           .copyWith(
+                                      //               height: 1.5,
+                                      //               fontWeight: FontWeight.w500,
+                                      //               fontSize: AddSize.font14,
+                                      //               color:
+                                      //                   const Color(0xff52AC1A)),
+                                      //     ),
+                                      //     Text(
+                                      //       "                      Status",
+                                      //       style: Theme.of(context)
+                                      //           .textTheme
+                                      //           .headline5!
+                                      //           .copyWith(
+                                      //               height: 1.5,
+                                      //               fontWeight: FontWeight.w500,
+                                      //               fontSize: AddSize.font14,
+                                      //               color:
+                                      //                   const Color(0xff52AC1A)),
+                                      //     ),
+                                      //     Text(
+                                      //       "Earning",
+                                      //       style: Theme.of(context)
+                                      //           .textTheme
+                                      //           .headline5!
+                                      //           .copyWith(
+                                      //               height: 1.5,
+                                      //               fontWeight: FontWeight.w500,
+                                      //               fontSize: AddSize.font14,
+                                      //               color:
+                                      //                   const Color(0xff52AC1A)),
+                                      //     )
+                                      //   ],
+                                      // ),
                                       const Divider(),
                                       vendorDashboardController.model.value.data!
                                               .orderList!.isNotEmpty
@@ -684,77 +674,133 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                                           AddSize
                                                                               .font14),
                                                             ),
-                                                            Text(
-                                                              vendorDashboardController
-                                                                  .model
-                                                                  .value
-                                                                  .data!
-                                                                  .orderList![
-                                                                      index]
-                                                                  .date
-                                                                  .toString(),
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .headline5!
-                                                                  .copyWith(
-                                                                      height: 1.5,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          AddSize
-                                                                              .font12,
-                                                                      color: Colors
-                                                                          .grey
-                                                                          .shade500),
+
+                                                            Row(
+                                                              children: [
+                                                                Text(
+                                                                  vendorDashboardController.model.value.data!.orderList![index].orderItem![0].productName.toString(),
+                                                                  style: GoogleFonts.ibmPlexSansArabic(
+                                                                      fontSize: AddSize.font12,
+                                                                      color: Color(0xff8C9BB2),
+                                                                      fontWeight: FontWeight.w500),
+                                                                ),
+                                                                SizedBox(width: 2,),
+                                                                Text(
+                                                                  "x",
+                                                                  style: GoogleFonts.ibmPlexSansArabic(
+                                                                      fontSize: AddSize.font12,
+                                                                      color: Color(0xff8C9BB2),
+                                                                      fontWeight: FontWeight.w500),
+                                                                ),
+                                                                SizedBox(width: 2,),
+                                                                Text(
+                                                                  vendorDashboardController.model.value.data!.orderList![index].orderItem![0].qty.toString(),
+                                                                  style: GoogleFonts.ibmPlexSansArabic(
+                                                                      fontSize: AddSize.font12,
+                                                                      color: Color(0xff8C9BB2),
+                                                                      fontWeight: FontWeight.w500),
+                                                                ),
+
+
+                                                              ],
                                                             ),
+                                                            // Text(
+                                                            //   vendorDashboardController
+                                                            //       .model
+                                                            //       .value
+                                                            //       .data!
+                                                            //       .orderList![
+                                                            //           index]
+                                                            //       .date
+                                                            //       .toString(),
+                                                            //   style: Theme.of(
+                                                            //           context)
+                                                            //       .textTheme
+                                                            //       .headline5!
+                                                            //       .copyWith(
+                                                            //           height: 1.5,
+                                                            //           fontWeight:
+                                                            //               FontWeight
+                                                            //                   .w500,
+                                                            //           fontSize:
+                                                            //               AddSize
+                                                            //                   .font12,
+                                                            //           color: Colors
+                                                            //               .grey
+                                                            //               .shade500),
+                                                            // ),
                                                           ],
                                                         ),
-                                                        Text(
-                                                          vendorDashboardController
-                                                              .model
-                                                              .value
-                                                              .data!
-                                                              .orderList![index]
-                                                              .status
-                                                              .toString(),
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font14,
-                                                                  color: Colors
-                                                                      .orange
-                                                                      .shade200),
-                                                        ),
-                                                        Text(
-                                                          "₹${vendorDashboardController.model.value.data!.orderList![index].amount.toString()}",
-                                                          style: Theme.of(context)
-                                                              .textTheme
-                                                              .headline5!
-                                                              .copyWith(
-                                                                  height: 1.5,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font14,
-                                                                  color: AppTheme
-                                                                      .blackcolor),
-                                                        ),
+                                                        // Text(
+                                                        //   vendorDashboardController
+                                                        //       .model
+                                                        //       .value
+                                                        //       .data!
+                                                        //       .orderList![index]
+                                                        //       .status
+                                                        //       .toString(),
+                                                        //   style: Theme.of(context)
+                                                        //       .textTheme
+                                                        //       .headline5!
+                                                        //       .copyWith(
+                                                        //           height: 1.5,
+                                                        //           fontWeight:
+                                                        //               FontWeight
+                                                        //                   .w500,
+                                                        //           fontSize:
+                                                        //               AddSize
+                                                        //                   .font14,
+                                                        //           color: Colors
+                                                        //               .orange
+                                                        //               .shade200),
+                                                        // ),
+                                                        Flexible(child: Container()),
+                                                       Column(
+                                                         children: [
+                                                           Row(
+                                                             children: [
+                                                               Text(
+                                                                 "SR",
+                                                                 style: GoogleFonts.ibmPlexSansArabic(
+                                                                     height: 1.5,
+                                                                     fontWeight:
+                                                                     FontWeight
+                                                                         .w500,
+                                                                     fontSize:
+                                                                     AddSize
+                                                                         .font14,
+                                                                     color: AppTheme.primaryColor),
+                                                               ),
+                                                               SizedBox(width: 5,),
+                                                               Text(
+                                                                 "${vendorDashboardController.model.value.data!.orderList![index].amount.toString()}",
+                                                                 style: GoogleFonts.ibmPlexSansArabic(
+                                                                     height: 1.5,
+                                                                     fontWeight:
+                                                                     FontWeight
+                                                                         .w500,
+                                                                     fontSize:
+                                                                     AddSize
+                                                                         .font14,
+                                                                     color: AppTheme.primaryColor),
+                                                               ),
+                                                             ],
+                                                           ),
+                                                           Text(
+                                                             "Order Total",
+                                                             style: GoogleFonts.ibmPlexSansArabic(
+                                                                 fontSize: AddSize.font12,
+                                                                 color: Color(0xff8C9BB2),
+                                                                 fontWeight: FontWeight.w500),
+                                                           ),
+                                                         ],
+                                                       ),
                                                       ],
                                                     ),
                                                     SizedBox(
                                                       height: AddSize.size5,
                                                     ),
+
                                                     const Divider(),
                                                   ],
                                                 );

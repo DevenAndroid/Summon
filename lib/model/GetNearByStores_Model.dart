@@ -29,22 +29,45 @@ class GetNearByStoreModel {
 
 class Data {
   int? id;
+  String? name;
   String? latitude;
   String? longitude;
+  String? image;
+  String? distance;
+  String? deliveryCharge;
+  String? avgRating;
 
-  Data({this.id, this.latitude, this.longitude});
+  Data(
+      {this.id,
+        this.name,
+        this.latitude,
+        this.longitude,
+        this.image,
+        this.distance,
+        this.deliveryCharge,
+        this.avgRating});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    name = json['name'];
     latitude = json['latitude'];
     longitude = json['longitude'];
+    image = json['image'];
+    distance = json['distance'];
+    deliveryCharge = json['delivery_charge'];
+    avgRating = json['avg_rating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['name'] = this.name;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
+    data['image'] = this.image;
+    data['distance'] = this.distance;
+    data['delivery_charge'] = this.deliveryCharge;
+    data['avg_rating'] = this.avgRating;
     return data;
   }
 }

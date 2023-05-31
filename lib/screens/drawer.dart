@@ -79,14 +79,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   var driver = [
     'Dashboard',
-    'Assigned Order',
     'Bank Details',
     'Withdraw',
     'Driver Information',
   ];
   var driverRoutes = [
     DeliveryDashboard.deliveryDashboard,
-    AssignedOrder.assignedOrder,
+    // AssignedOrder.assignedOrder,
     BankDetailsScreen.bankDetailsScreen,
     DriverWithdrawMoney.driverWithdrawMoney,
     DriverInformation.driverInformation,

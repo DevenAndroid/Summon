@@ -27,6 +27,7 @@ class _AllCategoriesState extends State<AllCategories> {
   final nearStoreController= Get.put(StoreByCategoryController());
   final scrollController = ScrollController();
 
+
   int currentIndex = -1;
 
   @override
@@ -168,13 +169,13 @@ class _AllCategoriesState extends State<AllCategories> {
                 color: AppTheme.primaryColor,
               ));
         }),
-        extendBody: true,
-        bottomNavigationBar: myCartController.isDataLoaded.value
-            ? myCartController
-            .model.value.data!.cartItems!.isNotEmpty
-            ? addCartSection()
-            : null
-            : const SizedBox(),
+        // extendBody: true,
+        // bottomNavigationBar: myCartController.isDataLoaded.value
+        //     ? myCartController
+        //     .model.value.data!.cartItems!.isNotEmpty
+        //     ? addCartSection()
+        //     : null
+        //     : const SizedBox(),
       );
     });
   }

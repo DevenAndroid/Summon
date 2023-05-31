@@ -10,7 +10,7 @@ class MyOrderDetailsController extends GetxController {
 
   getMyOrderDetails() {
     isDataLoading.value = false;
-    myOrderDetailsRepo(id: id).then((value) {
+    myOrderDetailsRepo(id: id.value).then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

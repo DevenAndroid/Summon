@@ -62,10 +62,17 @@ Future<ModelCommonResponse> driverUpdateInformationRepo({
 
     request.fields.addAll(mapData);
 
-    if (file1.path != "" && file2.path != "" && file3.path != "") {
+    if (file1.path != "") {
       request.files.add(await multipartFile(fieldName1, file1));
+
+    }
+    if (file2.path != "") {
       request.files.add(await multipartFile(fieldName2, file2));
+
+    }
+    if (file3.path != "") {
       request.files.add(await multipartFile(fieldName3, file3));
+
     }
 
     log(request.fields.toString());
