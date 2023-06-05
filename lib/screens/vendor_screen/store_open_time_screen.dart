@@ -8,6 +8,7 @@ import '../../controller/VendorDashboard_Controller.dart';
 import '../../repositories/Updated_StoreTime_Repo.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 
 class SetTimeScreen extends StatefulWidget {
   const SetTimeScreen({Key? key}) : super(key: key);
@@ -97,13 +98,13 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
           backgroundColor: AppTheme.backgroundcolor,
           appBar: PreferredSize(
               preferredSize:
                   const Size.fromHeight(78.0), // here the desired height
-              child: backAppBar(title: "Set Store Time", context: context)),
+              child: backAppBar(title: "Set Store Time".tr, context: context)),
           body: Obx(() {
             return setStoreTimeController.isDataLoading.value
                 ? SingleChildScrollView(
@@ -168,7 +169,7 @@ class _SetTimeScreenState extends State<SetTimeScreen> {
                                       fontSize: AddSize.font18,
                                       fontWeight: FontWeight.w600)),
                               child: Text(
-                                "Save".toUpperCase(),
+                                "Save".tr.toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5!

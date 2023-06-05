@@ -85,7 +85,7 @@ class ApiUrl {
       "${baseUrl}driver-order-status-update";
   static const driverRegisterUrl = "${baseUrl}driver-register";
   static const driverInformationUrl = "${baseUrl}driver-information";
-  static const deliveryVerifyOtpUrl = "${baseUrl}verify-delivery";
+  static const deliveryVerifyOtpUrl = "${baseUrl}driver-order-status-update";
   static const setStoreTimeUrl = "${baseUrl}store-timing";
   static const updatedSetStoreTimeUrl = "${baseUrl}store-availability";
   static const vendorSaveProductUrl = "${baseUrl}vendor-add-product";

@@ -137,17 +137,17 @@ class _VerifyOtpDeliveryScreenState extends State<VerifyOtpDeliveryScreen> {
                   SizedBox(height: AddSize.size30),
                   ElevatedButton(
                       onPressed: () {
-                        deliveryOtpVerify(
-                                orderId: Get.arguments[0],
-                                otp: otpController.text,
-                                context: context)
-                            .then((value) {
-                          showToast(value.message.toString());
-                          if (value.status == true) {
-                            Get.offAndToNamed(DeliveredSuccessfullyScreen
-                                .deliveredSuccessfullyScreen);
-                          }
-                        });
+                        // orderDeliveryRepo(
+                        //         orderId: Get.arguments[0],
+                        //         status: "delivered",
+                        //         context: context)
+                        //     .then((value) {
+                        //   showToast(value.message.toString());
+                        //   if (value.status == true) {
+                        //     Get.offAndToNamed(DeliveredSuccessfullyScreen
+                        //         .deliveredSuccessfullyScreen);
+                        //   }
+                        // });
                       },
                       style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(10),

@@ -3,21 +3,17 @@ import 'package:client_information/client_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
-import 'package:fresh2_arrive/screens/Popular_Homepage_Product_screen.dart';
-import 'package:fresh2_arrive/screens/admin_response_screen.dart';
-import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
+import 'package:fresh2_arrive/screens/Language_Change_Screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivery_dashboard.dart';
-import 'package:fresh2_arrive/screens/driver_screen/driver_delivery_details.dart';
+import 'package:fresh2_arrive/screens/driver_screen/delivery_order_history.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_information_screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_registration.dart';
 import 'package:fresh2_arrive/screens/help_center.dart';
-import 'package:fresh2_arrive/screens/loginScreen.dart';
 import 'package:fresh2_arrive/screens/myProfile.dart';
 import 'package:fresh2_arrive/screens/my_address.dart';
 import 'package:fresh2_arrive/screens/notification_screen.dart';
 import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
 import 'package:fresh2_arrive/screens/privacy_policy.dart';
-import 'package:fresh2_arrive/screens/refer_and_earn.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/bank_details.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/store_open_time_screen.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
@@ -39,7 +35,6 @@ import '../controller/profile_controller.dart';
 import '../resources/app_theme.dart';
 import 'WishList_Screen.dart';
 import 'driver_screen/withdraw_moeny.dart';
-import 'loginScreen2.dart';
 
 class CustomDrawer extends StatefulWidget {
   // final void Function(int index) onItemTapped;
@@ -59,13 +54,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
   final RxBool _isValue = false.obs;
   final RxBool _isValue1 = false.obs;
   var vendor = [
-    'Dashboard',
-    'Order',
-    'Products',
-    'Store open time',
-    'Vendor Information',
-    'Bank Details',
-    'Withdraw'
+    'Dashboard'.tr,
+    'Order'.tr,
+    'Products'.tr,
+    'Store open time'.tr,
+    'Vendor Information'.tr,
+    'Bank Details'.tr,
+    'Withdraw'.tr
   ];
   var vendorRoutes = [
     VenderDashboard.vendorDashboard,
@@ -78,14 +73,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
   ];
 
   var driver = [
-    'Dashboard',
-    'Bank Details',
-    'Withdraw',
-    'Driver Information',
+    'Dashboard'.tr,
+    'Order History'.tr,
+    'Bank Details'.tr,
+    'Withdraw'.tr,
+    'Driver Information'.tr,
   ];
   var driverRoutes = [
     DeliveryDashboard.deliveryDashboard,
-    // AssignedOrder.assignedOrder,
+    DeliveredOrderHistory.orderDeliveryHistory,
     BankDetailsScreen.bankDetailsScreen,
     DriverWithdrawMoney.driverWithdrawMoney,
     DriverInformation.driverInformation,
@@ -116,13 +112,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
     final screenSize = MediaQuery.of(context).size;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US')? TextDirection.ltr: TextDirection.rtl,
       child: Drawer(
         child: Obx(() {
           return Container(
             color: AppTheme.backgroundcolor,
-            // height: SizeConfig.heightMultiplier * 100,
-            // width: SizeConfig.widthMultiplier! * 80,
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -207,7 +201,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       children: [
                         _drawerTile(
                             active: true,
-                            title: "My Orders",
+                            title: "My Orders".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_order),
                               size: 22,
@@ -225,7 +219,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "My Profile",
+                            title: "My Profile".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_profile),
                               size: 22,
@@ -239,7 +233,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "Notification",
+                            title: "Notification".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_notification),
                               size: 22,
@@ -261,7 +255,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "My Address",
+                            title: "My Address".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_location),
                               size: 22,
@@ -296,7 +290,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         //       // }
                         //     }),
                         Padding(
-                          padding: const EdgeInsets.only(right: 15,top: 12,bottom: 12),
+                          padding: const EdgeInsets.only(right: 15,top: 15,bottom: 12,left: 15),
                           child: InkWell(
                             onTap: (){
                               Get.toNamed(WishListScreen.wishListScreen);
@@ -307,7 +301,29 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                 // SizedBox(height: 10,),
                                 Icon(Icons.favorite_border, color: AppTheme.primaryColor,),
                                 SizedBox(width: 25,),
-                                Text("Wishlist", style: GoogleFonts.ibmPlexSansArabic(
+                                Text("Wishlist".tr, style: GoogleFonts.ibmPlexSansArabic(
+                                  color: AppTheme.primaryColor,fontSize: 15
+                                ),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const Divider(
+                          height: 1,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15,top: 15,bottom: 12,left: 15),
+                          child: InkWell(
+                            onTap: (){
+                              Get.toNamed(LanguageChangeScreen.languageChangeScreen);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // SizedBox(height: 10,),
+                                Icon(Icons.favorite_border, color: AppTheme.primaryColor,),
+                                SizedBox(width: 25,),
+                                Text("Language".tr, style: GoogleFonts.ibmPlexSansArabic(
                                   color: AppTheme.primaryColor,fontSize: 15
                                 ),),
                               ],
@@ -320,7 +336,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "My Wallet",
+                            title: "My Wallet".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_wallet),
                               size: 22,
@@ -337,7 +353,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     false
                                 ? _drawerTile(
                                     active: true,
-                                    title: "Sign in as a vendor",
+                                    title: "Sign in as a vendor".tr,
                                     icon: const ImageIcon(
                                       AssetImage(AppAssets.drawer_vendor),
                                       size: 22,
@@ -372,8 +388,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               ),
                                               textColor: AppTheme.primaryColor,
                                               iconColor: AppTheme.blackcolor,
-                                              title: const Text(
-                                                'Vendor',
+                                              title:  Text(
+                                                'Vendor'.tr,
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w400,
@@ -396,7 +412,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                       )
                                     : _drawerTile(
                             active: true,
-                            title: "Vendor",
+                            title: "Vendor".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_vendor),
                               size: 22,
@@ -404,15 +420,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             ),
                             onTap: () async {
                               Get.toNamed(ThankYouVendorScreen.thankYouVendorScreen);
-                              // SharedPreferences pref =
-                              //     await SharedPreferences.getInstance();
-                              // if (pref.getString('user') != null) {
-                              //   Get.back();
-                              //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                              // } else {
-                              //   Get.back();
-                              //   Get.toNamed(MyRouter.logInScreen);
-                              // }
                             })
                             : const SizedBox(),
                         _isValue.value == true
@@ -453,7 +460,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     false
                                 ? _drawerTile(
                                     active: true,
-                                    title: "Sign in as a driver",
+                                    title: "Sign in as a driver".tr,
                                     icon: const ImageIcon(
                                       AssetImage(AppAssets.drawer_driver),
                                       size: 22,
@@ -462,15 +469,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                     onTap: () async {
                                       Get.toNamed(DriverRegistrationScreen
                                           .driverRegistrationScreen);
-                                      // SharedPreferences pref =
-                                      //     await SharedPreferences.getInstance();
-                                      // if (pref.getString('user') != null) {
-                                      //   Get.back();
-                                      //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                                      // } else {
-                                      //   Get.back();
-                                      //   Get.toNamed(MyRouter.logInScreen);
-                                      // }
                                     })
                                 : profileController
                                             .model.value.data!.asDriverVerified ==
@@ -494,8 +492,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                               ),
                                               textColor: AppTheme.primaryColor,
                                               iconColor: AppTheme.blackcolor,
-                                              title: const Text(
-                                                'Driver',
+                                              title:  Text(
+                                                'Driver'.tr,
                                                 style: TextStyle(
                                                     fontSize: 15,
                                                     fontWeight: FontWeight.w400,
@@ -528,15 +526,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                         onTap: () async {
                                           Get.toNamed(
                                               ThankYouVendorScreen.thankYouVendorScreen);
-                                          // SharedPreferences pref =
-                                          //     await SharedPreferences.getInstance();
-                                          // if (pref.getString('user') != null) {
-                                          //   Get.back();
-                                          //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                                          // } else {
-                                          //   Get.back();
-                                          //   Get.toNamed(MyRouter.logInScreen);
-                                          // }
                                         })
                             : const SizedBox(),
                         _isValue1.value == true
@@ -574,20 +563,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "Privacy Policy",
+                            title: "Privacy Policy".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_privacy),
                               size: 22,
                               color: AppTheme.primaryColor,
                             ),
                             onTap: () async {
-                              // SharedPreferences pref =
-                              //     await SharedPreferences.getInstance();
-                              // if (pref.getString('user') != null) {
-                              //   Get.back();
-                              //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                              // } else {
-                              //   Get.back();
                               Get.toNamed(PrivacyPolicy.privacyPolicyScreen);
                               // }
                             }),
@@ -596,20 +578,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "Help Center",
+                            title: "Help Center".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_help),
                               size: 22,
                               color: AppTheme.primaryColor,
                             ),
                             onTap: () async {
-                              // SharedPreferences pref =
-                              //     await SharedPreferences.getInstance();
-                              // if (pref.getString('user') != null) {
-                              //   Get.back();
-                              //   Get.toNamed(MyRouter.subScriptionPlanScreen);
-                              // } else {
-                              //   Get.back();
+
                               Get.toNamed(HelpCenter.helpCenterScreen);
                               // }
                             }),
@@ -618,7 +594,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                         ),
                         _drawerTile(
                             active: true,
-                            title: "Logout",
+                            title: "Logout".tr,
                             icon: const ImageIcon(
                               AssetImage(AppAssets.drawer_logout),
                               size: 22,
@@ -636,50 +612,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     ),
                   ),
 
-                  // !isLogin ? const SizedBox.shrink() : const Divider(),
-                  // !isLogin
-                  //     ? const SizedBox.shrink()
-                  //     : _drawerTile(
-                  //         active: true,
-                  //         title: "Strings.deleteAccount",
-                  //         icon: const Icon(
-                  //           Icons.delete_outline_outlined,
-                  //           size: 22,
-                  //           color: AppTheme.userText,
-                  //         ),
-                  //         onTap: () async {
-                  //           // deleteUserAccountData(context).then((value) async {
-                  //           //   if (value.status == true) {
-                  //           //     _getClientInformation();
-                  //           //     Get.back();
-                  //           //     SharedPreferences preferences =
-                  //           //         await SharedPreferences.getInstance();
-                  //           //     await preferences.clear();
-                  //           //     Get.offAllNamed(MyRouter.logInScreen,
-                  //           //         arguments: ['mainScreen']);
-                  //           //   } else {
-                  //           //     showToast(value.message);
-                  //           //   }
-                  //           //   return null;
-                  //           // });
-                  //         }),
-                  // _drawerTile(
-                  //     active: true,
-                  //     title: "Strings.logOut",
-                  //     icon: const Icon(
-                  //       Icons.power_settings_new,
-                  //       size: 22,
-                  //       color: AppTheme.userText,
-                  //     ),
-                  //     onTap: () async {
-                  //       // _getClientInformation();
-                  //       // Get.back();
-                  //       // SharedPreferences preferences =
-                  //       //     await SharedPreferences.getInstance();
-                  //       // await preferences.clear();
-                  //       // Get.offAllNamed(MyRouter.logInScreen,
-                  //       //     arguments: ['mainScreen']);
-                  //     }),
+
                 ],
               ),
             ),
@@ -689,22 +622,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
     );
   }
 
-  //to get device Id
-  // Future<void> _getClientInformation() async {
-  //   ClientInformation? info;
-  //   try {
-  //     info = await ClientInformation.fetch();
-  //   } on PlatformException {
-  //     // print('Failed to get client information');
-  //   }
-  //   if (!mounted) return;
-  //
-  //   setState(() {
-  //     _clientInfo = info!;
-  //   });
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('deviceId', _clientInfo!.deviceId.toString());
-  // }
 
   Widget _drawerTile(
       {required bool active,

@@ -233,13 +233,14 @@ class Location {
   int? id;
   int? userId;
   String? latitude;
+  String? note;
   String? longitude;
   Null? location;
   String? name;
   String? phone;
   String? image;
   String? addressType;
-  int? leaveAtDoor;
+  bool? leaveAtDoor;
   String? createdAt;
   String? updatedAt;
   Null? deletedAt;
@@ -248,6 +249,7 @@ class Location {
       {this.id,
         this.userId,
         this.latitude,
+        this.note,
         this.longitude,
         this.location,
         this.name,
@@ -263,6 +265,7 @@ class Location {
     id = json['id'];
     userId = json['user_id'];
     latitude = json['latitude'];
+    note = json['note'];
     longitude = json['longitude'];
     location = json['location'];
     name = json['name'];
@@ -280,6 +283,7 @@ class Location {
     data['id'] = this.id;
     data['user_id'] = this.userId;
     data['latitude'] = this.latitude;
+    data['note'] = this.note;
     data['longitude'] = this.longitude;
     data['location'] = this.location;
     data['name'] = this.name;

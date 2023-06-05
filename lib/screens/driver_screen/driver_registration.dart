@@ -5,13 +5,14 @@ import 'package:fresh2_arrive/resources/new_helper.dart';
 import 'package:fresh2_arrive/screens/vendor_screen/thank_you.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
-import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:get/get.dart';
 import '../../repositories/driver_resistration_repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/registration_form_textField.dart';
 import 'package:intl/intl.dart' as intl;
+
+import '../Language_Change_Screen.dart';
 
 class DriverRegistrationScreen extends StatefulWidget {
   const DriverRegistrationScreen({Key? key}) : super(key: key);
@@ -71,9 +72,9 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "Delivery Partner Apply", context: context),
+          appBar: backAppBar(title: "Delivery Partner Apply".tr, context: context),
           body:
           SingleChildScrollView(
             controller: _scrollController,
@@ -101,7 +102,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                 selectDate();
                               },
                               controller: dateOfBirth,
-                              hint: "Date of birth",
+                              hint: "Date of birth".tr,
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: 'Date of birth is required'),
@@ -113,7 +114,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                             RegistrationTextField(
                               controller: nationalIdNumberController,
                               length: 12,
-                              hint: "National ID (number)",
+                              hint: "National ID (number)".tr,
                               keyboardType: TextInputType.number,
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 12) {
@@ -126,7 +127,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Vehicle Details",
+                              "Vehicle Details".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -141,7 +142,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                Expanded(
                                  child: RegistrationTextField(
                                    controller: carYearController,
-                                   hint: "Car Year",
+                                   hint: "Car Year".tr,
                                    length: 10,
                                    validator: (value) {
                                      if (value!.isEmpty || value.length < 4) {
@@ -157,7 +158,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                Expanded(
                                  child: RegistrationTextField(
                                    controller: makeController,
-                                   hint: "Make",
+                                   hint: "Make".tr,
                                    validator: MultiValidator([
                                      RequiredValidator(
                                          errorText: 'Vehicle number is required'),
@@ -174,7 +175,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                 Expanded(
                                   child: RegistrationTextField(
                                     controller: modelController,
-                                    hint: "Model",
+                                    hint: "Model".tr,
                                     length: 10,
                                     validator: (value) {
                                       if (value!.isEmpty || value.length < 4) {
@@ -190,7 +191,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                 Expanded(
                                   child: RegistrationTextField(
                                     controller: colorController,
-                                    hint: "Color",
+                                    hint: "Color".tr,
                                     validator: MultiValidator([
                                       RequiredValidator(
                                           errorText: 'Vehicle number is required'),
@@ -204,7 +205,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "License plate",
+                              "License plate".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -235,7 +236,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                 Column(
                                   children: [
                                     Text(
-                                      "Upload",
+                                      "Upload".tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -327,7 +328,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                               height: AddSize.padding12,
                             ),
                             Text(
-                              "Upload Driver Licence",
+                              "Upload Driver Licence".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -361,7 +362,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                     Column(
                                       children: [
                                         Text(
-                                          "Front",
+                                          "Front".tr,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline6!
@@ -470,7 +471,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                     Column(
                                       children: [
                                         Text(
-                                          "Back",
+                                          "Back".tr,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline6!
@@ -621,7 +622,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
                                 child: Text(
-                                  "APPLY",
+                                  "APPLY".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!

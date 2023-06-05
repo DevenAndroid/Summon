@@ -401,7 +401,7 @@ class Data {
   User? user;
   Vendor? vendor;
   User? driver;
-  Address? address;
+  dynamic address;
   dynamic orderType;
   dynamic paymentType;
   dynamic deliveryStatus;
@@ -647,7 +647,7 @@ class Address {
   dynamic phone;
   dynamic image;
   dynamic addressType;
-  int? leaveAtDoor;
+  bool? leaveAtDoor;
   String? createdAt;
   String? updatedAt;
   Null? deletedAt;
@@ -708,6 +708,7 @@ class OrderItems {
   String? productName;
   int? variantId;
   int? price;
+  dynamic variantSize;
   List<Addons>? addons;
   int? qty;
   int? totalPrice;
@@ -720,6 +721,7 @@ class OrderItems {
         this.productName,
         this.variantId,
         this.price,
+        this.variantSize,
         this.addons,
         this.qty,
         this.totalPrice,
@@ -732,6 +734,7 @@ class OrderItems {
     productName = json['product_name'];
     variantId = json['variant_id'];
     price = json['price'];
+    variantSize = json['variant_size'];
     if (json['addons'] != null) {
       addons = <Addons>[];
       json['addons'].forEach((v) {
@@ -751,6 +754,7 @@ class OrderItems {
     data['product_name'] = this.productName;
     data['variant_id'] = this.variantId;
     data['price'] = this.price;
+    data['variant_size'] = this.variantSize;
     if (this.addons != null) {
       data['addons'] = this.addons!.map((v) => v.toJson()).toList();
     }

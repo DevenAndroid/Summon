@@ -1,15 +1,14 @@
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
-import 'package:fresh2_arrive/screens/add_money.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/myWallet_controller.dart';
 import '../controller/profile_controller.dart';
-import '../model/time_model.dart';
 import '../resources/app_assets.dart';
+import 'Language_Change_Screen.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -45,9 +44,9 @@ class _WalletScreenState extends State<WalletScreen> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "My Wallet", context: context),
+          appBar: backAppBar(title: "My Wallet".tr, context: context),
           body: myWalletController.isDataLoading.value
               ? SingleChildScrollView(
                   controller: scrollController,
@@ -104,7 +103,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                             ],
                                           ),
                                            Text(
-                                             "Total Balance",
+                                             "Total Balance".tr,
                                              style: Theme.of(context)
                                                  .textTheme
                                                  .headline5!
@@ -176,7 +175,7 @@ class _WalletScreenState extends State<WalletScreen> {
                             : Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: AddSize.padding20 * 3),
-                                child: Text("Data not Available",
+                                child: Text("Data not Available".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline5!

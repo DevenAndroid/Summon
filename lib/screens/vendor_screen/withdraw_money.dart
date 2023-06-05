@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import '../../controller/main_home_controller.dart';
 import '../../controller/withdrawalList_Controller.dart';
 import '../../repositories/Withdrawal_Request_Repo.dart';
-import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 
 class WithDrawMoney extends StatefulWidget {
   const WithDrawMoney({Key? key}) : super(key: key);
@@ -38,9 +38,9 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
     return Obx(() {
 
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Withdrawal money", context: context),
+          appBar: backAppBar(title: "Withdrawal money".tr, context: context),
           body: withdrawalListController.isDataLoading.value
               ? SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -70,7 +70,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "My Balance",
+                                          "My Balance".tr,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!
@@ -80,7 +80,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                   color: AppTheme.blackcolor),
                                         ),
                                         Text(
-                                          "₹ ${withdrawalListController.model.value.data!.earnedBalance.toString()}.00",
+                                          "SR ${withdrawalListController.model.value.data!.earnedBalance.toString()}.00",
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!
@@ -188,7 +188,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                   fontSize: AddSize.font20,
                                                   fontWeight: FontWeight.w500)),
                                           child: Text(
-                                            "Withdrawal".toUpperCase(),
+                                            "Withdrawal".tr.toUpperCase(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!
@@ -218,7 +218,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Amount",
+                                        "Amount".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -229,7 +229,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                 color: AppTheme.primaryColor),
                                       ),
                                       Text(
-                                        "Date",
+                                        "Date".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -240,7 +240,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                                 color: AppTheme.primaryColor),
                                       ),
                                       Text(
-                                        "Status",
+                                        "Status".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -420,7 +420,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                                           padding: EdgeInsets.symmetric(
                                               horizontal: AddSize.padding20 * 3,
                                               vertical: AddSize.padding20),
-                                          child: Text("Request not Available",
+                                          child: Text("Request not Available".tr,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline5!
@@ -439,7 +439,9 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                       ),
                     ),
                   ))
-              : const Center(child: CircularProgressIndicator()),
+              : const Center(child: CircularProgressIndicator(
+            color: AppTheme.primaryColor,
+          )),
         ),
       );
     });
@@ -455,7 +457,7 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
           side: BorderSide(color: Colors.grey.shade300)),
-      label: Text("+₹${title}",
+      label: Text("+${title}",
           style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 14,

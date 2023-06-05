@@ -3,6 +3,7 @@ import 'dart:developer';
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/repositories/social_login_repo.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
@@ -201,9 +202,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     log(value.credential!.accessToken!);
     print("this is login details .credential!.accessToken");
    // Get.to(CustomNavigationBar());
-
-    googleLogin("google", value.credential!.accessToken!, context)
+    var fcmToken =
+    await FirebaseMessaging.instance
+        .getToken();
+    googleLogin("google", value.credential!.accessToken!, fcmToken, context)
         .then((value) async {
+
       if (value.status == true) {
         SharedPreferences pref = await SharedPreferences.getInstance();
        pref.setString('user_info', jsonEncode(value));

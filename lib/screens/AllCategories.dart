@@ -10,9 +10,9 @@ import '../controller/My_cart_controller.dart';
 import '../controller/category_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/store_by_category_controller.dart';
-import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 
 class AllCategories extends StatefulWidget {
   const AllCategories({Key? key}) : super(key: key);
@@ -48,135 +48,116 @@ class _AllCategoriesState extends State<AllCategories> {
   final myCartController = Get.put(MyCartDataListController());
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return
-        Scaffold(
-          backgroundColor: Color(0xffF6F6F6),
-            appBar: backAppBar2(title: "Categories", context: context),
-        body: Obx(() {
-          return categoryController.isDataLoading.value
-              ? Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: AddSize.padding15),
-            child: SingleChildScrollView(
-              controller: scrollController,
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(height: AddSize.size20,),
-                  GridView.builder(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: categoryController.model.value.data!.length,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4,
-                          crossAxisSpacing: 12.0,
-                          mainAxisExtent: 130,
-                          mainAxisSpacing: 14.0),
-                      itemBuilder: (context, index) {
-                        var itemdata = categoryController.model.value.data![index];
-                        return GestureDetector(
-                          onTap: () {
-                            currentIndex=index;
-                            setState(() {
+    return
+          Directionality(
+          textDirection: locale == Locale('en','US') ? TextDirection.ltr:TextDirection.rtl,
+          child: Scaffold(
+            backgroundColor: Color(0xffF6F6F6),
+              appBar: backAppBar2(title: "Categories".tr, context: context),
+          body: Obx(() {
+            return categoryController.isDataLoading.value
+                ? Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: AddSize.padding15),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    SizedBox(height: AddSize.size20,),
+                    GridView.builder(
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: categoryController.model.value.data!.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 12.0,
+                            mainAxisExtent: 130,
+                            mainAxisSpacing: 14.0),
+                        itemBuilder: (context, index) {
+                          var itemdata = categoryController.model.value.data![index];
+                          return GestureDetector(
+                            onTap: () {
+                              currentIndex=index;
+                              setState(() {
 
-                            });
-                            nearStoreController
-                                .storeId.value = categoryController.model
-                                .value.data![index].id
-                                .toString();
-                            log(nearStoreController
-                                .storeId.value);
-                            Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
-                          },
-                          child: Container(
-                            //height: 100,
-                            //   padding: EdgeInsets.symmetric(
-                            //       horizontal: AddSize.padding10,
-                            //       vertical: AddSize.padding10),
-                              decoration: BoxDecoration(
-                                  color: currentIndex == index ? AppTheme.primaryColor: Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 65,
-                                    width: 65,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      color: Colors.white,
+                              });
+                              nearStoreController
+                                  .storeId.value = categoryController.model
+                                  .value.data![index].id
+                                  .toString();
+                              log(nearStoreController
+                                  .storeId.value);
+                              Get.toNamed(StoreByCategoryListScreen.storeByCategoryScreen);
+                            },
+                            child: Container(
+                              //height: 100,
+                              //   padding: EdgeInsets.symmetric(
+                              //       horizontal: AddSize.padding10,
+                              //       vertical: AddSize.padding10),
+                                decoration: BoxDecoration(
+                                    color: currentIndex == index ? AppTheme.primaryColor: Color(0xffFFFFFF),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 65,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        color: Colors.white,
 
-                                    ),
-                                    child:  Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CachedNetworkImage(
-                                        imageUrl: itemdata.image.toString(),
-                                        errorWidget: (_, __, ___) =>
-                                        const SizedBox(),
-                                        placeholder: (_, __) =>
-                                        const SizedBox(),
-                                        fit: BoxFit.cover,
+                                      ),
+                                      child:  Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CachedNetworkImage(
+                                          imageUrl: itemdata.image.toString(),
+                                          errorWidget: (_, __, ___) =>
+                                          const SizedBox(),
+                                          placeholder: (_, __) =>
+                                          const SizedBox(),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  // Container(
-                                  //
-                                  // decoration: BoxDecoration(
-                                  //   shape: BoxShape.circle,
-                                  //   color: Colors.white,
-                                  // ),
-                                  //   height: AddSize.size50 * 1,
-                                  //   width: AddSize.size50 * 1,
-                                  //   child: Padding(
-                                  //     padding: const EdgeInsets.all(8.0),
-                                  //     child: ClipRRect(
-                                  //       borderRadius: BorderRadius.circular(50),
-                                  //       child: CachedNetworkImage(
-                                  //         imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?cs=srgb&dl=pexels-pixabay-461198.jpg&fm=jpg",
-                                  //         // itemdata.image.toString(),
-                                  //         errorWidget: (_, __, ___) => const SizedBox(),
-                                  //         placeholder: (_, __) => const SizedBox(),
-                                  //         fit: BoxFit.cover,
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 13),
-                                    child: Text(
-                                      itemdata.name.toString().capitalizeFirst!,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
-                                          fontSize: AddSize.font14,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  )
-                                ],
-                              )),
-                        );
-                      }),
-                ],
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 13),
+                                      child: Text(
+                                        itemdata.name.toString().capitalizeFirst!,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            color: currentIndex == index ? Colors.white: Color(0xff67666D) ,
+                                            fontSize: AddSize.font14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          );
+                        }),
+                  ],
+                ),
               ),
-            ),
-          )
-              : const Center(
-              child: CircularProgressIndicator(
-                color: AppTheme.primaryColor,
-              ));
-        }),
-        // extendBody: true,
-        // bottomNavigationBar: myCartController.isDataLoaded.value
-        //     ? myCartController
-        //     .model.value.data!.cartItems!.isNotEmpty
-        //     ? addCartSection()
-        //     : null
-        //     : const SizedBox(),
-      );
-    });
+            )
+                : const Center(
+                child: CircularProgressIndicator(
+                  color: AppTheme.primaryColor,
+                ));
+          }),
+          // extendBody: true,
+          // bottomNavigationBar: myCartController.isDataLoaded.value
+          //     ? myCartController
+          //     .model.value.data!.cartItems!.isNotEmpty
+          //     ? addCartSection()
+          //     : null
+          //     : const SizedBox(),
+      ),
+        );
+
   }
 }

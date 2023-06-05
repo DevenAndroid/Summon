@@ -9,6 +9,7 @@ import 'package:fresh2_arrive/screens/coupons_screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivered_successfully.dart';
 import 'package:fresh2_arrive/screens/driver_screen/delivery_dashboard.dart';
+import 'package:fresh2_arrive/screens/driver_screen/delivery_order_history.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_banking_details.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_information_screen.dart';
 import 'package:fresh2_arrive/screens/driver_screen/driver_registration.dart';
@@ -38,6 +39,7 @@ import 'package:fresh2_arrive/screens/vendor_screen/vendor_information_screen.da
 import 'package:fresh2_arrive/screens/vendor_screen/withdraw_money.dart';
 import 'package:get/get.dart';
 import '../screens/Add_NewCard_Page.dart';
+import '../screens/Language_Change_Screen.dart';
 import '../screens/Onboarding_Screen_page.dart';
 import '../screens/OneProduct_Screen.dart';
 import '../screens/Popular_Homepage_Product_screen.dart';
@@ -54,6 +56,7 @@ import '../screens/loginScreen2.dart';
 import '../screens/my_cart_screen.dart';
 import '../screens/notification_screen.dart';
 import '../screens/onboardingScreen.dart';
+import '../screens/order/OrderTracking_Screen.dart';
 import '../screens/payment_method.dart';
 import '../screens/refer_and_earn.dart';
 import '../screens/store_by_category.dart';
@@ -127,16 +130,16 @@ class MyRouter {
     GetPage(
         name: ReferAndEarn.referAndEarnScreen,
         page: () => const ReferAndEarn()),
-    GetPage(
-        name: PaymentMethod.paymentScreen, page: () => const PaymentMethod()),
+    // GetPage(
+    //     name: PaymentMethod.paymentScreen, page: () => const PaymentMethod()),
     GetPage(
         name: ThankYouScreen.thankYouScreen,
         page: () => const ThankYouScreen()),
     GetPage(
         name: WalletScreen.myWalletScreen, page: () => const WalletScreen()),
     GetPage(
-        name: AddMoneyScreen.addMoneyScreen,
-        page: () => const AddMoneyScreen()),
+        name: DeliveredOrderHistory.orderDeliveryHistory,
+        page: () => const DeliveredOrderHistory()),
     GetPage(
         name: PrivacyPolicy.privacyPolicyScreen,
         page: () => const PrivacyPolicy()),
@@ -176,6 +179,9 @@ class MyRouter {
         name: BankDetailsScreen.bankDetailsScreen,
         page: () => const BankDetailsScreen()),
     GetPage(
+        name: LanguageChangeScreen.languageChangeScreen,
+        page: () => const LanguageChangeScreen()),
+    GetPage(
         name: DriverRegistrationScreen.driverRegistrationScreen,
         page: () => const DriverRegistrationScreen()),
     GetPage(
@@ -185,7 +191,7 @@ class MyRouter {
         name: AdminResponseScreen.adminResponseScreen,
         page: () => const AdminResponseScreen()),
     GetPage(
-        name: AssignedOrder.assignedOrder, page: () => const AssignedOrder()),
+        name: OrderTrackingScreen.orderTrackingScreen, page: () => const OrderTrackingScreen()),
     GetPage(
         name: DriverDeliveryOrderDetails.driverDeliveryOrderDetails,
         page: () => const DriverDeliveryOrderDetails()),

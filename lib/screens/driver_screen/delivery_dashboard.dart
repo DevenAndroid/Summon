@@ -1,19 +1,23 @@
+
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:fresh2_arrive/screens/driver_screen/assigned_order.dart';
-import 'package:fresh2_arrive/screens/driver_screen/order_decline_screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart' as intl;
 import '../../controller/assigned_order_list_controller.dart';
 import '../../controller/delivery_order_list_controller.dart';
 import '../../controller/main_home_controller.dart';
 import '../../repositories/accept_order_by_driver.dart';
+import '../../repositories/delivery_verify_otp_repo.dart';
 import '../../repositories/driver_mode_update_repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
+import 'delivered_successfully.dart';
 
 class DeliveryDashboard extends StatefulWidget {
   const DeliveryDashboard({Key? key}) : super(key: key);
@@ -28,24 +32,25 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
   final deliveryOrderListController = Get.put(DeliveryOrderListController());
   // final orderController = Get.put(MyOrderDetailsController());
   final assignedController = Get.put(AssignedOrderController());
+  Rx<File> image = File("").obs;
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: AppTheme.backgroundcolor,
-          leadingWidth: AddSize.size20 * 1.6,
+          leadingWidth: AddSize.size20 * 2,
           title: Text(
-            "Dashboard",
+            "Dashboard".tr,
             style: Theme.of(context).textTheme.headline6!.copyWith(
                 fontWeight: FontWeight.w500,
                 fontSize: 20,
                 color: AppTheme.blackcolor),
           ),
           leading: Padding(
-            padding: EdgeInsets.only(right: AddSize.padding10),
+            padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
                 onTap: () {
                   Get.back();
@@ -63,7 +68,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                 return Row(
                   children: [
                     Text(
-                      "Delivery Mode",
+                      "Delivery Mode".tr,
                       style: Theme.of(context).textTheme.headline6!.copyWith(
                           fontWeight: FontWeight.w500,
                           fontSize: AddSize.font14,
@@ -133,12 +138,6 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                               fontSize: AddSize.font20,
                               color: AppTheme.blackcolor),
                         ),
-                        // Text(intl.DateFormat("EEEE, dd MMM, yyyy").format(DateTime.now()).toString(),
-                        //   style: Theme.of(context).textTheme.headline6!.copyWith(
-                        //       fontWeight: FontWeight.w500,
-                        //       fontSize: AddSize.font14,
-                        //       color: AppTheme.blackcolor),
-                        // ),
                         SizedBox(
                           height: AddSize.size15,
                         ),
@@ -175,7 +174,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                 fontSize: 30),
                                       ),
                                       Text(
-                                        "Delivered",
+                                        "Delivered".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -225,7 +224,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                     fontSize: 30),
                                           ),
                                           Text(
-                                            "Balance",
+                                            "Balance".tr,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!
@@ -248,7 +247,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                           height: AddSize.size10,
                         ),
                         Text(
-                          "New Delivery Request",
+                          "New Delivery Request".tr,
                           style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.w500,
                               fontSize: AddSize.font16,
@@ -281,7 +280,8 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                               color: AppTheme.backgroundcolor,
                                               borderRadius:
                                                   BorderRadius.circular(10)),
-                                          child: Column(
+                                          child:
+                                          Column(
                                             children: [
 
                                               Row(
@@ -352,6 +352,8 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                   ),
                                                 ],
                                               ),
+                                              deliveryOrderListController
+                                                  .model.value.data!.acceptedOrderDetail == null ?
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -392,7 +394,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                             6)),
                                                       ),
                                                       child: Text(
-                                                        "Accept".toUpperCase(),
+                                                        "Accept".tr.toUpperCase(),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .headline5!
@@ -442,7 +444,7 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                             6)),
                                                       ),
                                                       child: Text(
-                                                        "Decline".toUpperCase(),
+                                                        "Decline".tr.toUpperCase(),
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .headline5!
@@ -456,23 +458,29 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                                     .font14),
                                                       )),
                                                 ],
-                                              ),
+                                              ):Text("Order Accepted"),
+
                                               SizedBox(
                                                 height: AddSize.size10,
-                                              )
+                                              ),
+                                              if(deliveryOrderListController
+                                                  .model.value.data!.acceptedOrderDetail != null)
+                                                Text("hello vendor"),
                                             ],
                                           )),
                                     );
                                   },
                                 )
-                              : Padding(
+                              : deliveryOrderListController
+                              .model.value.data!.acceptedOrderDetail == null ?
+                          Padding(
                                   padding: EdgeInsets.symmetric(
                                       horizontal: AddSize.padding20 * 2.8,
                                       vertical: AddSize.padding20),
                                   child: SizedBox(
                                       height: AddSize.size20,
                                       child: Text(
-                                        "Delivery Request Not Available",
+                                        "Delivery Request Not Available".tr,
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context)
                                             .textTheme
@@ -482,8 +490,261 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                 fontWeight: FontWeight.w500,
                                                 fontSize: AddSize.font16),
                                       )),
-                                );
-                        })
+                                ): SizedBox();
+                        }),
+                        //after accepting the order data
+                        if(deliveryOrderListController
+                            .model.value.data!.acceptedOrderDetail != null)
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AddSize.padding10,
+                              ),
+                              margin: EdgeInsets.only(
+                                  top: AddSize.padding10),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.backgroundcolor,
+                                  borderRadius:
+                                  BorderRadius.circular(10)),
+                              child:
+                              Column(
+                                children: [
+                                  SizedBox(height: 5,),
+
+                                  Row(
+
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          "${deliveryOrderListController
+                                              .model.value.data!.acceptedOrderDetail!.placedAt.toString()}",
+                                          style: GoogleFonts.ibmPlexSansArabic(
+                                              color:Color(0xff303C5E),
+                                              fontWeight:
+                                              FontWeight
+                                                  .w400,
+                                              fontSize: AddSize
+                                                  .font12),
+                                        ),
+                                      ),
+
+                                      Text(
+                                        "#${deliveryOrderListController
+                                            .model.value.data!.acceptedOrderDetail!.orderId.toString()}",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            color:AppTheme.primaryColor,
+                                            fontWeight:
+                                            FontWeight
+                                                .w500,
+                                            fontSize: AddSize
+                                                .font18),
+                                      ),
+                                      SizedBox(
+                                        width: AddSize.size15,
+                                      ),
+                                      ImageIcon(
+                                        AssetImage(
+                                            AppAssets.orderList),
+                                        color: AppTheme.primaryColor,
+                                        size: 20,
+                                      ),
+
+
+
+
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+
+                                      Text(
+                                        "${deliveryOrderListController
+                                            .model.value.data!.acceptedOrderDetail!.orderItems![0].qty.toString()} x ${deliveryOrderListController
+                                            .model.value.data!.acceptedOrderDetail!.orderItems![0].productName.toString()}",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            color:Color(0xff8B8B8B),
+                                            fontWeight:
+                                            FontWeight
+                                                .w500,
+                                            fontSize: AddSize
+                                                .font14),
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                            height: 40,
+                                            width: 40,
+
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+
+                                            ),
+                                            child: Image(image: AssetImage(
+                                                AppAssets.DeliverdIcon),)
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              "${deliveryOrderListController.model.value.data!.acceptedOrderDetail!.vendor!.storeName.toString()}",
+                                              style: GoogleFonts.ibmPlexSansArabic(
+                                                  color:Color(0xff303C5E),
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w500,
+                                                  fontSize: AddSize
+                                                      .font16),
+                                            ),
+                                            Text(
+                                              "${deliveryOrderListController.model.value.data!.acceptedOrderDetail!.vendor!.phone.toString()}",
+                                              style: GoogleFonts.ibmPlexSansArabic(
+                                                  color:Color(0xff3E525A),
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w400,
+                                                  fontSize: AddSize
+                                                      .font14),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                      ),
+                                  Divider(),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                          height: 40,
+                                          width: 40,
+
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+
+                                          ),
+                                          child: Image(image: AssetImage(
+                                              AppAssets.DeliverdIcon),)
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            "${deliveryOrderListController.model.value.data!.acceptedOrderDetail!.user!.name.toString()}",
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                                color:Color(0xff303C5E),
+                                                fontWeight:
+                                                FontWeight
+                                                    .w500,
+                                                fontSize: AddSize
+                                                    .font16),
+                                          ),
+                                          Text(
+                                            "${deliveryOrderListController.model.value.data!.acceptedOrderDetail!.address?.note.toString()}",
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                                color:Color(0xff3E525A),
+                                                fontWeight:
+                                                FontWeight
+                                                    .w400,
+                                                fontSize: AddSize
+                                                    .font14),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  Obx(() {
+                                    return image.value.path == ""
+                                        ? Stack(
+                                      children: [
+                                        SizedBox(
+                                          height: AddSize.size125,
+                                          width: AddSize.screenWidth,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(2),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                              deliveryOrderListController
+                                                  .model
+                                                  .value
+                                                  .data!
+                                                  .acceptedOrderDetail!.address!.image
+                                                  .toString(),
+                                              errorWidget: (_, __, ___) =>
+                                              const SizedBox(),
+                                              placeholder: (_, __) =>
+                                              const SizedBox(),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                        : Container(
+                                      width: double.maxFinite,
+                                      height: AddSize.size100,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: AddSize.padding16,
+                                          vertical: AddSize.padding16),
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey.shade50,
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: Colors.grey.shade300)),
+                                      child: SizedBox(
+                                        height: AddSize.size125,
+                                        width: AddSize.screenWidth,
+                                        child: ClipRRect(
+                                            borderRadius:
+                                            BorderRadius.circular(16),
+                                            child: Image.file(image.value)),
+                                      ),
+                                    );
+                                  }),
+                                  SizedBox(
+                                    height: 8,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        orderDeliveryRepo(
+                                            orderId: deliveryOrderListController.model.value.data!.acceptedOrderDetail!.orderId.toString(),
+                                            status: "delivered",
+                                            context: context)
+                                            .then((value) {
+                                          showToast(value.message.toString());
+                                          if (value.status == true) {
+                                            Get.offAndToNamed(DeliveredSuccessfullyScreen
+                                                .deliveredSuccessfullyScreen);
+                                          }
+                                        });
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: AppTheme.primaryColor,
+                                          minimumSize: const Size(double.maxFinite, 60),
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10)),
+                                          textStyle: GoogleFonts.ibmPlexSansArabic(
+                                              fontSize: 18, fontWeight: FontWeight.w600)),
+                                      child:  Text(
+                                        "Mark Completed".tr,
+                                      )),
+
+                                  SizedBox(
+                                    height: AddSize.size10,
+                                  ),
+                                ],
+                              )),
                       ],
                     ),
                   ))

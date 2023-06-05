@@ -215,6 +215,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                             .value
                                                             .data!
                                                             .orderItems![index]
+                                                            .variantSize
+                                                            .toString(),
+                                                        variantSize:vendorOrderListController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .orderItems![index]
                                                             .note
                                                             .toString()),
                                                     SizedBox(
@@ -234,8 +241,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                         ),
                                       )),
                                   Positioned(
-                                      top: 16,
-                                      left: 15,
+                                      top: 12,
+                                      left: 12,
                                       child: Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
@@ -359,9 +366,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                       width: 50,
                                       image: AssetImage(AppAssets.callIcon),)
                                 ),
+                                const Divider(),
                               ],
                             ): SizedBox(),
-                            const Divider(),
+
                             Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
@@ -425,7 +433,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                 ]),
                                 GestureDetector(
                                     onTap: (){
-                                      openMap(double.parse(vendorOrderListController.model.value.data!.address!.toString()),double.parse(vendorOrderListController.model.value.data!.address!.toString()));
+                                      openMap(double.parse(vendorOrderListController.model.value.data!.address!..toString()),double.parse(vendorOrderListController.model.value.data!.address!.toString()));
                                     },
                                     child: Image(
                                       height: 50,
@@ -434,8 +442,6 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                 ),
                               ],
                             ),
-
-
 
                           ],
                         ),
@@ -524,6 +530,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
       required price,
       required qty,
       required status1,
+      required variantSize,
       required variantId,
       required note}) {
     var height = MediaQuery.of(context).size.height;
@@ -570,6 +577,11 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               SizedBox(
                 width: width * .01,
               ),
+              vendorOrderListController
+                  .model
+                  .value
+                  .data!
+                  .deliveryStatus == "Accepted" ? SizedBox():
               status1 != "R"
                   ? ElevatedButton(
                   onPressed: () {
@@ -585,7 +597,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                        horizontal: AddSize.padding20, vertical: AddSize.size5),
+                        horizontal: 10, vertical: 5),
                     // minimumSize: Size(double.maxFinite, AddSize.size50),
                     primary: const Color(0xffF04148),
                     elevation: 0,
@@ -600,8 +612,8 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                         fontSize: AddSize.font16),
                   ))
                   : Container(
-                height: 30,
-                    width: 90,
+                height: 15,
+                    width: 55,
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor,
                       borderRadius: BorderRadius.circular(5)
@@ -626,6 +638,14 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
               color: Color(0xff6A8289),
               fontWeight: FontWeight.w700),
         ),
+        Text(
+          variantSize,
+          style: GoogleFonts.ibmPlexSansArabic(
+              fontSize: AddSize.font14,
+              color: Color(0xff6A8289),
+              fontWeight: FontWeight.w700),
+        ),
+
       ],
     );
   }

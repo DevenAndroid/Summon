@@ -2,10 +2,16 @@ class AppAssets {
   static const String splash1 = "assets/images/splash1.png";
   static const String splash0 = "assets/images/splash0.png";
   static const String ONB1 = "assets/images/ONB1.png";
+  static const String DeliverdIcon = "assets/images/DeliverdIcon.png";
   static const String ONB2 = "assets/images/ONB2.png";
   static const String ONB3 = "assets/images/ONB3.png";
   static const String BG1 = "assets/images/BG1.png";
+  static const String T1 = "assets/images/T1.png";
+  static const String t2 = "assets/images/t2.png";
+  static const String greenIcon = "assets/images/greenIcon.png";
+  static const String orangeIcon = "assets/images/orangeIcon.png";
   static const String BG2 = "assets/images/BG2.png";
+  static const String mapMarker = "assets/images/mapMarker.svg";
   static const String paymentCardIcon = "assets/images/paymentCardIcon.png";
   static const String scanner = "assets/images/scanner.png";
   static const String wishListImg = "assets/images/wishListImg.png";

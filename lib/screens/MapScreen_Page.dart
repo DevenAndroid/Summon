@@ -1,35 +1,16 @@
 import 'dart:async';
-import 'dart:developer';
-import 'dart:io';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:fresh2_arrive/generated/assets.dart';
-import 'package:fresh2_arrive/repositories/add_address_repository.dart';
-import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
-import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
-import '../../controller/MyAddress_controller.dart';
-import '../../model/MyAddressModel.dart';
-import '../../resources/app_theme.dart';
-import '../../resources/new_helper.dart';
-import '../../widgets/dimensions.dart';
-import 'package:geolocator/geolocator.dart';
 
 import '../controller/GetNearStoresOnMapController.dart';
 import '../controller/single_store_controller.dart';
-import '../repositories/GetNearByStores_Repo.dart';
+import 'Language_Change_Screen.dart';
 
 class MapScreenPage extends StatefulWidget {
   const MapScreenPage({Key? key}) : super(key: key);
@@ -92,7 +73,12 @@ class _MapScreenPageState extends State<MapScreenPage> {
     required String id,
     required int index,
   }) async {
+    BitmapDescriptor markerbitmap = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(),
+      "assets/images/mapIcon.png",
+    );
     markers.add(Marker(
+
         markerId: MarkerId(lastMapPosition.toString()),
         position: lastMapPosition,
         onTap: (){
@@ -106,7 +92,7 @@ class _MapScreenPageState extends State<MapScreenPage> {
             pageViewController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
           }
         ),
-        icon: BitmapDescriptor.defaultMarker));
+        icon: markerbitmap));
   }
 
   @override
@@ -119,11 +105,11 @@ class _MapScreenPageState extends State<MapScreenPage> {
         return true;
       },
       child: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US')? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
             backgroundColor: Color(0xffF9F9F9),
             appBar: backAppBar(
-                title: "Stores",
+                title: "Stores".tr,
                 context: context,
                 dispose: "dispose",
                 disposeController: () {

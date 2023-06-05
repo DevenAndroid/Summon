@@ -10,6 +10,7 @@ import 'package:intl/intl.dart' as intl;
 import '../../controller/MyOrder_Details_Controller.dart';
 import '../../controller/Vendor_Orderlist_Controller.dart';
 import '../../resources/app_assets.dart';
+import '../Language_Change_Screen.dart';
 
 
 
@@ -79,10 +80,10 @@ class _VendorOrderListState extends State<VendorOrderList> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
           appBar: backAppBar(
-              title: "Orders List",
+              title: "Orders List".tr,
               textColor: AppTheme.backgroundcolor,
               context: context,
               backgroundColor: AppTheme.primaryColor,
@@ -140,7 +141,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                               height: AddSize.size5,
                                             ),
                                             Text(
-                                              "Your earning this month",
+                                              "Your earning this month".tr,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline5!
@@ -167,7 +168,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                                   borderRadius:
                                                       BorderRadius.circular(10)),
                                               child: Text(
-                                                "Withdrawal",
+                                                "Withdrawal".tr,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -209,7 +210,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                             enabled: true,
                                             border: InputBorder.none),
                                         hint: Text(
-                                          'Filter',
+                                          'Filter'.tr,
                                           style: TextStyle(
                                               color: AppTheme.backgroundcolor,
                                               fontSize: AddSize.font14,
@@ -276,7 +277,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                         iconEnabledColor:
                                             AppTheme.backgroundcolor,
                                         hint: Text(
-                                          'Status',
+                                          'Status'.tr,
                                           style: TextStyle(
                                               color: AppTheme.backgroundcolor,
                                               fontSize: AddSize.font14,
@@ -451,23 +452,9 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                     vendorOrderListController
                                         .vendorOrderListData();
 
-                                    // if (vendorOrderListController
-                                    //         .searchController.text ==
-                                    //     vendorOrderListController.model.value
-                                    //         .data!.orderList!.isNotEmpty) {
-                                    //   vendorOrderListController.getSearchData();
-                                    // }
                                   },
                                   decoration: InputDecoration(
                                       filled: true,
-                                      // suffixIcon: IconButton(
-                                      //   onPressed: () {},
-                                      //   icon: const Icon(
-                                      //     Icons.search,
-                                      //     color: AppTheme.backgroundcolor,
-                                      //     size: 25,
-                                      //   ),
-                                      // ),
                                       border: const OutlineInputBorder(
                                           borderSide: BorderSide.none,
                                           borderRadius: BorderRadius.all(
@@ -475,7 +462,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                       contentPadding: EdgeInsets.symmetric(
                                           horizontal: AddSize.padding20,
                                           vertical: AddSize.padding10),
-                                      hintText: 'Search',
+                                      hintText: 'Search'.tr,
                                       hintStyle: TextStyle(
                                           fontSize: AddSize.font14,
                                           color: AppTheme.backgroundcolor,
@@ -502,7 +489,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Latest Sales",
+                                  "Latest Sales".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
@@ -520,7 +507,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Order No.",
+                                  "Order No.".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
@@ -531,7 +518,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                           color: AppTheme.primaryColor),
                                 ),
                                 Text(
-                                  "                 Status",
+                                  "                 Status".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
@@ -542,7 +529,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                           color: AppTheme.primaryColor),
                                 ),
                                 Text(
-                                  "Earning",
+                                  "Earning".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!
@@ -683,7 +670,7 @@ class _VendorOrderListState extends State<VendorOrderList> {
                                     : Padding(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: AddSize.padding20 * 3),
-                                        child: Text("Order not Available",
+                                        child: Text("Order not Available".tr,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!

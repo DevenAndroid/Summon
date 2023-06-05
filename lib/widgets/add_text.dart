@@ -171,7 +171,7 @@ disposeController}){
     ),
     leading: Padding(
 
-      padding: EdgeInsets.only(right: AddSize.padding14),
+      padding: EdgeInsets.only(right: AddSize.padding14,left: 3),
 
       
 
@@ -211,11 +211,7 @@ AppBar backAppBar1(
           fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xff423E5E)),
     ),
     leading: Padding(
-
-      padding: EdgeInsets.only(right: AddSize.padding14),
-
-
-
+      padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
           onTap: () {
            controller.currentIndex == 3
@@ -252,11 +248,7 @@ AppBar backAppBar2(
           color: Color(0xff000000)),
     ),
     leading: Padding(
-
-      padding: EdgeInsets.only(right: AddSize.padding14),
-
-
-
+      padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
           onTap: () {
            controller.onItemTap(2);

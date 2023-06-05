@@ -21,6 +21,7 @@ import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
 import 'Add_NewCard_Page.dart';
+import 'Language_Change_Screen.dart';
 import 'coupons_screen.dart';
 
 class MyCartPage extends StatefulWidget {
@@ -63,7 +64,7 @@ class _MyCartPageState extends State<MyCartPage> {
         .width;
     return Directionality(
 
-      textDirection: TextDirection.rtl,
+      textDirection: locale == Locale('en','US') ? TextDirection.ltr:TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Color(0xffF2F2F2),
         appBar: AppBar(
@@ -92,8 +93,8 @@ class _MyCartPageState extends State<MyCartPage> {
             ),
           ),
           centerTitle: true,
-          title: const Text(
-            "Cart",
+          title:  Text(
+            "Cart".tr,
             style: TextStyle(
                 fontSize: 23,
                 color: Color(0xff000000),
@@ -212,6 +213,15 @@ class _MyCartPageState extends State<MyCartPage> {
                                               ],
                                             ),
 
+                                            Text(
+                                              myCartDataController.model.value
+                                                  .data!.cartItems![index1]
+                                                  .size.toString(),
+                                              style: GoogleFonts
+                                                  .ibmPlexSansArabic(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Color(0xff333333)),),
                                             Text(
                                               myCartDataController.model.value
                                                   .data!.cartItems![index1]
@@ -540,7 +550,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                               const SizedBox(
                                                 width: 8,
                                               ),
-                                              Text("Use Coupons",
+                                              Text("Use Coupons".tr,
                                                   style: TextStyle(
                                                       color:
                                                       AppTheme.blackcolor,
@@ -667,37 +677,7 @@ class _MyCartPageState extends State<MyCartPage> {
                         ),
                       );
                     }),
-                  // Card(
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(10)
-                  //   ),
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.symmetric(
-                  //       horizontal: 5,
-                  //       vertical: 3
-                  //     ),
-                  //     child: Container(
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.all(8.0),
-                  //         child: Row(
-                  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //           children: [
-                  //
-                  //             Image(
-                  //                 height: 50,
-                  //                 width: 40,
-                  //                 image: AssetImage(
-                  //               AppAssets.promoIcon
-                  //             )),
-                  //             Text("Promo Code",style:  GoogleFonts.ibmPlexSansArabic(fontSize: 18,
-                  //                 fontWeight: FontWeight.w700,
-                  //                 color: Color(0xff7C7C7C)),),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
                   SizedBox(height: height * .01,),
 
                   if(myCartDataController.model.value.data!
@@ -733,13 +713,13 @@ class _MyCartPageState extends State<MyCartPage> {
                                             AppAssets.loctionIcon1),)
                                     ),
                                     SizedBox(width: 10,),
-                                    Text("Free",
+                                    Text("Free".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
                                           color: Color(0xff000000)),),
                                     Flexible(child: Container()),
-                                    Text("PickUp",
+                                    Text("PickUp".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -779,11 +759,29 @@ class _MyCartPageState extends State<MyCartPage> {
                                         child: Image(image: AssetImage(
                                             AppAssets.loctionIcon1),)),
                                     SizedBox(width: 10,),
-                                    Text("15 SR",
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff000000)),),
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              "SR ".tr,
+                                              style: GoogleFonts.ibmPlexSansArabic(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xff000000)),),
+                                          ),
+                                          Text(
+          myCartDataController.model.value.data!.cartPaymentSummary!.deliveryCharge != null ?
+                                            myCartDataController.model.value.data!.cartPaymentSummary!.deliveryCharge.toString()=="0" ?"15":
+                                            "${myCartDataController.model.value.data!.cartPaymentSummary!.deliveryCharge.toString()}": "15",
+                                            style: GoogleFonts.ibmPlexSansArabic(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                                color: Color(0xff000000)),),
+
+                                        ],
+                                      ),
+                                    ),
                                     Flexible(child: Container()),
 
                                     InkWell(
@@ -799,7 +797,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                     SizedBox(width: 10,),
 
                                     myCartDataController.model.value.data!.orderAddress != null ?
-                                    Text("Deliver to ${myCartDataController.model.value.data!.orderAddress?.name.toString()}",
+                                    Text("Deliver to ${myCartDataController.model.value.data!.orderAddress?.name.toString()}".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w700,
@@ -843,7 +841,7 @@ class _MyCartPageState extends State<MyCartPage> {
                         children: [
                           if(myCartDataController.model.value.data!
                               .cartPaymentSummary != null)
-                            details("Subtotal (includes VAT)",
+                            details("Subtotal (includes VAT)".tr,
                                 ("${myCartDataController.model.value.data!
                                     .cartPaymentSummary!.subTotal ?? ""}"),
                                 "SR"),
@@ -854,7 +852,8 @@ class _MyCartPageState extends State<MyCartPage> {
                             thickness: 1,
                           ),
                           SizedBox(height: 5,),
-                          details("Delivery",
+
+                          details("Delivery".tr,
                               myCartDataController.model.value.data!
                                   .cartPaymentSummary!.deliveryCharge
                                   .toString(), "SR"),
@@ -865,7 +864,7 @@ class _MyCartPageState extends State<MyCartPage> {
                             thickness: 1,
                           ),
                           SizedBox(height: 5,),
-                          details("Savings",
+                          details("Savings".tr,
                               myCartDataController.model.value.data!
                                   .cartPaymentSummary!.couponDiscount
                                   .toString(), "SR"),
@@ -875,7 +874,7 @@ class _MyCartPageState extends State<MyCartPage> {
                             // color: Colors.grey.shade300,
                             thickness: 1,
                           ),
-                          details("Wallet balance",
+                          details("Wallet balance".tr,
                               myCartDataController.model.value.data!
                                   .cartPaymentSummary!.walletSaving.toString(),
                               "SR"),
@@ -885,7 +884,7 @@ class _MyCartPageState extends State<MyCartPage> {
                             // color: Colors.grey.shade300,
                             thickness: 1,
                           ),
-                          details("Total",
+                          details("Total".tr,
                               myCartDataController.model.value.data!
                                   .cartPaymentSummary!.total.toString(), "SR"),
 
@@ -916,7 +915,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                     .spaceBetween,
                                 //crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Payment Method",
+                                  Text("Payment Method".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           color: Color(0xff000000),
                                           fontSize: 18,
@@ -947,7 +946,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                         });
                                         print(selectedValue.value);
                                       }),
-                                  Text("COD",
+                                  Text("COD".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           color: Color(0xff000000),
                                           fontSize: 14,
@@ -968,7 +967,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                         });
                                         print(selectedValue.value);
                                       }),
-                                  Text("Prepaid",
+                                  Text("Prepaid".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           color: Color(0xff000000),
                                           fontSize: 14,
@@ -1023,8 +1022,8 @@ class _MyCartPageState extends State<MyCartPage> {
                               borderRadius: BorderRadius.circular(10)),
                           textStyle: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w600)),
-                      child: const Text(
-                        "Checkout",
+                      child:  Text(
+                        "Checkout".tr,
                       )) : Center(child: Text("Cart is Empty")),
                   SizedBox(height: 80,),
                 ],

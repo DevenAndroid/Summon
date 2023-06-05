@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/notification_controller.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -21,9 +20,9 @@ class NotificationScreenState extends State<NotificationScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "Notification", context: context),
+          appBar: backAppBar(title: "Notification".tr, context: context),
           body: Obx(() {
   return controller.isDataLoading.value ? controller.model.value.data!.notificationData!.isNotEmpty ? SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -47,7 +46,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             ),
           ):Padding(
             padding: EdgeInsets.only(top: AddSize.padding20 * 2,left: AddSize.padding20 * 5),
-            child: Text("Notification Not Available"),
+            child: Text("Notification Not Available".tr),
           ):const Center(child: CircularProgressIndicator(),);
 })),
     );

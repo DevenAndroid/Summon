@@ -1,17 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/repositories/ViewAll_Popular_Repo.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:get/get.dart';
 
 import '../controller/GetWishListProduct_controller.dart';
-import '../controller/ViewAllRecommendd_Controller.dart';
-import '../controller/ViewAll_PopularProduct_Controller.dart';
 import '../controller/single_store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 
 class WishListScreen extends StatefulWidget {
   const WishListScreen({Key? key}) : super(key: key);
@@ -44,9 +42,9 @@ class _WishListScreenState extends State<WishListScreen> {
         .width;
     return
       Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Favorites", context: context),
+          appBar: backAppBar(title: "Favorites".tr, context: context),
           body: Obx(() {
             return getWishListProductController.isDataLoading.value ? SingleChildScrollView(
               child: Padding(
@@ -87,10 +85,7 @@ class _WishListScreenState extends State<WishListScreen> {
                                           Expanded(
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                //color: Colors.grey,
-                                                // borderRadius: BorderRadius.only(
-                                                //     topRight: Radius.circular(20),
-                                                //     topLeft: Radius.circular(20)),
+
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.only(
@@ -200,9 +195,11 @@ class _WishListScreenState extends State<WishListScreen> {
                         }),
                     SizedBox(height: height * .05,)
                   ],
-                ):Center(child: Text("No Item in WishList"),),
+                ):Center(child: Text("No Item in WishList".tr),),
               ),
-            ):Center(child: CircularProgressIndicator());
+            ):Center(child: CircularProgressIndicator(
+              color: AppTheme.primaryColor,
+            ));
           }),
         ),
       );

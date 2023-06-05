@@ -29,6 +29,7 @@ import '../../repositories/Vendor_SaveProduct_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 import 'Add_Option_Addons_Page.dart';
 
 class AddVendorProduct1 extends StatefulWidget {
@@ -310,9 +311,9 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "Add Products", context: context),
+          appBar: backAppBar(title: "Add Products".tr, context: context),
           body: SingleChildScrollView(
             controller: _scrollController,
             physics: const BouncingScrollPhysics(),
@@ -671,7 +672,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         child: Text(
-                          "SAVE",
+                          "SAVE".tr,
                           style: Theme
                               .of(context)
                               .textTheme
@@ -700,7 +701,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Choice of Add On",
+                  "Choice of Add On".tr,
                   style: GoogleFonts.ibmPlexSansArabic(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -843,7 +844,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                     height: AddSize.size10,
                                   ),
                                   Text(
-                                    "Upload product image",
+                                    "Upload product image".tr,
                                     style: Theme
                                         .of(context)
                                         .textTheme
@@ -863,7 +864,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               height: AddSize.size10,
             ),
             RegistrationTextField(
-              hint: " Product Name",
+              hint: " Product Name".tr,
               controller: vendorAddProductController.productNameController,
               validator: MultiValidator(
                   [RequiredValidator(errorText: "Please enter product name")]),
@@ -872,7 +873,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               height: AddSize.size10,
             ),
             RegistrationTextField(
-              hint: "Description",
+              hint: "Description".tr,
               controller: vendorAddProductController.descriptionController,
               validator: MultiValidator(
                   [RequiredValidator(errorText: "Please enter description")]),
@@ -884,26 +885,18 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               children: [
                 Expanded(
                   child: RegistrationTextField(
-                    hint: "SKU",
+                    hint: "SKU".tr,
                     controller: vendorAddProductController.skuController,
                     validator: MultiValidator(
                         [RequiredValidator(errorText: "Please enter SKU")]),
                   ),
                 ),
-                // Expanded(
-                //   child: RegistrationTextField(
-                //     hint: "Price",
-                //     controller: vendorAddProductController.priceController,
-                //     validator: MultiValidator(
-                //         [RequiredValidator(errorText: "Please enter Price")]),
-                //   ),
-                // ),
                 SizedBox(
                   width: 4,
                 ),
                 Expanded(
                   child: RegistrationTextField(
-                    hint: "Calories",
+                    hint: "Calories".tr,
                     controller: vendorAddProductController.caloriesController,
                     validator: MultiValidator([
                       RequiredValidator(errorText: "Please enter Calories")
@@ -942,7 +935,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                               isExpanded: true,
                               iconEnabledColor: AppTheme.primaryColor,
                               hint: Text(
-                                'All Category',
+                                'All Category'.tr,
                                 style: TextStyle(
                                     color: AppTheme.userText,
                                     fontSize: AddSize.font14),
@@ -1030,7 +1023,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                               isExpanded: true,
                               iconEnabledColor: AppTheme.primaryColor,
                               hint: Text(
-                                'Choose Product type',
+                                'Choose Product type'.tr,
                                 style: TextStyle(
                                     color: AppTheme.userText,
                                     fontSize: AddSize.font14),
@@ -1267,14 +1260,14 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Name",
-                  lableText: "Name",
+                  hint: "Name".tr,
+                  lableText: "Name".tr,
                   onChanged: (value) {
                     listModelData[index].name.value = value;
                   },
                   controller: name,
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: "Please enter price")]),
+                      [RequiredValidator(errorText: "Please enter Name")]),
                 ),
               ),
               SizedBox(
@@ -1285,12 +1278,12 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                   onChanged: (value) {
                     listModelData[index].price.value = value;
                   },
-                  hint: "Price",
-                  lableText: "Price",
+                  hint: "Price".tr,
+                  lableText: "Price".tr,
                   keyboardType: TextInputType.number,
                   controller: price,
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: "Please enter qty")]),
+                      [RequiredValidator(errorText: "Please enter price")]),
                 ),
               ),
             ],
@@ -1472,7 +1465,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                             isExpanded: true,
                             iconEnabledColor: AppTheme.primaryColor,
                             hint: Text(
-                              'Size',
+                              'Size'.tr,
                               style: TextStyle(
                                   color: AppTheme.userText,
                                   fontSize: AddSize.font14),
@@ -1548,8 +1541,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                   onChanged: (value) {
                     repetedData[index].price.value = value;
                   },
-                  hint: "Price",
-                  lableText: "Price",
+                  hint: "Price".tr,
+                  lableText: "Price".tr,
                   controller: priceCon,
                   keyboardType: TextInputType.number,
                   validator: MultiValidator(
@@ -1568,8 +1561,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                    hint: "Min Qty",
-                    lableText: "Min Qty",
+                    hint: "Min Qty".tr,
+                    lableText: "Min Qty".tr,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       repetedData[index].minQty.value = value;
@@ -1592,8 +1585,8 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               ),
               Expanded(
                 child: RegistrationTextField1(
-                    hint: "Max Qty",
-                    lableText: "Max Qty",
+                    hint: "Max Qty".tr,
+                    lableText: "Max Qty".tr,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       repetedData[index].maxQty.value = value;

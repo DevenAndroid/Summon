@@ -12,6 +12,7 @@ import '../controller/MyAddress_controller.dart';
 import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
+import 'Language_Change_Screen.dart';
 import 'Update_Address_Screen.dart';
 
 class MyAddress extends StatefulWidget {
@@ -103,23 +104,23 @@ class _MyAddressState extends State<MyAddress> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Color(0xffF9F9F9),
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
-            leadingWidth: AddSize.size20 * 1.6,
+            leadingWidth: AddSize.size20 * 2,
             backgroundColor: Color(0xffF9F9F9),
             title: Text(
-              "My Address",
+              "My Address".tr,
               style: Theme.of(context).textTheme.headline6!.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
                   color: AppTheme.blackcolor),
             ),
             leading: Padding(
-              padding: EdgeInsets.only(right: AddSize.padding10),
+              padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                   onTap: () {
                     Get.back();
@@ -127,7 +128,7 @@ class _MyAddressState extends State<MyAddress> {
                   },
                   child: Image.asset(
                     AppAssets.back,
-                    height: AddSize.size20, opacity: AlwaysStoppedAnimation(.80),
+                    height: AddSize.size20,
                   )),
             ),
           ),
@@ -293,7 +294,7 @@ class _MyAddressState extends State<MyAddress> {
                       fontSize: 20,
                       fontWeight: FontWeight.w600)),
               child: Text(
-                "ADD NEW",
+                "ADD NEW".tr,
                 style: Theme.of(context)
                     .textTheme
                     .headline5!

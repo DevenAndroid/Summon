@@ -14,7 +14,7 @@ class AssignedOrderController extends GetxController {
 
   getData() async {
     isDataLoading.value = false;
-    assignedOrderListRepo(status: status.value).then((value) {
+    assignedOrderListRepo().then((value) {
       isDataLoading.value = true;
       model.value = value;
     });

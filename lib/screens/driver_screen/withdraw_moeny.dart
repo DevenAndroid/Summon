@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import '../../controller/main_home_controller.dart';
 import '../../controller/withdrawalList_Controller.dart';
 import '../../repositories/Withdrawal_Request_Repo.dart';
-import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
-import '../vendor_screen/bank_details.dart';
+import '../Language_Change_Screen.dart';
 
 class DriverWithdrawMoney extends StatefulWidget {
   const DriverWithdrawMoney({Key? key}) : super(key: key);
@@ -37,9 +36,9 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Withdrawal money", context: context),
+          appBar: backAppBar(title: "Withdrawal money".tr, context: context),
           body: withdrawalListController.isDataLoading.value
               ? SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
@@ -69,7 +68,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "My Balance",
+                                          "My Balance".tr,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!
@@ -176,7 +175,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                                   fontSize: AddSize.font20,
                                                   fontWeight: FontWeight.w500)),
                                           child: Text(
-                                            "Withdrawal".toUpperCase(),
+                                            "Withdrawal".tr.toUpperCase(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headline5!
@@ -206,7 +205,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        "Amount",
+                                        "Amount".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -217,7 +216,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                                 color: AppTheme.primaryColor),
                                       ),
                                       Text(
-                                        "Date",
+                                        "Date".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -228,7 +227,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                                 color: AppTheme.primaryColor),
                                       ),
                                       Text(
-                                        "Status",
+                                        "Status".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -388,7 +387,7 @@ class _DriverWithdrawMoneyState extends State<DriverWithdrawMoney> {
                                   ):Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: AddSize.padding20 * 3,vertical: AddSize.padding20),
-                                    child: Text("Request not Available",
+                                    child: Text("Request not Available".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!

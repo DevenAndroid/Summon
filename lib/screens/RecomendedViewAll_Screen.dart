@@ -9,6 +9,7 @@ import '../controller/single_store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 
 class ViewAllRecommendedPage extends StatefulWidget {
   const ViewAllRecommendedPage({Key? key}) : super(key: key);
@@ -40,9 +41,9 @@ class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
         .width;
     return
       Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale == Locale('en','US') ? TextDirection.ltr:TextDirection.rtl,
         child: Scaffold(
-            appBar: backAppBar(title: "Recommended Products", context: context),
+            appBar: backAppBar(title: "Recommended Products".tr, context: context),
             body: Obx(() {
               return viewAllRecommendedController.isDataLoading.value ? SingleChildScrollView(
                 child: Padding(

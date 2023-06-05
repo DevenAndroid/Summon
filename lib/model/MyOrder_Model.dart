@@ -351,7 +351,7 @@ class Driver {
   dynamic featuredStore;
   dynamic emailVerifiedAt;
   int? status;
-  int? isProfileComplete;
+  bool? isProfileComplete;
   dynamic createdAt;
   dynamic updatedAt;
   dynamic deletedAt;

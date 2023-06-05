@@ -10,6 +10,7 @@ import '../../repositories/Vendor_AddBankDetails_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 
 class DriverBankDetails extends StatefulWidget {
   const DriverBankDetails({Key? key}) : super(key: key);
@@ -53,9 +54,9 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-        appBar: backAppBar(title: "Bank Details ", context: context),
+        appBar: backAppBar(title: "Bank Details".tr, context: context),
         body: Obx(() {
           if (driverBankDetailsController.isDataLoading.value &&
               driverBankDetailsController.bankDetailsModel.value.data != null) {
@@ -128,7 +129,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                               ),
                               isExpanded: true,
                               hint: Text(
-                                'Select account',
+                                'Select account'.tr,
                                 style: TextStyle(
                                     color: AppTheme.userText,
                                     fontSize: AddSize.font14),
@@ -160,7 +161,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             RegistrationTextField(
                               controller:
                                   driverBankDetailsController.bankAccountNumber,
-                              hint: "Bank Account Number",
+                              hint: "Bank Account Number".tr,
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: "Please enter bank account number")
@@ -172,7 +173,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             RegistrationTextField(
                               controller:
                                   driverBankDetailsController.accountHolderName,
-                              hint: "Account Holder Name",
+                              hint: "Account Holder Name".tr,
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: "Please enter account holder name")
@@ -183,7 +184,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                             ),
                             RegistrationTextField(
                               controller: driverBankDetailsController.iFSCCode,
-                              hint: "IFSC Code",
+                              hint: "IFSC Code".tr,
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: "Please enter IFSC code")
@@ -213,7 +214,7 @@ class _DriverBankDetailsState extends State<DriverBankDetails> {
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
                                 child: Text(
-                                  "Add Account".toUpperCase(),
+                                  "Add Account".tr.toUpperCase(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!

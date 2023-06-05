@@ -11,6 +11,7 @@ import '../../repositories/Vendor_AddBankDetails_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 
 class BankDetailsScreen extends StatefulWidget {
   const BankDetailsScreen({Key? key}) : super(key: key);
@@ -24,9 +25,6 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   final vendorBankDetailsController = Get.put(VendorBankDetailsController());
   final vendorBankListController = Get.put(VendorBankListController());
 
-  // final TextEditingController bankAccountNumber = TextEditingController();
-  // final TextEditingController accountHolderName = TextEditingController();
-  // final TextEditingController iFSCCode = TextEditingController();
   RxString selectedCAt = "".obs;
   final _formKey = GlobalKey<FormState>();
 
@@ -59,9 +57,9 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-        appBar: backAppBar(title: "Bank Details", context: context),
+        appBar: backAppBar(title: "Bank Details".tr, context: context),
         body: Obx(() {
           if (vendorBankDetailsController.isDataLoading.value &&
               vendorBankDetailsController.bankDetailsModel.value.data != null) {
@@ -148,7 +146,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                       ),
                                       isExpanded: true,
                                       hint: Text(
-                                        'Select account',
+                                        'Select account'.tr,
                                         style: TextStyle(
                                             color: AppTheme.userText,
                                             fontSize: AddSize.font14),
@@ -181,7 +179,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                     RegistrationTextField(
                                       controller: vendorBankDetailsController
                                           .bankAccountNumber,
-                                      hint: "Bank Account Number",
+                                      hint: "Bank Account Number".tr,
                                       validator: MultiValidator([
                                         RequiredValidator(
                                             errorText:
@@ -194,7 +192,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                     RegistrationTextField(
                                       controller: vendorBankDetailsController
                                           .accountHolderName,
-                                      hint: "Account Holder Name",
+                                      hint: "Account Holder Name".tr,
                                       validator: MultiValidator([
                                         RequiredValidator(
                                             errorText:
@@ -207,7 +205,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                     RegistrationTextField(
                                       controller:
                                           vendorBankDetailsController.iFSCCode,
-                                      hint: "IFSC Code",
+                                      hint: "IFSC Code".tr,
                                       validator: MultiValidator([
                                         RequiredValidator(
                                             errorText: "Please enter IFSC code")
@@ -244,7 +242,7 @@ class _BankDetailsScreenState extends State<BankDetailsScreen> {
                                                   BorderRadius.circular(10)),
                                         ),
                                         child: Text(
-                                          "Add Account".toUpperCase(),
+                                          "Add Account".tr.toUpperCase(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!

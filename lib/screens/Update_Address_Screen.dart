@@ -23,6 +23,7 @@ import 'package:geolocator/geolocator.dart';
 
 import '../repositories/Edit_Address_REpo.dart';
 import '../widgets/registration_form_textField.dart';
+import 'Language_Change_Screen.dart';
 import 'my_address.dart';
 
 class UpdateAddressScreen extends StatefulWidget {
@@ -91,7 +92,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      setState(() => _currentPosition = position);
+      // setState(() => _currentPosition = position);
       _getAddressFromLatLng(_currentPosition!);
       mapController?.animateCamera(CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -146,9 +147,6 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
 
       }
     });
-    // if (Get.arguments != null) {
-    //   // addressModel.value = Get.arguments[0];
-    // }
   }
 
   String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
@@ -204,11 +202,11 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         return true;
       },
       child: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
             backgroundColor: Color(0xffF9F9F9),
             appBar: backAppBar(
-                title: "Update Address",
+                title: "Update Address".tr,
                 context: context,
                 dispose: "dispose",
                 disposeController: () {
@@ -230,7 +228,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                           height: 9,
                         ),
                         RegistrationTextField1(
-                          hint: "Name",
+                          hint: "Name".tr,
                           controller: getSaveAddressController.nameController,
                           keyboardType: TextInputType.name,
                           validator: MultiValidator([
@@ -244,7 +242,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                           height: 9,
                         ),
                         RegistrationTextField1(
-                          hint: "Phone",
+                          hint: "Phone".tr,
                           controller: getSaveAddressController.phoneController,
                           keyboardType: TextInputType.number,
                           length: 10,
@@ -258,7 +256,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                           height: 9,
                         ),
                         RegistrationTextField1(
-                          hint: "Note",
+                          hint: "Note".tr,
                           controller: getSaveAddressController.noteController,
                           validator: MultiValidator([
                             RequiredValidator(
@@ -288,7 +286,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                                 }),
                             Expanded(
                                 child: Text(
-                                  "Leave orders at the door",
+                                  "Leave orders at the door".tr,
                                   style: GoogleFonts.ibmPlexSansArabic(
                                       color: Color(0xffACACB7),
                                       fontSize: AddSize.font14,
@@ -387,7 +385,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                           height: 20,
                         ),
                         Text(
-                          "Choose Location",
+                          "Choose Location".tr,
                           style: GoogleFonts
                               .ibmPlexSansArabic(
                               fontSize: 16,
@@ -475,7 +473,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             child: Text(
-                              "Update",
+                              "Update".tr,
                               style: Theme
                                   .of(context)
                                   .textTheme

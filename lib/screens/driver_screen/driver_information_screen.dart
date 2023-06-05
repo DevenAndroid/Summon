@@ -7,11 +7,10 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../../controller/driver_information_controller.dart';
 import '../../repositories/driver_imformation_repo.dart';
-import '../../repositories/vendor_registration_repo.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/registration_form_textField.dart';
-import '../vendor_screen/thank_you.dart';
+import '../Language_Change_Screen.dart';
 
 class DriverInformation extends StatefulWidget {
   const DriverInformation({Key? key}) : super(key: key);
@@ -35,9 +34,9 @@ class _DriverInformationState extends State<DriverInformation> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "Driver Information", context: context),
+          appBar: backAppBar(title: "Driver Information".tr, context: context),
           body: Obx(() {
             if (controller.isDataLoading.value &&
                 controller.model.value.data != null) {
@@ -94,7 +93,7 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.size12,
                                     ),
                                     Text(
-                                      "Vehicle Details",
+                                      "Vehicle Details".tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -172,7 +171,7 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.size12,
                                     ),
                                     Text(
-                                      "License plate",
+                                      "License plate".tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -271,7 +270,7 @@ class _DriverInformationState extends State<DriverInformation> {
                                       height: AddSize.padding12,
                                     ),
                                     Text(
-                                      "Upload Driver Licence",
+                                      "Upload Driver Licence".tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -520,7 +519,7 @@ class _DriverInformationState extends State<DriverInformation> {
                                                   BorderRadius.circular(10)),
                                         ),
                                         child: Text(
-                                          "APPLY",
+                                          "APPLY".tr,
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline5!

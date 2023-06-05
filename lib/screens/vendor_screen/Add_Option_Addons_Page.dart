@@ -5,13 +5,12 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../controller/Addons_Controller.dart';
 import '../../controller/vendorAddProductController.dart';
-import '../../model/ListDataModel.dart';
 import '../../model/VendorAddProduct_Model.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../widgets/registration_form_textField.dart';
+import '../Language_Change_Screen.dart';
 
 class AddOptionScreen extends StatefulWidget {
   const AddOptionScreen({Key? key}) : super(key: key);
@@ -62,23 +61,24 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Color(0xffF5F5F5),
         appBar: AppBar(
           toolbarHeight: 60,
           elevation: 0,
-          leadingWidth: AddSize.size20 * 1.6,
+          leadingWidth: AddSize.size20 * 2,
           backgroundColor: Color(0xffF5F5F5),
           title: Text(
-            "Add Options",
+            "Add Options".tr,
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 fontWeight: FontWeight.w500,
                 fontSize: 20,
                 color: AppTheme.blackcolor),
           ),
+
           leading: Padding(
-            padding: EdgeInsets.only(right: AddSize.padding10),
+            padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
                 onTap: () {
                   Get.back();
@@ -112,7 +112,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     contentPadding: EdgeInsets.symmetric(
                         horizontal: width * .05, vertical: height * .03),
-                    hintText: 'Title',
+                    hintText: 'Title'.tr,
                     hintStyle: GoogleFonts.ibmPlexSansArabic(
                         fontSize: 16,
                         color: Color(0xffACACB7),
@@ -137,7 +137,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                           });
                         }),
                     Text(
-                      "100Cal+",
+                      "100Cal+".tr,
                       style: GoogleFonts.ibmPlexSansArabic(
                           color: Color(0xff909090),
                           fontSize: AddSize.font14,
@@ -145,7 +145,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                     ),
                     Expanded(
                         child: Text(
-                      "Multi-select (optional item)",
+                      "Multi-select (optional item)".tr,
                       style: GoogleFonts.ibmPlexSansArabic(
                           color: Color(0xff000000),
                           fontSize: AddSize.font14,
@@ -168,7 +168,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Choice of Add On",
+                              "Choice of Add On".tr,
                               style: GoogleFonts.ibmPlexSansArabic(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
@@ -284,7 +284,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                     borderRadius: BorderRadius.circular(10)),
               ),
               child: Text(
-                "SAVE",
+                "SAVE".tr,
                 style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     color: AppTheme.backgroundcolor,
                     fontWeight: FontWeight.w600,
@@ -315,8 +315,8 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Name",
-                  lableText: "Name",
+                  hint: "Name".tr,
+                  lableText: "Name".tr,
                   onChanged: (value) {
                     tempList[index].name = value;
                   },
@@ -334,14 +334,14 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
             children: [
               Expanded(
                 child: RegistrationTextField1(
-                  hint: "Calories",
-                  lableText: "Calories",
+                  hint: "Calories".tr,
+                  lableText: "Calories".tr,
                   onChanged: (value) {
                     tempList[index].calories = value;
                   },
                   controller: cal,
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: "Please enter price")]),
+                      [RequiredValidator(errorText: "Please enter calories")]),
                 ),
               ),
               SizedBox(
@@ -353,8 +353,8 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                     log(value);
                     tempList[index].price = value.toString();
                   },
-                  hint: "Price",
-                  lableText: "Price",
+                  hint: "Price".tr,
+                  lableText: "Price".tr,
                   // keyboardType: TextInputType.number,
                   controller: price,
                   validator: MultiValidator(

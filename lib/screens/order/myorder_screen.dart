@@ -1,10 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/MyOrder_Details_Controller.dart';
-import 'package:fresh2_arrive/routers/my_router.dart';
-import 'package:fresh2_arrive/screens/my_cart_screen.dart';
 import 'package:fresh2_arrive/screens/order/orderDetails.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
@@ -16,6 +13,7 @@ import '../../model/time_model.dart';
 import '../../repositories/MyOrders_Repo.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
+import '../Language_Change_Screen.dart';
 import '../MyCart_Page.dart';
 
 class MyOrderScreen extends StatefulWidget {
@@ -80,10 +78,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          //backgroundColor: Colors.transparent,
-          appBar: backAppBar(title: "My Orders", context: context),
+
+          appBar: backAppBar(title: "My Orders".tr, context: context),
           body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
@@ -101,6 +99,17 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 const Spacer(flex: 2),
+                                Flexible(
+                                  child: IconButton(
+                                      onPressed: () {
+                                        myOrderController.getMyOrder();
+                                      },
+                                      icon: ImageIcon(
+                                        const AssetImage(AppAssets.filterImage),
+                                        color: AppTheme.primaryColor,
+                                        size: AddSize.size30,
+                                      )),
+                                ),
                                 Expanded(
                                   flex: 4,
                                   child: Container(
@@ -210,17 +219,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                     ),
                                   ),
                                 ),
-                                Flexible(
-                                  child: IconButton(
-                                      onPressed: () {
-                                        myOrderController.getMyOrder();
-                                      },
-                                      icon: ImageIcon(
-                                        const AssetImage(AppAssets.filterImage),
-                                        color: AppTheme.primaryColor,
-                                        size: AddSize.size30,
-                                      )),
-                                )
+
                               ],
                             ),
                             SizedBox(height: AddSize.size10,),
@@ -592,7 +591,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                         child: Padding(
                                             padding: EdgeInsets.only(top: AddSize.size200),
                                             child: Text(
-                                              "Order Not Available",
+                                              "Order Not Available".tr,
                                               style: TextStyle(
                                                   fontSize: AddSize.font16,
                                                   color: AppTheme.blackcolor,
@@ -601,7 +600,9 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                 :  Center(
                                     child: Padding(
                                       padding: EdgeInsets.only(top: AddSize.size100),
-                                      child: const CircularProgressIndicator(),
+                                      child: const CircularProgressIndicator(
+                                        color: AppTheme.primaryColor,
+                                      ),
                                     )),
                             SizedBox(
                               height: height * .05,

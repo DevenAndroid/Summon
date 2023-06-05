@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
+import 'OrderTracking_Screen.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key}) : super(key: key);
@@ -174,8 +175,15 @@ class _OrderDetailsState extends State<OrderDetails>
                                                           .value
                                                           .data!
                                                           .orderItems![index]
-                                                          .note
-                                                          .toString()
+                                                          .variantSize
+                                                          .toString(),
+                                                        myOrderDetailsController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .orderItems![index]
+                                                            .note
+                                                            .toString()
                                                     ),
                                                     SizedBox(
                                                       height: height * .005,
@@ -228,54 +236,6 @@ class _OrderDetailsState extends State<OrderDetails>
                               SizedBox(
                                 height: 2,
                               ),
-                              // Card(
-                              //     elevation: 0,
-                              //     shape: RoundedRectangleBorder(
-                              //         borderRadius: BorderRadius.circular(30)),
-                              //     child: Padding(
-                              //       padding: EdgeInsets.symmetric(
-                              //           horizontal: width * 0.02,
-                              //           vertical: height * .005),
-                              //       child: TabBar(
-                              //         physics: const BouncingScrollPhysics(),
-                              //         unselectedLabelColor: AppTheme.blackcolor,
-                              //         labelColor: AppTheme.backgroundcolor,
-                              //         tabs: const [
-                              //           Tab(
-                              //             child: Text(
-                              //               "Driver  Detail",
-                              //               textAlign: TextAlign.center,
-                              //               style: TextStyle(
-                              //                   fontSize: 16,
-                              //                   fontWeight: FontWeight.w500),
-                              //             ),
-                              //           ),
-                              //           Tab(
-                              //             child: Text(
-                              //               "Store Information",
-                              //               textAlign: TextAlign.center,
-                              //               style: TextStyle(
-                              //                   fontSize: 16,
-                              //                   fontWeight: FontWeight.w500),
-                              //             ),
-                              //           )
-                              //         ],
-                              //         labelStyle: const TextStyle(
-                              //             color: AppTheme.blackcolor,
-                              //             fontSize: 16,
-                              //             fontWeight: FontWeight.w500),
-                              //         unselectedLabelStyle: const TextStyle(
-                              //             color: AppTheme.blackcolor,
-                              //             fontSize: 16,
-                              //             fontWeight: FontWeight.w500),
-                              //         controller: tabController,
-                              //         indicatorSize: TabBarIndicatorSize.tab,
-                              //         indicator: BoxDecoration(
-                              //           borderRadius: BorderRadius.circular(50),
-                              //           color: AppTheme.primaryColor,
-                              //         ),
-                              //       ),
-                              //
 
 
                             ],
@@ -392,35 +352,11 @@ class _OrderDetailsState extends State<OrderDetails>
                                                     fontWeight: FontWeight.w700),
                                               ),
 
-                                              // Text(
-                                              //   (myOrderDetailsController.model
-                                              //       .value.data!.driver.name??"")
-                                              //       .toString(),
-                                              //   style: Theme.of(context)
-                                              //       .textTheme
-                                              //       .headline5!
-                                              //       .copyWith(
-                                              //           fontWeight:
-                                              //               FontWeight.w500,
-                                              //           fontSize: AddSize.font16),
-                                              // ),
-                                              // Text(
-                                              //   (myOrderDetailsController.model
-                                              //       .value.data!.driver.phone??"")
-                                              //       .toString(),
-                                              //   style: Theme.of(context)
-                                              //       .textTheme
-                                              //       .headline5!
-                                              //       .copyWith(
-                                              //       fontWeight:
-                                              //       FontWeight.w500,
-                                              //       fontSize: AddSize.font16),
-                                              // ),
                                             ],
                                           ),
                                           GestureDetector(
                                               onTap: (){
-                                                openMap(double.parse(myOrderDetailsController.model.value.data!.address!.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.toString()));
+                                                openMap(double.parse(myOrderDetailsController.model.value.data!.address!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.address!.longitude.toString()));
                                               },
                                               child: Image(
                                                 height: 50,
@@ -437,213 +373,6 @@ class _OrderDetailsState extends State<OrderDetails>
                           ],
                         ),
                       ),
-                      // Card(
-                      //     shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(10)),
-                      //     elevation: 0,
-                      //     child: Padding(
-                      //       padding: EdgeInsets.symmetric(
-                      //           horizontal: AddSize.padding15,
-                      //           vertical: AddSize.padding15),
-                      //       child: Column(
-                      //         children: [
-                      //             ...[
-                      //               Row(
-                      //                 mainAxisAlignment:
-                      //                 MainAxisAlignment
-                      //                     .spaceBetween,
-                      //                 children: [
-                      //                   Row(children: [
-                      //                     Column(
-                      //                       crossAxisAlignment:
-                      //                       CrossAxisAlignment
-                      //                           .start,
-                      //                       children: [
-                      //                         Text(
-                      //                           "Diver Name",
-                      //                           style: Theme.of(context)
-                      //                               .textTheme
-                      //                               .headline5!
-                      //                               .copyWith(
-                      //                               color: AppTheme
-                      //                                   .lightblack,
-                      //                               fontWeight:
-                      //                               FontWeight
-                      //                                   .w400,
-                      //                               fontSize: AddSize
-                      //                                   .font14),
-                      //                         ),
-                      //                         Text(
-                      //                           (myOrderDetailsController.model.value.data!.driver!.name ?? "").toString(),
-                      //                           style: Theme.of(context)
-                      //                               .textTheme
-                      //                               .headline5!
-                      //                               .copyWith(
-                      //                               height: 1.5,
-                      //                               fontWeight:
-                      //                               FontWeight
-                      //                                   .w500,
-                      //                               fontSize: AddSize
-                      //                                   .font16),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ]),
-                      //                   Container(
-                      //                     height: AddSize.size45,
-                      //                     width: AddSize.size45,
-                      //                     decoration:
-                      //                     const ShapeDecoration(
-                      //                         color: Colors.orange,
-                      //                         shape:
-                      //                         CircleBorder()),
-                      //                     child: const Center(
-                      //                         child: Icon(
-                      //                           Icons.person_rounded,
-                      //                           color: AppTheme
-                      //                               .backgroundcolor,
-                      //                         )),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //               const Divider(),
-                      //               Row(
-                      //                 mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Row(children: [
-                      //                     Column(
-                      //                       crossAxisAlignment:
-                      //                       CrossAxisAlignment.start,
-                      //                       children: [
-                      //                         Text(
-                      //                           "Driver Number",
-                      //                           style: Theme.of(context)
-                      //                               .textTheme
-                      //                               .headline5!
-                      //                               .copyWith(
-                      //                               color: AppTheme
-                      //                                   .lightblack,
-                      //                               fontWeight:
-                      //                               FontWeight.w400,
-                      //                               fontSize:
-                      //                               AddSize.font14),
-                      //                         ),
-                      //                         Text(
-                      //                           (myOrderDetailsController.model.value.data!.driver!.phone ?? "").toString(),
-                      //                           style: Theme.of(context)
-                      //                               .textTheme
-                      //                               .headline5!
-                      //                               .copyWith(
-                      //                               height: 1.5,
-                      //                               fontWeight:
-                      //                               FontWeight.w500,
-                      //                               fontSize:
-                      //                               AddSize.font16),
-                      //                         ),
-                      //                       ],
-                      //                     ),
-                      //                   ]),
-                      //                   GestureDetector(
-                      //                     onTap: (){
-                      //                       _makingPhoneCall("tel:+91${myOrderDetailsController.model.value.data!.driver!.phone ?? ""}".toString());
-                      //                        },
-                      //                     child: Container(
-                      //                         height: AddSize.size45,
-                      //                         width: AddSize.size45,
-                      //                         decoration: const ShapeDecoration(
-                      //                             color: AppTheme.primaryColor,
-                      //                             shape: CircleBorder()),
-                      //                         child: const Center(
-                      //                             child: Icon(
-                      //                               Icons.phone,
-                      //                               color: AppTheme.backgroundcolor,
-                      //                             ))),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //               const Divider(),
-                      //               Row(
-                      //                 mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //                 children: [
-                      //                   Expanded(
-                      //                     child: Row(children: [
-                      //                       Expanded(
-                      //                         child: Column(
-                      //                           crossAxisAlignment:
-                      //                           CrossAxisAlignment.start,
-                      //                           children: [
-                      //                             Text(
-                      //                               "Delivery Address",
-                      //                               style: Theme.of(context)
-                      //                                   .textTheme
-                      //                                   .headline5!
-                      //                                   .copyWith(
-                      //                                   color: AppTheme
-                      //                                       .lightblack,
-                      //                                   fontWeight:
-                      //                                   FontWeight
-                      //                                       .w400,
-                      //                                   fontSize: AddSize
-                      //                                       .font14),
-                      //                             ),
-                      //                             Row(
-                      //                               children: [
-                      //                                 Expanded(
-                      //                                   child: Text(
-                      //                                     (myOrderDetailsController.model.value.data!.driver!.location ?? "").toString(),
-                      //                                     maxLines: 2,
-                      //                                     style: Theme.of(
-                      //                                         context)
-                      //                                         .textTheme
-                      //                                         .headline5!
-                      //                                         .copyWith(
-                      //                                         height: 1.5,
-                      //                                         fontWeight:
-                      //                                         FontWeight
-                      //                                             .w500,
-                      //                                         overflow: TextOverflow.ellipsis,
-                      //                                         fontSize: AddSize
-                      //                                             .font16),
-                      //                                   ),
-                      //                                 ),
-                      //                                 const SizedBox(
-                      //                                   width: 5,
-                      //                                 ),
-                      //                               ],
-                      //                             ),
-                      //                             const SizedBox(
-                      //                               width: 5,
-                      //                             ),
-                      //                           ],
-                      //                         ),
-                      //                       ),
-                      //                     ]),
-                      //                   ),
-                      //                   GestureDetector(
-                      //                     onTap: (){
-                      //                       openMap(double.parse(myOrderDetailsController.model.value.data!.driver!.latitude.toString()),double.parse(myOrderDetailsController.model.value.data!.driver!.longitude.toString()));
-                      //                     },
-                      //                     child: Container(
-                      //                       height: AddSize.size45,
-                      //                       width: AddSize.size45,
-                      //                       decoration: const ShapeDecoration(
-                      //                           color: AppTheme.lightYellow,
-                      //                           shape: CircleBorder()),
-                      //                       child: const Center(
-                      //                           child: Icon(
-                      //                             Icons.location_on,
-                      //                             color: AppTheme.backgroundcolor,
-                      //                           )),
-                      //                     ),
-                      //                   ),
-                      //                 ],
-                      //               ),
-                      //             ]
-                      //         ],
-                      //       ),
-                      //     )),
                       paymentDetails(
                         subTotal: myOrderDetailsController
                             .model.value.data!.itemTotal
@@ -669,7 +398,7 @@ class _OrderDetailsState extends State<OrderDetails>
             padding: const EdgeInsets.all(8.0),
             child:  myOrderDetailsController.model.value.data?.orderType != "Pickup" ?ElevatedButton(
                 onPressed: () async {
-
+                    Get.toNamed(OrderTrackingScreen.orderTrackingScreen);
                 },
                 style: ElevatedButton.styleFrom(
                     primary: AppTheme.primaryColor,
@@ -689,7 +418,7 @@ class _OrderDetailsState extends State<OrderDetails>
     });
   }
 
-  orderList(name, price, qty,note) {
+  orderList(name, price, qty,variantSize,note) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Row(
@@ -717,7 +446,13 @@ class _OrderDetailsState extends State<OrderDetails>
                 ),
               ],
             ),
-
+            Text(
+              variantSize,
+              style: GoogleFonts.ibmPlexSansArabic(
+                  fontSize: AddSize.font14,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w700),
+            ),
             Text(
               note,
               style: GoogleFonts.ibmPlexSansArabic(

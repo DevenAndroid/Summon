@@ -59,17 +59,17 @@ dependencies:
   flutter_google_places_hoc081098:
   google_api_headers:
   google_maps_webservice:
-  sliding_up_panel:
+#  sliding_up_panel:
   flutter_map:
   connectivity_plus:
   flutter_switch:
   dropdown_search:
   dots_indicator:
-  shimmer:
+#  shimmer:
   intl: any
   share_plus:
   client_information:
-  razorpay_flutter:
+#  razorpay_flutter:
   url_launcher:
   flutter_html: ^2.2.1
 #  dropdown_formfield: ^0.1.4

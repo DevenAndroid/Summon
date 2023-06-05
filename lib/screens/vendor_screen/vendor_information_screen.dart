@@ -17,6 +17,7 @@ import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../resources/showDialog.dart';
 import '../../widgets/registration_form_textField.dart';
+import '../Language_Change_Screen.dart';
 import 'add_address_screen.dart';
 
 class VendorInformation extends StatefulWidget {
@@ -86,9 +87,9 @@ class _VendorInformationState extends State<VendorInformation> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-        appBar: backAppBar(title: "Vendor Information", context: context),
+        appBar: backAppBar(title: "Vendor Information".tr, context: context),
         body: Obx(() {
           return vendorInformationController.isDataLoading.value
               ? SingleChildScrollView(
@@ -170,7 +171,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                     height: AddSize.size12,
                                   ),
                                   Text(
-                                    "Store Logo",
+                                    "Store Logo".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6!
@@ -271,7 +272,7 @@ class _VendorInformationState extends State<VendorInformation> {
 
 
                                   Text(
-                                    "Business ID",
+                                    "Business ID".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6!
@@ -371,7 +372,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                     height: AddSize.padding12,
                                   ),
                                   Text(
-                                    "Location",
+                                    "Location".tr,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline6!
@@ -448,20 +449,6 @@ class _VendorInformationState extends State<VendorInformation> {
                                             }
                                           });
                                         }
-                                        // else {
-                                        //   showValidation.value = true;
-                                        //   if (vendorInformationController
-                                        //       .storeName.text
-                                        //       .trim()
-                                        //       .isEmpty) {
-                                        //     scrollNavigation(0);
-                                        //   } else if (vendorInformationController
-                                        //       .locationController.text
-                                        //       .trim()
-                                        //       .isEmpty) {
-                                        //     scrollNavigation(10);
-                                        //   }
-                                        // }
                                       },
                                       style: ElevatedButton.styleFrom(
                                         minimumSize:
@@ -473,7 +460,7 @@ class _VendorInformationState extends State<VendorInformation> {
                                                 BorderRadius.circular(10)),
                                       ),
                                       child: Text(
-                                        "APPLY",
+                                        "APPLY".tr,
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline5!
@@ -494,7 +481,9 @@ class _VendorInformationState extends State<VendorInformation> {
                     ),
                   ),
                 )
-              : const Center(child: CircularProgressIndicator());
+              : const Center(child: CircularProgressIndicator(
+            color: AppTheme.primaryColor,
+          ));
         }),
       ),
     );

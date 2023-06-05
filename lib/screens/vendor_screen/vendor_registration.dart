@@ -7,11 +7,8 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/controller/vendor_category_controller.dart';
-import 'package:fresh2_arrive/model/time_model.dart';
-import 'package:fresh2_arrive/repositories/vendor_categories_repo.dart';
 import 'package:fresh2_arrive/repositories/vendor_registration_repo.dart';
 import 'package:fresh2_arrive/resources/helper.dart';
 import 'package:fresh2_arrive/resources/new_helper.dart';
@@ -22,21 +19,17 @@ import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/MyAddress_controller.dart';
 import '../../controller/address_controller.dart';
-import '../../model/MyAddressModel.dart';
-import '../../model/vendor_category_model.dart';
 import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/showDialog.dart';
-import '../../widgets/editprofile_textfield.dart';
 import '../../widgets/registration_form_textField.dart';
 import '';
+import '../Language_Change_Screen.dart';
 
 class VendorRegistrationForm extends StatefulWidget  {
   const VendorRegistrationForm({Key? key}) : super(key: key);
@@ -618,108 +611,17 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   }*/
 
   final vendorCategoryController = Get.put(VendorCategoryController());
- // bool _value = false;
-
-  /*List checkListItems = [
-    {
-      "id": 0,
-      "value": false,
-      "title": "Sunday",
-    },
-    {
-      "id": 1,
-      "value": false,
-      "title": "Monday",
-    },
-    {
-      "id": 2,
-      "value": false,
-      "title": "Tuesday",
-    },
-    {
-      "id": 3,
-      "value": false,
-      "title": "Wednesday",
-    },
-    {
-      "id": 4,
-      "value": false,
-      "title": "Thursday",
-    },
-    {
-      "id": 5,
-      "value": false,
-      "title": "Friday",
-    },
-    {
-      "id": 6,
-      "value": false,
-      "title": "Saturday",
-    },
-  ];*/
-  //maps
-  /*Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kGoogle = CameraPosition(
-    target: LatLng(19.0759837, 72.8776559),
-    zoom: 15,
-  );
-  Uint8List? marketimages;
-  List<String> images = ['images/car.png','images/bus.png', 'images/travelling.png', 'images/bycicle.png', 'images/food-delivery.png'];
-  final List<Marker> _markers = <Marker>[];
-  final List<LatLng> _latLen = <LatLng>[
-
-    LatLng(19.0759837, 72.8776559),
-    LatLng(28.679079, 77.069710),
-    LatLng(26.850000, 80.949997),
-    LatLng(24.879999, 74.629997),
-    LatLng(16.166700, 74.833298),
-    LatLng(12.971599, 77.594563),
-  ];*/
-
-  /*Future<Uint8List> getImages(String path, int width) async{
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetHeight: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return(await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
-
-  }*/
-  /*loadData() async{
-    for(int i=0 ;i<images.length; i++){
-      final Uint8List markIcons = await getImages(images[i], 100);
-      // makers added according to index
-      _markers.add(
-          Marker(
-            // given marker id
-            markerId: MarkerId(i.toString()),
-            // given marker icon
-            icon: BitmapDescriptor.fromBytes(markIcons),
-            // given position
-            position: _latLen[i],
-            infoWindow: InfoWindow(
-              // given title for marker
-              title: 'Location: '+i.toString(),
-            ),
-          )
-      );
-      setState(() {
-      });
-    }
-  }*/
 
   @override
   void initState() {
     super.initState();
-    //getCategory();
     _getCurrentPosition();
-//    loadData();
   }
   final TextEditingController storeName = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController businessIdController = TextEditingController();
 
- // final TextEditingController categoryController = TextEditingController();
 
- // Rx<File> image = File("").obs;
   Rx<File> image1 = File("").obs;
   Rx<File> image2 = File("").obs;
   Rx<File> image3 = File("").obs;
@@ -728,25 +630,6 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
   //String? _address = "";
   bool? _isValue1 = false;
   bool? _isValue2 = false;
- // final _formKey = GlobalKey<FormState>();
-  /*RxBool showValidation = false.obs;
-  bool checkValidation(bool bool1, bool2) {
-    if (bool1 == true && bool2 == true) {
-      return true;
-    } else {
-      return false;
-    }
-  }*/
- /* Rx<CategoriesModel> model = CategoriesModel().obs;
-  RxBool isDataLoaded = false.obs;*/
-/*getCategory(){
-  vendorCategoryRepo().then((value1) {
-    model.value = value1;
-    if(value1.status == true){
-      isDataLoaded.value = true;
-    }
-  });
-}*/
 
   //String googleApikey = "AIzaSyDDl-_JOy_bj4MyQhYbKbGkZ0sfpbTZDNU";
   ScrollController _scrollController = ScrollController();
@@ -761,9 +644,9 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
     var height=MediaQuery.of(context).size.height;
     var width=MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-        appBar: backAppBar(title: "Vendor Registration", context: context),
+        appBar: backAppBar(title: "Vendor Registration".tr, context: context),
         body:
 
             SingleChildScrollView(
@@ -788,7 +671,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                           children: [
                             RegistrationTextField(
                                 controller: storeName,
-                                hint: "Store Name",
+                                hint: "Store Name".tr,
                                 validator: MultiValidator([
                                   RequiredValidator(
                                       errorText: 'Store name is required')
@@ -798,7 +681,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             ),
                             RegistrationTextField(
                               controller: phoneController,
-                              hint: "Phone number",
+                              hint: "Phone number".tr,
                               length: 10,
                               keyboardType: TextInputType.number,
                               validator: (value) {
@@ -813,7 +696,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             ),
                             RegistrationTextField(
                               controller: businessIdController,
-                              hint: "Business ID (number)",
+                              hint: "Business ID (number)".tr,
                               length: 12,
                               keyboardType: TextInputType.number,
                               validator: (value) {
@@ -827,91 +710,13 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size12,
                             ),
 
-                            /*InkWell(
-                                onTap: () async {
-                                  var place = await PlacesAutocomplete.show(
-                                      hint: "Location",
-                                      context: context,
-                                      apiKey: googleApikey,
-                                      mode: Mode.overlay,
-                                      types: [],
-                                      strictbounds: false,
-                                      onError: (err) {
-                                        log("error.....   ${err.errorMessage}");
-                                      });
-                                  if (place != null) {
-                                    setState(() {
-                                      _address = (place.description ?? "Location")
-                                          .toString();
-                                    });
-                                    final plist = GoogleMapsPlaces(
-                                      apiKey: googleApikey,
-                                      apiHeaders: await const GoogleApiHeaders()
-                                          .getHeaders(),
-                                    );
-                                    print(plist);
-                                    String placeid = place.placeId ?? "0";
-                                    final detail =
-                                    await plist.getDetailsByPlaceId(placeid);
-                                    final geometry = detail.result.geometry!;
-                                    final lat = geometry.location.lat;
-                                    final lang = geometry.location.lng;
-                                    setState(() {
-                                      _address = (place.description ?? "Location")
-                                          .toString();
-                                    });
-                                  }
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: !checkValidation(
-                                                    showValidation.value,
-                                                    _address == "")
-                                                    ? Colors.grey.shade300
-                                                    : Colors.red),
-                                            borderRadius:
-                                            BorderRadius.circular(10.0),
-                                            color: Colors.grey.shade50),
-                                        // width: MediaQuery.of(context).size.width - 40,
-                                        child: ListTile(
-                                          leading: Text('Address',style: TextStyle(color: AppTheme.userText, fontSize: AddSize.font14,fontWeight: FontWeight.w700,),),
-                                          title: Text(
-                                            _address ?? "Location".toString(),
-                                            style: TextStyle(
-                                                fontSize: AddSize.font14),
-                                          ),
-                                          trailing: Image.asset(
-                                            AppAssets.drawer_location,
-                                            width: AddSize.size15,
-                                          ),
-                                          dense: true,
-                                        )),
-                                    checkValidation(
-                                        showValidation.value, _address == "")
-                                        ? Padding(
-                                      padding: EdgeInsets.only(
-                                          top: AddSize.size5),
-                                      child: Text(
-                                        "      Location is required",
-                                        style: TextStyle(
-                                            color: Colors.red.shade700,
-                                            fontSize: AddSize.font12),
-                                      ),
-                                    )
-                                        : SizedBox()
-                                  ],
-                                )),*/
                             SizedBox(
                               height: AddSize.size12,
                             ),
                             RegistrationTextField(
                               readOnly: true,
                               controller: vendorCategoryController.categoryController,
-                              hint: "Select Category",
+                              hint: "Select Category".tr,
                               //length: 12,
                              // keyboardType: TextInputType.number,
                               validator: (value) {
@@ -933,7 +738,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Store Logo",
+                              "Store Logo".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -965,7 +770,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                   Column(
                                           children: [
                                             Text(
-                                              "Upload",
+                                              "Upload".tr,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline6!
@@ -1057,7 +862,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size12,
                             ),
                             Text(
-                              "Business ID",
+                              "Business ID".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -1089,7 +894,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                 Column(
                                   children: [
                                     Text(
-                                      "Upload",
+                                      "Upload".tr,
                                       style: Theme.of(context)
                                           .textTheme
                                           .headline6!
@@ -1181,7 +986,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                               height: AddSize.size15,
                             ),
                             Text(
-                              "Location",
+                              "Location".tr,
                               style: Theme.of(context)
                                   .textTheme
                                   .headline6!
@@ -1209,63 +1014,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                             SizedBox(
                               height: AddSize.padding12,
                             ),
-                            // Row(
-                            //   children: [
-                            //     Checkbox(
-                            //         side: BorderSide(
-                            //             color: showValidation == false
-                            //                 ? AppTheme.primaryColor
-                            //                 : Colors.red,
-                            //             width: 2),
-                            //         shape: RoundedRectangleBorder(
-                            //             borderRadius: BorderRadius.circular(5)),
-                            //         value: _isValue1,
-                            //         onChanged: (bool? value) {
-                            //           setState(() {
-                            //             _isValue1 = value;
-                            //           });
-                            //         }),
-                            //     Expanded(
-                            //         child: Text(
-                            //           "? Using imported  meats",
-                            //           style: Theme.of(context)
-                            //               .textTheme
-                            //               .headline5!
-                            //               .copyWith(
-                            //               fontWeight: FontWeight.w400,
-                            //               fontSize: 14,color: Color(0xff1D303A)),
-                            //         ))
-                            //   ],
-                            // ),
-                            //
-                            // Row(
-                            //   children: [
-                            //     Checkbox(
-                            //         side: BorderSide(
-                            //             color: showValidation == false
-                            //                 ? AppTheme.primaryColor.withOpacity(.80)
-                            //                 : Colors.red,
-                            //             width: 2),
-                            //         shape: RoundedRectangleBorder(
-                            //             borderRadius: BorderRadius.circular(5)),
-                            //         value: _isValue2,
-                            //         onChanged: (bool? value) {
-                            //           setState(() {
-                            //             _isValue2 = value;
-                            //           });
-                            //         }),
-                            //     Expanded(
-                            //         child: Text(
-                            //           "? Using imported  Chicken",
-                            //           style: Theme.of(context)
-                            //               .textTheme
-                            //               .headline5!
-                            //               .copyWith(
-                            //               fontWeight: FontWeight.w400,
-                            //               fontSize: 14,color: Color(0xff1D303A)),
-                            //         ))
-                            //   ],
-                            // ),
+
                             SizedBox(
                               height: AddSize.size15,
                             ),
@@ -1326,7 +1075,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
                                 child: Text(
-                                  "APPLY",
+                                  "APPLY".tr,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5!

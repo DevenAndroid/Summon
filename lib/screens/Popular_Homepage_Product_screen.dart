@@ -11,6 +11,7 @@ import '../controller/single_store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 
 class ViewAllPopularPage extends StatefulWidget {
   const ViewAllPopularPage({Key? key}) : super(key: key);
@@ -42,9 +43,9 @@ class _ViewAllPopularPageState extends State<ViewAllPopularPage> {
         .width;
     return
       Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Popular Products", context: context),
+          appBar: backAppBar(title: "Popular Products".tr, context: context),
           body: Obx(() {
             return viewAllPopularController.isDataLoading.value ? SingleChildScrollView(
               child: Padding(

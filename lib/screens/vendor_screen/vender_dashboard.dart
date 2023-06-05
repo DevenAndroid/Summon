@@ -16,6 +16,8 @@ import '../../resources/app_assets.dart';
 import '../../resources/app_theme.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
+import '../Language_Change_Screen.dart';
+
 
 class VenderDashboard extends StatefulWidget {
   const VenderDashboard({Key? key}) : super(key: key);
@@ -55,7 +57,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
         }
       }
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: Color(0xffF5F5F5),
             appBar: AppBar(
@@ -82,7 +84,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                       children: [
                         Expanded(
                           child: Text(
-                            "Today's Hours:",
+                            "Today's Hours:".tr,
                             style: GoogleFonts.ibmPlexSansArabic(
                                 fontWeight: FontWeight.w500,
                                 fontSize: AddSize.font14,
@@ -223,7 +225,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                 Row(
                                   children: [
                                     Text(
-                                      "vs previous 30 days",
+                                      "vs previous 30 days".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff8B8B8B),
@@ -231,7 +233,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                     ),
                                     SizedBox(width: 5,),
                                     Text(
-                                      "Last 30 days",
+                                      "Last 30 days".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontWeight: FontWeight.w600,
                                           color: Color(0xff292F45),
@@ -261,37 +263,6 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.spaceBetween,
-                                    //   children: [
-                                    //     Container(
-                                    //       height: AddSize.size40,
-                                    //       width: AddSize.size40,
-                                    //       decoration: ShapeDecoration(
-                                    //           color: index == 0
-                                    //               ? Colors.green.shade600
-                                    //               : index == 1
-                                    //                   ? Colors.orange
-                                    //                   : index == 2
-                                    //                       ? AppTheme.primaryColor
-                                    //                       : Colors.cyan,
-                                    //           shape: const CircleBorder()),
-                                    //       child: Center(
-                                    //           child: Image(
-                                    //               height: AddSize.size25,
-                                    //               width: AddSize.size25,
-                                    //               image: const AssetImage(
-                                    //                   AppAssets
-                                    //                       .vendorDashboard))),
-                                    //     ),
-                                    //     SizedBox(width: 5,),
-                                    //
-                                    //   ],
-                                    // ),
-                                    // SizedBox(
-                                    //   height: AddSize.size10,
-                                    // ),
                                     Text(
                                       index == 0
                                           ? vendorDashboardController
@@ -392,7 +363,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                "Store",
+                                                "Store".tr,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -467,7 +438,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                           child: Row(
                                             children: [
                                               Text(
-                                                "Self\ndelivery",
+                                                "Self\ndelivery".tr,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -558,7 +529,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            "Open Orders",
+                                            "Open Orders".tr,
                                             style:GoogleFonts.ibmPlexSansArabic(
                                                     height: 1.5,
                                                     color: Color(0xff454B5C),
@@ -571,7 +542,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                     .vendorOrderList);
                                               },
                                               child: Text(
-                                                "See All",
+                                                "See All".tr,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .headline5!
@@ -587,48 +558,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                               ))
                                         ],
                                       ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Text(
-                                      //       "Order No.",
-                                      //       style: Theme.of(context)
-                                      //           .textTheme
-                                      //           .headline5!
-                                      //           .copyWith(
-                                      //               height: 1.5,
-                                      //               fontWeight: FontWeight.w500,
-                                      //               fontSize: AddSize.font14,
-                                      //               color:
-                                      //                   const Color(0xff52AC1A)),
-                                      //     ),
-                                      //     Text(
-                                      //       "                      Status",
-                                      //       style: Theme.of(context)
-                                      //           .textTheme
-                                      //           .headline5!
-                                      //           .copyWith(
-                                      //               height: 1.5,
-                                      //               fontWeight: FontWeight.w500,
-                                      //               fontSize: AddSize.font14,
-                                      //               color:
-                                      //                   const Color(0xff52AC1A)),
-                                      //     ),
-                                      //     Text(
-                                      //       "Earning",
-                                      //       style: Theme.of(context)
-                                      //           .textTheme
-                                      //           .headline5!
-                                      //           .copyWith(
-                                      //               height: 1.5,
-                                      //               fontWeight: FontWeight.w500,
-                                      //               fontSize: AddSize.font14,
-                                      //               color:
-                                      //                   const Color(0xff52AC1A)),
-                                      //     )
-                                      //   ],
-                                      // ),
+
                                       const Divider(),
                                       vendorDashboardController.model.value.data!
                                               .orderList!.isNotEmpty
@@ -704,56 +634,10 @@ class _VenderDashboardState extends State<VenderDashboard> {
 
                                                               ],
                                                             ),
-                                                            // Text(
-                                                            //   vendorDashboardController
-                                                            //       .model
-                                                            //       .value
-                                                            //       .data!
-                                                            //       .orderList![
-                                                            //           index]
-                                                            //       .date
-                                                            //       .toString(),
-                                                            //   style: Theme.of(
-                                                            //           context)
-                                                            //       .textTheme
-                                                            //       .headline5!
-                                                            //       .copyWith(
-                                                            //           height: 1.5,
-                                                            //           fontWeight:
-                                                            //               FontWeight
-                                                            //                   .w500,
-                                                            //           fontSize:
-                                                            //               AddSize
-                                                            //                   .font12,
-                                                            //           color: Colors
-                                                            //               .grey
-                                                            //               .shade500),
-                                                            // ),
+
                                                           ],
                                                         ),
-                                                        // Text(
-                                                        //   vendorDashboardController
-                                                        //       .model
-                                                        //       .value
-                                                        //       .data!
-                                                        //       .orderList![index]
-                                                        //       .status
-                                                        //       .toString(),
-                                                        //   style: Theme.of(context)
-                                                        //       .textTheme
-                                                        //       .headline5!
-                                                        //       .copyWith(
-                                                        //           height: 1.5,
-                                                        //           fontWeight:
-                                                        //               FontWeight
-                                                        //                   .w500,
-                                                        //           fontSize:
-                                                        //               AddSize
-                                                        //                   .font14,
-                                                        //           color: Colors
-                                                        //               .orange
-                                                        //               .shade200),
-                                                        // ),
+
                                                         Flexible(child: Container()),
                                                        Column(
                                                          children: [
@@ -787,7 +671,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                              ],
                                                            ),
                                                            Text(
-                                                             "Order Total",
+                                                             "Order Total".tr,
                                                              style: GoogleFonts.ibmPlexSansArabic(
                                                                  fontSize: AddSize.font12,
                                                                  color: Color(0xff8C9BB2),
@@ -810,7 +694,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                               padding: EdgeInsets.symmetric(
                                                   horizontal:
                                                       AddSize.padding20 * 3),
-                                              child: Text("Order not Available",
+                                              child: Text("Order not Available".tr,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headline5!

@@ -5,6 +5,7 @@ import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import '../controller/HelpCenter_Controller.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 
 class HelpCenter extends StatefulWidget {
   const HelpCenter({Key? key}) : super(key: key);
@@ -30,9 +31,9 @@ class _HelpCenterState extends State<HelpCenter> {
   Widget build(BuildContext context) {
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-            appBar: backAppBar(title: "Help Center", context: context),
+            appBar: backAppBar(title: "Help Center".tr, context: context),
             body: helpCenterController.isDataLoading.value
                 ? SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),

@@ -1,11 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart' hide Badge;
 import 'package:fresh2_arrive/screens/AllCategories.dart';
-import 'package:fresh2_arrive/screens/SetPassword_Screen.dart';
-import 'package:fresh2_arrive/screens/app_bar.dart';
-import 'package:fresh2_arrive/screens/homepage.dart';
-import 'package:fresh2_arrive/screens/order/myorder_screen.dart';
-import 'package:fresh2_arrive/screens/storeListScreen.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
@@ -13,26 +8,18 @@ import '../controller/CartController.dart';
 import '../controller/GetNearStoresOnMapController.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/MyOrder_Controller.dart';
-import '../controller/My_cart_controller.dart';
 import '../controller/location_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
-import '../controller/store_controller.dart';
-import '../repositories/GetNearByStores_Repo.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
-import '../widgets/add_text.dart';
-import 'Categories_Screen.dart';
 import 'Homepage_Screen.dart';
+import 'Language_Change_Screen.dart';
 import 'MapScreen_Page.dart';
 import 'MyCart_Page.dart';
 import 'SearchScreenData..dart';
 import 'drawer.dart';
-import 'myProfile.dart';
-import 'my_cart_screen.dart';
-import 'notification_screen.dart';
-import 'order/choose_address.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   const CustomNavigationBar({
@@ -94,168 +81,11 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
         child:
 
             Directionality(
-            textDirection: TextDirection.rtl,
+            textDirection: locale==Locale('en','US')? TextDirection.ltr: TextDirection.rtl,
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 key: controller.scaffoldKey,
                 drawer: const CustomDrawer(),
-                // appBar: controller.currentIndex.value != 2
-                //     ? controller.currentIndex.value == 0
-                //         ?
-                //         // category app bar
-                //         buildAppBar(
-                //             false, controller.currentIndex.value, "".toString())
-                //         : buildAppBar(
-                //             false,
-                //             controller.currentIndex.value,
-                //             profileController.isDataLoading.value
-                //                 ? (profileController
-                //                             .model.value.data!.profileImage ??
-                //                         "")
-                //                     .toString()
-                //                 : "")
-                //     :
-                // AppBar(
-                //         backgroundColor: Color(0xffF6F6F6),
-                //         elevation: 0,
-                //         leadingWidth: AddSize.size80,
-                //         leading: Padding(
-                //           padding: EdgeInsets.only(left: 33,right: 20),
-                //           child: GestureDetector(
-                //             child: Image.asset(
-                //               AppAssets.homeIcon,
-                //               height: AddSize.size30,
-                //             ),
-                //             onTap: () {
-                //               controller.scaffoldKey.currentState!.openDrawer();
-                //               profileController.getData();
-                //             },
-                //           ),
-                //         ),
-                //         title: Column(
-                //           crossAxisAlignment: CrossAxisAlignment.start,
-                //           children: [
-                //             InkWell(
-                //               onTap: () {
-                //                 //Get.toNamed(ChooseAddress.chooseAddressScreen);
-                //               },
-                //               child: Row(
-                //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                 children: [
-                //                   // InkWell(
-                //                   //   onTap: () {},
-                //                   //   child: const Icon(
-                //                   //     Icons.location_on,
-                //                   //     color: AppTheme.backgroundcolor,
-                //                   //   ),
-                //                   // ),
-                //                   const SizedBox(
-                //                     width: 10,
-                //                   ),
-                //                   const Text(
-                //                     "Home",
-                //                     style: TextStyle(
-                //                         fontSize: 18,
-                //                         color: AppTheme.primaryColor,
-                //                         fontWeight: FontWeight.w500),
-                //                   ),
-                //                   const SizedBox(
-                //                     width: 5,
-                //                   ),
-                //
-                //                 ],
-                //               ),
-                //             ),
-                //             // Text(
-                //             //   locationController.locality.value.toString(),
-                //             //   style: const TextStyle(
-                //             //       fontSize: 14,
-                //             //       color: AppTheme.backgroundcolor,
-                //             //       fontWeight: FontWeight.w400),
-                //             // ),
-                //           ],
-                //         ),
-                //         actions: [
-                //           IconButton(
-                //             icon:
-                //             // Image.asset(
-                //             //   AppAssets.notification,
-                //             //   height: 22,
-                //             // ),
-                //             Padding(
-                //                 padding: const EdgeInsets.only(
-                //                     right: 10.0),
-                //                 child:
-                //                 Badge(
-                //                   badgeStyle: const BadgeStyle(badgeColor: AppTheme.primaryColor),
-                //                   badgeContent: Obx(() {
-                //                     return Text(
-                //                       notificationController
-                //                           .isDataLoading.value
-                //                           ? notificationController
-                //                           .model.value.data!.count
-                //                           .toString()
-                //                           : "0",
-                //                       style: TextStyle(
-                //                           color: Colors.white,
-                //                           fontSize: AddSize.font12),
-                //                     );
-                //                   }),
-                //                   child: const ImageIcon(
-                //                     AssetImage(AppAssets.bagIcon),
-                //                     size: 40,
-                //                     color: Colors.black,
-                //                   ),
-                //                 )),
-                //             onPressed: () {
-                //               Get.toNamed(NotificationScreen.notificationScreen);
-                //               //Get.to(SetPasswordScreen());
-                //             },
-                //           ),
-                //           addWidth(20),
-                //           // Padding(
-                //           //   padding: const EdgeInsets.only(left:22),
-                //           //   child: GestureDetector(
-                //           //     onTap: () async {
-                //           //       Get.toNamed(MyProfileScreen.myProfileScreen);
-                //           //     },
-                //           //     child: CircleAvatar(
-                //           //       backgroundColor: Colors.white,
-                //           //       radius: 20,
-                //           //       child: Container(
-                //           //           height: 38,
-                //           //           width: 38,
-                //           //           clipBehavior: Clip.antiAlias,
-                //           //           // margin: EdgeInsets.all(1),
-                //           //           decoration: BoxDecoration(
-                //           //             borderRadius: BorderRadius.circular(50),
-                //           //             // color: Colors.brown
-                //           //           ),
-                //           //           child: Obx(() {
-                //           //             return(profileController.isDataLoading.value
-                //           //                 ? (profileController.model.value.data!
-                //           //                 .profileImage ??
-                //           //                 "")
-                //           //                 .toString()
-                //           //                 : "").isNotEmpty ? CachedNetworkImage(
-                //           //               fit: BoxFit.cover,
-                //           //               imageUrl:
-                //           //                   profileController.isDataLoading.value
-                //           //                       ? profileController.model.value
-                //           //                           .data!.profileImage!
-                //           //                       : '',
-                //           //               height: AddSize.size30,
-                //           //               width: AddSize.size30,
-                //           //               errorWidget: (_, __, ___) =>
-                //           //                   const SizedBox(),
-                //           //               placeholder: (_, __) => const SizedBox(),
-                //           //             ):SizedBox.shrink();
-                //           //           })),
-                //           //     ),
-                //           //   ),
-                //           // )
-                //         ],
-                //       ),
                 bottomNavigationBar: Obx(() {
                   return BottomAppBar(
                       color: Colors.transparent,
@@ -292,19 +122,10 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       ),
                                     ),
                                   ),
-                                  label: 'Categories',
+                                  label: 'Categories'.tr,
                                 ),
                                  BottomNavigationBarItem(
                                     icon:
-                                    // Padding(
-                                    //   padding: EdgeInsets.symmetric(
-                                    //     vertical: 08,
-                                    //   ),
-                                    //   child: ImageIcon(
-                                    //     AssetImage(AppAssets.cartImage),
-                                    //     size: 18,
-                                    //   ),
-                                    // ),
                                     Padding(
                                         padding:  EdgeInsets.symmetric(
                                             vertical: 8.0),
@@ -329,15 +150,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                             ),
                                           ),
                                         )),
-                                    // icon: Padding(
-                                    //   padding: EdgeInsets.all(8.0),
-                                    //   child: ImageIcon(
-                                    //     AssetImage(AppAssets.cart),
-                                    //     size: 20,
-                                    //   ),
-                                    // ),
-                                    label: 'Cart'),
-                                const BottomNavigationBarItem(
+                                    label: 'Cart'.tr),
+                                 BottomNavigationBarItem(
                                     icon: Padding(
                                         padding: EdgeInsets.symmetric(
                                           vertical: 08,
@@ -351,7 +165,6 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       ),
                                       child: GestureDetector(
                                         onTap: (){
-                                          //homeSearchController.load=false.obs;
                                           homeSearchController.searchingData(allowClear: true, context: context);
                                         },
                                         child: const ImageIcon(
@@ -360,7 +173,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                         ),
                                       ),
                                     ),
-                                    label: 'Search'),
+                                    label: 'Search'.tr),
                                  BottomNavigationBarItem(
                                     icon: Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 08),
@@ -375,7 +188,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                         ),
                                       ),
                                     ),
-                                    label: 'Map'),
+                                    label: 'Map'.tr),
                               ],
                               type: BottomNavigationBarType.fixed,
                               currentIndex: controller.currentIndex.value,
@@ -415,12 +228,11 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                     return IndexedStack(
                       index: controller.currentIndex.value,
                       children: const [
-                        //AllCategories(),
+
                         AllCategories(),
                         MyCartPage(),
                         HomePageScreen(),
                         SearchScreenData(),
-                        // StoreListScreen(),
                         MapScreenPage(),
 
                       ],

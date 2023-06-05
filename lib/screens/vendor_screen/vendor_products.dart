@@ -14,6 +14,7 @@ import '../../repositories/ToggleStatus_Repo.dart';
 import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
+import '../Language_Change_Screen.dart';
 import 'Add_vendor_product.dart';
 import 'addVendorProducts1.dart';
 
@@ -46,9 +47,9 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection:TextDirection.rtl,
+      textDirection:locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "All Products", context: context),
+          appBar: backAppBar(title: "All Products".tr, context: context),
           body: Obx(() {
             return vendorProductListController.isDataLoading.value
                 ? SingleChildScrollView(
@@ -106,7 +107,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: AddSize.padding20,
                                       vertical: AddSize.padding10),
-                                  hintText: 'Search Products',
+                                  hintText: 'Search Products'.tr,
                                   hintStyle: TextStyle(
                                       fontSize: AddSize.font12,
                                       color: AppTheme.blackcolor,
@@ -402,7 +403,7 @@ class _VendorProductScreenState extends State<VendorProductScreen> {
                           child: Padding(
                               padding: EdgeInsets.only(top: AddSize.size200),
                               child: Text(
-                                "Product Not Available",
+                                "Product Not Available".tr,
                                 style: TextStyle(
                                     fontSize: AddSize.font16,
                                     color: AppTheme.blackcolor,

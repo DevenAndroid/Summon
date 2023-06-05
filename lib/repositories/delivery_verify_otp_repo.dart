@@ -11,11 +11,11 @@ import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
-Future<ModelCommonResponse> deliveryOtpVerify(
-    {required orderId, required otp, required BuildContext context}) async {
+Future<ModelCommonResponse> orderDeliveryRepo(
+    {required orderId, required status, required BuildContext context}) async {
   var map = <String, dynamic>{};
   map['order_id'] = orderId;
-  map['otp'] = otp;
+  map['status'] = status;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);

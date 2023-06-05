@@ -19,6 +19,7 @@ import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 import 'MyCart_Page.dart';
 import 'package:collection/collection.dart';
 
@@ -54,7 +55,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
     var width = MediaQuery.of(context).size.width;
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US')? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: Color(0xffF2F2F2),
           body: singleProductController.isDataLoading.value
@@ -275,7 +276,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: width * .03,
                                       vertical: height * .03),
-                                  hintText: 'Notes',
+                                  hintText: 'Notes'.tr,
                                   hintStyle: GoogleFonts.ibmPlexSansArabic(
                                       fontSize: AddSize.font14,
                                       color: Color(0xffACACB7),
@@ -389,7 +390,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                         //SizedBox(width: 10,),
                         Expanded(
                           child: Text(
-                            "Add To Cart",
+                            "Add To Cart".tr,
                             style: TextStyle(
                                 color: Color(0xffFFFFFF),
                                 fontSize: AddSize.font18,

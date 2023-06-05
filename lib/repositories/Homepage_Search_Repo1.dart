@@ -29,7 +29,7 @@ Future<HomePageSearchModel1> searchHomeDataPagination(
   };
 
   try {
-    final response = await http.get(Uri.parse("${ApiUrl.searchUrlPagination}?keyword=$keyword&pagination=4&page=$page"),headers: headers);
+    final response = await http.get(Uri.parse("${ApiUrl.searchUrlPagination}?keyword=$keyword&pagination=10&page=$page"),headers: headers);
     log(response.body.toString());
     // Helpers.hideLoader(loader);
     if (response.statusCode == 200) {

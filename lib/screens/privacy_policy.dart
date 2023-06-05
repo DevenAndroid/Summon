@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../controller/HelpCenter_Controller.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({Key? key}) : super(key: key);
@@ -26,10 +27,10 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child:
       Scaffold(
-          appBar: backAppBar(title: "Privacy Policy", context: context),
+          appBar: backAppBar(title: "Privacy Policy".tr, context: context),
           body:
           Obx((){
             return privacyController.isGettingData.value ?

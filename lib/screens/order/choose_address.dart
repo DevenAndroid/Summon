@@ -10,6 +10,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/generated/assets.dart';
 import 'package:fresh2_arrive/repositories/add_address_repository.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
+import 'package:fresh2_arrive/resources/helper.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/editprofile_textfield.dart';
 import 'package:geocoding/geocoding.dart';
@@ -18,6 +19,7 @@ import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../controller/GetSaveAddressController.dart';
 import '../../controller/MyAddress_controller.dart';
 import '../../model/MyAddressModel.dart';
@@ -26,6 +28,7 @@ import '../../resources/app_theme.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
 import 'package:geolocator/geolocator.dart';
+import '../Language_Change_Screen.dart';
 import '../my_address.dart';
 import '../vendor_screen/add_address_screen.dart';
 
@@ -66,7 +69,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
     }
   }
 
-
+ Color containerColor= Colors.grey.shade300;
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -196,13 +199,11 @@ class _ChooseAddressState extends State<ChooseAddress> {
         return true;
       },
       child: Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: Color(0xffF9F9F9),
             appBar: backAppBar(
-                title: _isValue.value == true
-                    ? "Complete Address"
-                    : "Add new address",
+                title: "Add new address".tr,
                 context: context,
                 dispose: "dispose",
                 disposeController: () {
@@ -221,7 +222,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         height: 9,
                       ),
                       EditProfileTextFieldWidget1(
-                        hint: "Name",
+                        hint: "Name".tr,
                         controller: nameController,
                         validator: validateName,
                       ),
@@ -230,7 +231,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         height: 9,
                       ),
                       EditProfileTextFieldWidget1(
-                        hint: "Phone",
+                        hint: "Phone".tr,
                         controller: phoneController,
                         validator: validateMobile,
                         keyboardType: TextInputType.number,
@@ -242,7 +243,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         height: 9,
                       ),
                       EditProfileTextFieldWidget1(
-                        hint: "Note",
+                        hint: "Note".tr,
                         controller: noteController,
                         validator: validateName,
                       ),
@@ -267,7 +268,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               }),
                           Expanded(
                               child: Text(
-                                "Leave orders at the door",
+                                "Leave orders at the door".tr,
                                 style: GoogleFonts.ibmPlexSansArabic(color: Color(0xffACACB7),
                                     fontSize: AddSize.font14,fontWeight:FontWeight.w700),
                               ))
@@ -286,11 +287,12 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               color: Colors.grey.shade50,
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
-                                color: !checkValidation(
-                                    showValidation.value,
-                                    image.value.path == "")
-                                    ? Colors.grey.shade300
-                                    : Colors.red,
+                                color: containerColor
+                                // !checkValidation(
+                                //     showValidation.value,
+                                //     image.value.path == "")
+                                //     ? Colors.grey.shade300
+                                //     : Colors.red,
                               )),
                           child: image.value.path == ""
                               ?
@@ -330,7 +332,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 height: AddSize.size10,
                               ),
                               Text(
-                                "Upload an image of your house",
+                                "Upload an image of your house".tr,
                                 style: GoogleFonts
                             .ibmPlexSansArabic(
                         fontSize: 16,
@@ -392,7 +394,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                         height: 20,
                       ),
                       Text(
-                        "Choose Location",
+                        "Choose Location".tr,
                         style: GoogleFonts
                             .ibmPlexSansArabic(
                             fontSize: 16,
@@ -408,12 +410,20 @@ class _ChooseAddressState extends State<ChooseAddress> {
                           SizedBox(
                             height: height * .20,
                             width: width,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(image: AssetImage(AppAssets.mapImage),
-
+                            child: GoogleMap(
+                              zoomGesturesEnabled: true,
+                              initialCameraPosition: CameraPosition(
+                                target: const LatLng(0, 0).checkLatLong,
+                                zoom: 14.0,
                               ),
                             ),
+
+                            // ClipRRect(
+                            //   borderRadius: BorderRadius.circular(10),
+                            //   child: Image(image: AssetImage(AppAssets.mapImage),
+                            //
+                            //   ),
+                            // ),
                           ),
                           Positioned(top: 50,
                             right: 150,
@@ -435,7 +445,9 @@ class _ChooseAddressState extends State<ChooseAddress> {
                       SizedBox(height: height * .02,),
                       ElevatedButton(
                           onPressed: () {
-
+                                   setState(() {
+                                     containerColor= image.value.path== ""?Colors.red:Colors.grey.shade300;
+                                   });
                             if(_formKey.currentState!.validate()
                                     && image.value.path != "" && chooseOption==true){
                               print("hellloo");
@@ -475,7 +487,7 @@ class _ChooseAddressState extends State<ChooseAddress> {
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           child: Text(
-                            "Save",
+                            "Save".tr,
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5!

@@ -14,8 +14,8 @@ import '../controller/main_home_controller.dart';
 import '../controller/single_store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 import 'OneProduct_Screen.dart';
-import 'SingleProdct_Screen.dart';
 
 class StoreScreen extends StatefulWidget {
   const StoreScreen({Key? key}) : super(key: key);
@@ -26,7 +26,6 @@ class StoreScreen extends StatefulWidget {
 }
 
 class _StoreScreenState extends State<StoreScreen> {
-  //final singleStoreController = Get.put(StoreController());
   final singleStoreController = Get.put(SingleStoreController());
   final myCartController = Get.put(MyCartDataListController());
   final controller = Get.put(MainHomeController());
@@ -70,11 +69,11 @@ class _StoreScreenState extends State<StoreScreen> {
     var width = MediaQuery.of(context).size.width;
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
           backgroundColor: Colors.grey.shade50,
           //backgroundColor: Color(0xffFFFFFF),
-          appBar: backAppBar(title: "Store", context: context),
+          appBar: backAppBar(title: "Store".tr, context: context),
           body: singleStoreController.isDataLoading.value &&
                   singleStoreController.storeDetailsModel.value.data != null
               ? CustomScrollView(
@@ -293,307 +292,10 @@ class _StoreScreenState extends State<StoreScreen> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          // Image.network(
-                          //   singleStoreController.storeDetailsModel.value.data!
-                          //       .storeDetails!.storeImage
-                          //       .toString(),
-                          //   fit: BoxFit.cover,
-                          // ),
                         ),
                       ),
                     ),
-                    // SliverToBoxAdapter(
-                    //   child: SingleChildScrollView(
-                    //     child: Padding(
-                    //       padding:
-                    //       EdgeInsets.symmetric(horizontal: width * .03),
-                    //       child: Column(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: [
-                    //           SizedBox(height: height * .015),
-                    //           singleStoreController
-                    //               .storeDetailsModel
-                    //               .value
-                    //               .data!.latestProducts!.isNotEmpty ?
-                    //           ListView.builder(
-                    //               itemCount: singleStoreController
-                    //                   .storeDetailsModel
-                    //                   .value
-                    //                   .data!.latestProducts!.length,
-                    //               shrinkWrap: true,
-                    //               padding: EdgeInsets.only(
-                    //                 top: height * .015,
-                    //               ),
-                    //               physics:
-                    //               const NeverScrollableScrollPhysics(),
-                    //               itemBuilder: (context, index) {
-                    //                 return Column(
-                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                    //                   children: [
-                    //                     Text(singleStoreController
-                    //                         .storeDetailsModel
-                    //                         .value
-                    //                         .data!
-                    //                         .latestProducts![
-                    //                     index].title.toString(),style: GoogleFonts.ibmPlexSansArabic(
-                    //                         color: Color(0xff293044),
-                    //                         fontSize:
-                    //                         16,
-                    //                         fontWeight:
-                    //                         FontWeight.w700),),
-                    //                     SizedBox(height: height* .01,),
-                    //                     GestureDetector(
-                    //                       onTap:(){
-                    //                         singleProductController.id.value =
-                    //                             singleStoreController
-                    //                                 .storeDetailsModel
-                    //                                 .value
-                    //                                 .data!
-                    //                                 .latestProducts![index].productData![0]
-                    //                                 .id
-                    //                                 .toString();
-                    //                         print(
-                    //                             singleProductController.id.value);
-                    //                         Get.toNamed(SingleProductPage
-                    //                             .singleProductPage);
-                    //
-                    //                       },
-                    //                       child: Container(
-                    //                         decoration: BoxDecoration(
-                    //                             borderRadius:
-                    //                             BorderRadius.circular(10)),
-                    //                         // height: height * .23,
-                    //                         child: Card(
-                    //                             elevation: 0,
-                    //                             shape: RoundedRectangleBorder(
-                    //                                 borderRadius:
-                    //                                 BorderRadius.circular(
-                    //                                     10)),
-                    //                             child: Stack(
-                    //                               children: [
-                    //                                 Padding(
-                    //                                   padding:
-                    //                                   EdgeInsets.symmetric(
-                    //                                     horizontal: width * .03,
-                    //                                     vertical: height * .02,
-                    //                                   ),
-                    //                                   child: Row(
-                    //                                       crossAxisAlignment:
-                    //                                       CrossAxisAlignment
-                    //                                           .center,
-                    //                                       children: [
-                    //                                          SizedBox(
-                    //                                           height:
-                    //                                           AddSize.size50 *
-                    //                                               1.8,
-                    //                                           width:
-                    //                                           AddSize.size50 *
-                    //                                               1.8,
-                    //                                           child: ClipRRect(
-                    //                                             borderRadius:
-                    //                                             BorderRadius
-                    //                                                 .circular(
-                    //                                                 10),
-                    //                                             child:
-                    //                                             CachedNetworkImage(
-                    //                                               imageUrl: singleStoreController
-                    //                                                   .storeDetailsModel
-                    //                                                   .value
-                    //                                                   .data!
-                    //                                                   .latestProducts![
-                    //                                               index].productData![0]
-                    //                                                   .image
-                    //                                                   .toString(),
-                    //                                               errorWidget: (_,
-                    //                                                   __,
-                    //                                                   ___) =>
-                    //                                               const SizedBox(),
-                    //                                               placeholder: (_,
-                    //                                                   __) =>
-                    //                                               const SizedBox(),
-                    //                                               fit: BoxFit
-                    //                                                   .cover,
-                    //                                             ),
-                    //                                           ),
-                    //                                         ),
-                    //                                         SizedBox(
-                    //                                           width: width * .05,
-                    //                                         ),
-                    //                                         Expanded(
-                    //                                           child: Column(
-                    //
-                    //                                             crossAxisAlignment:
-                    //                                             CrossAxisAlignment
-                    //                                                 .start,
-                    //                                             children: [
-                    //                                               Text(
-                    //                                                   singleStoreController
-                    //                                                       .storeDetailsModel
-                    //                                                       .value
-                    //                                                       .data!
-                    //                                                       .latestProducts![
-                    //                                                   index].productData![0]
-                    //                                                       .name
-                    //                                                       .toString(),
-                    //                                                   maxLines: 2,
-                    //                                                   style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                       color: Color(0xff151515),
-                    //                                                       fontSize:
-                    //                                                       16,
-                    //                                                       fontWeight:
-                    //                                                       FontWeight.w600)),
-                    //                                               SizedBox(height: 10,),
-                    //                                               Text(
-                    //                                                   singleStoreController
-                    //                                                       .storeDetailsModel
-                    //                                                       .value
-                    //                                                       .data!
-                    //                                                       .latestProducts![
-                    //                                                   index].productData![0]
-                    //                                                       .content
-                    //                                                       .toString().capitalizeFirst!,
-                    //                                                  // maxLines: 2,
-                    //                                                   style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                       color: Color(0xff7B7B80),
-                    //                                                       fontSize:
-                    //                                                       13,
-                    //                                                       fontWeight:
-                    //                                                       FontWeight.w400)),
-                    //                                               SizedBox(height: 5,),
-                    //
-                    //                                               Row(
-                    //                                                 mainAxisAlignment:
-                    //                                                 MainAxisAlignment
-                    //                                                     .spaceBetween,
-                    //                                                 children: [
-                    //                                                   Row(
-                    //                                                     mainAxisAlignment:
-                    //                                                     MainAxisAlignment
-                    //                                                         .start,
-                    //                                                     children: [
-                    //                                                       Text(
-                    //                                                         "Cal",
-                    //                                                         style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                             fontSize: 12,
-                    //                                                             color: Color(0xff8E8E8E),
-                    //                                                             fontWeight: FontWeight.w300),
-                    //                                                       ),
-                    //                                                       SizedBox(width: 3,),
-                    //                                                       Text(
-                    //                                                         singleStoreController
-                    //                                                             .storeDetailsModel
-                    //                                                             .value
-                    //                                                             .data!
-                    //                                                             .latestProducts![
-                    //                                                         index].productData![0].calories
-                    //                                                             .toString(),
-                    //                                                         style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                             fontSize: 12,
-                    //                                                             color: Color(0xff8E8E8E),
-                    //                                                             fontWeight: FontWeight.w300),
-                    //                                                       ),
-                    //                                                       SizedBox(width: 6,),
-                    //                                                       Text(
-                    //                                                         "SR",
-                    //                                                         style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                             fontSize: 15,
-                    //                                                             color: AppTheme.primaryColor,
-                    //                                                             fontWeight: FontWeight.w700),
-                    //                                                       ),
-                    //                                                       SizedBox(width: 4,),
-                    //                                                       Text(
-                    //                                                         singleStoreController
-                    //                                                             .storeDetailsModel
-                    //                                                             .value
-                    //                                                             .data!
-                    //                                                             .latestProducts![
-                    //                                                         index].productData![0]
-                    //                                                             .variants![0].price
-                    //                                                             .toString().substring(0,2),
-                    //                                                         style:  GoogleFonts.ibmPlexSansArabic(
-                    //                                                             fontSize: 15,
-                    //                                                             color: AppTheme.primaryColor,
-                    //                                                             fontWeight: FontWeight.w700),
-                    //                                                       ),
-                    //
-                    //                                                     ],
-                    //                                                   ),
-                    //
-                    //                                                   // OutlinedButton(
-                    //                                                   //   style: OutlinedButton
-                    //                                                   //       .styleFrom(
-                    //                                                   //     shape: const RoundedRectangleBorder(
-                    //                                                   //         borderRadius:
-                    //                                                   //         BorderRadius.all(Radius.circular(6))),
-                    //                                                   //     minimumSize: Size(
-                    //                                                   //         AddSize.size50,
-                    //                                                   //         AddSize.size30),
-                    //                                                   //     side: const BorderSide(
-                    //                                                   //         color:
-                    //                                                   //         AppTheme.primaryColor,
-                    //                                                   //         width: 1),
-                    //                                                   //     backgroundColor:
-                    //                                                   //     Color(0xffFFE1D9),
-                    //                                                   //   ),
-                    //                                                   //   onPressed:
-                    //                                                   //       () {
-                    //                                                   //     singleProductController.id.value =
-                    //                                                   //         singleStoreController
-                    //                                                   //             .storeDetailsModel
-                    //                                                   //             .value
-                    //                                                   //             .data!
-                    //                                                   //             .latestProducts![index].productData![index]
-                    //                                                   //             .id
-                    //                                                   //             .toString();
-                    //                                                   //     print(
-                    //                                                   //         singleProductController.id.value);
-                    //                                                   //     Get.toNamed(SingleProductPage
-                    //                                                   //         .singleProductPage);
-                    //                                                   //   },
-                    //                                                   //   child: Text(
-                    //                                                   //       "SELECT",
-                    //                                                   //       style: TextStyle(
-                    //                                                   //           fontSize: AddSize.font12,
-                    //                                                   //           color: AppTheme.primaryColor,
-                    //                                                   //           fontWeight: FontWeight.w600)),
-                    //                                                   // )
-                    //                                                 ],
-                    //                                               ),
-                    //                                               // this is for dropdown testing code
-                    //                                               // Text(singleStoreController.storeDetailsModel.value.data!
-                    //                                               //     .latestProducts![index].variants!.map((e) => e.id.toString()).toList().toString()),
-                    //                                             ],
-                    //                                           ),
-                    //                                         )
-                    //                                       ]),
-                    //                                 ),
-                    //                               ],
-                    //                             )),
-                    //                       ),
-                    //
-                    //                     ),
-                    //                     SizedBox(
-                    //                       height: height * .01,
-                    //                     ),
-                    //                   ],
-                    //                 );
-                    //               }):
-                    //           Padding(
-                    //             padding: const EdgeInsets.all(12.0),
-                    //             child: Center(child: Text("Products is not available",style: GoogleFonts.ibmPlexSansArabic(
-                    //               fontSize: 15,
-                    //               color: Colors.black,
-                    //               fontWeight: FontWeight.w700
-                    //             ),),),
-                    //           ),
-                    //           SizedBox(
-                    //             height: height * .13,
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+
                     SliverToBoxAdapter(
                       child: SizedBox(
                         height: 12,

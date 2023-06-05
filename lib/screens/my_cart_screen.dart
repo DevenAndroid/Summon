@@ -1003,17 +1003,17 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                             // || (_address != "" && _currentAddress != "")
                                             ? ElevatedButton(
                                                 onPressed: () {
-                                                  Get.toNamed(
-                                                      PaymentMethod
-                                                          .paymentScreen,
-                                                      arguments: [
-                                                        controller
-                                                            .model
-                                                            .value
-                                                            .data!
-                                                            .cartPaymentSummary!
-                                                            .total
-                                                      ]);
+                                                  // Get.toNamed(
+                                                  //     PaymentMethod
+                                                  //         .paymentScreen,
+                                                  //     arguments: [
+                                                  //       controller
+                                                  //           .model
+                                                  //           .value
+                                                  //           .data!
+                                                  //           .cartPaymentSummary!
+                                                  //           .total
+                                                  //     ]);
                                                 },
                                                 style: ElevatedButton.styleFrom(
                                                     padding: const EdgeInsets.all(

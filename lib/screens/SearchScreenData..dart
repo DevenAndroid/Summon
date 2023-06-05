@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/HomePageController1.dart';
 import '../controller/My_cart_controller.dart';
-import '../controller/home_page_controller.dart';
 import '../controller/single_store_controller.dart';
-import '../controller/store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 
 class SearchScreenData extends StatefulWidget {
   const SearchScreenData({Key? key}) : super(key: key);
@@ -59,10 +57,10 @@ class _SearchScreenDataState extends State<SearchScreenData> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale == Locale('en','US') ? TextDirection.ltr:TextDirection.rtl,
       child: Scaffold(
          backgroundColor: const Color(0xffF6F6F6),
-        appBar: backAppBar1(title: "Search Product", context: context),
+        appBar: backAppBar1(title: "Search Product".tr, context: context),
         body: SingleChildScrollView(
           controller: scrollController,
           physics: AlwaysScrollableScrollPhysics(),
@@ -72,59 +70,6 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                 horizontal: AddSize.padding16, vertical: AddSize.padding10),
             child: Column(
               children: [
-                // SizedBox(
-                //   height: height * .07,
-                //   child: TextField(
-                //     maxLines: 3,
-                //     controller:homeSearchController.searchController,
-                //     style: const TextStyle(fontSize: 17),
-                //     // textAlignVertical: TextAlignVertical.center,
-                //     textInputAction: TextInputAction.search,
-                //     onSubmitted: (value) {
-                //     homeSearchController.searchingData();
-                //     },
-                //     decoration: InputDecoration(
-                //       filled: true,
-                //
-                //       border: const OutlineInputBorder(
-                //           borderSide: BorderSide.none,
-                //           borderRadius: BorderRadius.all(
-                //               Radius.circular(8))),
-                //       fillColor: Colors.white,
-                //       contentPadding: EdgeInsets.symmetric(
-                //           horizontal: width * .02,
-                //           vertical: height * .02),
-                //       hintText: 'Find for food or restaurant...',
-                //       hintStyle: TextStyle(
-                //           fontSize: AddSize.font14,
-                //           color: Color(0xff9DA4BB),
-                //           fontWeight: FontWeight.w400),
-                //       suffixIcon: IconButton(
-                //         onPressed: () {
-                //           print("hello");
-                //           homeSearchController.load=false.obs;
-                //           homeSearchController.searchingData();
-                //         },
-                //         icon: const Icon(
-                //           Icons.search_rounded,
-                //           color: Color(0xff8990A7),
-                //           size: 30,
-                //         ),
-                //       ),
-                //       // prefixIcon: IconButton(
-                //       //   onPressed: () {
-                //       //     // Get.to(const SearchScreenData());
-                //       //
-                //       //   },
-                //       //   icon: const Icon(
-                //       //     Icons.place_rounded,
-                //       //     color: Color(0xffD3D1D8),
-                //       //     size: 30,
-                //       //   ),
-                //       // ),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: height * .07,
                   child: TextField(
@@ -164,7 +109,7 @@ class _SearchScreenDataState extends State<SearchScreenData> {
                         fillColor: Colors.white,
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: width * .04),
-                        hintText: 'Search food or restaurant',
+                        hintText: 'Search food or restaurant'.tr,
                         hintStyle: TextStyle(
                             fontSize: AddSize.font14,
                             color: AppTheme.blackcolor,
