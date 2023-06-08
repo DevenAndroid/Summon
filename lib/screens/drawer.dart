@@ -321,7 +321,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 // SizedBox(height: 10,),
-                                Icon(Icons.favorite_border, color: AppTheme.primaryColor,),
+                                Icon(Icons.public, color: AppTheme.primaryColor,),
                                 SizedBox(width: 25,),
                                 Text("Language".tr, style: GoogleFonts.ibmPlexSansArabic(
                                   color: AppTheme.primaryColor,fontSize: 15

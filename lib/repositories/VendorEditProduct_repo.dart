@@ -4,8 +4,6 @@ import 'package:fresh2_arrive/model/VendorAddProduct_Model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/VendorEditProduct_model.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
 Future<VendorAddProductModel> vendorEditProductRepo({required id}) async {

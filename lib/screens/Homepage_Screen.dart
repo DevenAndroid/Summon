@@ -10,7 +10,6 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/screens/store_by_category.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/CartController.dart';
@@ -20,20 +19,15 @@ import '../controller/SingleProductController.dart';
 
 import '../controller/main_home_controller.dart';
 import '../controller/near_store_controller.dart';
-import '../controller/notification_controller.dart';
 import '../controller/profile_controller.dart';
 import '../controller/single_store_controller.dart';
 import '../controller/store_by_category_controller.dart';
-import '../controller/store_controller.dart';
 import '../repositories/WishList_Repository.dart';
 import '../resources/app_theme.dart';
 import '../widgets/dimensions.dart';
 import 'Language_Change_Screen.dart';
-import 'OneProduct_Screen.dart';
 import 'RecomendedViewAll_Screen.dart';
 import 'SearchScreenData..dart';
-import 'notification_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -45,10 +39,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   final homeSearchController = Get.put(HomePageController1());
   final singleProductController = Get.put(SingleProductController());
- // final myCartController = Get.put(MyCartDataListController());
- //  final viewAllController = Get.put(CategoryController());
   final myCartDataController = Get.put(MyCartController());
-  // final locationController = Get.put(LocationController());
   final controller = Get.put(MainHomeController());
   final homeController1 = Get.put(HomePageController1());
   final nearStoreController = Get.put(NearStoreController());
@@ -64,21 +55,21 @@ class _HomePageScreenState extends State<HomePageScreen> {
   final scrollController = ScrollController();
   RxDouble sliderIndex = (0.0).obs;
 
-  void _scrollListener() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      nearStoreController
-          .getData(context: context)
-          .then((value) => setState(() {}));
-    }
-  }
+  // void _scrollListener() {
+  //   if (scrollController.position.pixels ==
+  //       scrollController.position.maxScrollExtent) {
+  //     nearStoreController
+  //         .getData(context: context)
+  //         .then((value) => setState(() {}));
+  //   }
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      scrollController.addListener(_scrollListener);
+      // scrollController.addListener(_scrollListener);
       homeController1.getHomePageData();
      // homeSearchController.getData(isFirstTime:true);
 
@@ -98,15 +89,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return Directionality(
       textDirection: locale == Locale('en','US') ? TextDirection.ltr:TextDirection.rtl,
       child: Scaffold(
-          // backgroundColor: Colors.grey.shade50,
         backgroundColor: Color(0xffF6F6F6),
           appBar: AppBar(
             toolbarHeight: 80,
             backgroundColor: Color(0xffF6F6F6),
             elevation: 0,
-            leadingWidth: AddSize.size80,
+            leadingWidth: 75,
             leading: Padding(
-              padding: EdgeInsets.only(left: 33, right: 20),
+              padding: EdgeInsets.only(left: 20, right: 20),
               child: GestureDetector(
                 child: Image.asset(
                     AppAssets.homeIcon,
@@ -135,11 +125,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       Text(
                         "home".tr,
-                        style: TextStyle(
+                        style: GoogleFonts.ibmPlexSansArabic(
                             fontSize: 20,
                             color: AppTheme.primaryColor,
 
-                            fontWeight: FontWeight.w500),
+                            fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(
                         width: 5,
@@ -203,12 +193,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
           body: Obx(() {
             return RefreshIndicator(
               onRefresh: () async {
-                nearStoreController.isPaginationLoading.value = true;
-                nearStoreController.loadMore.value = true;
-                profileController.getData();
-                homeController1.getHomePageData();
-                myOrderController.getMyOrder();
-                myCartDataController.getCartData();
+                // nearStoreController.isPaginationLoading.value = true;
+                // nearStoreController.loadMore.value = true;
+               await profileController.getData();
+               await homeController1.getHomePageData();
+                // myOrderController.getMyOrder();
+               await myCartDataController.getCartData();
               },
               child:  homeController1.isDataLoading.value ?
               SingleChildScrollView(
@@ -250,7 +240,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                 fontSize: AddSize.font14,
                                 color: Color(0xff9DA4BB),
                                 fontWeight: FontWeight.w400),
-                            suffixIcon: IconButton(
+                            prefixIcon: IconButton(
                               onPressed: () {
                                 FocusManager.instance.primaryFocus!
                                     .unfocus();
@@ -384,6 +374,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                       .80)),),
                           ),
                         ],
+
                       ),
 
                       SizedBox(
@@ -457,39 +448,33 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                         fontWeight: FontWeight.w500,
                                                         color: Color(0xff08141B)),),
                                                   SizedBox(height: 8,),
-                                                  Row(
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text("SR",
+                                                  FittedBox(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("SR",
                                                           style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text("${homeController1.model.value
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text("${homeController1.model.value
                                                             .data!.recommendedStore![index].deliveryCharge
                                                             .toString()}",
                                                           style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 5,),
-                                                      Icon(Icons.circle,size: 5,color: Color(
-                                                          0xff2C4D61)),
-                                                      SizedBox(width: 5,),
-                                                      Flexible(
-                                                        child: Text("KM",
+                                                                  0xff2C4D61)),), SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                        Text("KM",
                                                           style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text(homeController1.model.value
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text(homeController1.model.value
                                                             .data!.recommendedStore![index].distance
                                                             .toString(),
 
@@ -498,21 +483,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                                   .w400,
                                                               color: Color(
                                                                   0xff2C4D61)),),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      Icon(Icons.circle,size: 5,color: Color(
-                                                          0xff2C4D61)),
-                                                      SizedBox(width: 5,),
-                                                     Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text(homeController1.model.value
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                       Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                        Text(homeController1.model.value
                                                             .data!.recommendedStore![index].avgRating
                                                             .toString(), style:  GoogleFonts.ibmPlexSansArabic(
                                                             fontSize: 14,
                                                             fontWeight: FontWeight.w400,
                                                             color: Color(0xff2C4D61)),),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -659,39 +642,33 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                         fontWeight: FontWeight.w500,
                                                         color: Color(0xff08141B)),),
                                                   SizedBox(height: 8,),
-                                                  Row(
-                                                    children: [
-                                                      Flexible(
-                                                        child: Text("SR",
+                                                  FittedBox(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("SR",
                                                           style: TextStyle(fontSize: 14,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text("${homeController1.model.value
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text("${homeController1.model.value
                                                             .data!.popularStore![index].deliveryCharge
                                                             .toString()}",
                                                           style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 5,),
-                                                      Icon(Icons.circle,size: 5,color: Color(
-                                                          0xff2C4D61)),
-                                                      SizedBox(width: 5,),
-                                                      Flexible(
-                                                        child: Text("KM",
+                                                                  0xff2C4D61)),), SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                        Text("KM",
                                                           style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
                                                               fontWeight: FontWeight
                                                                   .w400,
                                                               color: Color(
-                                                                  0xff2C4D61)),),
-                                                      ), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text(homeController1.model.value
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text(homeController1.model.value
                                                             .data!.popularStore![index].distance
                                                             .toString(),
 
@@ -700,21 +677,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                                                   .w400,
                                                               color: Color(
                                                                   0xff2C4D61)),),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      Icon(Icons.circle,size: 5,color: Color(
-                                                          0xff2C4D61)),
-                                                      SizedBox(width: 5,),
-                                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
-                                                      Flexible(
-                                                        child: Text(homeController1.model.value
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                        Text(homeController1.model.value
                                                             .data!.popularStore![index].avgRating
                                                             .toString(), style:  GoogleFonts.ibmPlexSansArabic(
                                                             fontSize: 14,
                                                             fontWeight: FontWeight.w400,
                                                             color: Color(0xff2C4D61)),),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -767,7 +742,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     ],
                   ) ,
                 ),
-              ): SizedBox.shrink(),
+              ): SizedBox(),
+              // Center(child: CircularProgressIndicator(color: AppTheme.primaryColor,)),
             );
 
           }),

@@ -16,7 +16,7 @@ Future<ModelCommonResponse> orderTip(
   map['tip_amount'] = tipAmount;
   log(map.toString());
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));
@@ -41,7 +41,7 @@ Future<ModelCommonResponse> orderTip(
 Future<ModelCommonResponse> removeTip(
     {required BuildContext context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
   ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));

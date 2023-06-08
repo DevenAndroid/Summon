@@ -26,7 +26,20 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       translations: LocaleString(),
       locale: Locale('en','US'),
-      darkTheme: ThemeData.light(),
+      darkTheme: ThemeData(
+          fontFamily: 'Poppins',
+          bottomAppBarTheme: const BottomAppBarTheme(
+              color: Colors.transparent,
+              elevation: 0
+          ),
+          primaryColor: AppTheme.primaryColor,
+          scaffoldBackgroundColor: const Color(0xffF5F5F5),
+          // highlightColor: AppTheme.primaryColor,
+          scrollbarTheme: const ScrollbarThemeData().copyWith(
+            thumbColor: MaterialStateProperty.all(AppTheme.primaryColor),
+          ),
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(secondary: AppTheme.primaryColor)),
       defaultTransition: Transition.rightToLeft,
       debugShowCheckedModeBanner: false,
       initialRoute: "/splashScreen",
@@ -45,6 +58,7 @@ class MyApp extends StatelessWidget {
           ),
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(secondary: AppTheme.primaryColor)),
+
     );
   }
 }

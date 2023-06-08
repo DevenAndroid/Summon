@@ -43,10 +43,13 @@ class _SingleProductPageState extends State<SingleProductPage> {
   @override
   void initState() {
     super.initState();
-    singleProductController.getSingleProductData().then((value) {
-      isSelectedVariants.value = singleProductController.model.value.data!.productDetail!.variants![0].id.toString();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      singleProductController.getSingleProductData().then((value) {
+        isSelectedVariants.value = singleProductController.model.value.data!.productDetail!.variants![0].id.toString();
+      });
+      homeController1.getHomePageData();
     });
-    homeController1.getHomePageData();
+
   }
 
   @override
@@ -86,7 +89,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                               height: height * .01,
                             ),
                             SizedBox(
-                              height: height * .2,
+                              // height: height * .2,
                               width: width,
                               child: Card(
                                 shape: RoundedRectangleBorder(
@@ -127,41 +130,49 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            if(singleProductController.model.value
-                                                .data!.productDetail!.variants !=null)
-                                            Text(
-                                              (double.tryParse(singleProductController
-                                                  .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
-                                                  0) == 0 ? singleProductController
-                                                  .model.value.data!.productDetail!.variants![0].price.toString(): (double.tryParse(singleProductController
-                                                  .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
-                                                  0).toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: AppTheme.primaryColor),
-                                            ),
-                                            SizedBox(
-                                              width: 6,
-                                            ),
-                                            Text(
-                                              "SR",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: AppTheme.primaryColor),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "1200 Cal",
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Color(0xff8E8E8E)),
-                                            ),
-                                            Flexible(child: Container()),
+                                         Expanded(
+                                           child: Row(
+                                             children: [
+                                               if(singleProductController.model.value
+                                                   .data!.productDetail!.variants !=null)
+                                                 Flexible(
+                                                   child: Text(
+                                                     (double.tryParse(singleProductController
+                                                         .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
+                                                         0) == 0 ? singleProductController
+                                                         .model.value.data!.productDetail!.variants![0].price.toString(): (double.tryParse(singleProductController
+                                                         .model.value.data!.productDetail!.variants!.firstWhere((element) => element.id.toString() == isSelectedVariants.value,orElse: ()=> Variants()).price.toString()) ??
+                                                         0).toString(),
+                                                     style: GoogleFonts.ibmPlexSansArabic(
+                                                         fontSize: 20,
+                                                         fontWeight: FontWeight.w700,
+                                                         color: AppTheme.primaryColor),
+                                                   ),
+                                                 ),
+                                               SizedBox(
+                                                 width: 6,
+                                               ),
+                                               Text(
+                                                 "SR",
+                                                 style: TextStyle(
+                                                     fontSize: 18,
+                                                     fontWeight: FontWeight.w700,
+                                                     color: AppTheme.primaryColor),
+                                               ),
+                                               SizedBox(
+                                                 width: 5,
+                                               ),
+                                               Text(
+                                                 "1200 Cal",
+                                                 style: TextStyle(
+                                                     fontSize: 12,
+                                                     fontWeight: FontWeight.w500,
+                                                     color: Color(0xff8E8E8E)),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+
                                             Container(
                                               height: height * .05,
                                               width: width * .30,
@@ -296,7 +307,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                       ),
                       Positioned(
                           top: -2,
-                          right: 20,
+                          //right: 20,
                           child: Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Row(
@@ -454,7 +465,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: locale==Locale('en','US') ? EdgeInsets.only(left: 10):EdgeInsets.only(right: 12),
               child: Text(
                "Size",
                 style: GoogleFonts.ibmPlexSansArabic(
@@ -467,41 +478,39 @@ class _SingleProductPageState extends State<SingleProductPage> {
               shrinkWrap: true,
                 itemCount: singleProductController.model.value.data!.productDetail!.variants!.length,
                 itemBuilder:(BuildContext, int index){
-              return  Row(
-                children: [
+              return  Padding(
+                padding: locale==Locale('en','US') ? EdgeInsets.only(right: 5):EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
 
-                  Radio<String>(
-                      value: singleProductController.model.value.data!.productDetail!.variants![index].id.toString(),
-                      groupValue: isSelectedVariants.value,
-                      onChanged: (value) {
-                        isSelectedVariants.value = value!;
-                        print(isSelectedVariants.value);
-                        setState(() {});
-                      }),
-                  Expanded(
-                    child: Text(
-                      singleProductController.model.value.data!.productDetail!.variants![index].sizeName.toString(),
-                      style: GoogleFonts.ibmPlexSansArabic(
-                          color: Color(0xff000000),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700),
+                    Radio<String>(
+                        value: singleProductController.model.value.data!.productDetail!.variants![index].id.toString(),
+                        groupValue: isSelectedVariants.value,
+                        onChanged: (value) {
+                          isSelectedVariants.value = value!;
+                          print(isSelectedVariants.value);
+                          setState(() {});
+                        }),
+                    Expanded(
+                      child: Text(
+                        singleProductController.model.value.data!.productDetail!.variants![index].sizeName.toString(),
+                        style: GoogleFonts.ibmPlexSansArabic(
+                            color: Color(0xff000000),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 80,
-                  ),
-                  Flexible(child: Container()),
-                  Expanded(
-                    child: Text(
-                      singleProductController.model.value.data!.productDetail!.variants![index].price.toString(),
+                    Text(
+                      "+${singleProductController.model.value.data!.productDetail!.variants![index].price.toString()} SR",
                       // "+${e.price!} SR",
                       style: GoogleFonts.ibmPlexSansArabic(
                           color: Color(0xff000000),
                           fontSize: 14,
                           fontWeight: FontWeight.w700),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             })
 
@@ -521,7 +530,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: locale==Locale('en','US') ?  EdgeInsets.only(left: 10):EdgeInsets.only(right: 10),
               child: Text(
                 e.title.toString(),
                 style: GoogleFonts.ibmPlexSansArabic(
@@ -532,50 +541,56 @@ class _SingleProductPageState extends State<SingleProductPage> {
             ),
             ...e.addonData!
                 .map((e2) =>
-                Row(
-                      children: [
-                        e.multiSelectAddons == false
-                            ? Radio<String>(
-                                value: e2.id.toString(),
-                                groupValue: e.selectedAddon,
-                                onChanged: (value) {
-                                  e.selectedAddon = value!;
-                                  setState(() {});
-                                })
-                            : Checkbox(
-                                value: e2.selectedAddOn.isNotEmpty,
-                                onChanged: (value11) {
-                                  if(value11 == true){
-                                    e2.selectedAddOn = e2.id.toString();
-                                  } else {
-                                    e2.selectedAddOn = "";
-                                  }
+                Padding(
+                  padding:const EdgeInsets.only(right: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          e.multiSelectAddons == false
+                              ? Radio<String>(
+                                  value: e2.id.toString(),
+                                  groupValue: e.selectedAddon,
+                                  onChanged: (value) {
+                                    e.selectedAddon = value!;
                                     setState(() {});
-                                }),
-                        Expanded(
-                          child: Text(
-                            e2.name!,
+                                  })
+                              : Checkbox(
+                                  value: e2.selectedAddOn.isNotEmpty,
+                                  onChanged: (value11) {
+                                    if(value11 == true){
+                                      e2.selectedAddOn = e2.id.toString();
+                                    } else {
+                                      e2.selectedAddOn = "";
+                                    }
+                                      setState(() {});
+                                  }),
+                          Expanded(
+                            child: Text(
+                              e2.name!,
+                              style: GoogleFonts.ibmPlexSansArabic(
+                                  color: Color(0xff000000),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          Text(
+                            "+${e2.calories!} cal",
                             style: GoogleFonts.ibmPlexSansArabic(
-                                color: Color(0xff000000),
+                                color: Color(0xff909090),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700),
                           ),
-                        ),
-                        SizedBox(
-                          width: 80,
-                        ),
-                        Flexible(child: Container()),
-                        Expanded(
-                          child: Text(
+                          SizedBox(width: 20,),
+                          Text(
                             "+${e2.price!} SR",
                             style: GoogleFonts.ibmPlexSansArabic(
                                 color: Color(0xff000000),
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700),
                           ),
-                        ),
-                      ],
-                    ))
+                        ],
+                      ),
+                ))
                 .toList(),
           ],
         ),

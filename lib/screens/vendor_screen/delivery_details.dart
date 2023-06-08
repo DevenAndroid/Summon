@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_assets.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
@@ -10,11 +8,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../controller/MyOrder_Details_Controller.dart';
 import '../../controller/Vendor_Orderlist_Controller.dart';
 import '../../repositories/Order_Accept.Repo.dart';
 import '../../repositories/vendor_reject_variant_repo.dart';
+import '../Language_Change_Screen.dart';
 
 class DeliveryOrderDetails extends StatefulWidget {
   const DeliveryOrderDetails({Key? key}) : super(key: key);
@@ -67,9 +65,9 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
 
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US')? TextDirection.ltr:TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Delivery Details", context: context),
+          appBar: backAppBar(title: "Delivery Details".tr, context: context),
           body: vendorOrderListController.isDataLoading.value
               ? NestedScrollView(
                   headerSliverBuilder: (_, __) {
@@ -114,43 +112,64 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                                         SizedBox(
                                                           width: AddSize.size15,
                                                         ),
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              'Order ID : ${vendorOrderListController.model.value.data!.orderId.toString()}',
-                                                              //'order id',
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .primaryColor,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                            Text(
-                                                              vendorOrderListController
-                                                                  .model
-                                                                  .value
-                                                                  .data!
-                                                                  .placedAt
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .blackcolor,
-                                                                  fontSize:
-                                                                      AddSize
-                                                                          .font12,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w400),
-                                                            ),
-                                                          ],
+                                                        Expanded(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                'Order ID : ${vendorOrderListController.model.value.data!.orderId.toString()}',
+
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .primaryColor,
+                                                                    fontSize:
+                                                                        AddSize
+                                                                            .font16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              ),
+                                                              Text(
+                                                                vendorOrderListController
+                                                                    .model
+                                                                    .value
+                                                                    .data!
+                                                                    .placedAt
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .blackcolor,
+                                                                    fontSize:
+                                                                        AddSize
+                                                                            .font12,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
+                                                        Container(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius.circular(6),
+                                                                color: AppTheme.primaryColor),
+                                                            child: Padding(
+                                                              padding: EdgeInsets.symmetric(
+                                                                  horizontal: width * .04,
+                                                                  vertical: height * .005),
+                                                              child: Text(
+                                                                vendorOrderListController.model
+                                                                    .value.data!.deliveryStatus
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize: AddSize.font14,
+                                                                    color: AppTheme.backgroundcolor,
+                                                                    fontWeight: FontWeight.w500),
+                                                              ),
+                                                            ))
                                                       ],
                                                     ),
                                                   ),
@@ -240,28 +259,6 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                           ],
                                         ),
                                       )),
-                                  Positioned(
-                                      top: 12,
-                                      left: 12,
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
-                                              color: AppTheme.primaryColor),
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: width * .04,
-                                                vertical: height * .005),
-                                            child: Text(
-                                              vendorOrderListController.model
-                                                  .value.data!.deliveryStatus
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: AddSize.font14,
-                                                  color: AppTheme.backgroundcolor,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          )))
                                 ],
                               ),
                               SizedBox(
@@ -296,13 +293,13 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(children: [
-                                  Column(
+                                Expanded(
+                                  child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Delivery by",
+                                        "Delivery by".tr,
                                         style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 14,
                                           color: Color(0xff797F90),
@@ -352,7 +349,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                       ),
                                     ],
                                   ),
-                                ]),
+                                ),
                                 GestureDetector(
                                     onTap: () async {
                                       // _makingPhoneCall(vendorOrderListController.model.value.data!.driver!.phone.toString());
@@ -369,24 +366,23 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                 const Divider(),
                               ],
                             ): SizedBox(),
-
+                              Divider(),
                             Row(
                               mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(children: [
-                                  Column(
+                                Expanded(
+                                  child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Delivery To",
+                                        "Delivery To".tr,
                                         style: GoogleFonts.ibmPlexSansArabic(
                                           fontSize: 14,
                                           color: Color(0xff797F90),
                                           fontWeight: FontWeight.w700
                                         ),
-
                                       ),
                                       SizedBox(height: 5,),
                                       Text(
@@ -430,7 +426,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                                       ),
                                     ],
                                   ),
-                                ]),
+                                ),
                                 GestureDetector(
                                     onTap: (){
                                       openMap(double.parse(vendorOrderListController.model.value.data!.address!..toString()),double.parse(vendorOrderListController.model.value.data!.address!.toString()));
@@ -456,69 +452,108 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
           bottomNavigationBar: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: AddSize.padding16, vertical: AddSize.padding16),
-            child: vendorOrderListController.isDataLoading.value ? vendorOrderListController.model
-                .value.data!.deliveryStatus != "Reject" ?
-            ElevatedButton(
-                onPressed: () {
-                  orderAcceptRepo(vendorOrderListController
-                          .model.value.data!.orderId
-                          .toString())
-                      .then((value) {
-                    showToast(value.message.toString());
-                    if (value.status == true) {
-                      vendorOrderController.vendorOrderListData();
-                      Get.back();
-                    }
-                  });
-                  // Get.toNamed(MyRouter.editProfileScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(10),
-                    minimumSize: Size(double.maxFinite, AddSize.size50),
-                    primary: vendorOrderListController.model
-                        .value.data!.deliveryStatus == "Accepted" ? Colors.grey: AppTheme.primaryColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    textStyle: TextStyle(
-                        fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
-                child: Text(
-                  "ACCEPT ALL",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: AppTheme.backgroundcolor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: AddSize.font16),
-                )):
-            ElevatedButton(
-                onPressed: () {
-                  // orderAcceptRepo(vendorOrderListController
-                  //     .model.value.data!.orderId
-                  //     .toString())
-                  //     .then((value) {
-                  //   showToast(value.message.toString());
-                  //   if (value.status == true) {
-                  //     vendorOrderController.vendorOrderListData();
-                  //     Get.back();
-                  //   }
-                  // });
-                  // Get.toNamed(MyRouter.editProfileScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(10),
-                    minimumSize: Size(double.maxFinite, AddSize.size50),
-                    primary: Colors.grey,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    textStyle: TextStyle(
-                        fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
-                child: Text(
-                  "REJECTED",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      color: AppTheme.backgroundcolor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: AddSize.font16),
-                )) :SizedBox(),
+            child: vendorOrderListController.isDataLoading.value ?
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if(vendorOrderListController.model
+                    .value.data!.deliveryStatus == "Order Placed" )
+                ElevatedButton(
+                    onPressed: () {
+                      orderAcceptRepo(vendorOrderListController
+                              .model.value.data!.orderId
+                              .toString())
+                          .then((value) {
+                        showToast(value.message.toString());
+                        if (value.status == true) {
+                          vendorOrderController.vendorOrderListData();
+                          Get.back();
+                        }
+                      });
+                      // Get.toNamed(MyRouter.editProfileScreen);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(10),
+                        minimumSize: Size(double.maxFinite, AddSize.size50),
+                        primary: AppTheme.primaryColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        textStyle: TextStyle(
+                            fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
+                    child: Text(
+                      "ACCEPT ALL".tr,
+                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: AppTheme.backgroundcolor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: AddSize.font16),
+                    )),
+                if(vendorOrderListController.model
+                    .value.data!.deliveryStatus == "Rejected" )
+                  ElevatedButton(
+                      onPressed: () {
+                        // orderAcceptRepo(vendorOrderListController
+                        //     .model.value.data!.orderId
+                        //     .toString())
+                        //     .then((value) {
+                        //   showToast(value.message.toString());
+                        //   if (value.status == true) {
+                        //     vendorOrderController.vendorOrderListData();
+                        //     Get.back();
+                        //   }
+                        // });
+                        // Get.toNamed(MyRouter.editProfileScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(10),
+                          minimumSize: Size(double.maxFinite, AddSize.size50),
+                          primary: Colors.grey,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          textStyle: TextStyle(
+                              fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
+                      child: Text(
+                        "REJECTED".tr,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: AppTheme.backgroundcolor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: AddSize.font16),
+                      )),
+                if(vendorOrderListController.model
+                    .value.data!.deliveryStatus == "Accepted" )
+                  ElevatedButton(
+                      onPressed: () {
+                        // orderAcceptRepo(vendorOrderListController
+                        //     .model.value.data!.orderId
+                        //     .toString())
+                        //     .then((value) {
+                        //   showToast(value.message.toString());
+                        //   if (value.status == true) {
+                        //     vendorOrderController.vendorOrderListData();
+                        //     Get.back();
+                        //   }
+                        // });
+                        // Get.toNamed(MyRouter.editProfileScreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(10),
+                          minimumSize: Size(double.maxFinite, AddSize.size50),
+                          primary: Colors.grey,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          textStyle: TextStyle(
+                              fontSize: AddSize.font18, fontWeight: FontWeight.w600)),
+                      child: Text(
+                        "ACCEPT ALL".tr,
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: AppTheme.backgroundcolor,
+                            fontWeight: FontWeight.w500,
+                            fontSize: AddSize.font16),
+                      )),
+              ],
+            ):SizedBox()
           ),
         ),
       );
@@ -540,10 +575,18 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
       children: [
         Center(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "x ${qty}",
+                "${qty}",
+                style: TextStyle(
+                    fontSize: AddSize.font14,
+                    color: AppTheme.lightblack,
+                    fontWeight: FontWeight.w500),
+              ),
+              SizedBox(width: 5,),
+              Text(
+                "x",
                 style: TextStyle(
                     fontSize: AddSize.font14,
                     color: AppTheme.lightblack,
@@ -559,6 +602,10 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                       fontWeight: FontWeight.w500),
                 ),
               ),
+
+
+
+
               Text(
                 "SR",
                 style: TextStyle(
@@ -581,53 +628,65 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                   .model
                   .value
                   .data!
-                  .deliveryStatus == "Accepted" ? SizedBox():
-              status1 != "R"
-                  ? ElevatedButton(
-                  onPressed: () {
-                    vendorRejectVariantRepo(order_variant_id: variantId)
-                        .then((value) {
-                      if (value.status == true) {
-                        log(variantId);
-                        showToast(value.message);
-                        vendorOrderListController.getMyOrderDetails();
-                      }
-                    });
-                    // Get.toNamed(MyRouter.editProfileScreen);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 5),
-                    // minimumSize: Size(double.maxFinite, AddSize.size50),
-                    primary: const Color(0xffF04148),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6)),
-                  ),
-                  child: Text(
-                    "REJECT".toUpperCase(),
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: AppTheme.backgroundcolor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AddSize.font16),
-                  ))
-                  : Container(
-                height: 15,
+                  .deliveryStatus == "Accepted" || vendorOrderListController
+                  .model
+                  .value
+                  .data!
+                  .deliveryStatus == "Delivered"? SizedBox():
+
+              Column(
+                children: [
+                  if(status1 != "R")
+                    ElevatedButton(
+                        onPressed: () {
+                          vendorRejectVariantRepo(order_variant_id: variantId)
+                              .then((value) {
+                            if (value.status == true) {
+                              log(variantId);
+                              showToast(value.message);
+                              vendorOrderListController.getMyOrderDetails();
+                            }
+                          });
+                          // Get.toNamed(MyRouter.editProfileScreen);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          // minimumSize: Size(double.maxFinite, AddSize.size50),
+                          primary: const Color(0xffF04148),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)),
+                        ),
+                        child: Text(
+                          "REJECT".toUpperCase(),
+                          style: Theme.of(context).textTheme.headline5!.copyWith(
+                              color: AppTheme.backgroundcolor,
+                              fontWeight: FontWeight.w500,
+                              fontSize: AddSize.font16),
+                        ))
+                  else
+                  Container(
+                    height: 15,
                     width: 55,
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
-                      borderRadius: BorderRadius.circular(5)
+                        color: AppTheme.primaryColor,
+                        borderRadius: BorderRadius.circular(5)
                     ),
                     child: Center(
                       child: Text(
-                "REJECTED",
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AddSize.font14),
-              ),
+                        "REJECTED",
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: AddSize.font14),
+                      ),
                     ),
                   ),
+
+                ],
+              )
+
             ],
           ),
         ),
@@ -662,7 +721,7 @@ class _DeliveryOrderDetailsState extends State<DeliveryOrderDetails>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   details(
-                    "Subtotal:",
+                    "Subtotal:".tr,
                     vendorOrderListController.model.value.data!.itemTotal
                         .toString(),
                   ),

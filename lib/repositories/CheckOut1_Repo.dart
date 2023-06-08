@@ -4,12 +4,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/model/Social_Login_Model.dart';
-import 'package:fresh2_arrive/model/model_common_ressponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/CheckOut_Model1.dart';
-import '../model/check_out_model.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
@@ -19,7 +16,7 @@ Future<CheckOutModel1> checkOutRepo1(
   map['type'] = type;
   map['payment_type'] = payment_type;
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));

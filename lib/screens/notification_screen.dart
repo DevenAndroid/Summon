@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/controller/notification_controller.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
 import '../widgets/dimensions.dart';
@@ -80,23 +81,7 @@ class NotificationScreenState extends State<NotificationScreen> {
             SizedBox(
               width: width * 0.03,
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Container(
-                height: height * .05,
-                width: width * .10,
-                decoration:  ShapeDecoration(
-                    color: AppTheme.primaryColor.withOpacity(.80), shape: CircleBorder()),
-                child: Center(
-                    child: Text(
-                  "B",
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 24,
-                      color: AppTheme.backgroundcolor),
-                )),
-              ),
-            ),
+
             Expanded(
               child: Container(
                 margin: const EdgeInsets.fromLTRB(12, 8, 8, 12),
@@ -106,18 +91,18 @@ class NotificationScreenState extends State<NotificationScreen> {
                   children: [
                     Text(
                       date,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppTheme.primaryColor.withOpacity(.80),
-                            fontSize: 12,
+                      style: GoogleFonts.ibmPlexSansArabic(
+                            fontWeight: FontWeight.w700,
+                            color: AppTheme.primaryColor,
+                            fontSize: 14,
                           ),
                     ),
                     addHeight(4),
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontWeight: FontWeight.w400,
-                            color: AppTheme.blackcolor,
+                      style: GoogleFonts.ibmPlexSansArabic(
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff2A3757),
                             fontSize: 14,
                           ),
                     ),
@@ -127,9 +112,9 @@ class NotificationScreenState extends State<NotificationScreen> {
                       description,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
+                      style: GoogleFonts.ibmPlexSansArabic(
                             fontWeight: FontWeight.w400,
-                            color: AppTheme.subText,
+                            color: Color(0xff797F8F),
                             fontSize: 12,
                           ),
                     )

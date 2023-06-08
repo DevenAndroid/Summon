@@ -12,6 +12,7 @@ import '../repositories/WishList_Repository.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
+import 'Language_Change_Screen.dart';
 
 class StoreByCategoryListScreen extends StatefulWidget {
   const StoreByCategoryListScreen({Key? key}) : super(key: key);
@@ -49,11 +50,13 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Obx(() {
-      return Directionality(
-        textDirection: TextDirection.rtl,
+
+
+      return
+        Directionality(
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Store", context: context),
+          appBar: backAppBar(title: "Store".tr, context: context),
           body: SingleChildScrollView(
             controller: scrollController,
             physics: const BouncingScrollPhysics(),
@@ -65,9 +68,9 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
                   Obx(() {
                     return nearStoreController.isDataLoading.value
                         ? nearStoreController.model.value.data!.isEmpty
-                            ? const Center(
+                            ?  Center(
                                 child: Text(
-                                  'Store Not Available',
+                                  'Store Not Available'.tr,
                                   style: TextStyle(
                                       color: AppTheme.blackcolor,
                                       fontSize: 16,
@@ -158,52 +161,54 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
                                                                       fontWeight: FontWeight.w500,
                                                                       color: Color(0xff08141B)),),
                                                                 SizedBox(height: 8,),
-                                                                Row(
-                                                                  children: [
-                                                                    Text("SR",
-                                                                      style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          color: Color(
-                                                                              0xff2C4D61)),), SizedBox(width: 3,),
-                                                                    Text("${nearStoreController.model.value
-                                                                        .data![index].deliveryCharge
-                                                                        .toString()}",
-                                                                      style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          color: Color(
-                                                                              0xff2C4D61)),), SizedBox(width: 5,),
-                                                                    Icon(Icons.circle,size: 5,color: Color(
-                                                                        0xff2C4D61)),
-                                                                    SizedBox(width: 5,),
-                                                                    Text("KM",
-                                                                      style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          color: Color(
-                                                                              0xff2C4D61)),), SizedBox(width: 3,),
-                                                                    Text(nearStoreController.model.value
-                                                                        .data![index].distance
-                                                                        .toString(),
+                                                                FittedBox(
+                                                                  child: Row(
+                                                                    children: [
+                                                                      Text("SR",
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                            fontWeight: FontWeight
+                                                                                .w400,
+                                                                            color: Color(
+                                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                                      Text("${nearStoreController.model.value
+                                                                          .data![index].deliveryCharge
+                                                                          .toString()}",
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                            fontWeight: FontWeight
+                                                                                .w400,
+                                                                            color: Color(
+                                                                                0xff2C4D61)),), SizedBox(width: 5,),
+                                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                                          0xff2C4D61)),
+                                                                      SizedBox(width: 5,),
+                                                                      Text("KM",
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
+                                                                            fontWeight: FontWeight
+                                                                                .w400,
+                                                                            color: Color(
+                                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                                      Text(nearStoreController.model.value
+                                                                          .data![index].distance
+                                                                          .toString(),
 
-                                                                      style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
-                                                                          fontWeight: FontWeight
-                                                                              .w400,
-                                                                          color: Color(
-                                                                              0xff2C4D61)),),
-                                                                    SizedBox(width: 5,),
-                                                                    Icon(Icons.circle,size: 5,color: Color(
-                                                                        0xff2C4D61)),
-                                                                    SizedBox(width: 5,),
-                                                                    Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
-                                                                    Text(nearStoreController.model.value
-                                                                        .data![index].avgRating
-                                                                        .toString(), style:  GoogleFonts.ibmPlexSansArabic(
-                                                                        fontSize: 14,
-                                                                        fontWeight: FontWeight.w400,
-                                                                        color: Color(0xff2C4D61)),),
-                                                                  ],
+                                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                                            fontWeight: FontWeight
+                                                                                .w400,
+                                                                            color: Color(
+                                                                                0xff2C4D61)),),
+                                                                      SizedBox(width: 5,),
+                                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                                          0xff2C4D61)),
+                                                                      SizedBox(width: 5,),
+                                                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                                      Text(nearStoreController.model.value
+                                                                          .data![index].avgRating
+                                                                          .toString(), style:  GoogleFonts.ibmPlexSansArabic(
+                                                                          fontSize: 14,
+                                                                          fontWeight: FontWeight.w400,
+                                                                          color: Color(0xff2C4D61)),),
+                                                                    ],
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),
@@ -265,7 +270,9 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
                         : const Center(
                             child: Padding(
                             padding: EdgeInsets.only(top: 100),
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(
+                              color: AppTheme.primaryColor,
+                            ),
                           ));
                   }),
                   addHeight(30)
@@ -273,14 +280,15 @@ class _StoreByCategoryListScreenState extends State<StoreByCategoryListScreen> {
               ),
             ),
           ),
-          extendBody: true,
-          bottomNavigationBar: myCartController.isDataLoaded.value
-              ? myCartController.model.value.data!.cartItems!.isNotEmpty
-                  ? addCartSection()
-                  : null
-              : const SizedBox(),
+          // extendBody: true,
+          // bottomNavigationBar: myCartController.isDataLoaded.value
+          //     ? myCartController.model.value.data!.cartItems!.isNotEmpty
+          //         ? addCartSection()
+          //         : null
+          //     : const SizedBox(),
         ),
       );
-    });
+
+
   }
 }

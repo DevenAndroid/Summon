@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/Social_Login_Model.dart';
 import '../model/Store_Details_model.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 
@@ -50,7 +49,7 @@ Future<StoreDetailsModel> storeDetailsRepo1(
       BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if (context != null) {
-    Overlay.of(context)!.insert(loader);
+    Overlay.of(context).insert(loader);
   }
   try {
     SharedPreferences pref = await SharedPreferences.getInstance();

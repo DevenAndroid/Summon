@@ -32,22 +32,17 @@ class CustomNavigationBar extends StatefulWidget {
 }
 
 class CustomNavigationBarState extends State<CustomNavigationBar> {
-  final myOrderController = Get.put(MyOrderController());
   final homeSearchController = Get.put(HomePageController1());
   final controller = Get.put(MainHomeController());
-  final profileController = Get.put(ProfileController());
   final locationController = Get.put(LocationController());
   final myCartController = Get.put(MyCartController());
-  final notificationController = Get.put(NotificationController());
-
-  final controller1 = Get.put(ProfileController());
   final scrollController = ScrollController();
   final getStoreOnMapController = Get.put(GetStoresOnMapController());
 
   void _scrollListener() {
     if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       homeSearchController.page.value++;
-      homeSearchController.searchingData(context: context);
+      homeSearchController.searchingData();
       print("call");
     }else{
       print("dont call");
@@ -58,8 +53,8 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
     // TODO: implement initState
     super.initState();
     locationController.checkGps(context);
-    homeSearchController.searchingData();
-    scrollController.addListener(_scrollListener);
+    //homeSearchController.searchingData();
+    // scrollController.addListener(_scrollListener);
    // myCartController.getAddToCartList();
   }
 
@@ -165,7 +160,7 @@ class CustomNavigationBarState extends State<CustomNavigationBar> {
                                       ),
                                       child: GestureDetector(
                                         onTap: (){
-                                          homeSearchController.searchingData(allowClear: true, context: context);
+                                          // homeSearchController.searchingData(allowClear: true,);
                                         },
                                         child: const ImageIcon(
                                           AssetImage(AppAssets.searchIcon),

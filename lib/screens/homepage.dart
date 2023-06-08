@@ -55,12 +55,12 @@ class HomePageState extends State<HomePage> {
   final scrollController = ScrollController();
 
   void _scrollListener() {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      nearStoreController
-          .getData(context: context)
-          .then((value) => setState(() {}));
-    }
+    // if (scrollController.position.pixels ==
+    //     scrollController.position.maxScrollExtent) {
+    //   nearStoreController
+    //       .getData(context: context)
+    //       .then((value) => setState(() {}));
+    // }
   }
 
   @override

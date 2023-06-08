@@ -200,23 +200,8 @@ class _StoreScreenState extends State<StoreScreen> {
                                           height: 5,
                                         ),
                                         Row(
-                                          //mainAxisAlignment:MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:MainAxisAlignment.spaceBetween,
                                           children: [
-                                            InkWell(
-                                              onTap: () async {
-                                                Uri phoneno = Uri.parse(
-                                                    "tel:${singleStoreController.storeDetailsModel.value.data!.storeDetails!.phone.toString()}");
-                                                if (await launchUrl(phoneno)) {
-                                                } else {}
-                                              },
-                                              child: Image(
-                                                height: 35,
-                                                width: 35,
-                                                image: AssetImage(
-                                                    AppAssets.callImage),
-                                              ),
-                                            ),
-                                            //Flexible(child: Container()),
                                             Expanded(
                                               child: SingleChildScrollView(
                                                 scrollDirection: Axis.horizontal,
@@ -263,6 +248,20 @@ class _StoreScreenState extends State<StoreScreen> {
                                 ))
                           .toList(),
                                                 ),
+                                              ),
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                Uri phoneno = Uri.parse(
+                                                    "tel:${singleStoreController.storeDetailsModel.value.data!.storeDetails!.phone.toString()}");
+                                                if (await launchUrl(phoneno)) {
+                                                } else {}
+                                              },
+                                              child: Image(
+                                                height: 35,
+                                                width: 35,
+                                                image: AssetImage(
+                                                    AppAssets.callImage),
                                               ),
                                             ),
                                           ],
@@ -439,27 +438,9 @@ class _StoreScreenState extends State<StoreScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Cal",
-                                        style: GoogleFonts.ibmPlexSansArabic(
-                                            fontSize: 12,
-                                            color: Color(0xff8E8E8E),
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      SizedBox(
-                                        width: 3,
-                                      ),
-                                      Text(
-                                        product.calories.toString(),
-                                        style: GoogleFonts.ibmPlexSansArabic(
-                                            fontSize: 12,
-                                            color: Color(0xff8E8E8E),
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      SizedBox(
-                                        width: 6,
-                                      ),
-                                      Text(
-                                        "SR",
+                                        product.variants![0].price
+                                            .toString()
+                                            .substring(0, 2),
                                         style: GoogleFonts.ibmPlexSansArabic(
                                             fontSize: 15,
                                             color: AppTheme.primaryColor,
@@ -469,55 +450,35 @@ class _StoreScreenState extends State<StoreScreen> {
                                         width: 4,
                                       ),
                                       Text(
-                                        product.variants![0].price
-                                            .toString()
-                                            .substring(0, 2),
+                                        "SR",
                                         style: GoogleFonts.ibmPlexSansArabic(
                                             fontSize: 15,
                                             color: AppTheme.primaryColor,
                                             fontWeight: FontWeight.w700),
                                       ),
+                                      SizedBox(
+                                        width: 6,
+                                      ),
+                                      Text(
+                                        product.calories.toString(),
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 12,
+                                            color: Color(0xff8E8E8E),
+                                            fontWeight: FontWeight.w300),
+                                      ),
+
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(
+                                        "Cal",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 12,
+                                            color: Color(0xff8E8E8E),
+                                            fontWeight: FontWeight.w300),
+                                      ),
                                     ],
                                   ),
-
-                                  // OutlinedButton(
-                                  //   style: OutlinedButton
-                                  //       .styleFrom(
-                                  //     shape: const RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //         BorderRadius.all(Radius.circular(6))),
-                                  //     minimumSize: Size(
-                                  //         AddSize.size50,
-                                  //         AddSize.size30),
-                                  //     side: const BorderSide(
-                                  //         color:
-                                  //         AppTheme.primaryColor,
-                                  //         width: 1),
-                                  //     backgroundColor:
-                                  //     Color(0xffFFE1D9),
-                                  //   ),
-                                  //   onPressed:
-                                  //       () {
-                                  //     singleProductController.id.value =
-                                  //         singleStoreController
-                                  //             .storeDetailsModel
-                                  //             .value
-                                  //             .data!
-                                  //             .latestProducts![index].productData![index]
-                                  //             .id
-                                  //             .toString();
-                                  //     print(
-                                  //         singleProductController.id.value);
-                                  //     Get.toNamed(SingleProductPage
-                                  //         .singleProductPage);
-                                  //   },
-                                  //   child: Text(
-                                  //       "SELECT",
-                                  //       style: TextStyle(
-                                  //           fontSize: AddSize.font12,
-                                  //           color: AppTheme.primaryColor,
-                                  //           fontWeight: FontWeight.w600)),
-                                  // )
                                 ],
                               ),
                               // this is for dropdown testing code

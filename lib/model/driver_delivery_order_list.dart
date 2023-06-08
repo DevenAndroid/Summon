@@ -2,7 +2,7 @@ import 'CheckOut_Model1.dart';
 
 class DriverDeliveryOrderList {
   bool? status;
-  String? message;
+  dynamic message;
   Data? data;
 
   DriverDeliveryOrderList({this.status, this.message, this.data});
@@ -25,10 +25,10 @@ class DriverDeliveryOrderList {
 }
 
 class Data {
-  String? username;
+  dynamic username;
   bool? deliveryMode;
-  int? deliveredOrders;
-  int? earningBalance;
+  dynamic deliveredOrders;
+  dynamic earningBalance;
   List<ListData>? list;
   AcceptedOrderDetail? acceptedOrderDetail;
 
@@ -73,14 +73,14 @@ class Data {
 }
 
 class ListData {
-  String? date;
-  int? orderId;
-  String? paymentMethod;
+  dynamic date;
+  dynamic orderId;
+  dynamic paymentMethod;
   List<OrderItem>? orderItem;
-  int? orderTotal;
+  dynamic orderTotal;
   Location? location;
   VendorLocation? vendorLocation;
-  int? distance;
+  dynamic distance;
 
   ListData(
       {this.date,
@@ -133,16 +133,16 @@ class ListData {
 }
 
 class OrderItem {
-  int? id;
-  int? productId;
-  String? productName;
-  int? variantId;
-  int? price;
+  dynamic id;
+  dynamic productId;
+  dynamic productName;
+  dynamic variantId;
+  dynamic price;
   List<Addons>? addons;
-  int? qty;
-  int? totalPrice;
-  String? note;
-  String? status;
+  dynamic qty;
+  dynamic totalPrice;
+  dynamic note;
+  dynamic status;
 
   OrderItem(
       {this.id,
@@ -193,11 +193,11 @@ class OrderItem {
 }
 
 class Addons {
-  int? id;
-  String? title;
-  String? name;
-  String? calories;
-  String? price;
+  dynamic id;
+  dynamic title;
+  dynamic name;
+  dynamic calories;
+  dynamic price;
   bool? multiSelect;
 
   Addons(
@@ -230,19 +230,19 @@ class Addons {
 }
 
 class Location {
-  int? id;
-  int? userId;
-  String? latitude;
-  String? note;
-  String? longitude;
+  dynamic id;
+  dynamic userId;
+  dynamic latitude;
+  dynamic note;
+  dynamic longitude;
   Null? location;
-  String? name;
-  String? phone;
-  String? image;
-  String? addressType;
+  dynamic name;
+  dynamic phone;
+  dynamic image;
+  dynamic addressType;
   bool? leaveAtDoor;
-  String? createdAt;
-  String? updatedAt;
+  dynamic createdAt;
+  dynamic updatedAt;
   Null? deletedAt;
 
   Location(
@@ -299,17 +299,17 @@ class Location {
 }
 
 class VendorLocation {
-  int? storeId;
-  int? id;
-  String? storeName;
-  String? phone;
-  String? businessId;
-  String? latitude;
-  String? longitude;
+  dynamic storeId;
+  dynamic id;
+  dynamic storeName;
+  dynamic phone;
+  dynamic businessId;
+  dynamic latitude;
+  dynamic longitude;
   List<int>? storeCategory;
-  String? storeImage;
-  String? businessIdImage;
-  String? remark;
+  dynamic storeImage;
+  dynamic businessIdImage;
+  dynamic remark;
   bool? status;
 
   VendorLocation(
@@ -360,23 +360,23 @@ class VendorLocation {
 }
 
 class AcceptedOrderDetail {
-  int? orderId;
-  int? itemTotal;
-  int? deliveryCharges;
-  int? walletSaving;
+  dynamic orderId;
+  dynamic itemTotal;
+  dynamic deliveryCharges;
+  dynamic walletSaving;
   Null? couponDiscount;
-  int? commissionDriver;
-  int? commissionAdmin;
-  int? grandTotal;
+  dynamic commissionDriver;
+  dynamic commissionAdmin;
+  dynamic grandTotal;
   User? user;
   Vendor? vendor;
   User? driver;
   Location? address;
-  String? orderType;
-  String? paymentType;
-  String? deliveryStatus;
+  dynamic orderType;
+  dynamic paymentType;
+  dynamic deliveryStatus;
   List<OrderItems>? orderItems;
-  String? placedAt;
+  dynamic placedAt;
 
   AcceptedOrderDetail(
       {this.orderId,
@@ -458,19 +458,19 @@ class AcceptedOrderDetail {
 }
 
 class User {
-  int? id;
+  dynamic id;
   bool? isDriver;
   bool? isVendor;
-  String? latitude;
-  String? longitude;
-  String? location;
-  String? firstName;
-  String? lastName;
-  String? name;
-  String? email;
-  String? phone;
-  String? earnedBalance;
-  String? profileImage;
+  dynamic latitude;
+  dynamic longitude;
+  dynamic location;
+  dynamic firstName;
+  dynamic lastName;
+  dynamic name;
+  dynamic email;
+  dynamic phone;
+  dynamic earnedBalance;
+  dynamic profileImage;
   bool? isDriverOnline;
   bool? isVendorOnline;
   bool? selfDelivery;
@@ -547,17 +547,17 @@ class User {
 }
 
 class Vendor {
-  int? storeId;
-  int? id;
-  String? storeName;
-  String? phone;
-  String? businessId;
-  String? latitude;
-  String? longitude;
+  dynamic storeId;
+  dynamic id;
+  dynamic storeName;
+  dynamic phone;
+  dynamic businessId;
+  dynamic latitude;
+  dynamic longitude;
   List<Null>? storeCategory;
-  String? storeImage;
-  String? businessIdImage;
-  String? remark;
+  dynamic storeImage;
+  dynamic businessIdImage;
+  dynamic remark;
   bool? status;
 
   Vendor(

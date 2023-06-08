@@ -182,13 +182,6 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                                   name: "",
                                   price: ""
                                 ));
-                                // listModelData.add(ListModel1(
-                                //   name: "".obs,
-                                //   price: "".obs,
-                                //   calories: "".obs,
-                                //   addonType: "".obs,
-                                //   addonTypeId: "".obs,
-                                // ));
                                 setState(() {});
                               },
                               child: Container(
@@ -203,14 +196,6 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                                 ),
                               ),
                             ),
-                            // Image(
-                            //   height: 90,
-                            //   width: 90,
-                            //   image:
-                            //   AssetImage(
-                            //       AppAssets.AddButton),
-                            //
-                            // ),
                           ],
                         ),
                         ListView.builder(
@@ -322,7 +307,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                   },
                   controller: name,
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: "Please enter price")]),
+                      [RequiredValidator(errorText: "Please enter Name")]),
                 ),
               ),
             ],
@@ -358,7 +343,7 @@ class _AddOptionScreenState extends State<AddOptionScreen> {
                   // keyboardType: TextInputType.number,
                   controller: price,
                   validator: MultiValidator(
-                      [RequiredValidator(errorText: "Please enter qty")]),
+                      [RequiredValidator(errorText: "Please enter Price")]),
                 ),
               ),
             ],

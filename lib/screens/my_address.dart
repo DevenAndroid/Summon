@@ -9,7 +9,6 @@ import '../../resources/app_theme.dart';
 import '../controller/CartController.dart';
 import '../controller/GetSaveAddressController.dart';
 import '../controller/MyAddress_controller.dart';
-import '../controller/My_cart_controller.dart';
 import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
 import 'Language_Change_Screen.dart';
@@ -110,7 +109,7 @@ class _MyAddressState extends State<MyAddress> {
           appBar: AppBar(
             toolbarHeight: 60,
             elevation: 0,
-            leadingWidth: AddSize.size20 * 2,
+            leadingWidth: 45,
             backgroundColor: Color(0xffF9F9F9),
             title: Text(
               "My Address".tr,
@@ -120,7 +119,7 @@ class _MyAddressState extends State<MyAddress> {
                   color: AppTheme.blackcolor),
             ),
             leading: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: locale==Locale('en','US') ? EdgeInsets.only(left: 20,):EdgeInsets.only(right: 20,),
               child: GestureDetector(
                   onTap: () {
                     Get.back();
@@ -188,7 +187,7 @@ class _MyAddressState extends State<MyAddress> {
                                                   child: Padding(
                                                     padding: EdgeInsets.symmetric(
                                                         horizontal: width * .03,
-                                                        vertical: height * .01),
+                                                        vertical: height * .03),
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment.start,
@@ -197,12 +196,36 @@ class _MyAddressState extends State<MyAddress> {
                                                               .start,
                                                       children: [
 
+
                                                         Row(
                                                           mainAxisAlignment:
                                                           MainAxisAlignment.spaceBetween,
                                                           children: [
-                                                            TextButton(
-                                                                onPressed: () {
+                                                            Expanded(
+                                                              child: Text(addressController.myAddressModel.value.data![index].name.toString().capitalizeFirst!,
+                                                                  style: GoogleFonts.ibmPlexSansArabic(fontSize: 16,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      color:Color(0xff000000))
+                                                              ),
+                                                            ),
+                                                            InkWell(
+                                                              onTap: () {
+                                                                showUploadWindow(
+                                                                    addressController
+                                                                        .myAddressModel
+                                                                        .value
+                                                                        .data![index]);
+                                                              },
+                                                              child:
+                                                              Image(
+                                                                  height: 18,
+                                                                  width: 18,
+                                                                  image: AssetImage(
+                                                                      AppAssets.deleteIcon)),
+                                                            ),
+                                                            SizedBox(width: 20,),
+                                                            InkWell(
+                                                                onTap: () {
                                                                   getSaveAddressController.addressId.value =
                                                                       addressController
                                                                           .myAddressModel
@@ -223,32 +246,14 @@ class _MyAddressState extends State<MyAddress> {
                                                                       ]);
                                                                 },
                                                                 child:  Image(
-                                                                    height: 20,
-                                                                    width: 20,
+                                                                    height: 18,
+                                                                    width: 18,
                                                                     image: AssetImage(
                                                                         AppAssets.editIcon)),
                                                             ),
-                                                            TextButton(
-                                                              onPressed: () {
-                                                                showUploadWindow(
-                                                                    addressController
-                                                                        .myAddressModel
-                                                                        .value
-                                                                        .data![index]);
-                                                              },
-                                                              child:
-                                                              Image(
-                                                                  height: 20,
-                                                                  width: 20,
-                                                                  image: AssetImage(
-                                                                  AppAssets.deleteIcon)),
-                                                            ),
-                                                                Flexible(child: Container()),
-                                                            Text(addressController.myAddressModel.value.data![index].name.toString().capitalizeFirst!,
-                                                                style: GoogleFonts.ibmPlexSansArabic(fontSize: 16,
-                                                                    fontWeight: FontWeight.w600,
-                                                                    color:Color(0xff000000))
-                                                            ),
+
+
+
 
                                                           ],
                                                         ),

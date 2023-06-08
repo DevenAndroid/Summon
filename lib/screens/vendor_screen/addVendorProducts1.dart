@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:fresh2_arrive/model/ListDataModel.dart';
-import 'package:fresh2_arrive/model/time_model.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:fresh2_arrive/widgets/registration_form_textField.dart';
@@ -20,12 +17,10 @@ import '../../controller/VendorAllCategoryController.dart';
 import '../../controller/home_page_controller.dart';
 import '../../controller/vendorAddProductController.dart';
 import '../../controller/vendor_productList_controller.dart';
-import '../../model/ListModel.dart';
 import '../../model/RepetedItem_Model.dart';
 import '../../model/VendorAddProduct_Model.dart';
 import '../../model/model_addons.dart';
 import '../../repositories/Vendor_SaveProduct_Repo.dart';
-
 import '../../resources/app_assets.dart';
 import '../../resources/new_helper.dart';
 import '../../widgets/dimensions.dart';
@@ -57,14 +52,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
   String? chooseCategory;
   final List<String> optionMenu = ["Simple", "Variable"];
   bool _isValue = false;
-  final List<String> quintityType = [
-    "kg",
-    "grm",
-    "ltr",
-    "ml",
-    "dozen",
-    "piece"
-  ];
+
 
   bool checkValidation(bool bool1, bool2) {
     if (bool1 == true && bool2 == true) {
@@ -79,122 +67,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
   scrollNavigation(double offset) {
     _scrollController.animateTo(offset,
         duration: Duration(seconds: 1), curve: Curves.easeOutSine);
-  }
-
-  showChangeAddressSheet() {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        enableDrag: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        builder: (context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: AddSize.size20,
-              ),
-              Container(
-                width: double.maxFinite,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: AddSize.padding16,
-                      vertical: AddSize.padding16),
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          NewHelper()
-                              .addImagePicker(imageSource: ImageSource.camera)
-                              .then((value) {
-                            for (var i = 0; i < imageList.length; i++) {
-                              if (imageList[i].path == "") {
-                                imageList[i] = value!;
-                                Get.back();
-                                break;
-                              }
-                            }
-                          });
-                        },
-                        child: Text(
-                          "Take picture",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                              color: AppTheme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AddSize.font16),
-                        ),
-                      ),
-                      SizedBox(
-                        height: AddSize.size12,
-                      ),
-                      const Divider(),
-                      SizedBox(
-                        height: AddSize.size12,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          NewHelper().addFilePickerList().then((value) {
-                            if (value != null) {
-                              for (var item in value) {
-                                if (imageList.length < 6) {
-                                  imageList.add(item);
-                                }
-                              }
-                            }
-                          });
-                        },
-                        child: Text(
-                          "Choose From Gallery",
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                              color: AppTheme.primaryColor,
-                              fontWeight: FontWeight.w500,
-                              fontSize: AddSize.font16),
-                        ),
-                      ),
-                      SizedBox(
-                        height: AddSize.size12,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            // Get.toNamed(MyRouter.chooseAddressScreen);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(AddSize.size250, AddSize.size50),
-                            backgroundColor: AppTheme.primaryColor,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                          child: Text(
-                            "Cancel".toUpperCase(),
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                color: AppTheme.backgroundcolor,
-                                fontWeight: FontWeight.w500,
-                                fontSize: AddSize.font16),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
-        });
   }
 
   RxList<File> imageList = <File>[].obs;
@@ -264,13 +136,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
               .vendorAddProductModel.value.data!.productDetail!.type??
               "")
               .toString();
-          // vendorAddProductController.priceController.text =
-          //     (vendorAddProductController
-          //         .vendorAddProductModel.value.data!.productDetail!.variants![0].price ??
-          //         "")
-          //         .toString();
           chooseCategory=vendorAllCategoryController.model.value.data!.categories![0].id.toString();
-          // chooseOptionType=chooseOptionType.toString();
           repetedData.clear();
           vendorAddProductController.vendorAddProductModel.value.data!.productDetail!.variants!.forEach((element) {
             repetedData.value.add(RepetItemData(itemSize: element.size.toString().obs, price: element.price.toString().obs, minQty: element.minQty.toString().obs, maxQty: element.maxQty.toString().obs, id: element.id.toString().obs));
@@ -278,23 +144,10 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
 
         }
         setState(() {
-
         });
 
       });
     }
-
-    // addOnsController.getAddonsData().then((va) {
-    //   if (listModelData.isEmpty && addOnsController.isDataLoading.value) {
-    //     listModelData.add(ListModel1(
-    //         name: "".obs,
-    //         price: "".obs,
-    //         calories: "".obs,
-    //         addonType: "".obs,
-    //         addonTypeId: "".obs));
-    //     setState(() {});
-    //   }
-    // });
     varientSizeController.getSizeData().then((value) {
       if (repetedData.isEmpty && varientSizeController.isDataLoading.value) {
         repetedData.add(RepetItemData(
@@ -707,32 +560,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                       fontWeight: FontWeight.w600,
                       color: Color(0xff000000)),
                 ),
-
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.toNamed(
-                //         AddOptionScreen.addOptionScreen, arguments: index);
-                //   },
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(15),
-                //       color: AppTheme.primaryColor,
-                //     ),
-                //     child: Icon(
-                //       Icons.add,
-                //       size: 38,
-                //       color: Colors.white,
-                //     ),
-                //   ),
-                // ),
-                // Image(
-                //   height: 90,
-                //   width: 90,
-                //   image:
-                //   AssetImage(
-                //       AppAssets.AddButton),
-                //
-                // ),
               ],
             ),
             SizedBox(
@@ -752,7 +579,9 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                    },
                     child: Image(
                         height: 20,
                         width: 20,
@@ -908,14 +737,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
             SizedBox(
               height: AddSize.size10,
             ),
-            Row(
-              children: [
 
-              ],
-            ),
-            SizedBox(
-              height: AddSize.size10,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -968,7 +790,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 return DropdownMenuItem(
                                   value: value.id.toString(),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    //mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
                                         value.name.toString(),
@@ -1055,7 +877,7 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                                 return DropdownMenuItem(
                                   value: value.toString(),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    //mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Text(
                                         value.toString(),
@@ -1455,10 +1277,6 @@ class _AddVendorProduct1State extends State<AddVendorProduct1> {
                   child: Row(
                     //mainAxisSize: MainAxisSize.min,
                     children: [
-              // Text(repetedData[index].itemSize.value),
-              // Text( varientSizeController
-              //     .model.value.data!.variants!
-              //     .toList().map((e) => e.id.toString()).toString()),
                       Expanded(
                         child: DropdownButtonFormField<dynamic>(
                             focusColor: Colors.grey.shade50,

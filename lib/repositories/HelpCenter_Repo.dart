@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/HelpCenterModel.dart';
-import '../model/MyOrderDetails_Model.dart';
 import '../model/PrivacyModel.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';

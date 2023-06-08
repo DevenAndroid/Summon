@@ -22,7 +22,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
   void initState() {
     super.initState();
-    privacyController.getPrivacyPolicyData();
+    privacyController.getPrivacyPolicyData().then((value){
+      setState(() {
+
+      });
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -30,10 +34,10 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child:
       Scaffold(
-          appBar: backAppBar(title: "Privacy Policy".tr, context: context),
-          body:
-          Obx((){
-            return privacyController.isGettingData.value ?
+            appBar: backAppBar(title: "Privacy Policy".tr, context: context),
+            body:
+
+            privacyController.isGettingData.value ?
             SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Padding(
@@ -71,9 +75,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                                       ],
                                     ),
                                   ))))),
-            ):Center(child: CircularProgressIndicator());
+            ) : Center(child: CircularProgressIndicator(
+              color: AppTheme.primaryColor,
+            ))
+        )
 
-          } )),
     );
   }
 }

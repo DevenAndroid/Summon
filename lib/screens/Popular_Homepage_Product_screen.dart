@@ -4,6 +4,7 @@ import 'package:fresh2_arrive/repositories/ViewAll_Popular_Repo.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/ViewAllRecommendd_Controller.dart';
 import '../controller/ViewAll_PopularProduct_Controller.dart';
@@ -84,10 +85,6 @@ class _ViewAllPopularPageState extends State<ViewAllPopularPage> {
                                           Expanded(
                                             child: Container(
                                               decoration: BoxDecoration(
-                                                //color: Colors.grey,
-                                                // borderRadius: BorderRadius.only(
-                                                //     topRight: Radius.circular(20),
-                                                //     topLeft: Radius.circular(20)),
                                               ),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.only(
@@ -125,32 +122,55 @@ class _ViewAllPopularPageState extends State<ViewAllPopularPage> {
                                                       fontWeight: FontWeight.w500,
                                                       color: Color(0xff08141B)),),
                                                 SizedBox(height: 8,),
-                                                Row(
-                                                  children: [
-                                                    Text("SR",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 2,),
-                                                    SizedBox(width: 5,),
-                                                    Text("25 mins •",
-                                                      style: TextStyle(fontSize: 12,
-                                                          fontWeight: FontWeight
-                                                              .w400,
-                                                          color: Color(
-                                                              0xff2C4D61)),),
-                                                    SizedBox(width: 3,),
-                                                    Icon(Icons.star,color: AppTheme.primaryColor, size:13,),
-                                                    SizedBox(width: 1,),
-                                                    Text(viewAllPopularController.model.value.data![index].avgRating.toString(), style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Color(0xffFE724C)),),
-                                                    // Icon(Icons.star,color: AppTheme.primaryColor, size:15,),
-                                                  ],
-                                                ),
+                                                FittedBox(
+                                                  child: Row(
+                                                    children: [
+                                                      Text("SR",
+                                                        style: TextStyle(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text("${viewAllPopularController.model.value
+                                                          .data![index].deliveryCharge
+                                                          .toString()}",
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                      Text("KM",
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),), SizedBox(width: 3,),
+                                                      Text(viewAllPopularController.model.value
+                                                          .data![index].distance
+                                                          .toString(),
+
+                                                        style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w400,
+                                                            color: Color(
+                                                                0xff2C4D61)),),
+                                                      SizedBox(width: 5,),
+                                                      Icon(Icons.circle,size: 5,color: Color(
+                                                          0xff2C4D61)),
+                                                      SizedBox(width: 5,),
+                                                      Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                      Text(viewAllPopularController.model.value
+                                                          .data![index].avgRating
+                                                          .toString(), style:  GoogleFonts.ibmPlexSansArabic(
+                                                          fontSize: 14,
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xff2C4D61)),),
+                                                    ],
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),

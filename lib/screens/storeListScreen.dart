@@ -7,7 +7,6 @@ import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:fresh2_arrive/widgets/dimensions.dart';
 import 'package:get/get.dart';
 import '../controller/My_cart_controller.dart';
-import '../controller/near_store_controller.dart';
 import '../controller/single_store_controller.dart';
 import '../resources/app_theme.dart';
 import '../widgets/add_text.dart';
@@ -128,13 +127,7 @@ class _StoreListScreenState extends State<StoreListScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        // Text(
-                                        //   '(${storeController.model.value.data!.length}) Stores Near You',
-                                        //   style: const TextStyle(
-                                        //       color: AppTheme.backgroundcolor,
-                                        //       fontSize: 16,
-                                        //       fontWeight: FontWeight.w600),
-                                        // ),
+
                                         SizedBox(
                                           height: height * .01,
                                         ),

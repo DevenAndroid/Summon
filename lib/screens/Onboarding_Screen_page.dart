@@ -1,15 +1,12 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh2_arrive/routers/my_router.dart';
-import 'package:fresh2_arrive/screens/loginScreen.dart';
-import 'package:fresh2_arrive/screens/loginScreen2.dart';
-import 'package:fresh2_arrive/screens/vendor_screen/Add_vendor_product.dart';
 import 'package:fresh2_arrive/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/onboardData.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
+import 'Language_Change_Screen.dart';
 import 'Onboarding_Data.dart';
 import 'custum_bottom_bar.dart';
 
@@ -49,7 +46,6 @@ class _OnBoardingScreenPageState extends State<OnBoardingScreenPage> {
                     itemCount: OnBoardingData.length,
                     controller: _pageController,
                     pageSnapping: true,
-                    // physics: const BouncingScrollPhysics(),
                     onPageChanged: (index) {
                       setState(() {
                         _pageIndex.value = index;
@@ -114,127 +110,105 @@ class OnboardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return  Stack(
-        children:[
+    return  Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+          children:[
 
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Container(
-              height: height * .70,
-              width: width,
-              decoration: BoxDecoration(
-                  image:
-                  DecorationImage(image: AssetImage(image), fit: BoxFit.contain,)),
-            ),
-          ),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
               child: Container(
-                height: height * .42,
-                child: Column(
-                  children: [
+                height: height * .70,
+                width: width,
+                decoration: BoxDecoration(
+                    image:
+                    DecorationImage(image: AssetImage(image), fit: BoxFit.contain,)),
+              ),
+            ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        ...List.generate(
-                            OnBoardData.length,
-                                (index) => Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: CustomIndicator(
-                                isActive: index == indexValue,
-                              ),
-                            )),
-                      ],
-                    ),
-                   SizedBox(height: height* .04,),
-                   // const Spacer(),
-                    // const Spacer(),
-                    // Align(
-                    //     alignment: Alignment.topRight,
-                    //     child: TextButton(
-                    //         onPressed: () {
-                    //           Get.offAllNamed(LoginScreen.loginScreen);
-                    //         },
-                    //         child: indexValue == 2
-                    //             ? const SizedBox()
-                    //             : Text(
-                    //           "Skip",
-                    //           textAlign: TextAlign.right,
-                    //           style: Theme.of(context)
-                    //               .textTheme
-                    //               .headline5!
-                    //               .copyWith(
-                    //               fontWeight: FontWeight.w500,
-                    //               fontSize: 20),
-                    //         ))),
-                    // SizedBox(
-                    //   height: height * .08,
-                    // ),
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.alegreyaSans(fontStyle: FontStyle.italic,
-                          fontSize: 36,
-                          color: Color(0xff131A38),
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      height: height * .04,
-                    ),
-                    Text(
-                      description,
-                      textAlign: TextAlign.center,
-                      style:
-                       GoogleFonts.alegreyaSans(
-                         height: 1.5,
-                          fontSize: 17,
-                          color: Color(0xff616772),
-                          fontWeight: FontWeight.w400),
-                    ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: height * .42,
+                  child: Column(
+                    children: [
 
-                    SizedBox(
-                      height: height * .06,
-                    ),
-                    Container(
-                        height: height * .10,
-                        width: width * .95,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.ease);
-                            if (indexValue == 2) {
-                              // Get.toNamed(LoginScreen.loginScreen);
-                              // Get.toNamed(CustomNavigationBar.customNavigationBar);
-                              Get.toNamed(WelcomeScreen.welcomeScreen);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: CircleBorder(),
-                              primary: AppTheme.primaryColor.withOpacity(.80),
-                              textStyle: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w500)),
-                          child: Icon(Icons.arrow_forward,size: 40,)
-                          // Image.asset(AppAssets.arrowIcon,height: 30,width: 30,),
-                        )),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * .02,
-                    )
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ...List.generate(
+                              OnBoardData.length,
+                                  (index) => Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: CustomIndicator(
+                                  isActive: index == indexValue,
+                                ),
+                              )),
+                        ],
+                      ),
+                     SizedBox(height: height* .04,),
+
+                      Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.alegreyaSans(fontStyle: FontStyle.italic,
+                            fontSize: 36,
+                            color: Color(0xff131A38),
+                            fontWeight: FontWeight.w400),
+                      ),
+                      SizedBox(
+                        height: height * .04,
+                      ),
+                      Text(
+                        description,
+                        textAlign: TextAlign.center,
+                        style:
+                         GoogleFonts.alegreyaSans(
+                           height: 1.5,
+                            fontSize: 17,
+                            color: Color(0xff616772),
+                            fontWeight: FontWeight.w400),
+                      ),
+
+                      SizedBox(
+                        height: height * .06,
+                      ),
+                      Container(
+                          height: height * .08,
+                          width: width * .95,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              pageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.ease);
+                              if (indexValue == 2) {
+                                Get.toNamed(WelcomeScreen.welcomeScreen);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                shape: CircleBorder(),
+                                primary: AppTheme.primaryColor,
+                                textStyle: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500)),
+                            child: Icon(Icons.arrow_back,size: 35,)
+                          )),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * .02,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ]);
+          ]),
+    );
   }
 }

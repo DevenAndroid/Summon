@@ -53,14 +53,14 @@ class _OrderDeclineScreenState extends State<OrderDeclineScreen> {
                     fontSize: 28,
                     color: const Color(0xffF94D4D)),
               ),
-              Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline5!.copyWith(
-                    fontWeight: FontWeight.w500,
-                    fontSize: AddSize.font14,
-                    color: const Color(0xff596774)),
-              ),
+              // Text(
+              //   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+              //   textAlign: TextAlign.center,
+              //   style: Theme.of(context).textTheme.headline5!.copyWith(
+              //       fontWeight: FontWeight.w500,
+              //       fontSize: AddSize.font14,
+              //       color: const Color(0xff596774)),
+              // ),
             ],
           ),
         )),

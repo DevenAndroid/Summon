@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -42,7 +41,7 @@ Future<UpdatedStoreTimeModel> updatedSetStoreTimeRepo(
   map["end_time"] = map2;
   map["status"] = map3;
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
 
   log('start_time :${jsonEncode(map).toString()}');
   SharedPreferences pref = await SharedPreferences.getInstance();

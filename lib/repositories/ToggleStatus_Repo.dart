@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/VendorProductList_Model.dart';
 import '../model/model_status.dart';
 import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';

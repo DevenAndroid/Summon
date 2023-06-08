@@ -5,9 +5,7 @@ import 'package:fresh2_arrive/model/HomeSearchModel1.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../model/Home_Search_Model.dart';
 import '../model/Social_Login_Model.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 import '../resources/helper.dart';
 

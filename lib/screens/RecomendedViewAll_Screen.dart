@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
 import 'package:fresh2_arrive/screens/single_store.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../controller/ViewAllRecommendd_Controller.dart';
 import '../controller/single_store_controller.dart';
@@ -124,47 +125,55 @@ class _ViewAllRecommendedPageState extends State<ViewAllRecommendedPage> {
                                                         fontWeight: FontWeight.w500,
                                                         color: Color(0xff08141B)),),
                                                   SizedBox(height: 8,),
-                                                  Row(
-                                                    children: [
-                                                      Text("SR",
-                                                        style: TextStyle(fontSize: 12,
-                                                            fontWeight: FontWeight
-                                                                .w400,
-                                                            color: Color(
-                                                                0xff2C4D61)),),
-                                                      SizedBox(width: 2,),
-                                                      if(viewAllRecommendedController
-                                                          .model.value
-                                                          .data![index]
-                                                          .variants != null)
-                                                      Text(
-                                                       "${viewAllRecommendedController
-                                                            .model.value
-                                                            .data![index]
-                                                            .variants![0].price
+                                                  FittedBox(
+                                                    child: Row(
+                                                      children: [
+                                                        Text("SR",
+                                                          style: TextStyle(fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w400,
+                                                              color: Color(
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text("${viewAllRecommendedController.model.value
+                                                            .data![index].deliveryCharge
                                                             .toString()}",
-                                                        style: TextStyle(fontSize: 12,
-                                                            fontWeight: FontWeight
-                                                                .w400,
-                                                            color: Color(
-                                                                0xff2C4D61)),),
-                                                      SizedBox(width: 5,),
-                                                      Text("25 mins •",
-                                                        style: TextStyle(fontSize: 12,
-                                                            fontWeight: FontWeight
-                                                                .w400,
-                                                            color: Color(
-                                                                0xff2C4D61)),),
-                                                      SizedBox(width: 3,),
-                                                      Icon(Icons.star,color: AppTheme.primaryColor, size:13,),
-                                                      SizedBox(width: 1,),
-                                                      Text(viewAllRecommendedController.model.value.data![index].avgRating.toString(), style: TextStyle(
-                                                          fontSize: 12,
-                                                          fontWeight: FontWeight.w400,
-                                                          color: Color(0xffFE724C)),),
-                                                      // Icon(Icons.star,color: AppTheme.primaryColor, size:15,),
-                                                    ],
-                                                  ),
+                                                          style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w400,
+                                                              color: Color(
+                                                                  0xff2C4D61)),), SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                        Text("KM",
+                                                          style:  GoogleFonts.ibmPlexSansArabic(fontSize: 12,
+                                                              fontWeight: FontWeight
+                                                                  .w400,
+                                                              color: Color(
+                                                                  0xff2C4D61)),), SizedBox(width: 3,),
+                                                        Text(viewAllRecommendedController.model.value
+                                                            .data![index].distance
+                                                            .toString(),
+
+                                                          style:  GoogleFonts.ibmPlexSansArabic(fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w400,
+                                                              color: Color(
+                                                                  0xff2C4D61)),),
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.circle,size: 5,color: Color(
+                                                            0xff2C4D61)),
+                                                        SizedBox(width: 5,),
+                                                        Icon(Icons.star,color: Color(0xff2C4D61), size: 17,), SizedBox(width: 3,),
+                                                        Text(viewAllRecommendedController.model.value
+                                                            .data![index].avgRating
+                                                            .toString(), style:  GoogleFonts.ibmPlexSansArabic(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w400,
+                                                            color: Color(0xff2C4D61)),),
+                                                      ],
+                                                    ),
+                                                  )
                                                 ],
                                               ),
                                             ),

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:fresh2_arrive/model/Social_Login_Model.dart';
 import 'package:fresh2_arrive/model/near_store_model.dart';
-import 'package:fresh2_arrive/model/verify_otp_model.dart';
 import 'package:fresh2_arrive/resources/api_url.dart';
 import 'package:fresh2_arrive/resources/helper.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +13,7 @@ Future<NearStoreModel> loadWithPagination(
     {page, pagination, BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if (context != null) {
-    Overlay.of(context)!.insert(loader);
+    Overlay.of(context).insert(loader);
   }
   // try {
   SharedPreferences pref = await SharedPreferences.getInstance();
@@ -56,7 +55,7 @@ Future<NearStoreModel> loadWithPagination1(
     {page, pagination, BuildContext? context}) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   if (context != null) {
-    Overlay.of(context)!.insert(loader);
+    Overlay.of(context).insert(loader);
   }
   // try {
   SharedPreferences pref = await SharedPreferences.getInstance();

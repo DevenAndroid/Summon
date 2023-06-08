@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../controller/MyOrder_Details_Controller.dart';
+import '../Language_Change_Screen.dart';
 import 'OrderTracking_Screen.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -55,9 +56,9 @@ class _OrderDetailsState extends State<OrderDetails>
     var width = MediaQuery.of(context).size.width;
     return Obx(() {
       return Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Order Details", context: context),
+          appBar: backAppBar(title: "Order Details".tr, context: context),
           body: myOrderDetailsController.isDataLoading.value
               ?
           NestedScrollView(
@@ -83,53 +84,80 @@ class _OrderDetailsState extends State<OrderDetails>
                                               CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
+                                              children: [
+                                                const ImageIcon(
+                                                  AssetImage(
+                                                      AppAssets.orderList),
+                                                  color: AppTheme.primaryColor,
+                                                  size: 20,
+                                                ),
+                                                SizedBox(
+                                                  width: AddSize.size15,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
                                                     children: [
-                                                      const ImageIcon(
-                                                        AssetImage(
-                                                            AppAssets.orderList),
-                                                        color: AppTheme.primaryColor,
-                                                        size: 20,
+                                                      Text(
+                                                        'Order ID #${myOrderDetailsController.model.value.data!.orderId.toString()}',
+                                                        style: GoogleFonts.ibmPlexSansArabic(
+                                                            color: AppTheme
+                                                                .primaryColor,
+                                                            fontSize:
+                                                                AddSize.font16,
+                                                            fontWeight:
+                                                                FontWeight.w500),
                                                       ),
-                                                      SizedBox(
-                                                        width: AddSize.size15,
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            'Order ID #${myOrderDetailsController.model.value.data!.orderId.toString()}',
-                                                            style: GoogleFonts.ibmPlexSansArabic(
-                                                                color: AppTheme
-                                                                    .primaryColor,
-                                                                fontSize:
-                                                                    AddSize.font16,
-                                                                fontWeight:
-                                                                    FontWeight.w500),
-                                                          ),
-                                                          Text(
-                                                            myOrderDetailsController
-                                                                .model
-                                                                .value
-                                                                .data!
-                                                                .placedAt
-                                                                .toString(),
-                                                            style: GoogleFonts.ibmPlexSansArabic(
-                                                                color: Color(0xff303C5E),
-                                                                fontSize:
-                                                                    AddSize.font12,
-                                                                fontWeight:
-                                                                    FontWeight.w700),
-                                                          ),
-                                                        ],
+                                                      Text(
+                                                        myOrderDetailsController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .placedAt
+                                                            .toString(),
+                                                        style: GoogleFonts.ibmPlexSansArabic(
+                                                            color: Color(0xff303C5E),
+                                                            fontSize:
+                                                                AddSize.font12,
+                                                            fontWeight:
+                                                                FontWeight.w700),
                                                       ),
                                                     ],
                                                   ),
-                                                ]),
+                                                ),
+                                                SizedBox(
+                                                  width: 6,
+                                                ),
+                                                Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                        color:
+                                                        Color(0xff65CD90)),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                          horizontal: width * .02,
+                                                          vertical: height * .004),
+                                                      child: Text(
+                                                        myOrderDetailsController
+                                                            .model
+                                                            .value
+                                                            .data!
+                                                            .deliveryStatus
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize:
+                                                            AddSize.font14,
+                                                            color: AppTheme
+                                                                .backgroundcolor,
+                                                            fontWeight:
+                                                            FontWeight.w500),
+                                                      ),
+                                                    ))
+                                              ],
+                                            ),
                                             SizedBox(
                                               height: height * .02,
                                             ),
@@ -201,36 +229,36 @@ class _OrderDetailsState extends State<OrderDetails>
                                           ],
                                         ),
                                       )),
-                                  Positioned(
-                                    top: 10,
-                                      left: 10,
-                                      child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              8),
-                                          color:
-                                          Color(0xff65CD90)),
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * .04,
-                                            vertical: height * .005),
-                                        child: Text(
-                                          myOrderDetailsController
-                                              .model
-                                              .value
-                                              .data!
-                                              .deliveryStatus
-                                              .toString(),
-                                          style: TextStyle(
-                                              fontSize:
-                                              AddSize.font14,
-                                              color: AppTheme
-                                                  .backgroundcolor,
-                                              fontWeight:
-                                              FontWeight.w500),
-                                        ),
-                                      )))
+                                  // Positioned(
+                                  //   top: 10,
+                                  //     left: 10,
+                                  //     child: Container(
+                                  //     decoration: BoxDecoration(
+                                  //         borderRadius:
+                                  //         BorderRadius.circular(
+                                  //             8),
+                                  //         color:
+                                  //         Color(0xff65CD90)),
+                                  //     child: Padding(
+                                  //       padding: EdgeInsets.symmetric(
+                                  //           horizontal: width * .04,
+                                  //           vertical: height * .005),
+                                  //       child: Text(
+                                  //         myOrderDetailsController
+                                  //             .model
+                                  //             .value
+                                  //             .data!
+                                  //             .deliveryStatus
+                                  //             .toString(),
+                                  //         style: TextStyle(
+                                  //             fontSize:
+                                  //             AddSize.font14,
+                                  //             color: AppTheme
+                                  //                 .backgroundcolor,
+                                  //             fontWeight:
+                                  //             FontWeight.w500),
+                                  //       ),
+                                  //     )))
                                 ],
                               ),
                               SizedBox(
@@ -258,6 +286,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                   borderRadius: BorderRadius.circular(10)),
                               child: Column(
                                 children: [
+                                  myOrderDetailsController.model.value.data!.driver != null ?
                                   Padding(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: AddSize.padding15,
@@ -273,14 +302,12 @@ class _OrderDetailsState extends State<OrderDetails>
                                             CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Delivery by",
+                                                "Delivery by".tr,
                                                 style: GoogleFonts.ibmPlexSansArabic(
                                                     fontSize: AddSize.font14,
                                                     color: Color(0xff797F90),
                                                     fontWeight: FontWeight.w700),
                                               ),
-                                              myOrderDetailsController.model
-                                                  .value.data!.driver != null ?
                                               Text(
                                                  myOrderDetailsController.model
                                                     .value.data!.driver!.name.toString(),
@@ -288,18 +315,15 @@ class _OrderDetailsState extends State<OrderDetails>
                                                     fontSize: AddSize.font16,
                                                     color: Color(0xff293044),
                                                     fontWeight: FontWeight.w700),
-                                              ):SizedBox(),
+                                              ),
+                                                  // :SizedBox(),
                                               Text(
-                                                (myOrderDetailsController.model
-                                                    .value.data!.driver?.phone??"")
-                                                    .toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headline5!
-                                                    .copyWith(
-                                                    fontWeight:
-                                                    FontWeight.w500,
-                                                    fontSize: AddSize.font16),
+                                                myOrderDetailsController.model
+                                                    .value.data!.driver!.phone.toString(),
+                                                style: GoogleFonts.ibmPlexSansArabic(
+                                                    fontSize: AddSize.font14,
+                                                    color: Color(0xff797F90),
+                                                    fontWeight: FontWeight.w700),
                                               ),
                                             ],
                                           ),
@@ -317,7 +341,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                           ),
                                         ]),
 
-                                  ),
+                                  ):SizedBox(),
                                   // Divider(),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
@@ -332,7 +356,7 @@ class _OrderDetailsState extends State<OrderDetails>
                                             CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Delivery from",
+                                                "Delivery from".tr,
                                                 style: GoogleFonts.ibmPlexSansArabic(
                                                     fontSize: AddSize.font14,
                                                     color: Color(0xff797F90),
@@ -409,8 +433,8 @@ class _OrderDetailsState extends State<OrderDetails>
                     textStyle:  GoogleFonts.poppins(
                       color: Colors.white,
                         fontSize: 18, fontWeight: FontWeight.w600)),
-                child: const Text(
-                  "Track Order",
+                child:  Text(
+                  "Track Order".tr,
                 )):SizedBox(),
           ),
         ),
@@ -430,7 +454,7 @@ class _OrderDetailsState extends State<OrderDetails>
             Row(
               children: [
                 Text(
-                  name,
+                  "${qty}x",
                   style: GoogleFonts.ibmPlexSansArabic(
                       fontSize: AddSize.font16,
                       color: Color(0xff303C5E),
@@ -438,12 +462,14 @@ class _OrderDetailsState extends State<OrderDetails>
                 ),
                 SizedBox(width: 4,),
                 Text(
-                  "${qty}x",
+                  name,
                   style: GoogleFonts.ibmPlexSansArabic(
                       fontSize: AddSize.font16,
                       color: Color(0xff303C5E),
                       fontWeight: FontWeight.w500),
                 ),
+
+
               ],
             ),
             Text(
@@ -502,11 +528,11 @@ class _OrderDetailsState extends State<OrderDetails>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  details("Subtotal", "$subTotal"),
+                  details("Subtotal".tr, "$subTotal"),
                   SizedBox(
                     height: AddSize.size5,
                   ),
-                  details("Delivery charges", "$delivery"),
+                  details("Delivery charges".tr, "$delivery"),
                   SizedBox(
                     height: AddSize.size5,
                   ),
@@ -514,34 +540,10 @@ class _OrderDetailsState extends State<OrderDetails>
                   SizedBox(
                     height: AddSize.size5,
                   ),
-                  // myOrderDetailsController
-                  //     .model.value.data!.tax1 !=null && myOrderDetailsController
-                  //     .model.value.data!.tax1!.type != ""?
-                  // Column(children: [
-                  //   details("${myOrderDetailsController
-                  //       .model.value.data!.tax1!.type ?? ""}:",
-                  //       "₹${myOrderDetailsController
-                  //           .model.value.data!.tax1!.amount ?? ""}"),
-                  //   SizedBox(
-                  //     height: AddSize.size5,
-                  //   ),
-                  // ],):const SizedBox(),
-                  // myOrderDetailsController
-                  //     .model.value.data!.tax2 !=null && myOrderDetailsController
-                  //     .model.value.data!.tax2!.type != ""?
-                  // Column(children: [
-                  //   details("${myOrderDetailsController
-                  //       .model.value.data!.tax2!.type ?? ""}:",
-                  //       "₹${myOrderDetailsController
-                  //           .model.value.data!.tax2!.amount ?? ""}"),
-                  //   SizedBox(
-                  //     height: AddSize.size10,
-                  //   ),
-                  // ],):const SizedBox(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total",
+                      Text("Total".tr,
                           style: GoogleFonts.ibmPlexSansArabic(
                               color: AppTheme.primaryColor,
                               fontSize: AddSize.font16,

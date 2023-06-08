@@ -14,8 +14,8 @@ class MyCartController extends GetxController {
   RxInt sum = 0.obs;
   RxInt refreshInt = 0.obs;
 
-  getCartData() {
-    myCartDataRepo().then((value) {
+  Future getCartData() async {
+   await myCartDataRepo().then((value) {
       isDataLoaded.value = true;
       model.value = value;
       sum.value = 0;

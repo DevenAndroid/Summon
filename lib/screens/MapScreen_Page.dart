@@ -126,7 +126,7 @@ class _MapScreenPageState extends State<MapScreenPage> {
                   mapType: MapType.normal,
                   //map type
                   onMapCreated: (controller) {
-                    setState(() async {
+                    setState(()  {
                       mapController = controller;
                     });
                   },
@@ -174,13 +174,8 @@ class _MapScreenPageState extends State<MapScreenPage> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Container(
                                       height: 300,
-                                     // margin: const EdgeInsets.only(top: 20),
                                       decoration: BoxDecoration(
-                                          // boxShadow: [
-                                          //   BoxShadow(
-                                          //       color: Colors.grey.shade200,
-                                          //       blurRadius: 3)
-                                          // ],
+
                                           color: Colors.white,
                                           borderRadius:
                                               BorderRadius.circular(16)),
@@ -217,7 +212,7 @@ class _MapScreenPageState extends State<MapScreenPage> {
                                           ),
                                           addHeight(10),
                                           Padding(
-                                            padding: const EdgeInsets.only(right: 15,),
+                                            padding: const EdgeInsets.only(left:10,right: 10,),
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [

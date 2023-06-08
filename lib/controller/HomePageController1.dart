@@ -33,7 +33,7 @@ class HomePageController1 extends GetxController {
   }
 
   Future getHomePageData() async {
-    isDataLoading.value = false;
+    // isDataLoading.value = false;
     await homePageData().then((value) {
       isDataLoading.value = true;
       model.value = value;
@@ -97,7 +97,7 @@ class HomePageController1 extends GetxController {
   RxBool load = false.obs;
 
   RxList<SearchModelData> searchModel2 = <SearchModelData>[].obs;
- void  searchingData({bool? allowClear, BuildContext? context  }) async {
+ Future  searchingData({bool? allowClear, BuildContext? context  }) async {
    if(allowClear == true){
      //searchModel2.clear();
      load.value = false;

@@ -63,7 +63,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
             appBar: AppBar(
               toolbarHeight: 100,
               elevation: 0,
-              leadingWidth: AddSize.size20 * 1.8,
+              leadingWidth: 45,
               backgroundColor: Color(0xffF5F5F5),
               title: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -124,7 +124,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                 ],
               ),
               leading: Padding(
-                padding: EdgeInsets.only(right: AddSize.padding10,bottom: AddSize.size12),
+                padding: locale==Locale('en','US') ? EdgeInsets.only(left: 20,):EdgeInsets.only(right: 20,),
                 child: GestureDetector(
                     onTap: () {
                       Get.back();
@@ -225,7 +225,7 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                 Row(
                                   children: [
                                     Text(
-                                      "vs previous 30 days".tr,
+                                      "  vs previous 30 days".tr,
                                       style: GoogleFonts.ibmPlexSansArabic(
                                           fontWeight: FontWeight.w500,
                                           color: Color(0xff8B8B8B),
@@ -574,119 +574,125 @@ class _VenderDashboardState extends State<VenderDashboard> {
                                                   .length,
                                               itemBuilder: (BuildContext context,
                                                   int index) {
-                                                return Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: AddSize.size5,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                              "#${vendorDashboardController.model.value.data!.orderList![index].id.toString()}",
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .headline5!
-                                                                  .copyWith(
-                                                                      height: 1.5,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      fontSize:
-                                                                          AddSize
-                                                                              .font14),
-                                                            ),
+                                                return InkWell(
+                                                  onTap: (){
+                                                    Get.toNamed(VendorOrderList
+                                                        .vendorOrderList);
+                                                  },
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(
+                                                        height: AddSize.size5,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                "#${vendorDashboardController.model.value.data!.orderList![index].id.toString()}",
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .headline5!
+                                                                    .copyWith(
+                                                                        height: 1.5,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500,
+                                                                        fontSize:
+                                                                            AddSize
+                                                                                .font14),
+                                                              ),
 
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  vendorDashboardController.model.value.data!.orderList![index].orderItem![0].productName.toString(),
-                                                                  style: GoogleFonts.ibmPlexSansArabic(
-                                                                      fontSize: AddSize.font12,
-                                                                      color: Color(0xff8C9BB2),
-                                                                      fontWeight: FontWeight.w500),
-                                                                ),
-                                                                SizedBox(width: 2,),
-                                                                Text(
-                                                                  "x",
-                                                                  style: GoogleFonts.ibmPlexSansArabic(
-                                                                      fontSize: AddSize.font12,
-                                                                      color: Color(0xff8C9BB2),
-                                                                      fontWeight: FontWeight.w500),
-                                                                ),
-                                                                SizedBox(width: 2,),
-                                                                Text(
-                                                                  vendorDashboardController.model.value.data!.orderList![index].orderItem![0].qty.toString(),
-                                                                  style: GoogleFonts.ibmPlexSansArabic(
-                                                                      fontSize: AddSize.font12,
-                                                                      color: Color(0xff8C9BB2),
-                                                                      fontWeight: FontWeight.w500),
-                                                                ),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                    vendorDashboardController.model.value.data!.orderList![index].orderItem![0].productName.toString(),
+                                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                                        fontSize: AddSize.font12,
+                                                                        color: Color(0xff8C9BB2),
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                                  SizedBox(width: 2,),
+                                                                  Text(
+                                                                    "x",
+                                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                                        fontSize: AddSize.font12,
+                                                                        color: Color(0xff8C9BB2),
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
+                                                                  SizedBox(width: 2,),
+                                                                  Text(
+                                                                    vendorDashboardController.model.value.data!.orderList![index].orderItem![0].qty.toString(),
+                                                                    style: GoogleFonts.ibmPlexSansArabic(
+                                                                        fontSize: AddSize.font12,
+                                                                        color: Color(0xff8C9BB2),
+                                                                        fontWeight: FontWeight.w500),
+                                                                  ),
 
 
-                                                              ],
-                                                            ),
+                                                                ],
+                                                              ),
 
-                                                          ],
-                                                        ),
+                                                            ],
+                                                          ),
 
-                                                        Flexible(child: Container()),
-                                                       Column(
-                                                         children: [
-                                                           Row(
-                                                             children: [
-                                                               Text(
-                                                                 "SR",
-                                                                 style: GoogleFonts.ibmPlexSansArabic(
-                                                                     height: 1.5,
-                                                                     fontWeight:
-                                                                     FontWeight
-                                                                         .w500,
-                                                                     fontSize:
-                                                                     AddSize
-                                                                         .font14,
-                                                                     color: AppTheme.primaryColor),
-                                                               ),
-                                                               SizedBox(width: 5,),
-                                                               Text(
-                                                                 "${vendorDashboardController.model.value.data!.orderList![index].amount.toString()}",
-                                                                 style: GoogleFonts.ibmPlexSansArabic(
-                                                                     height: 1.5,
-                                                                     fontWeight:
-                                                                     FontWeight
-                                                                         .w500,
-                                                                     fontSize:
-                                                                     AddSize
-                                                                         .font14,
-                                                                     color: AppTheme.primaryColor),
-                                                               ),
-                                                             ],
-                                                           ),
-                                                           Text(
-                                                             "Order Total".tr,
-                                                             style: GoogleFonts.ibmPlexSansArabic(
-                                                                 fontSize: AddSize.font12,
-                                                                 color: Color(0xff8C9BB2),
-                                                                 fontWeight: FontWeight.w500),
-                                                           ),
-                                                         ],
-                                                       ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: AddSize.size5,
-                                                    ),
+                                                          Flexible(child: Container()),
+                                                         Column(
+                                                           children: [
+                                                             Row(
+                                                               children: [
+                                                                 Text(
+                                                                   "SR",
+                                                                   style: GoogleFonts.ibmPlexSansArabic(
+                                                                       height: 1.5,
+                                                                       fontWeight:
+                                                                       FontWeight
+                                                                           .w500,
+                                                                       fontSize:
+                                                                       AddSize
+                                                                           .font14,
+                                                                       color: AppTheme.primaryColor),
+                                                                 ),
+                                                                 SizedBox(width: 5,),
+                                                                 Text(
+                                                                   "${vendorDashboardController.model.value.data!.orderList![index].amount.toString()}",
+                                                                   style: GoogleFonts.ibmPlexSansArabic(
+                                                                       height: 1.5,
+                                                                       fontWeight:
+                                                                       FontWeight
+                                                                           .w500,
+                                                                       fontSize:
+                                                                       AddSize
+                                                                           .font14,
+                                                                       color: AppTheme.primaryColor),
+                                                                 ),
+                                                               ],
+                                                             ),
+                                                             Text(
+                                                               "Order Total".tr,
+                                                               style: GoogleFonts.ibmPlexSansArabic(
+                                                                   fontSize: AddSize.font12,
+                                                                   color: Color(0xff8C9BB2),
+                                                                   fontWeight: FontWeight.w500),
+                                                             ),
+                                                           ],
+                                                         ),
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: AddSize.size5,
+                                                      ),
 
-                                                    const Divider(),
-                                                  ],
+                                                      const Divider(),
+                                                    ],
+                                                  ),
                                                 );
                                               },
                                             )

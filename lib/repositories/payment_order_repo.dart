@@ -25,7 +25,7 @@ Future<CheckOutDataModel> paymentOrder(
   map['wallet_deduction'] = wallet_deduction;
   map['online_deduction'] = online_deduction;
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   ModelVerifyOtp? user =
       ModelVerifyOtp.fromJson(jsonDecode(pref.getString('user_info')!));

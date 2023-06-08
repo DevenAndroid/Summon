@@ -186,7 +186,7 @@ class _VendorRegistrationFormState extends State<VendorRegistrationForm> {
       _address = "";
     });
     if (kDebugMode) {
-      print("${_currentAddress!} ${_address!}");
+      print("${_currentAddress} ${_address!}");
     }
     return _address!;
   }

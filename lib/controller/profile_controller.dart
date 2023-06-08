@@ -20,9 +20,9 @@ class ProfileController extends GetxController {
     getData();
   }
 
-  getData() async {
+  Future getData() async {
     isDataLoading.value = false;
-    userProfileData().then((value) {
+    await userProfileData().then((value) {
       isDataLoading.value = true;
       model.value = value;
       if (isDataLoading.value &&

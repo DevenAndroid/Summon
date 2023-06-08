@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh2_arrive/resources/app_theme.dart';
+import 'package:fresh2_arrive/screens/Language_Change_Screen.dart';
 import 'package:fresh2_arrive/widgets/add_text.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -35,9 +36,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
 
       return
         Directionality(
-        textDirection: TextDirection.rtl,
+        textDirection: locale==Locale('en','US') ? TextDirection.ltr :TextDirection.rtl,
         child: Scaffold(
-          appBar: backAppBar(title: "Order Activity", context: context),
+          appBar: backAppBar(title: "Order Activity".tr, context: context),
           body: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Card(
@@ -206,14 +207,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
                                   // SizedBox(height: AddSize.size10,),
 
                                   Text(
-                                    "order Placed",
+                                    "order Placed".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff262F33),
                                         fontSize: AddSize.font16),
                                   ),
                                   Text(
-                                    "We have received your order on\n 01-June-2023",
+                                    "We have received your order on\n 01-June-2023".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w300,
                                         color:Color(0xff48585E),
@@ -293,14 +294,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
                                   // SizedBox(height: AddSize.size10,),
 
                                   Text(
-                                    "Order Confirmed",
+                                    "Order Confirmed".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff262F33),
                                         fontSize: AddSize.font16),
                                   ),
                                   Text(
-                                    "We have received your order on\n 01-June-2023",
+                                    "We have received your order on\n 01-June-2023".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w300,
                                         color:Color(0xff48585E),
@@ -380,14 +381,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
                                   // SizedBox(height: AddSize.size10,),
 
                                   Text(
-                                    "Order Processed",
+                                    "Order Processed".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xff262F33),
                                         fontSize: AddSize.font16),
                                   ),
                                   Text(
-                                    "We have received your order on\n 01-June-2023",
+                                    "We have received your order on\n 01-June-2023".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w300,
                                         color:Color(0xff48585E),
@@ -462,14 +463,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
                                   // SizedBox(height: AddSize.size10,),
 
                                   Text(
-                                    "Ready to Ship",
+                                    "Ready to Ship".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xffCACACA),
                                         fontSize: AddSize.font16),
                                   ),
                                   Text(
-                                    "We have received your order on\n 01-June-2023",
+                                    "We have received your order on\n 01-June-2023".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w300,
                                         color:Color(0xffCACACA),
@@ -544,14 +545,14 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen>
                                   // SizedBox(height: AddSize.size10,),
 
                                   Text(
-                                    "Out for Delivery",
+                                    "Out for Delivery".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w600,
                                         color: Color(0xffCACACA),
                                         fontSize: AddSize.font16),
                                   ),
                                   Text(
-                                    "We have received your order on\n 01-June-2023",
+                                    "We have received your order on\n 01-June-2023".tr,
                                     style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w300,
                                         color:Color(0xffCACACA),

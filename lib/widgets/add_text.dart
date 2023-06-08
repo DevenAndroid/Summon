@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fresh2_arrive/screens/Language_Change_Screen.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/My_cart_controller.dart';
@@ -162,7 +163,8 @@ disposeController}){
   return AppBar(
     toolbarHeight: 60,
     elevation: 0,
-    leadingWidth: AddSize.size20 * 2.0,
+    leadingWidth: 45,
+    // leadingWidth: AddSize.size20 * 2.0,
     backgroundColor: backgroundColor,
     title: Text(
       title,
@@ -171,7 +173,7 @@ disposeController}){
     ),
     leading: Padding(
 
-      padding: EdgeInsets.only(right: AddSize.padding14,left: 3),
+      padding: locale==Locale('en','US') ? EdgeInsets.only(left: 20,):EdgeInsets.only(right: 20,),
 
       
 
@@ -203,7 +205,8 @@ AppBar backAppBar1(
   return AppBar(
     toolbarHeight: 60,
     elevation: 0,
-    leadingWidth: AddSize.size20 * 2.0,
+    leadingWidth: 45,
+    // leadingWidth: AddSize.size20 * 2.0,
     backgroundColor: controller.currentIndex == 3 ? Colors.white: Colors.white,
     title: Text(
       title,
@@ -211,7 +214,7 @@ AppBar backAppBar1(
           fontWeight: FontWeight.w500, fontSize: 20, color: Color(0xff423E5E)),
     ),
     leading: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: locale==Locale('en','US') ? EdgeInsets.only(left: 18,):EdgeInsets.only(right: 18,),
       child: GestureDetector(
           onTap: () {
            controller.currentIndex == 3
@@ -239,7 +242,8 @@ AppBar backAppBar2(
   return AppBar(
     toolbarHeight: 60,
     elevation: 0,
-    leadingWidth: AddSize.size20 * 2.0,
+    // leadingWidth: AddSize.size20 * 2.0,
+    leadingWidth: 45,
     backgroundColor: Color(0xffF6F6F6),
     title: Text(
       title,
@@ -248,7 +252,7 @@ AppBar backAppBar2(
           color: Color(0xff000000)),
     ),
     leading: Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: locale==Locale('en','US') ? EdgeInsets.only(left: 18,):EdgeInsets.only(right: 18,),
       child: GestureDetector(
           onTap: () {
            controller.onItemTap(2);

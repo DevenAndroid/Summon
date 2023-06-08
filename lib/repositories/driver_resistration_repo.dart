@@ -32,7 +32,7 @@ Future<ModelCommonResponse> driverRegistrationRepo({
       HttpHeaders.authorizationHeader: 'Bearer ${user.authToken}'
     };
     OverlayEntry loader = Helpers.overlayLoader(context);
-    Overlay.of(context)!.insert(loader);
+    Overlay.of(context).insert(loader);
     request.headers.addAll(headers);
     request.fields.addAll(mapData);
     if (file1.path != "" && file5.path != "" && file6.path != "") {

@@ -18,6 +18,7 @@ import '../../resources/app_theme.dart';
 import '../../widgets/dimensions.dart';
 import '../Language_Change_Screen.dart';
 import 'delivered_successfully.dart';
+import 'order_decline_screen.dart';
 
 class DeliveryDashboard extends StatefulWidget {
   const DeliveryDashboard({Key? key}) : super(key: key);
@@ -420,11 +421,11 @@ class _DeliveryDashboardState extends State<DeliveryDashboard> {
                                                             .then((value) {
                                                           if (value.status ==
                                                               true) {
-                                                            // assignedController
-                                                            //     .getData();
-                                                            // Get.offAndToNamed(
-                                                            //     OrderDeclineScreen
-                                                            //         .orderDeclineScreen);
+                                                            assignedController
+                                                                .getData();
+                                                            Get.offAndToNamed(
+                                                                OrderDeclineScreen
+                                                                    .orderDeclineScreen);
                                                           }
                                                         });
                                                       },

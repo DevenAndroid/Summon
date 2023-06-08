@@ -392,7 +392,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.only(left:15, right: 15),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -421,7 +421,7 @@ class _MyCartPageState extends State<MyCartPage> {
                                     return
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            right: 10),
+                                            left: 15, right: 15),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment
                                               .spaceBetween,
@@ -699,31 +699,8 @@ class _MyCartPageState extends State<MyCartPage> {
                             child: Column(
                               children: [
                                 Row(
-                                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                        height: 40,
-                                        width: 40,
-
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-
-                                        ),
-                                        child: Image(image: AssetImage(
-                                            AppAssets.loctionIcon1),)
-                                    ),
-                                    SizedBox(width: 10,),
-                                    Text("Free".tr,
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff000000)),),
-                                    Flexible(child: Container()),
-                                    Text("PickUp".tr,
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff000000)),),
                                     Radio<String>(
                                         value: "pickup",
                                         groupValue: selectedValue1.value,
@@ -742,25 +719,74 @@ class _MyCartPageState extends State<MyCartPage> {
 
                                           print(selectedValue1.value);
                                         }),
-                                  ],
-                                ),
-                                SizedBox(height: 5,),
-                                Row(
-                                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
+                                    Expanded(
+                                      child: Text("PickUp".tr,
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xff000000)),),
+                                    ),
+                                    Text("Free".tr,
+                                      style: GoogleFonts.ibmPlexSansArabic(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xff000000)),),
+                                    SizedBox(width: 10,),
                                     Container(
                                         height: 40,
                                         width: 40,
 
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: AppTheme.primaryColor,
+
                                         ),
                                         child: Image(image: AssetImage(
-                                            AppAssets.loctionIcon1),)),
-                                    SizedBox(width: 10,),
+                                            AppAssets.loctionIcon1),)
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                                Row(
+                                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Radio<String>(
+                                        value: "delivery",
+                                        groupValue: selectedValue1.value,
+                                        onChanged: (value) {
+                                          selectedValue1.value = value!;
+                                          orderTypeRepo(
+                                              orderType: selectedValue1
+                                                  .toString());
+                                          setState(() {
+
+                                          });
+                                          print(selectedValue1.value);
+                                        }),
+                                    myCartDataController.model.value.data!.orderAddress != null ?
+                                    Expanded(
+                                      child: Text("Deliver to ${myCartDataController.model.value.data!.orderAddress?.name.toString()}".tr,
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Color(0xff000000)),),
+                                    ): Text("Deliver to ",
+                                      style: GoogleFonts.ibmPlexSansArabic(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xff000000)),),
+                                    InkWell(
+                                      onTap: (){
+                                        Get.toNamed(MyAddress.myAddressScreen);
+                                      },
+                                      child: Text("..",
+                                        style: GoogleFonts.ibmPlexSansArabic(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppTheme.primaryColor),),
+                                    ),
                                     Flexible(
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Flexible(
                                             child: Text(
@@ -782,43 +808,18 @@ class _MyCartPageState extends State<MyCartPage> {
                                         ],
                                       ),
                                     ),
-                                    Flexible(child: Container()),
+                                    SizedBox(width: 5,),
+                                    Container(
+                                        height: 40,
+                                        width: 40,
 
-                                    InkWell(
-                                      onTap: (){
-                                        Get.toNamed(MyAddress.myAddressScreen);
-                                      },
-                                      child: Text("..",
-                                        style: GoogleFonts.ibmPlexSansArabic(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700,
-                                            color: AppTheme.primaryColor),),
-                                    ),
-                                    SizedBox(width: 10,),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: AppTheme.primaryColor,
+                                        ),
+                                        child: Image(image: AssetImage(
+                                            AppAssets.loctionIcon1),)),
 
-                                    myCartDataController.model.value.data!.orderAddress != null ?
-                                    Text("Deliver to ${myCartDataController.model.value.data!.orderAddress?.name.toString()}".tr,
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff000000)),): Text("Deliver to ",
-                                      style: GoogleFonts.ibmPlexSansArabic(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xff000000)),),
-                                    Radio<String>(
-                                        value: "delivery",
-                                        groupValue: selectedValue1.value,
-                                        onChanged: (value) {
-                                          selectedValue1.value = value!;
-                                          orderTypeRepo(
-                                              orderType: selectedValue1
-                                                  .toString());
-                                          setState(() {
-
-                                          });
-                                          print(selectedValue1.value);
-                                        }),
                                   ],
                                 ),
                               ],
@@ -898,7 +899,7 @@ class _MyCartPageState extends State<MyCartPage> {
                       myCartDataController.model.value.data!
                           .cartItems!.isNotEmpty)
                     SizedBox(
-                      height: height * .2,
+                      // height: height * .2,
                       width: width,
                       child: Card(
                         shape: RoundedRectangleBorder(

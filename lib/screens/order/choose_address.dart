@@ -44,7 +44,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
   final _formKey = GlobalKey<FormState>();
   final addressController = Get.put(MyAddressController());
   final getSaveAddressController = Get.put(GetSaveAddressController());
-  // Rx<AddressData> addressModel = AddressData().obs;
   final List<String> choiceAddress = ["Home", "Office", "Hotel", "Other"];
   final RxBool _isValue = false.obs;
   bool chooseOption = false;
@@ -288,11 +287,6 @@ class _ChooseAddressState extends State<ChooseAddress> {
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(
                                 color: containerColor
-                                // !checkValidation(
-                                //     showValidation.value,
-                                //     image.value.path == "")
-                                //     ? Colors.grey.shade300
-                                //     : Colors.red,
                               )),
                           child: image.value.path == ""
                               ?

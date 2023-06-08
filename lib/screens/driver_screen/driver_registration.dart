@@ -56,6 +56,7 @@ class _DriverRegistrationScreenState extends State<DriverRegistrationScreen> {
   DateTime today = DateTime.now();
   void selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
+
         context: context,
         initialDate: DateTime(
             DateTime.now().year - 18, DateTime.now().month, DateTime.now().day),

@@ -17,7 +17,7 @@ Future<CheckOutDataModel> checkOut(
   var map = <String, dynamic>{};
   map['payment_type'] = payment_type;
   OverlayEntry loader = Helpers.overlayLoader(context);
-  Overlay.of(context)!.insert(loader);
+  Overlay.of(context).insert(loader);
   SharedPreferences pref = await SharedPreferences.getInstance();
   SocialLoginModel? user =
   SocialLoginModel.fromJson(jsonDecode(pref.getString('user_info')!));

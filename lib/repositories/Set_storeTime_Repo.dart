@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/SetStoreTimeModel.dart';
-import '../model/verify_otp_model.dart';
 import '../resources/api_url.dart';
 
 Future<SetStoreTimeModel> setStoreTimeRepo() async {

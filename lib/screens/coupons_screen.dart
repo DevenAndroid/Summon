@@ -11,6 +11,7 @@ import '../controller/main_home_controller.dart';
 import '../resources/app_assets.dart';
 import '../resources/app_theme.dart';
 import '../widgets/dimensions.dart';
+import 'Language_Change_Screen.dart';
 
 class CouponsScreen extends StatefulWidget {
   const CouponsScreen({Key? key}) : super(key: key);
@@ -39,9 +40,9 @@ class _CouponsScreenState extends State<CouponsScreen> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: locale==Locale('en','US') ? TextDirection.ltr: TextDirection.rtl,
       child: Scaffold(
-          appBar: backAppBar(title: "Coupons", context: context),
+          appBar: backAppBar(title: "Coupons".tr, context: context),
           body: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Padding(
@@ -53,7 +54,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                       return couponController.isDataLoading.value
                           ? couponController.model.value.data!.isEmpty ?
                            Center(
-                             child: Text("! Coupons Not Available",
+                             child: Text("! Coupons Not Available".tr,
                               style: Theme.of(context)
                                 .textTheme
                                 .headline5!
@@ -168,7 +169,7 @@ class _CouponsScreenState extends State<CouponsScreen> {
                                                           });
                                                         },
                                                         child: Text(
-                                                          "APPLY",
+                                                          "APPLY".tr,
                                                           style: Theme.of(context)
                                                               .textTheme
                                                               .headline5!
